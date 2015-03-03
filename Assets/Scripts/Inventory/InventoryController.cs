@@ -15,6 +15,8 @@ public class InventoryController : MonoBehaviour
 
 	private bool _showingChart = false;
 
+	public Animator fade;
+
 	public bool showingChart 
 	{
 		get 
@@ -234,5 +236,9 @@ public class InventoryController : MonoBehaviour
 		{
 			item.Disable();
 		}
+	}
+
+	public void ShowFade(){
+		fade.SetTrigger("fade");
 	}
 }

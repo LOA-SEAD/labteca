@@ -28,6 +28,8 @@ public class MouseLook : MonoBehaviour {
 	public float minimumY = -60F;
 	public float maximumY = 60F;
 
+	public bool recordRotation = false;
+
 	float rotationY = 0F;
 
 	void Update ()
@@ -56,8 +58,17 @@ public class MouseLook : MonoBehaviour {
 	
 	void Start ()
 	{
+
+		if(recordRotation){
+			Vector3 currentRotation = new Vector3(PlayerPrefs.GetFloat("RotationCameraX"), PlayerPrefs.GetFloat("RotationCameraY"), PlayerPrefs.GetFloat("RotationCameraZ"));
+			
+			transform.localEulerAngles = currentRotation;
+		}
+
 		// Make the rigid body not change rotation
 		if (GetComponent<Rigidbody>())
 			GetComponent<Rigidbody>().freezeRotation = true;
+
+
 	}
 }

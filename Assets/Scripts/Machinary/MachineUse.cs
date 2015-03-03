@@ -9,6 +9,7 @@ public class MachineUse : MonoBehaviour
 	private bool allowChangeScene = false;
 
 	public string machineName;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -42,7 +43,19 @@ public class MachineUse : MonoBehaviour
 			if(Input.GetKeyDown(keyToUse))
 			{
 				HudText.EraseText();
+
+				PlayerPrefs.SetFloat("PlayerPosX", other.transform.position.x);
+				PlayerPrefs.SetFloat("PlayerPosy", other.transform.position.y);
+				PlayerPrefs.SetFloat("PlayerPosZ", other.transform.position.z);
+				PlayerPrefs.SetFloat("RotationCameraX", Camera.main.transform.localEulerAngles.x);
+				PlayerPrefs.SetFloat("RotationCameraY", Camera.main.transform.localEulerAngles.y);
+				PlayerPrefs.SetFloat("RotationCameraZ", Camera.main.transform.localEulerAngles.z);
+				PlayerPrefs.Save();
 				Application.LoadLevel(sceneToGo);
+
+				InventoryController inventory = FindObjectOfType(typeof(InventoryController)) as InventoryController;
+				inventory.ShowFade();
+
 			}
 		}
 	}

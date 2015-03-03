@@ -21,8 +21,8 @@ public class SceneLoadOnStart : MonoBehaviour {
 			PlayerPrefs.SetFloat ("setupBalance", 0f);
 			PlayerPrefs.SetFloat ("PlayerPosX", 0f);
 			PlayerPrefs.SetFloat ("PlayerPosY", 1f);
-			PlayerPrefs.SetFloat ("PlayerPosZ", 0f);
-			Application.LoadLevel(sceneToGo);
+			PlayerPrefs.SetFloat ("PlayerPosZ", 4f);
+			GetComponent<ChangeSceneMessage>().LoadScene();
 		}
 	}
 }

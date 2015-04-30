@@ -18,7 +18,7 @@ public class ChangeSceneMessage : MonoBehaviour
 		else{
 			if(startDelay){
 				currentTimeToChangeScene += Time.deltaTime;
-				if(currentTimeToChangeScene > 0.5f){
+				if(currentTimeToChangeScene > 0.01f){
 					canChangeScene = true;
 					currentTimeToChangeScene = 0;
 				}
@@ -30,7 +30,7 @@ public class ChangeSceneMessage : MonoBehaviour
 	{
 		startDelay = true;
 		InventoryController inventory = FindObjectOfType(typeof(InventoryController)) as InventoryController;
-		inventory.ShowFade();
+
 	}
 
 	public void LoadScene(string scene)
@@ -39,6 +39,6 @@ public class ChangeSceneMessage : MonoBehaviour
 		startDelay = true;
 
 		InventoryController inventory = FindObjectOfType(typeof(InventoryController)) as InventoryController;
-		inventory.ShowFade();
+
 	}
 }

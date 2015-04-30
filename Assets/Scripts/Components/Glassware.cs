@@ -1,27 +1,35 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Glassware : MonoBehaviour 
 {
 	public float volume;
 	public float uncalibrateVolume;
 	public float mass;
-
-	public float alphaValueWhenDisable;
-	public float alphaValueWhenEnable;
 	public bool calibrate;
+	
+	public GameObject liquid;
+	public GameObject solid;
 
-	private InventoryController inventory;
-	private Vector3 originalPosition;
+	public GameStateBase stateInUse;
 
-	public Vector3 balancePosition;
+	public float currentVolumeUsed;
+
+	public List<ReagentsInGlass> reagents = new List<ReagentsInGlass>();
+
+	[System.Serializable]
+	public class ReagentsInGlass{
+		public string reagentName;
+		public float massReagent;
+	}
 
 
-	private float buttonTimeout;
 	void Awake()
 	{
-		inventory = FindObjectOfType (typeof(InventoryController)) as InventoryController;
-		originalPosition = this.transform.position;
+		solid.SetActive(false);
+		liquid.SetActive(false);
 	}
 
 	// Use this for initialization
@@ -35,66 +43,81 @@ public class Glassware : MonoBehaviour
 	{
 	
 	}
+	
 
-	public void Enable()
-	{
-		this.collider.enabled = true;
-		foreach (Transform child in this.transform) 
-		{
-			if(child.renderer != null)
-			{
-				child.renderer.material.color = new Color(child.renderer.material.color.r, child.renderer.material.color.g, child.renderer.material.color.b, alphaValueWhenEnable);
-			}
+	public void AddSolid(float massSolid, string reagent){
+		if(liquid.activeSelf == false)
+			solid.SetActive(true);
+		GetComponent<Rigidbody>().mass += massSolid;
+	}
+
+	public void RemoveSolid(float massSolid){
+		GetComponent<Rigidbody>().mass -= massSolid;
+		if(GetComponent<Rigidbody>().mass < mass){
+			GetComponent<Rigidbody>().mass = mass;
+			solid.SetActive(false);
 		}
+	}
+
+	public void AddLiquid(float massLiquid, float volumeLiquid){
+
+		if(currentVolumeUsed < volume){
+
+			float lastVolume = currentVolumeUsed;
+
+			currentVolumeUsed += volumeLiquid;
+
+			Debug.Log (massLiquid);
+
+			if(currentVolumeUsed > volume){
+
+				currentVolumeUsed = volume;
+			}
+
+			Debug.Log (massLiquid);
+
+			liquid.SetActive(true);
+			GetComponent<Rigidbody>().mass += massLiquid*(currentVolumeUsed-lastVolume);
+		}
+		else if(currentVolumeUsed >= volume ){
+			AlertDialogBehaviour.ShowAlert("Recipente esta cheio");
+
+		}
+
+
+	}
+
+	public void AddLiquid(float volumeLiquid){
+		AddLiquid (1, volumeLiquid);
 	}
 	
-	public void Disable()
-	{
-		this.collider.enabled = false;
-		foreach (Transform child in this.transform) 
-		{
-			if(child.renderer != null)
-			{
-				child.renderer.material.color = new Color(child.renderer.material.color.r, child.renderer.material.color.g, child.renderer.material.color.b, alphaValueWhenDisable);
-			}
+	public void RemoveLiquid(float massLiquid, float volumeLiquid){
+
+		GetComponent<Rigidbody>().mass -= massLiquid*volumeLiquid;
+		currentVolumeUsed -= volumeLiquid;
+
+		if(currentVolumeUsed < 0)
+			currentVolumeUsed = 0;
+
+		if(GetComponent<Rigidbody>().mass < mass){
+			GetComponent<Rigidbody>().mass = mass;
+			liquid.SetActive(false);
 		}
+
 	}
 
-	public void MsgMouseDown()
-	{
-		if (Time.time - buttonTimeout < 0.1f) 
-		{
-			return;
-		}
-
-		if (inventory.selectedItem != this.gameObject) 
-		{
-			inventory.selectedItem = this.gameObject;
-			if(Application.loadedLevelName == "Balance")
-			{
-				this.transform.parent = null;
-				this.transform.position = balancePosition;
-				inventory.glassware.Remove (this);
-				inventory.DisactiveAllGlassware ();
-				inventory.ActiveAllReagentsSolid ();
-			}
-			else
-			{
-				this.transform.position = originalPosition;
-				inventory.glassware.Remove (this);
-				inventory.DisactiveAllGlassware ();
-				inventory.ActiveAllReagentsLiquid ();
-				inventory.ActiveAllReagentsSolid ();
-			}
-		} 
-		else 
-		{
-			inventory.selectedItem = null;
-			inventory.glassware.Add (this, this.gameObject);
-			inventory.ActiveAllGlassware ();
-			inventory.UpdateInventory ();
-		}
-
-		buttonTimeout = Time.time;
+	public void RemoveLiquid(float volumeLiquid){
+		RemoveLiquid (1, volumeLiquid);
 	}
+
+	public void SetStateInUse(GameStateBase state){
+		stateInUse = state;
+
+	}
+
+	public void CLickInGlass(){
+		stateInUse.SendMessage ("ClickGlass", gameObject, SendMessageOptions.DontRequireReceiver);
+	}
+
+
 }

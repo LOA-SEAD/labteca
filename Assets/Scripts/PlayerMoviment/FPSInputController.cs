@@ -12,6 +12,10 @@ public class FPSInputController : MonoBehaviour
 {
     private CharacterMotor motor;
 	public float distanceToInteract;
+	public float delayInteract;
+	private float currentDelay;
+	private bool inInteraction;
+	private Vector3 lastPosition;
 
     // Use this for initialization
     void Awake()
@@ -22,6 +26,18 @@ public class FPSInputController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+		if(inInteraction){
+			motor.movement.velocity = Vector3.zero;
+			transform.position = lastPosition;
+			currentDelay += Time.deltaTime;
+			if(currentDelay > delayInteract){
+				currentDelay = 0;
+				inInteraction = false;
+			}
+			return;
+		}
+
         // Get the input vector from kayboard or analog stick
         Vector3 directionVector = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 
@@ -55,6 +71,8 @@ public class FPSInputController : MonoBehaviour
 				if(Input.GetKeyDown(KeyCode.E)){
 					hitInfo.collider.GetComponent<InteractObjectBase>().Interact();
 					gameObject.GetComponent<PlayerAnimation>().PlayInteractAnimation();
+					inInteraction = true;
+					lastPosition = transform.position;
 
 				}
 				HudText.SetText("Pressione \"E\" Para Interagir");

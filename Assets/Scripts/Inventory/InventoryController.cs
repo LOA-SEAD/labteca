@@ -15,7 +15,7 @@ public class InventoryController : MonoBehaviour
 
 	private bool _showingChart = false;
 
-	public Animator fade;
+
 
 	public bool showingChart 
 	{
@@ -174,71 +174,7 @@ public class InventoryController : MonoBehaviour
 		}
 	}
 
-	public void ActiveAllGlassware()
-	{
-		foreach (Glassware item in glassware.Keys) 
-		{
-			item.Enable();
-		}
-	}
 
-	public void ActiveAllReagentsSolid()
-	{
-		foreach (ReagentsSolid item in reagentsSolid.Keys) 
-		{
-			item.Enable();
-		}
-	}
 
-	public void ActiveAllReagentsLiquid()
-	{
-		foreach (ReagentsLiquid item in reagentsLiquid.Keys) 
-		{
-			item.Enable();
-		}
-	}
 
-	public void ActiveAllCharts()
-	{
-		foreach (Chart item in chart.Keys) 
-		{
-			item.Enable();
-		}
-	}
-
-	public void DisactiveAllGlassware()
-	{
-		foreach (Glassware item in glassware.Keys) 
-		{
-			item.Disable();
-		}
-	}
-	
-	public void DisactiveAllReagentsSolid()
-	{
-		foreach (ReagentsSolid item in reagentsSolid.Keys) 
-		{
-			item.Disable();
-		}
-	}
-	
-	public void DisactiveAllReagentsLiquid()
-	{
-		foreach (ReagentsLiquid item in reagentsLiquid.Keys) 
-		{
-			item.Disable();
-		}
-	}
-
-	public void DisactiveAllCharts()
-	{
-		foreach (Chart item in chart.Keys) 
-		{
-			item.Disable();
-		}
-	}
-
-	public void ShowFade(){
-		fade.SetTrigger("fade");
-	}
 }

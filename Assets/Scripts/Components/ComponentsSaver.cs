@@ -36,7 +36,11 @@ public class ComponentsSaver
 		} 
 		else 
 		{
-			Debug.Log ("Reagente ja inserido na base de dados!");	
+			reagent.name += "(2)";
+			reagents.Add(reagent.name, reagent);
+			SaveReagents(reagents);
+			Debug.Log ("Reagente Salvo Com Sucesso!");
+
 		}
 	}
 
@@ -117,13 +121,11 @@ public class ComponentsSaver
 
 	public static Dictionary<string, ReagentsLiquidClass> LoadReagents()
 	{
-		Debug.Log ("test");
-
 		TextAsset loadText = Resources.Load("componentsLiquids") as TextAsset;
 
 		TextEdit textLoad = new TextEdit(loadText);
 
-		Debug.Log (loadText);
+		//Debug.Log (loadText);
 
 		int numberOfReagents = textLoad.GetInt ("numberOfReagents");
 

@@ -117,7 +117,6 @@ public class MachineBehaviour : MonoBehaviour
 				showFloat = true;
 
 				InventoryController	inventory = FindObjectOfType (typeof(InventoryController)) as InventoryController;
-				inventory.ActiveAllReagentsLiquid();
 			}
 			break;
 
@@ -127,7 +126,7 @@ public class MachineBehaviour : MonoBehaviour
 				allowShowTexture = true;
 
 				InventoryController	inventory = FindObjectOfType (typeof(InventoryController)) as InventoryController;
-				inventory.ActiveAllReagentsLiquid();
+
 			}
 			break;
 
@@ -137,7 +136,7 @@ public class MachineBehaviour : MonoBehaviour
 				allowShowTexture = true;
 
 				InventoryController	inventory = FindObjectOfType (typeof(InventoryController)) as InventoryController;
-				inventory.ActiveAllReagentsLiquid();
+
 			}
 			break;
 
@@ -147,7 +146,7 @@ public class MachineBehaviour : MonoBehaviour
 				showFloat = true;
 
 				InventoryController	inventory = FindObjectOfType (typeof(InventoryController)) as InventoryController;
-				inventory.ActiveAllReagentsLiquid();
+
 			}
 			break;
 		}
@@ -268,7 +267,7 @@ public class MachineBehaviour : MonoBehaviour
 		}
 
 		InventoryController	inventory = FindObjectOfType (typeof(InventoryController)) as InventoryController;
-		inventory.ActiveAllReagentsLiquid();
+
 
 		if (allowShowTexture)
 		{

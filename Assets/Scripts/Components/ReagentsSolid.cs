@@ -63,27 +63,27 @@ public class ReagentsSolid : MonoBehaviour
 
 	public void MsgMouseDown()
 	{
-		if(Application.loadedLevelName == "Balance" && solidSource)
-		{
-			BalanceController balance = FindObjectOfType(typeof(BalanceController)) as BalanceController;
-
-			balance.SelectedSolid();
-
-			balance.solidSelected = this;
-
-			inventory.DisactiveAllCharts();
-			inventory.DisactiveAllGlassware();
-			inventory.DisactiveAllReagentsLiquid();
-			inventory.DisactiveAllReagentsSolid();
-		}
-
-		if (Application.loadedLevelName == "lab_workBench" && !solidSource) 
-		{
-			WorkBench wb = FindObjectOfType (typeof(WorkBench)) as WorkBench;
-			Enable ();
-			inventory.RemoveReagentSolid (this);
-			wb.useSlot (null, this);
-		} 
+//		if(Application.loadedLevelName == "Balance" && solidSource)
+//		{
+//			BalanceController balance = FindObjectOfType(typeof(BalanceController)) as BalanceController;
+//
+//			balance.SelectedSolid();
+//
+//			balance.solidSelected = this;
+//
+//			inventory.DisactiveAllCharts();
+//			inventory.DisactiveAllGlassware();
+//			inventory.DisactiveAllReagentsLiquid();
+//			inventory.DisactiveAllReagentsSolid();
+//		}
+//
+//		if (Application.loadedLevelName == "lab_workBench" && !solidSource) 
+//		{
+//			WorkBench wb = FindObjectOfType (typeof(WorkBench)) as WorkBench;
+//			Enable ();
+//			inventory.RemoveReagentSolid (this);
+//			wb.useSlot (null, this);
+//		} 
 
 	}
 }

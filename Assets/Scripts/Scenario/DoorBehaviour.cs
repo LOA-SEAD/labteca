@@ -51,4 +51,21 @@ public class DoorBehaviour : InteractObjectBase {
 	public bool IsClosed(){
 		return isClosed;
 	}
+
+	public void Close(){
+
+		if(!isClosed){
+			doorAnimator.SetTrigger("Close");
+			isClosed = true;
+		}
+		
+	}
+
+	public void Open(){
+		if(isClosed){
+			doorAnimator.SetTrigger("Open");
+			isClosed = false;
+		}
+	
+	}
 }

@@ -100,7 +100,7 @@ public class ReagentsLiquid : MonoBehaviour
 				}
 				machine.actualReagent = info.name;
 				machine.actualConcentration = concentration;
-				inventory.DisactiveAllReagentsLiquid();
+
 			}
 		}
 	}

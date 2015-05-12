@@ -17,9 +17,6 @@ public class GameController : MonoBehaviour {
 	public GameObject prefabBacker;
 	public Glassware selectedGlassWare;
 
-
-
-
 	//variaveis para suprir a falta de inventario.
 
 	// Use this for initialization
@@ -41,14 +38,6 @@ public class GameController : MonoBehaviour {
 		if(GameController.instance == null){
 			GameController.instance = this;
 		}
-
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-
-	
 	}
 
 	public void ChangeState(int indexState){

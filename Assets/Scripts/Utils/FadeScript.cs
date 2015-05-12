@@ -6,23 +6,19 @@ public class FadeScript : MonoBehaviour {
 	public static FadeScript instance;
 	public Animator fadeAnim;
 
-	// Use this for initialization
 	void Awake () {
 		instance = this;
-
+           
+        // Get any object of type FadeScript
 		FadeScript[] duplicate  = FindObjectsOfType(typeof(FadeScript)) as FadeScript[];
 
+        // if more than 1 is returned - there are two on scene, so delete this one
 		if(duplicate.Length > 1)
 			Destroy(gameObject);
 	
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
-	public void ShowFade(){
+    public void ShowFade(){
 		instance.fadeAnim.SetTrigger("fade");
 	}
 }

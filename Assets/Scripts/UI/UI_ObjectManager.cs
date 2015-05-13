@@ -7,7 +7,8 @@ public class UI_ObjectManager : MonoBehaviour {
     // GameObject with all objects and their button canvas
     public GameObject interactiveObjects;
     
-    public Canvas baseCanvas;   // prefab canvas_base
+    //public Canvas baseCanvas;   // prefab canvas_base
+    public AlertDialogBehaviour alertDialog;
     public Canvas[] objCanvas;  // canvas that will be used
 
     private Button[] intObjButtons; // objects' button that are inside interactiveObjects
@@ -17,7 +18,7 @@ public class UI_ObjectManager : MonoBehaviour {
     void Start()
     {
         // start variables
-        this.baseCanvas.enabled = false;
+        //this.baseCanvas.enabled = false;
         this.activeCanvas = null;
         this.objLock = false;
 
@@ -46,7 +47,7 @@ public class UI_ObjectManager : MonoBehaviour {
         if(objLock == false)    // no canvas already opened
         {
             this.activeCanvas = c;  // activeCanvas now is c
-            this.baseCanvas.enabled = true; // enable base canvas
+            //this.baseCanvas.enabled = true; // enable base canvas
             c.enabled = true;   // enable canvas
             disableIntObjectsButtons(); // disable all interactive buttons
             Debug.Log("Open Canvas: " + c.name);
@@ -75,7 +76,7 @@ public class UI_ObjectManager : MonoBehaviour {
             Debug.Log("Closing Canvas: " + this.activeCanvas.name);
             enableIntObjectsButtons();  // enable all interactive objects
             this.activeCanvas.enabled = false;  // disable active canvas
-            this.baseCanvas.enabled = false;    // disable base canvas
+            //this.baseCanvas.enabled = false;    // disable base canvas
             this.activeCanvas = null;
             return true;
         }
@@ -131,4 +132,5 @@ public class UI_ObjectManager : MonoBehaviour {
         else
             Debug.Log("No Active Canvas found");
     }
+
 }

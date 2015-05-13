@@ -80,7 +80,9 @@ public class Glassware : MonoBehaviour
 			GetComponent<Rigidbody>().mass += massLiquid*(currentVolumeUsed-lastVolume);
 		}
 		else if(currentVolumeUsed >= volume ){
-			AlertDialogBehaviour.ShowAlert("Recipente esta cheio");
+
+            Debug.Log("Recipiente esta cheio");
+            //AlertDialogBehaviour.ShowAlert("Recipente esta cheio");
 
 		}
 

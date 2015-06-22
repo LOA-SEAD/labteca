@@ -12,6 +12,8 @@ public class UI_Manager : MonoBehaviour {
 
     void Update()
     {
+        // TODO: Raycast para click do mouse em objetos
+        /*  
         if (Input.GetMouseButtonDown(0))
         {
             Debug.Log("Mouse Left Button clicked!");
@@ -23,6 +25,7 @@ public class UI_Manager : MonoBehaviour {
                 Debug.Log("Collider: " + hit.collider.name);
             }
         }
+         */
     }
 
     public GameObject getCurrentDialog()

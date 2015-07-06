@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public  class BalanceState : GameStateBase {
 
-	public Camera cameraState;
+    public Camera cameraState;
 	public GameObject interactBox;
 
 	public Transform positionGlass1;
@@ -13,6 +13,7 @@ public  class BalanceState : GameStateBase {
 	public Transform positionGlass3;
 	public Transform positionGlassEquipament;
 
+    public UI_Manager uiManager;
 	public GameObject optionDialogGlass;
 	public GameObject optionDialogGlassTable;
 	public GameObject optionDialogReagent;
@@ -138,7 +139,7 @@ public  class BalanceState : GameStateBase {
 
 		}
 
-		if(AlertDialogBehaviour.IsShowing() || !canClickTools){
+		if(uiManager.alertDialog.IsShowing() || !canClickTools){
 			DesactiveInteractObjects();
 		}
 		else{
@@ -164,8 +165,9 @@ public  class BalanceState : GameStateBase {
 
 	public override void OnStartRun ()
 	{
-		cameraState.gameObject.SetActive(true);
-		HudText.SetText("");
+        cameraState.gameObject.SetActive(true);
+        cameraState.depth = 2;
+        HudText.SetText("");
 		CloseSpatulaDialog(false);
 		CloseOptionDialogReagent();
 		CloseOptionDialogGlass();
@@ -174,14 +176,12 @@ public  class BalanceState : GameStateBase {
 		CloseOptionDialogBalance ();
 		CloseOptionDialogGlassTable ();
 
-
-
-
 	}
 	
 	public override void OnStopRun ()
 	{
-		cameraState.gameObject.SetActive(false);
+        cameraState.depth = -1;
+        cameraState.gameObject.SetActive(false);
 		DesactiveInteractObjects ();
 
 	}
@@ -192,7 +192,7 @@ public  class BalanceState : GameStateBase {
 			OpenOptionDialogGlass();
 		}
 		else{
-			AlertDialogBehaviour.ShowAlert("Sem Bequer no inventario!");
+            uiManager.alertDialog.ShowAlert("Sem Bequer no inventario!");
 		}
 	}
 
@@ -207,16 +207,16 @@ public  class BalanceState : GameStateBase {
 					lastReagentName = "NaCl";
 				}
 				else{
-					AlertDialogBehaviour.ShowAlert("Selecione a espatula para manusear o reagente");
+                    uiManager.alertDialog.ShowAlert("Selecione a espatula para manusear o reagente");
 				}
 				
 			}
 			else {
-				AlertDialogBehaviour.ShowAlert("Voce nao tem recipente na bancada ou equipamento");
+                uiManager.alertDialog.ShowAlert("Voce nao tem recipente na bancada ou equipamento");
 			}
 		}
 		else{
-			AlertDialogBehaviour.ShowAlert("Sem Reagente no inventario!");
+            uiManager.alertDialog.ShowAlert("Sem Reagente no inventario!");
 		}
 	}
 
@@ -324,8 +324,9 @@ public  class BalanceState : GameStateBase {
 	public void PutGlassInTable(bool realocate){
 		if(positionGlass1.childCount > 0 && 
 		   positionGlass2.childCount > 0 &&
-		   positionGlass3.childCount > 0){
-			AlertDialogBehaviour.ShowAlert("A Bancada esta cheia!");
+		   positionGlass3.childCount > 0)
+        {
+            uiManager.alertDialog.ShowAlert("A Bancada esta cheia!");
 			CloseOptionDialogGlassTable();
 		}
 		else{
@@ -367,8 +368,9 @@ public  class BalanceState : GameStateBase {
 
 				if(lastGlassWareSelected.transform.parent == positionGlass1 ||
 				   lastGlassWareSelected.transform.parent == positionGlass2 ||
-				   lastGlassWareSelected.transform.parent == positionGlass3){
-					AlertDialogBehaviour.ShowAlert("Esse recipiente ja esta na bancada");
+				   lastGlassWareSelected.transform.parent == positionGlass3)
+                {
+                       uiManager.alertDialog.ShowAlert("Esse recipiente ja esta na bancada");
 				}
 				else{
 
@@ -423,7 +425,7 @@ public  class BalanceState : GameStateBase {
 
 	public void PutGlassInEquip(bool realocate){
 		if(positionGlassEquipament.childCount > 0){
-			AlertDialogBehaviour.ShowAlert("O equipamento ja tem um recipiente!");
+            uiManager.alertDialog.ShowAlert("O equipamento ja tem um recipiente!");
 		}
 		else{
 			if(!realocate){
@@ -438,7 +440,7 @@ public  class BalanceState : GameStateBase {
 			else{
 
 				if(lastGlassWareSelected.transform.parent == positionGlassEquipament){
-					AlertDialogBehaviour.ShowAlert("O equipamento ja Esta na bancada");
+                    uiManager.alertDialog.ShowAlert("O equipamento ja Esta na bancada");
 				}
 				else{
 
@@ -675,7 +677,7 @@ public  class BalanceState : GameStateBase {
 		else if(selectSpatula){
 
 			if((float)(glass.GetComponent<Rigidbody>().mass) == (float)(glass.mass) && amountSelectedSpatula == 0){
-				AlertDialogBehaviour.ShowAlert("Esse recipiente nao tem reagente solido");				
+                uiManager.alertDialog.ShowAlert("Esse recipiente nao tem reagente solido");				
 			}
 			else{ 
 
@@ -684,7 +686,7 @@ public  class BalanceState : GameStateBase {
 			        glass.liquid.activeSelf == true &&
 			        amountSelectedSpatula > 0){
 
-					AlertDialogBehaviour.ShowAlert("Voce nao pode fazer essa mistura no equipamento");	
+                        uiManager.alertDialog.ShowAlert("Voce nao pode fazer essa mistura no equipamento");	
 				}
 				else {
 

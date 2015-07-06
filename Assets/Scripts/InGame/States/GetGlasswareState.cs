@@ -45,19 +45,15 @@ public  class GetGlasswareState : GameStateBase {
 
 		UIScrollList = newUIScrollList;
 
-		for(int i = 0; i<glasswareList.Length; i++){
-
+		for(int i = 0; i<glasswareList.Length; i++)
+        {
 			GameObject tempGlass = Instantiate(glasswarePrefab.gameObject,  currentPosition, startPoint.rotation) as GameObject;
 			tempGlass.transform.SetParent(UIScrollList.transform, false);
 			tempGlass.GetComponent<RectTransform>().localPosition = currentPosition;
 			tempGlass.GetComponent<GlasswareUiItemBehaviour>().SetGlass(glasswareList[i]);
 
 			currentPosition.y -= glasswarePrefab.GetComponent<RectTransform>().rect.height + offSetItens;
-
 		}
-
-
-
 	}
 	
 	protected override void UpdateState ()
@@ -68,8 +64,6 @@ public  class GetGlasswareState : GameStateBase {
 	void Update(){
 		base.Update();
 
-
-
 		if(Input.GetKeyDown(KeyCode.Escape) && canRun){
 			ExitState();
 		}
@@ -79,15 +73,13 @@ public  class GetGlasswareState : GameStateBase {
 	public override void OnStartRun ()
 	{
 		cameraState.gameObject.SetActive(true);
+        //Camera.main.CopyFrom(cameraState);
 		HudText.SetText("");
 
 		leftDoor.Open();
-		canvasUI.GetComponent<Canvas>().enabled = true;
-
+        canvasUI.GetComponent<Canvas>().enabled = true;
 
 		UIScrollList.transform.parent.GetComponent<ScrollRect>().verticalScrollbar.value = 1;
-
-
 
 	}
 

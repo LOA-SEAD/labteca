@@ -1,22 +1,31 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//! Generates a chart.
+/*!
+ * Contains four methods that generates a chart according to data entered ("Plot the equation").
+ * The methods generates charts with pixels, circles and dots connected.
+ * No association.
+ */
+// TODO: Testar essa classe para ver como funciona.
 public class ChartGenerator : MonoBehaviour 
 {
-	public Texture2D testChart;
-	public float concentration;
-	public float sensibility;
-	public int LineSize;
-	public int radius;
 
-	public Renderer sampleRender;
+	public Texture2D testChart; /*!< Texture handling. */
+	public float concentration; /*!<  */
+	public float sensibility; /*!<  */
+	public int LineSize; /*!<  */
+	public int radius; /*!<  */
 
+	public Renderer sampleRender; /*!< Makes an object appear on the screen. */
 
-	void Start()
+	/*void Start()
 	{
 
-	}
+	}*/
 
+	//! Generates a chart with pixel only. 
+	/*! */
 	public static Texture2D GenerateWithTexturePixelOnly(Texture2D originalChart, float factor, float threshould, int lineSize)
 	{
 		int width = originalChart.width;
@@ -27,7 +36,7 @@ public class ChartGenerator : MonoBehaviour
 
 		float realThreshould = 1f - threshould;
 		int lineThickness =  Mathf.RoundToInt((float)(lineSize) / 2f);
-
+		
 		for (int x = 0; x < width; x++) 
 		{
 			bool findValue = false;
@@ -42,7 +51,6 @@ public class ChartGenerator : MonoBehaviour
 						chartArray[x] = y;
 					}
 				}
-
 
 				//clean chart Texture
 				chart.SetPixel(x,y,Color.white);
@@ -66,6 +74,8 @@ public class ChartGenerator : MonoBehaviour
 		return chart;
 	}
 
+	//! Generates a chart with circles
+	/*! */
 	public static Texture2D GenerateWithTextureCircle(Texture2D originalChart, float factor, float threshould, int radius)
 	{
 		int width = originalChart.width;
@@ -120,6 +130,8 @@ public class ChartGenerator : MonoBehaviour
 		return chart;
 	}
 
+	//! Generates texture corrected.
+	/*! */
 	public static Texture2D GenerateWithTextureCorrected(Texture2D originalChart, float factor, float threshould)
 	{
 		int width = originalChart.width;
@@ -165,6 +177,8 @@ public class ChartGenerator : MonoBehaviour
 		return chart;
 	}
 
+	//! Generates a chart with connecting dots.
+	/*! */
 	public static Texture2D GenerateWithTextureConectingDots(Texture2D originalChart, float factor, float threshould)
 	{
 		int width = originalChart.width;

@@ -1,9 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//! Calculates the chart data. 
+/*!
+ * Contains six methods that "calculates" the chart data, enable/desable the object
+ * and a message button.
+ * 
+ */
+
+// TODO: Testar para ver como funciona.
+
 public class Chart : MonoBehaviour 
 {
-	public GameObject infoChart;
+	public GameObject infoChart; /*!< New gameObject. */
 	public float alphaValueWhenDisable;
 	public Vector3 positionOnSelected;
 	public Vector3 scaleOnSelected;
@@ -19,9 +28,11 @@ public class Chart : MonoBehaviour
 	public float timeToGrow;
 	private float timeToGrowAcc;
 
-	private InventoryController inventory;
+	private InventoryController inventory; /*!< InventoryController object. */
 
 	// Use this for initialization
+	//! Returns the first loaded object of InventoryController with original scale and position.
+	/*! */
 	void Start () 
 	{
 		inventory = FindObjectOfType (typeof(InventoryController)) as InventoryController;
@@ -31,6 +42,8 @@ public class Chart : MonoBehaviour
 	}
 	
 	// Update is called once per frame
+	//! Linearly interpolates between two vectors (Growing and notGrowing).
+	/*! This is most commonly used to find a point some fraction of the way along a line between two endpoints (timeToGrow and timeToGrowAcc). */
 	void Update () 
 	{
 		if (growing) 
@@ -54,20 +67,24 @@ public class Chart : MonoBehaviour
 		}
 	}
 
-
+	//! Set the chart
+	/*! */
 	public void SetChart(Texture2D chart)
 	{
 		infoChart.renderer.material.mainTexture = chart;
 	}
 
-
+	//! Enable infoChart 
+	/*! */
 	public void Enable()
 	{
 		this.collider.enabled = true;
 		this.renderer.material.color = new Color(this.renderer.material.color.r, this.renderer.material.color.g, this.renderer.material.color.b, 1f);
 		infoChart.renderer.material.color = this.renderer.material.color;
 	}
-	
+
+	//! Disable infoChart 
+	/*! */
 	public void Disable()
 	{
 		this.collider.enabled = false;
@@ -75,6 +92,8 @@ public class Chart : MonoBehaviour
 		infoChart.renderer.material.color = this.renderer.material.color;
 	}
 
+	//!  
+	/*! */
 	public void msgButtonDown()
 	{
 		if(!inventory.showingChart)

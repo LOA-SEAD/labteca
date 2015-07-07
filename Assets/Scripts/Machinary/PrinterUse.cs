@@ -2,29 +2,40 @@
 using System.Collections;
 using System.Collections.Generic;
 
+//! Interaction with the printer
+/*!
+ *  Contains four methods that recognizes the interaction with Player and Printer,  
+ *	puts the chart in inventory and send the file to printer.
+ */
+
 public class PrinterUse : MonoBehaviour 
 {
-	public KeyCode keyToUse;
+	public KeyCode keyToUse; /*!< Capture keyboard input */
 
 	private static bool allowGetData = false;
 
-	private static List<Texture2D> pressSheets = new List<Texture2D>();
+	private static List<Texture2D> pressSheets = new List<Texture2D>(); /*!< List of Texture2D*/
 
-	private InventoryController inventory;
+	private InventoryController inventory; /*!< InventoryController object. */
 
-	public Chart chartPrefab;
+	public Chart chartPrefab; /*!< Chart object. */
 
 	// Use this for initialization
+	//! Returns the first loaded object of InventoryController.
+	/*! */
 	void Start () 
 	{
 		inventory = FindObjectOfType (typeof(InventoryController)) as InventoryController;
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	/*void Update () {
 
-	}
+	}*/
 
+	//! Is called when the collider other enters the trigger.
+	/*! This message is sent to the trigger collider and the rigidbody 
+	 * that the trigger collider belongs to, and the rigidbody that touches the trigger.*/
 	void OnTriggerEnter(Collider other)
 	{
 		if (other.tag == "Player" && allowGetData) 
@@ -32,7 +43,8 @@ public class PrinterUse : MonoBehaviour
 			HudText.SetText("Aperte " + keyToUse.ToString() + " para pegar as folhas da impressora.");
 		}
 	}
-
+	//! Is called almost all the frames for every collider other that is touching the trigger.
+	/*! This message is sent to the trigger and the collider that touches the the trigger. */
 	void OnTriggerStay(Collider other)
 	{
 		if (other.tag == "Player" && allowGetData) 
@@ -42,6 +54,7 @@ public class PrinterUse : MonoBehaviour
 				HudText.EraseText();
 				allowGetData = false;
 
+				//! Add the chart in inventory
 				foreach (Texture2D item in pressSheets) 
 				{
 					Chart graph = Instantiate(chartPrefab) as Chart;
@@ -55,7 +68,7 @@ public class PrinterUse : MonoBehaviour
 			}
 		}
 	}
-
+	//! The collider other has stopped touching the trigger.
 	void OnTriggerExit(Collider other)
 	{
 		if (other.tag == "Player" && allowGetData) 
@@ -64,7 +77,7 @@ public class PrinterUse : MonoBehaviour
 		}
 	}
 
-
+	//! Send the file (chart) to printer
 	public static void SendFileToPrinter(Texture2D file)
 	{
 		allowGetData = true;

@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//! Declaration of information reagents
+/*! */
+
 public class ReagentsLiquidClass
 {
 	public string name;

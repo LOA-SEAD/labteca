@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//! Controls the selected itens (glassware and reagents).
+/*! */
+
 public class ItemCatchController : MonoBehaviour 
 {
 	public enum ItemType
@@ -20,10 +23,13 @@ public class ItemCatchController : MonoBehaviour
 	private InventoryController inventory;
 
 	// Use this for initialization
+	//!
+	/*! */
+	//TODO: Nao entendi o porque do Start()
 	void Start () 
 	{
 		inventory = FindObjectOfType (typeof(InventoryController)) as InventoryController;
-
+		//Entendi que esta fazendo atribuiçoes para o obj, mas nao sei exatamente como funciona.
 		for (int i = 0; i < placeHolders.Length; i++) 
 		{
 			GameObject obj = Instantiate(buttonPrefab, placeHolders[i].position, placeHolders[i].rotation) as GameObject;
@@ -34,10 +40,11 @@ public class ItemCatchController : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	/*void Update () {
 	
-	}
+	}*/
 
+	//! Add selected itensType in inventory (glassware, reagent liquid and reagent solid).
 	public void ButtonPressed(int index)
 	{
 		switch (itensType) 

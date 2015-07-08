@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// TODO: Este codigo provavelmente eh da versao antiga e esta obsoleto, nao sera mais utilizado. Verificar.	
 public class InventorySelectorInMachineScene : MonoBehaviour 
 {
 
@@ -12,7 +13,6 @@ public class InventorySelectorInMachineScene : MonoBehaviour
 	public bool allowSolids;
 	public bool allowCharts;
 
-	// Use this for initialization
 	void Start () 
 	{
 		inventory = FindObjectOfType (typeof(InventoryController)) as InventoryController;
@@ -54,9 +54,5 @@ public class InventorySelectorInMachineScene : MonoBehaviour
 //			inventory.ActiveAllCharts();
 //		}
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
 }

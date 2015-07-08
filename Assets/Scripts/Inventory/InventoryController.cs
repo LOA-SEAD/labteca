@@ -3,19 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
+//! This is the controller for the Inventory.
+/*!
+ *  It contains a list of all objects that are associated with it, composing the inventory. 
+ */
 public class InventoryController : MonoBehaviour {
 
-    public List<AnyObjectInstantiation> itens = new List<AnyObjectInstantiation>();
-    public GameObject confirmationBox;
+    public List<AnyObjectInstantiation> itens = new List<AnyObjectInstantiation>(); /*!< List of itens of type AnyObjectInstantiation. */
+    public GameObject confirmationBox;  /*!< Prefab of confirmation box. */
 
     private AnyObjectInstantiation tempItem;
     private ItemStackableBehavior tempItemUI;
 	private bool requestAddItem;
     private bool requestRemoveItem;
-
     private InventoryContent content;
 
-	// Use this for initialization
+	// Get InventoryContent in child.
 	void Start () 
     {
         content = GetComponentInChildren<InventoryContent>();
@@ -23,9 +26,10 @@ public class InventoryController : MonoBehaviour {
             Debug.LogError("Content not found in " + this.transform.parent.transform.parent.name);
     }
 	
-	// Update is called once per frame
+    // TODO: Verificar a real necessidade de colocar as funcoes dentro Update sendo chamadas atraves de variaveis booleanas.
 	void Update () 
     {
+        // Check if an Item needs to be added or removed. 
 		if(requestAddItem)
         {
 			requestAddItem = false;
@@ -40,6 +44,9 @@ public class InventoryController : MonoBehaviour {
         }
 	}
 
+    //! Add Item to inventory.
+    /*! Receives and item and defines this inventory to it, also add this item to the interface using InventoryContent 
+     * and disable the original object from the scene. */
     public void AddItem(AnyObjectInstantiation item)
     {
         item.SetInventory(this);
@@ -50,6 +57,9 @@ public class InventoryController : MonoBehaviour {
         item.gameObject.SetActive(false);
     }
 
+    //! Remove Item from inventory.
+    /*! Receives the item from the interface, remove it from the interface, from the List of itens 
+     * and enables the original GameObject again.*/
     public void RemoveItem(ItemStackableBehavior itemUI)
     {        
         tempItemUI = itemUI;
@@ -58,6 +68,8 @@ public class InventoryController : MonoBehaviour {
         itemUI.getObject().gameObject.SetActive(enabled);
     }
 
+    //! Destroy Item from the game.
+    /*! Receives and item from the UI, removes it from the list and then destroy it from the scene. */
     public void DestroyItem(ItemStackableBehavior itemUI)
     {
         AnyObjectInstantiation obj = itemUI.getObject();
@@ -65,9 +77,11 @@ public class InventoryController : MonoBehaviour {
         Destroy(obj.gameObject);
     }
 
-    //TODO: remove hard code!
-    // methods from old script
+    //TODO: Remover codigo abaixo fazendo as alteracoes para o script do inventario acima.
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //  Methods from Old Script!  ------- start here --------
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public Dictionary<ReagentsSolid, GameObject> reagentsSolid = new Dictionary<ReagentsSolid, GameObject>();
     public Dictionary<ReagentsLiquid, GameObject> reagentsLiquid = new Dictionary<ReagentsLiquid, GameObject>();
     public Dictionary<Glassware, GameObject> glassware = new Dictionary<Glassware, GameObject>();
@@ -219,6 +233,9 @@ public class InventoryController : MonoBehaviour {
             UpdateInventory();
         }
     }
-
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //  Methods from Old Script!  ------- end here --------
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
 
 }

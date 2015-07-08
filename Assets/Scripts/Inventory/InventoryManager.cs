@@ -1,18 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//! Manages all 'types' of Inventory Controller.
+/*! It has information of all of the four types of InventoryController ( Solid, Liquid, Glassware and Others ). */
 public class InventoryManager : MonoBehaviour {
 
-	public InventoryController SolidReagents;
-	public InventoryController LiquidReagents;
-	public InventoryController Glassware;
-	public InventoryController Others;
+    // need to be set on the inspector with the correct game object containing each InventoryController
+	public InventoryController SolidReagents;       /*!< InventoryController for Solid Reagents. */
+    public InventoryController LiquidReagents;      /*!< InventoryController for Liquid Reagents. */
+    public InventoryController Glassware;           /*!< InventoryController for Glassware. */
+    public InventoryController Others;              /*!< InventoryController for Others. */
 
-    private AnyObjectInstantiation selectedItem = null;
-    private ItemStackableBehavior selectedUIItem = null;
+    private AnyObjectInstantiation selectedItem = null;     /*!< Current selected item (game object). */
+    private ItemStackableBehavior selectedUIItem = null;    /*!< Current selected item from inventory UI. */
 
+    //! Does the operation on the inventory (insert, remove or destroy).
+    /*! Based on the string passed as parameter, takes the selectedItem or selectedUIItem and does the operation. */
 	void operateOnInventory(string op){
-
+        // Insertion
 		if(string.Compare(op,"insert") == 0 && selectedItem != null){
             switch(selectedItem.getItemType())
             {
@@ -37,6 +42,7 @@ public class InventoryManager : MonoBehaviour {
                     break;
             }
 		}
+        // Removal
 		else if(string.Compare(op,"remove") == 0 && selectedUIItem != null)
         {
             switch (selectedUIItem.getObject().getItemType())
@@ -62,6 +68,7 @@ public class InventoryManager : MonoBehaviour {
                     break;
             }
 		}
+        // Destruction
         else if (string.Compare(op, "destroy") == 0 && selectedUIItem != null)
         {
             switch (selectedUIItem.getObject().getItemType())
@@ -91,11 +98,8 @@ public class InventoryManager : MonoBehaviour {
         selectedItem = null;
 	}
 
-	// Use this for initialization
-	void Start () {
-	}
-	
-	// Update is called once per frame
+    // TODO: Remover estes botoes de teste e utilizar as funcoes nos devidos locais.
+    // Ex.: Quando o objeto eh clicado dentro do laboratorio.
 	void Update () 
     {
         if(Input.GetKeyDown(KeyCode.A))
@@ -112,10 +116,13 @@ public class InventoryManager : MonoBehaviour {
         }
 	}
 
+    //! Set the selected Item.
     public void setSelectedItem(AnyObjectInstantiation i)
     {
         this.selectedItem = i;
     }
+
+    //! Set the selected Item at the inventory UI.
     public void setSelectedUIItem(ItemStackableBehavior i)
     {
         this.selectedUIItem = i;

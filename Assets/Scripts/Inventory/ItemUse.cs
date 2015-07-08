@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//! Allow any Game Object to be set as Item.
+/*!
+ *  This makes any object inside the scene to become an Item that will be used with the inventory and 
+ *  the machinary / other items / so the experiments can be done.
+ */
 public class ItemUse : MonoBehaviour 
 {
 	public KeyCode keyToUse;
@@ -8,7 +13,8 @@ public class ItemUse : MonoBehaviour
 
 	private bool allowChangeScene = false;
 
-	private InventoryController inventory;
+    // TODO: Ha alteracoes necessarias para utilizar novo sistema de inventario - esse codigo eh para o sistema "antigo"
+	private InventoryController inventory;  // utilizar inventory manager
 
 	private ReagentsLiquid reagent;
 	private ReagentsSolid reagentSolid;
@@ -26,9 +32,9 @@ public class ItemUse : MonoBehaviour
 	public Vector3 inventoryColliderSize;
 	public Vector3 inventoryColliderPosition;
 
-	// Use this for initialization
 	void Start () 
 	{
+        // TODO: alterar para utilizar o inventory manager
 		inventory = FindObjectOfType (typeof(InventoryController)) as InventoryController;
 
 		if(!isSolid)
@@ -43,15 +49,11 @@ public class ItemUse : MonoBehaviour
 			reagentSolid.liquidName = objectName;
 		}
 
+        // TODO: verificar se isso realmente eh necessario, me parece redundante -> hardcode
 		originalScale = this.transform.localScale;
 		BoxCollider col = this.collider as BoxCollider;
 		originalColliderPosition = col.center;
 		originalColliderSize = col.size;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
 	}
 
 	void OnTriggerEnter(Collider other)

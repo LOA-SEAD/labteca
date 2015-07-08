@@ -2,8 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 
+//! Saves the component information from editor.
+/*!
+ * Contains three methods that saves the liquidReagent from editor in a dictionary and in a file  
+ * and load the dictionary from file.
+ */
+
 public class ComponentsSaver
 {
+	//! Saves the component information in a Dictionary. 
 	public static void SaveReagentFromEditor(string name, int molarMass, float density, float ph, float polarizibility, 
 	                                         Texture2D uvSpecter, Texture2D irSpecter, Texture2D flameSpecter, float condutibility, 
 	                                         float solubility, float turbility, Texture2D hplc, float refratometer, Texture2D texture, Color color)
@@ -44,7 +51,7 @@ public class ComponentsSaver
 		}
 	}
 
-
+	//! Saves the new reagent in a file 
 	public static void SaveReagents(Dictionary<string, ReagentsLiquidClass> liquidReagents)
 	{
 		TextEdit text = new TextEdit("Assets/Resources/componentsLiquids.txt");
@@ -119,6 +126,7 @@ public class ComponentsSaver
 		}
 	}
 
+	//! Reads/Loads the dictionary from file.
 	public static Dictionary<string, ReagentsLiquidClass> LoadReagents()
 	{
 		TextAsset loadText = Resources.Load("componentsLiquids") as TextAsset;

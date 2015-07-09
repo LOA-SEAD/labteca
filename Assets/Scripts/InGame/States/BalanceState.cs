@@ -2,31 +2,41 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
-
+//! State for Precision Scale.
+/*! This state has all the behaviour that controls the precision scale and it's UI.
+ */
+// TODO: mudar nome da classe de Balance ("Equilibrio") para Scale >.<
 public  class BalanceState : GameStateBase {
 
-    public Camera cameraState;
-	public GameObject interactBox;
-
-	public Transform positionGlass1;
-	public Transform positionGlass2;
-	public Transform positionGlass3;
-	public Transform positionGlassEquipament;
-
-    public UI_Manager uiManager;
-	public GameObject optionDialogGlass;
-	public GameObject optionDialogGlassTable;
-	public GameObject optionDialogReagent;
-	public GameObject optionDialogSpatula;
-	public GameObject optionDialogWater;
-	public GameObject optionDialogPipeta;
-	public GameObject optionDialogBalance;
+    // camera and interactive area
+    public Camera cameraState;                  /*!< Camera for this state. */
+    public GameObject interactBox;              /*!< BoxCollider that allows the Player to enter this state. */
+    // glassware positioning
+    public Transform positionGlass1;            /*!< Position of first Glassware. */
+    public Transform positionGlass2;            /*!< Position of second Glassware. */
+    public Transform positionGlass3;            /*!< Position of third Glassware. */
+    public Transform positionGlassEquipament;   /*!< Position of Glassware on the Precision Scale. */
+    // UI
+    // TODO: mudanca em como a UI funciona dentro da balanca
+    /* Sugestao: talvez faca mais sentido os dialogs estarem dentro dos objetos em si, exemplo: o dialog da pisseta
+     * ser um filho da pisseta ou seu prefab estar atrelado ao script da pisseta e ele eh passado por referencia para
+     * uma funcao aqui do BalanceState (ou de um UI_Manager).
+     */
+    public UI_Manager uiManager;                /*!< The UI Manager Game Object. */
+    public GameObject optionDialogGlass;        /*!< Dialog. */
+    public GameObject optionDialogGlassTable;   /*!< Dialog. */
+    public GameObject optionDialogReagent;      /*!< Dialog. */
+    public GameObject optionDialogSpatula;      /*!< Dialog. */
+    public GameObject optionDialogWater;        /*!< Dialog. */
+    public GameObject optionDialogPipeta;       /*!< Dialog. */
+    public GameObject optionDialogBalance;      /*!< Dialog. */
 
 	public Hint hints;
 
 	private ButtonObject[] tools;
 	private bool canClickTools;
 
+    // TODO: revisar esse hardcode maroto aqui, talvez separar em outros scripts para cada funcionalidade da balanca?
 	//spatula
 	public bool selectSpatula;
 	public float porcentErrorSpatula = 5;
@@ -63,6 +73,9 @@ public  class BalanceState : GameStateBase {
 	public float porcentErrorWater;
 	//
 
+    //! Hint of what the player should do next.
+    /*! Display a text message telling the player what he can/should do. */
+    // TODO: nao consegui fazer com que essa funcao fosse executada durante o jogo, teoricamente eh uma ajuda ao jogador. Verificar.
 	[System.Serializable]
 	public class Hint{
 		public Text hintText;
@@ -77,6 +90,9 @@ public  class BalanceState : GameStateBase {
 		}
 	}
 
+    //! Change the mouse cursor.
+    /*! Set a cursor when mouse hover an object and set it back to default when not. */
+    // TODO: essa funcao teoricamente tambem existe dentro do script ButtonObject, verificar codigo redundante.
 	[System.Serializable]
 	public class CursorMouse{
 		public Texture2D cursorTexture;
@@ -93,16 +109,10 @@ public  class BalanceState : GameStateBase {
 		}
 	}
 
-	
-
-	// Use this for initialization
 	public void Start () {
 		cameraState.gameObject.SetActive(false);
-
 		RefreshInteractiveItens ();
-
 		DesactiveInteractObjects ();
-
 	}
 	
 	protected override void UpdateState ()
@@ -110,6 +120,7 @@ public  class BalanceState : GameStateBase {
 
 	}
 
+    // TODO: se for alterado o modo de interacao com objetos na cena para Raycast, isso provavelmente vai ter de ser alterado.
 	private void RefreshInteractiveItens(){
 		tools = GetComponentsInChildren<ButtonObject> ();
 
@@ -136,9 +147,7 @@ public  class BalanceState : GameStateBase {
 				hints.HideHint();
 				amountSelectedSpatula = 0;
 			}
-
 		}
-
 		if(uiManager.alertDialog.IsShowing() || !canClickTools){
 			DesactiveInteractObjects();
 		}
@@ -146,23 +155,26 @@ public  class BalanceState : GameStateBase {
 			ActiveInteractObjects();
 
 		}
-
-	
-
 	}
 
+    // TODO: funcao que estava dentro do script UI_ObjectManager e foi jogada aqui. Poderia usar o script já feito e não fazer redundancia no codigo.
+    // Desactive tah errado >.< refatorar isso se for continuar usando aqui.
 	private void DesactiveInteractObjects(){
 		foreach(ButtonObject t in tools){
 			t.GetComponent<Transform>().parent.GetComponent<Canvas>().enabled = false;
 		}
 	}
-
+    
+    // TODO: funcao que estava dentro do script UI_ObjectManager e foi jogada aqui. Poderia usar o script já feito e não fazer redundancia no codigo.
 	private void ActiveInteractObjects(){
 		foreach(ButtonObject t in tools){
 			t.GetComponent<Transform>().parent.GetComponent<Canvas>().enabled = true;
 		}
 	}
 
+    //! Actions for when the State starts.
+    /*! Set the Camera inside the state to be Active, overlaying the Main Camera used at InGameState,
+     * close all dialogs that might be enabled. */
 	public override void OnStartRun ()
 	{
         cameraState.gameObject.SetActive(true);
@@ -177,7 +189,9 @@ public  class BalanceState : GameStateBase {
 		CloseOptionDialogGlassTable ();
 
 	}
-	
+
+    //! Actions for when the State ends.
+    /*! Disable the Camera inside the state, deactivate. */
 	public override void OnStopRun ()
 	{
         cameraState.depth = -1;
@@ -186,7 +200,7 @@ public  class BalanceState : GameStateBase {
 
 	}
 
-	//metodo temporario na ausencia do inventario
+	//TODO: metodo temporario na ausencia do inventario
 	public void CallPutBequer(){
 		if(gameController.totalBackers > 0){
 			OpenOptionDialogGlass();
@@ -196,7 +210,7 @@ public  class BalanceState : GameStateBase {
 		}
 	}
 
-	//metodo temporario na ausencia do inventario
+	//TODO: metodo temporario na ausencia do inventario
 	public void CallPutReagent(){
 		if(gameController.haveReagentNaCl){
 			if(HaveGlassInTable() || HaveGlassInEquipament()){
@@ -220,18 +234,25 @@ public  class BalanceState : GameStateBase {
 		}
 	}
 
+    //TODO: todos esses OpenDialogX e CloseDialogX podem ser uma funcao cada, ou ateh mesmo uma funcao que use parametros.
+    /* Sugestao: Se cada objeto tiver seu proprio dialog, chamar essas funcoes pelo Raycast e passar o dialog como parametro pra ser exibido,
+     * se achar melhor usar uma funcao soh com dois parametros: (GameObject dialog, bool show), tambem pode funcionar.
+     * 
+     * Alguns metodos possuem verificacoes que sao feitas na hora de abrir o dialog ou durante sua exibicao, essas coisas podem ser feitas em scripts
+     * dentro dos proprios objetos, modularizando o codigo, sendo que o BalanceState fica apenas como gerenciador dos valores ou algo assim. 
+     * Os dialogs nao precisariam nem serem implementados aqui, basta usar o UI_Manager -> especializar os scripts e nao fazer um codigo macarronico.
+     */
 
-
+    // ------------------------------------- comeca aqui ---------------------------------------------------------------------
 	public void OpenOptionDialogBalance(){
 		optionDialogBalance.SetActive(true);
 		canClickTools = false;
 	}
-	
+
 	public void CloseOptionDialogBalance(){
 		optionDialogBalance.SetActive(false);
 		canClickTools = true;
 	}
-
 
 	public void OpenOptionDialogGlass(){
 		optionDialogGlass.SetActive(true);
@@ -261,7 +282,6 @@ public  class BalanceState : GameStateBase {
 		optionDialogReagent.SetActive(false);
 		canClickTools = true;
 	}
-
 
 	public void OpenOptionDialogWater(){
 		optionDialogWater.SetActive(true);
@@ -310,7 +330,6 @@ public  class BalanceState : GameStateBase {
 			confirmAddButton.gameObject.SetActive(true);
 			confirmRemoveButton.gameObject.SetActive(false);
 		}
-
 	}
 	
 	public void CloseSpatulaDialog(bool reset){
@@ -318,9 +337,12 @@ public  class BalanceState : GameStateBase {
 		if(reset)
 			amountSelectedSpatula = 0;
 		canClickTools = true;
-	} 
+	}
+    // ------------------------------------- termina aqui ---------------------------------------------------------------------
 
-
+    //! Put the Glassware on the table.
+    /*! Verifiy each position available and let the Player choose an available, if any, position to put the glassware. */
+    // TODO: Revisar este codigo maroto aqui, tem coisas muito identicas que poderiam ser funcoes menores, ou talvez feito de maneira melhor?
 	public void PutGlassInTable(bool realocate){
 		if(positionGlass1.childCount > 0 && 
 		   positionGlass2.childCount > 0 &&
@@ -334,7 +356,7 @@ public  class BalanceState : GameStateBase {
 
 					if(positionGlass1.childCount == 0){
 
-						//Temporariamente esta pegando do gamecontroller, mas tem que pegar do inventario esses dados
+						//TODO: Temporariamente esta pegando do gamecontroller, mas tem que pegar do inventario esses dados
 						GameObject tempGlass = Instantiate(gameController.selectedGlassWare.gameObject, positionGlass1.position, gameController.selectedGlassWare.transform.rotation) as GameObject;
 						tempGlass.transform.SetParent(positionGlass1,false);
 						tempGlass.transform.localPosition = Vector3.zero;
@@ -342,7 +364,7 @@ public  class BalanceState : GameStateBase {
 						gameController.totalBackers--;
 					}
 					else if(positionGlass2.childCount == 0){
-						//Temporariamente esta pegando do gamecontroller, mas tem que pegar do inventario esses dados
+						//TODO: Temporariamente esta pegando do gamecontroller, mas tem que pegar do inventario esses dados
 						GameObject tempGlass = Instantiate(gameController.selectedGlassWare.gameObject, positionGlass2.position, gameController.selectedGlassWare.transform.rotation) as GameObject;
 						tempGlass.transform.SetParent(positionGlass2,false);
 						tempGlass.transform.localPosition = Vector3.zero;
@@ -352,7 +374,7 @@ public  class BalanceState : GameStateBase {
 					}
 					else{
 
-						//Temporariamente esta pegando do gamecontroller, mas tem que pegar do inventario esses dados
+						//TODO: Temporariamente esta pegando do gamecontroller, mas tem que pegar do inventario esses dados
 						GameObject tempGlass = Instantiate(gameController.selectedGlassWare.gameObject, positionGlass3.position, gameController.selectedGlassWare.transform.rotation) as GameObject;
 						tempGlass.transform.SetParent(positionGlass3,false);
 						tempGlass.transform.localPosition = Vector3.zero;
@@ -360,8 +382,6 @@ public  class BalanceState : GameStateBase {
 						gameController.totalBackers--;
 
 					}
-
-
 				CloseOptionDialogGlass();
 			}
 			else{
@@ -403,33 +423,25 @@ public  class BalanceState : GameStateBase {
 						GameObject tempGlass = lastGlassWareSelected.gameObject;
 						tempGlass.transform.SetParent(positionGlass3,true);
 						tempGlass.transform.localPosition = Vector3.zero;
-						tempGlass.GetComponent<Glassware>().SetStateInUse(this);
-
-						
+						tempGlass.GetComponent<Glassware>().SetStateInUse(this);						
 					}
 
 				}
 				CloseOptionDialogGlassTable();
-
-			}
-
-				
-
-				
+			}		
 		}
-
-
 		RefreshInteractiveItens ();
-
 	}
 
+    //! Put the Glassware on the equipment.
+    /*! Verifiy if glassware can be put on the equipment. */
 	public void PutGlassInEquip(bool realocate){
 		if(positionGlassEquipament.childCount > 0){
             uiManager.alertDialog.ShowAlert("O equipamento ja tem um recipiente!");
 		}
 		else{
 			if(!realocate){
-				//Temporariamente esta pegando do gamecontroller, mas tem que pegar do inventario esses dados
+				//TODO: Temporariamente esta pegando do gamecontroller, mas tem que pegar do inventario esses dados
 				GameObject tempGlass = Instantiate(gameController.selectedGlassWare.gameObject, positionGlassEquipament.position, gameController.selectedGlassWare.transform.rotation) as GameObject;
 				tempGlass.transform.SetParent(positionGlassEquipament,false);
 				tempGlass.transform.localPosition = Vector3.zero;
@@ -460,19 +472,17 @@ public  class BalanceState : GameStateBase {
 		RefreshInteractiveItens ();
 	}
 
+    //! Remove the Glassware.
 	public void RemoveGlass(bool inInventory){
 
 		if(inInventory){
-			//metodo temporario pela a ausencia do inventario
+			//TODO: metodo temporario pela a ausencia do inventario
 			gameController.totalBackers--;
 		}
-
 		CloseOptionDialogGlass();
-		
 	}
 
-
-
+    //! Verify if there is any Glassware on the table.
 	public bool HaveGlassInTable(){
 		if(positionGlass1.childCount > 0 || 
 		   positionGlass2.childCount > 0 ||
@@ -482,15 +492,18 @@ public  class BalanceState : GameStateBase {
 		return false;
 	}
 
+    //! Verify if there is any Glassware on the equipment.
+    // TODO: refatorar Equipament para Equipment. 
 	public bool HaveGlassInEquipament(){
 		if(positionGlassEquipament.childCount > 0){
 			return true;
 		}
-
 		return false;
 	}
 
+    // TODO: Codigo para controle da espatula, talvez modularizar e colocar o script no GameObject da espatula
 	//Spatule//////////////////////////////////////////////////////////////
+    //! Set the approximate that the spatule will be taking. 
 	public void SetAmountReagentSpatula(bool Increase){
 
 		if (amountSelectedSpatula < 0)
@@ -529,12 +542,15 @@ public  class BalanceState : GameStateBase {
 		textDisplayAmountSpatula.text = amountSelectedSpatula.ToString();
 
 	}
-
+    //! Select which spatula will be used.
 	public void SelectTypeSpatula(int typeNumber){
 		typeSpatulaSelected = typeNumber;
 
 	}
 
+    //! Define the ammount that spatula took.
+    /*! This is done so the spatula isn't precise, it will only be precise if you're using the scale itself, 
+     * not taking the solid reagent directly from the inventory. */
 	public void DefineAmountSpatule(bool useToRemove){
 	
 		if(usePrecision){
@@ -560,11 +576,12 @@ public  class BalanceState : GameStateBase {
 
 		}
 	}
-
 	//Spatule//////////////////////////////////////////////////////////////
 
-
+    // TODO: Codigo para controle da Pisseta, se for decidido modularizar, deve ser refatorado isso.
 	//Water//////////////////////////////////////////////////////////////
+    //! Define the approximate amount of water that will be used.
+    /*! The Wash Bottle cant give any precise quantity of water so an approximate value is calculated and added. */
 	public void DefineAmountWater(){
 
 		float currentError = amountSelectedWater*porcentErrorWater/100;
@@ -579,13 +596,16 @@ public  class BalanceState : GameStateBase {
 		CloseOptionDialogWater ();
 	}
 
+    //! Set the approximate amount of water.
 	public void SetAmountWater(){
 		amountSelectedWater = waterValue.value;
 		waterValueText.text = amountSelectedWater.ToString ();
 	}
 	//Water//////////////////////////////////////////////////////////////
 
+    //TODO: Pipeta, caso seja realizada a modularizacao dos componentes, aqui comeca o codigo da pisseta.
 	//Pipeta//////////////////////////////////////////////////////////////
+    //! Define the precise amount of water.
 	public void DefineAmountPipeta(){
 		CloseOptionDialogPipeta ();
 		if (amountSelectedPipeta > 0) {
@@ -594,14 +614,14 @@ public  class BalanceState : GameStateBase {
 			lastGlassWareSelected.RemoveLiquid (amountSelectedPipeta);
 		}
 }
-	
+    //! Set current amount of water inside pipette.
 	public void SetAmountPipeta(){
 		amountSelectedPipeta = pipetaValue.value;
 		pipetaValueText.text = amountSelectedPipeta.ToString ();
 	}
 	//Pipeta//////////////////////////////////////////////////////////////
 
-
+    // TODO: mais uma vez codigo 'especializado' que poderia usar funcao generica, ou modularizado dentro dos respectivos objetos.
 	public void SelectSpatula(){
 		UnselectAll ();
 		selectSpatula = true;
@@ -652,6 +672,8 @@ public  class BalanceState : GameStateBase {
 		DeselectSpatula ();
 	}
 
+    // TODO: nao ha nenhuma referencia disso em outro codigo, tambem nao achei dentro da cena onde esta utilizando.
+    //! Click Glass.
 	public void ClickGlass(GameObject glassClick){
 
 		Glassware glass = glassClick.GetComponent<Glassware> ();

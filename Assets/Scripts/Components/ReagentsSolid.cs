@@ -5,6 +5,7 @@ using System.Collections.Generic;
 //! Enable and Disable ReagentsSolid.
 /*! Changes the colors of the reagent solid when is enable or desable. */
 //TODO: Testar para saber exatamente como funciona.
+// Algumas coisas do ReagentsSolid e ReagentLiquid sao iguais. Talvez seja melhor criar uma classe Reagents e herdar Solid e Liquid. Elimina hardcode.
 public class ReagentsSolid : MonoBehaviour 
 {
 	public string name;

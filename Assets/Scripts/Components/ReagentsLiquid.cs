@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//! Enable and Disable ReagentsLiquid.
+/*! Changes the colors of the reagent liquid when is enable or desable.
+ * Mass and volume of liquid and actions by clicking on an liquid. */
+//TODO: Testar para saber exatamente como funciona.
+// Algumas coisas do ReagentsSolid e ReagentLiquid sao iguais. Talvez seja melhor criar uma classe Reagents e herdar Solid e Liquid. Elimina hardcode.
 public class ReagentsLiquid : MonoBehaviour 
 {
 	public float concentration;
@@ -14,7 +19,6 @@ public class ReagentsLiquid : MonoBehaviour
 
 	public ReagentsLiquidClass info;
 
-
 	private bool _inInventory = false;
 
 	public bool inInventory {
@@ -26,6 +30,8 @@ public class ReagentsLiquid : MonoBehaviour
 		}
 	}
 
+	//! Script instance is being loaded.
+	/*! Returns the first active loaded object of Type InventoryController and set position of this object.*/
 	void Awake()
 	{
 		inventory = FindObjectOfType (typeof(InventoryController)) as InventoryController;
@@ -33,6 +39,7 @@ public class ReagentsLiquid : MonoBehaviour
 	}
 
 	// Use this for initialization
+	//! Calculates the mass and the volume
 	void Start () 
 	{
 		if (info != null) 
@@ -50,11 +57,13 @@ public class ReagentsLiquid : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	void Update () 
+	/*void Update () 
 	{
 		
-	}
+	}*/
 
+	//! Enable collide with other colliders
+	/*! Returns the first instantiated Material assigned to the renderer and creat a new object with certain color. */
 	public void Enable()
 	{
 		this.collider.enabled = true;
@@ -66,7 +75,8 @@ public class ReagentsLiquid : MonoBehaviour
 			}
 		}
 	}
-	
+	//! Disable collide with other colliders
+	/*! Returns the first instantiated Material assigned to the renderer and creat a new object with alphaValueWhenDisable. */
 	public void Disable()
 	{
 		this.collider.enabled = false;
@@ -79,6 +89,8 @@ public class ReagentsLiquid : MonoBehaviour
 		}
 	}
 
+	//! Actions by clicking on an item.
+	/*! If the application is "lab_workBench", remove reagent liquid from inventory, else if the liquid is in inventory, set the name and the concentration. */
 	public void MsgMouseDown()
 	{
 		if(Application.loadedLevelName == "lab_workBench")
@@ -105,6 +117,7 @@ public class ReagentsLiquid : MonoBehaviour
 		}
 	}
 
+	//! Loads reagentsLiquid
 	public void GetInfo(string reagent)
 	{
 		info = ComponentsSaver.LoadReagents()[reagent];

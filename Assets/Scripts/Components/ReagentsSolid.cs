@@ -2,6 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
+//! Enable and Disable ReagentsSolid.
+/*! Changes the colors of the reagent solid when is enable or desable. */
+//TODO: Testar para saber exatamente como funciona.
 public class ReagentsSolid : MonoBehaviour 
 {
 	public string name;
@@ -14,10 +17,12 @@ public class ReagentsSolid : MonoBehaviour
 	private List<GameObject> unitys = new List<GameObject>();
 
 	private InventoryController inventory;
-	private Vector3 originalPosition;
+	private Vector3 originalPosition;  /*!< 3D positions and directions around. */
 
 	public bool solidSource;
 
+	//! Script instance is being loaded.
+	/*! Returns the first active loaded object of Type InventoryController and set position of this object.*/
 	void Awake()
 	{
 		inventory = FindObjectOfType (typeof(InventoryController)) as InventoryController;
@@ -25,7 +30,7 @@ public class ReagentsSolid : MonoBehaviour
 	}
 
 	// Use this for initialization
-	void Start () 
+	/*void Start () 
 	{
 
 	}
@@ -34,8 +39,10 @@ public class ReagentsSolid : MonoBehaviour
 	void Update () 
 	{
 	
-	}
+	}*/
 
+	//! Enable collide with other colliders
+	/*! Returns the first instantiated Material assigned to the renderer and creat a new object with certain color. */
 	public void Enable()
 	{
 		this.collider.enabled = true;
@@ -48,6 +55,8 @@ public class ReagentsSolid : MonoBehaviour
 		}
 	}
 
+	//! Disable collide with other colliders
+	/*! Returns the first instantiated Material assigned to the renderer and creat a new object with alphaValueWhenDisable. */
 	public void Disable()
 	{
 		this.collider.enabled = false;
@@ -60,7 +69,7 @@ public class ReagentsSolid : MonoBehaviour
 		}
 	}
 
-
+	//! There is no code (it's commented)
 	public void MsgMouseDown()
 	{
 //		if(Application.loadedLevelName == "Balance" && solidSource)

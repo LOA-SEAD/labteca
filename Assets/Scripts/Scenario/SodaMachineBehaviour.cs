@@ -1,23 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//! Script that controls the Soda Machine.
+/*! Allows the Soda Machine to drop a can. */
 public class SodaMachineBehaviour : InteractObjectBase {
 
-	public Transform sodaPrefab;
-	public Transform pivotMachine;
-	public int totalItens;
+	public Transform sodaPrefab;        /*!< Prefab of can. */
+    public Transform pivotMachine;      /*!< Transform for pivot. */
+	public int totalItens;              /*!< Integer for total items. */
 	private float delayToInteract;
 	private bool callInteract;
-
-
-	// Use this for initialization
-	void Start () {
 	
-	}
-	
-	// Update is called once per frame
 	void Update () {
-
 		if(callInteract){
 			delayToInteract += Time.deltaTime;
 			if(delayToInteract > 1.5f){
@@ -26,9 +20,9 @@ public class SodaMachineBehaviour : InteractObjectBase {
 				SpawnItem();
 			}
 		}
-	
 	}
 
+    //! Interacts if there is still items (soda can) available.
 	public override void Interact ()
 	{
 		if(totalItens > 0){
@@ -37,6 +31,7 @@ public class SodaMachineBehaviour : InteractObjectBase {
 		
 	}
 
+    //! Spawn an item (soda can).
 	private void SpawnItem(){
 		Instantiate(sodaPrefab.gameObject, pivotMachine.position, sodaPrefab.rotation);
 		totalItens--;

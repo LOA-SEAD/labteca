@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//! Base Class for Object to become interactable.
 public abstract class InteractObjectBase : MonoBehaviour {
 
-	// Use this for initialization
+	// TODO: ta vazia... mas se mexer... altas tretas :/
 	protected void Start () {
 	
 	}
 	
-	// Update is called once per frame
 	protected void Update () {
 	
 	}

@@ -1,20 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//! Starts the Particle System that simulates a smoke.
 public class ExtintorBehaviour : InteractObjectBase {
 
-	public ParticleSystem smoke;
+	public ParticleSystem smoke;    /*! ParticleSystem for smoke. */
 
-	// Use this for initialization
-	void Start () {
-
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
+    //! When there is interaction, play the ParticleSystem.
 	public override void Interact ()
 	{
 		smoke.Play();

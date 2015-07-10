@@ -1,21 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//! Allows any Equipment to be interactable.
+//TODO: refatorar o nome: access e equipment
 public class AcessEquipamentBehaviour : InteractObjectBase {
 
-	public GameStateBase targetEquipament;
+	public GameStateBase targetEquipament;      /*!< GameStateBase for equipment. */
 	private bool callInteract;
-	public float delay = 0.5f;
+    public float delay = 0.5f;                  /*!< Float delay time. */
 	private float currentDelay;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
 	void Update () {
-
 		if(callInteract){
 			currentDelay += Time.deltaTime;
 
@@ -29,6 +24,8 @@ public class AcessEquipamentBehaviour : InteractObjectBase {
 	
 	}
 
+    //! Does the interaction.
+    /*! Fades the camera and starts the equipment state. */
 	public override void Interact ()
 	{
 		FadeScript.instance.ShowFade();

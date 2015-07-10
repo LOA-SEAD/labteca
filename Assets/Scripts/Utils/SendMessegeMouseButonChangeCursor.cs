@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//! Sents a message and sets cursor.
+/*! */
+//TODO: Testar para saber como funciona.
 public class SendMessegeMouseButonChangeCursor : MonoBehaviour 
 {
 	private Camera[] cameras;
@@ -17,6 +20,8 @@ public class SendMessegeMouseButonChangeCursor : MonoBehaviour
 	private bool insideLastFrame = false;
 
 	// Use this for initialization
+	//! Returns a list of all active loaded objects of type Camera and sets target.
+	// Why returns a list?
 	void Start () 
 	{
 		cameras = FindObjectsOfType(typeof(Camera)) as Camera[];
@@ -28,6 +33,8 @@ public class SendMessegeMouseButonChangeCursor : MonoBehaviour
 	}
 	
 	// Update is called once per frame
+	//! Message is sent.
+	/* Returns a ray going from camera through a screen point and if collider.Raycast a message is sent. */
 	void Update () 
 	{
 		if (Input.GetMouseButtonDown (0)) 
@@ -43,11 +50,10 @@ public class SendMessegeMouseButonChangeCursor : MonoBehaviour
 				}
 			}
 		}
-
-
-
+		
 		inside = false;
 
+		//! Change the mouse cursor to the set texture.
 		for (int i = 0; i < cameras.Length; i++) 
 		{
 			ray = cameras[i].ScreenPointToRay(Input.mousePosition);

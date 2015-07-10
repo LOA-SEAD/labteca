@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//! Sents a message (with parameter).
+/*! */
+//TODO: Testar para saber como funciona.
 public class SendMessegeMouseButonWithParameter : MonoBehaviour 
 {
 	private Camera[] cameras;
@@ -13,10 +16,9 @@ public class SendMessegeMouseButonWithParameter : MonoBehaviour
 	public int parameter;
 
 	// Use this for initialization
+	//! Sets target.
 	void Start () 
 	{
-
-
 		if (target == null) 
 		{
 			target = this.gameObject;
@@ -24,6 +26,8 @@ public class SendMessegeMouseButonWithParameter : MonoBehaviour
 	}
 	
 	// Update is called once per frame
+	//! Message is sent with a parameter.
+	/* Returns a ray going from camera through a screen point and if collider.Raycast a message is sent with parameter. */
 	void Update () 
 	{
 		if (Input.GetMouseButtonDown (0)) 

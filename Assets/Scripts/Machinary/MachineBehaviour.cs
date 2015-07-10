@@ -2,6 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
+//! Setup and use of all machine.
+/*! */
+//TODO: Testar para saber como funciona.
+
 public class MachineBehaviour : MonoBehaviour 
 {
 	public enum MACHINES
@@ -46,6 +50,7 @@ public class MachineBehaviour : MonoBehaviour
 	private float timeToShowPrintTextAcc;
 
 	// Update is called once per frame
+	//! Processing precision errors.
 	void Update () 
 	{
 		if (allowShowFloat) 
@@ -83,6 +88,7 @@ public class MachineBehaviour : MonoBehaviour
 		}
 	}
 
+	//! Setup of reagent liquid in all machines.
 	public void Setup(string reagent, float concentration)
 	{
 		Dictionary<string, ReagentsLiquidClass> allReagents = ComponentsSaver.LoadReagents ();
@@ -177,7 +183,7 @@ public class MachineBehaviour : MonoBehaviour
 		}
 	}
 
-
+	//! Uses of reagent liquid in all machines.
 	public void Use(string reagent, float concentration)
 	{
 		Dictionary<string, ReagentsLiquidClass> allReagents = ComponentsSaver.LoadReagents ();
@@ -284,7 +290,7 @@ public class MachineBehaviour : MonoBehaviour
 		}
 	}
 
-
+	//! Error precision.
 	private float applyErrorInFloat(float realValue)
 	{
 		float value = Mathf.Round (realValue * Mathf.Pow (10f, errorPrecision) + (Random.Range(-1f,1f) * errorAmplitude));

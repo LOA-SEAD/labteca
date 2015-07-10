@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//! Puts the reagents in slots and mix the reagents.
+/*! */
+//TODO: Testar para saber como funciona.
 public class WorkBench : MonoBehaviour {
 
 	public GameObject slot0;
@@ -29,6 +32,8 @@ public class WorkBench : MonoBehaviour {
 
 	private InventoryController inventory;
 	// Use this for initialization
+	//! Deactivates buttonMix and returns object of type inventory.
+	/*! */
 	void Start () 
 	{
 		buttonMix.SetActive (false);
@@ -36,6 +41,7 @@ public class WorkBench : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
+	//! Activates/Deactivates buttonMix
 	void Update () 
 	{
 		if(slot0 != null && slot1 != null)
@@ -48,6 +54,8 @@ public class WorkBench : MonoBehaviour {
 		}
 	}
 
+	//! Puts the reagents in slots.
+	//*! */
 	public void useSlot(ReagentsLiquid liquid, ReagentsSolid solid)
 	{
 		if(slot0 == null)
@@ -89,7 +97,8 @@ public class WorkBench : MonoBehaviour {
 			Debug.LogWarning("all slots used");
 		}
 	}
-
+	//!Mix the reagents.
+	/*! */
 	public void Mix()
 	{
 		if((slot0Type == "liquid" && slot1Type == "solid" )||(slot1Type == "liquid" && slot0Type == "solid" ))

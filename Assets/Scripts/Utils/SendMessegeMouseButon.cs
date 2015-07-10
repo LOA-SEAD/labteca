@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//! Sets a message.
+/*! */
+// Talvez seja melhor fazer uma herança.
+//TODO: Testar para saber como funciona.
 public class SendMessegeMouseButon : MonoBehaviour 
 {
 	private Camera[] cameras;
@@ -11,17 +15,18 @@ public class SendMessegeMouseButon : MonoBehaviour
 	private RaycastHit hit;
 
 	// Use this for initialization
+	//! Sets target.
 	void Start () 
 	{
-
-
 		if (target == null) 
 		{
 			target = this.gameObject;
 		}
 	}
-	
+
 	// Update is called once per frame
+	//! Message is sent.
+	/* Returns a ray going from camera through a screen point and if collider.Raycast a message is sent. */
 	void Update () 
 	{
 		if (Input.GetMouseButtonDown (0)) 

@@ -5,15 +5,20 @@ using System.Text;
 using System.IO;
 using UnityEngine;
 
+//! Write a custom editor for an Text-derived component.
+/*! */
+//TODO: testar para saber como funciona.
 public class TextEdit
 {
     private Dictionary<string, string> dictionary = new Dictionary<string, string>();
-	
+
+	//! Loads the path.
 	public TextEdit(string path)
 	{
 		LoadFile(path);
     }
 
+	//! Loads file with string.
 	public TextEdit(TextAsset LoadFromText)
 	{
 		LoadFileWithString(LoadFromText.text);
@@ -21,7 +26,9 @@ public class TextEdit
 
 	private string pathAcc;
 	private System.IO.StreamWriter WriteFile;
-	
+
+	//!
+	/*! */
     private void LoadFile(string path)
     {
 		dictionary.Clear();
@@ -56,7 +63,9 @@ public class TextEdit
 			Debug.LogError("Error [ReadConfig]: specified file [" + path + "] not found.");
 		}
     }
-	
+
+	//!
+	/*! */
 	private void LoadFileWithString(string text)
 	{
 		string[] separator = {"/n", "//n", "\n", "\\n" };
@@ -94,12 +103,14 @@ public class TextEdit
 	
 	
 	#region String
-	
+	//!
+	/*! */
 	public string GetString(string key)
 	{
 		return GetString(key, "");
 	}
-	
+	//!
+	/*! */
 	public string GetString(string key, string defaultValue)
 	{
 		if (dictionary.ContainsKey(key))
@@ -109,7 +120,8 @@ public class TextEdit
 		}
 		return defaultValue;
 	}
-	
+	//!
+	/*! */
 	public void SetString(string key,string Value)
 	{
 		if(!dictionary.ContainsKey(key))
@@ -139,11 +151,14 @@ public class TextEdit
 	
 	
 	#region Int
-	
+	//!
+	/*! */
 	public int GetInt(string key)
 	{
 		return GetInt(key, 0);
 	}
+	//!
+	/*! */
 	public int GetInt(string key, int defaultValue)
 	{
 		if (dictionary.ContainsKey(key))
@@ -152,7 +167,8 @@ public class TextEdit
 		}
 		return defaultValue;
 	}
-	
+	//!
+	/*! */
 	public void SetInt(string key,int Value)
 	{
 		if(!dictionary.ContainsKey(key))
@@ -182,12 +198,14 @@ public class TextEdit
 	
 	
 	#region Float
-	
+	//!
+	/*! */
 	public float GetFloat(string key)
 	{
 		return GetFloat(key, 0.0f);
 	}
-	
+	//!
+	/*! */
 	public float GetFloat(string key, float defaultValue)
 	{
 		if (dictionary.ContainsKey(key))
@@ -196,7 +214,8 @@ public class TextEdit
 		}
 		return defaultValue;
 	}	
-	
+	//!
+	/*! */
 	public void SetFloat(string key,float Value)
 	{
 		if(!dictionary.ContainsKey(key))
@@ -225,11 +244,14 @@ public class TextEdit
 	
 	
 	#region Bool
+	//!
+	/*! */
 	public bool GetBool(string key)
 	{
 		return GetBool(key, false);
 	}
-	
+	//!
+	/*! */
 	public bool GetBool(string key, bool defaultValue)
 	{
 		if (dictionary.ContainsKey(key))
@@ -238,7 +260,8 @@ public class TextEdit
 		}
 		return defaultValue;
 	}
-	
+	//!
+	/*! */
 	public void SetBool(string key,bool Value)
 	{
 		if(!dictionary.ContainsKey(key))
@@ -263,7 +286,8 @@ public class TextEdit
 		LoadFile(pathAcc);
 	}
 	#endregion
-
+	//!
+	/*! */
 	public void ClearFile()
 	{
 		WriteFile = new System.IO.StreamWriter(pathAcc);

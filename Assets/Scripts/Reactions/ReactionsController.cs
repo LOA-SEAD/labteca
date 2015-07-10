@@ -2,29 +2,25 @@
 using System.Collections;
 using System.Collections.Generic;
 
+//! Define reaction properties.
+/*! */
+// TODO: Verificar o funcionamento disse junto com os scripts dentro de Editor.
 public class ReactionsController : MonoBehaviour 
 {
-	public string nameReaction;
-	public float aConcentration;
-	public float bConcentration;
+	public string nameReaction;     /*!< String for name of reaction. */
+    public float aConcentration;    /*!< Float for 'A' concentration. */
+    public float bConcentration;    /*!< Float for 'B' concentration. */
 
-	public bool makeReaction = false;
+    public bool makeReaction = false;   /*!< Bool to decide make reaction. */
 
-	public float ph;
-	public float polarizibility;
-	public float condutibility;
-	public float solubility;
-	public float turbility;
+    public float ph;                /*!< Float for Ph. */
+    public float polarizibility;    /*!< Foat for polarizability. */    // TODO: refatorar: polarizability
+    public float condutibility;     /*!< Float for conductibility. */   // TODO: refatorar: conductibility 
+    public float solubility;        /*!< Float for solubility. */
+    public float turbility;         /*!< Float for turbidity. */    // TODO: turbidity?
 
-	public Color color;
-
-
-	// Use this for initialization
-	void Start () {
+	public Color color;             /*!< Color of Reaction */
 	
-	}
-	
-	// Update is called once per frame
 	void Update () 
 	{
 		if (makeReaction) 
@@ -34,7 +30,7 @@ public class ReactionsController : MonoBehaviour
 		}
 	}
 
-
+    //! Make the reaction using concentration A and B.
 	public void MakeReaction(string reactionName, float concentrationA, float concentrationB)
 	{
 		ReactionClass reaction = ReactionsSaver.LoadReactions () [reactionName];

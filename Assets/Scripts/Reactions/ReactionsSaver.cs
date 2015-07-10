@@ -2,10 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 
+//! Save Reaction and it's properties in a text file.
+/*! */
+// TODO: Verificar o funcionamento disse junto com os scripts dentro de Editor.
 public class ReactionsSaver 
 {
 	private static TextEdit text = new TextEdit("Assets/Resources/reactions.txt");
-
 
 	public static void SaveReactionsFromEditor(string name, int aMultiply, string aName,
 	                                           				int bMultiply, string bName,

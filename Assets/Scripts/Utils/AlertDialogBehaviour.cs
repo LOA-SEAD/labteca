@@ -2,6 +2,9 @@
 using System.Collections;
 using UnityEngine.UI;
 
+//! Alert Dialog
+/*! */
+//TODO: Para testes?
 public class AlertDialogBehaviour : MonoBehaviour {
 
 	//public static AlertDialogBehaviour instance;

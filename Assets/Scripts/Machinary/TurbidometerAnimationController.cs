@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//! Animation of Turbidometer.
+/*! */
+
+//TODO: Testar para saber como funciona.
 public class TurbidometerAnimationController : MonoBehaviour {
 
 	public Animator jarAnimator;
@@ -11,16 +15,16 @@ public class TurbidometerAnimationController : MonoBehaviour {
 	public MachineBehaviour machine;
 
 	// Use this for initialization
-	void Start () {
+	/*void Start () {
 	
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	
-	}
+	}*/
 
-
+	//! Active parameter "jar". Used in a transition.
 	public void ButtonJar()
 	{
 		if (!clickedOnJar && clickedOnJarEmpty) 
@@ -30,6 +34,7 @@ public class TurbidometerAnimationController : MonoBehaviour {
 		}
 	}
 
+	//! Active parameter "jar". Used in a transition when JarEmpty.
 	public void ButtonJarEmpty()
 	{
 		if (!clickedOnJarEmpty) 
@@ -39,6 +44,8 @@ public class TurbidometerAnimationController : MonoBehaviour {
 		}
 	}
 
+	//! Setup reagent and concentration in jar.
+	/*! */
 	public void ButtonRun()
 	{
 		if (clickedOnJarEmpty) 

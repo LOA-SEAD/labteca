@@ -2,6 +2,9 @@
 using UnityEngine.UI;
 using System.Collections;
 
+//! Changes cursor texture.
+/*! */
+//TODO: testar para saber como funciona.
 
 public class CursorManager : MonoBehaviour {
 
@@ -11,7 +14,7 @@ public class CursorManager : MonoBehaviour {
 	private static Texture2D lastCursor;
 
 	// Use this for initialization
-	void Start () {
+	/*void Start () {
 
 	
 	}
@@ -19,8 +22,9 @@ public class CursorManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
-	}
+	}*/
 
+	//! Change the mouse cursor to the set texture.
 	public static void SetNewCursor(Texture2D cursorTexture, Vector2 hotSpot){
 
 		Cursor.SetCursor(cursorTexture, hotSpot, CursorManager.cursorMode);
@@ -28,16 +32,19 @@ public class CursorManager : MonoBehaviour {
 		lastCursor = cursorTexture;
 	}
 
+	//! Change the mouse cursor to default.
 	public static void SetDefaultCursor(){
 		Cursor.SetCursor (null, Vector2.zero, CursorManager.cursorMode);
 		inDefaultCursor = true;
 		lastCursor = null;
 	}
 
+	//! Returns the default cursor.
 	public static bool UsingDefaultCursor(){
 		return inDefaultCursor;
 	}
 
+	//! Returns last cursor. 
 	public static Texture2D GetLastCursor(){
 		return lastCursor;
 	}

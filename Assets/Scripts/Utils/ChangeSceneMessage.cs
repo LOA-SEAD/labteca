@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//! Loads and changes the scene. 
+/*! */
+
 public class ChangeSceneMessage : MonoBehaviour 
 {
 
@@ -9,7 +12,7 @@ public class ChangeSceneMessage : MonoBehaviour
 	private bool startDelay;
 	private float currentTimeToChangeScene;
 
-
+	//! Changes the scene.
 	public void Update(){
 
 		if(canChangeScene){
@@ -26,6 +29,7 @@ public class ChangeSceneMessage : MonoBehaviour
 		}
 	}
 
+	//TODO: metodos parecidos. os dois sao necessarios?
 	public void LoadScene()
 	{
 		startDelay = true;

@@ -98,7 +98,6 @@ public class Glassware : MonoBehaviour
 	public void AddLiquid(float volumeLiquid){
 		AddLiquid (1, volumeLiquid);
 	}
-	//TODO: Dois metodos AddLiquid e RemoveLiquid?!
 
 	//! Remove the liquid.
 	public void RemoveLiquid(float massLiquid, float volumeLiquid){

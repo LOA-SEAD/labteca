@@ -6,27 +6,24 @@ using System.Collections.Generic;
 [RequireComponent(typeof(CharacterMotor))]
 [AddComponentMenu("Character/FPS Input Controller")]
 
-
-
+//! First Person Input controller by the Player.
+/*! How the Player interact with the environment. */
 public class FPSInputController : MonoBehaviour
 {
     private CharacterMotor motor;
-	public float distanceToInteract;
-	public float delayInteract;
+	public float distanceToInteract;    /*!< Float value that defines the interactable player's distance. */
+    public float delayInteract;         /*!< Float value to delay the interaction. */
 	private float currentDelay;
 	private bool inInteraction;
 	private Vector3 lastPosition;
 
-    // Use this for initialization
     void Awake()
     {
         motor = GetComponent<CharacterMotor>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-
 		if(inInteraction){
 			motor.movement.velocity = Vector3.zero;
 			transform.position = lastPosition;
@@ -63,6 +60,7 @@ public class FPSInputController : MonoBehaviour
         motor.inputMoveDirection = transform.rotation * directionVector;
         motor.inputJump = Input.GetButton("Jump");
 
+        // Implements Raycast to get which object is being Hit and how to interact with it.
 		Ray cameraRay = Camera.main.ScreenPointToRay(new Vector3(Screen.width/2, Screen.height/2,  Mathf.Infinity));
 		RaycastHit hitInfo;
 
@@ -75,8 +73,8 @@ public class FPSInputController : MonoBehaviour
 					lastPosition = transform.position;
 
 				}
+                // TODO: Esse texto aqui poderia ser uma string publica para edicao no Inspector - facilitar lvl design.
 				HudText.SetText("Pressione \"E\" Para Interagir");
-
 			}
 		}
 		else{

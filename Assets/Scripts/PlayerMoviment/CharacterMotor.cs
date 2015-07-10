@@ -6,7 +6,7 @@ using System.Collections.Generic;
 [RequireComponent(typeof(CharacterController))]
 [AddComponentMenu("Character/Character Motor")]
 
-
+//! Script from Unity's standard asset package: Character Controller.
 public class CharacterMotor : MonoBehaviour
 {
     // Does this script currently respond to input?
@@ -16,12 +16,12 @@ public class CharacterMotor : MonoBehaviour
     // For the next variables, [System.NonSerialized] tells Unity to not serialize the variable or show it in the inspector view.
     // Very handy for organization!
 
-    // The current global direction we want the character to move in.
+    //! The current global direction we want the character to move in.
     [System.NonSerialized]
     public Vector3 inputMoveDirection = Vector3.zero;
 
-    // Is the jump button held down? We use this interface instead of checking
-    // for the jump button directly so this script can also be used by AIs.
+    //! Is the jump button held down? 
+    /*! We use this interface instead of checking for the jump button directly so this script can also be used by AIs. */
     [System.NonSerialized]
     public bool inputJump = false;
 
@@ -29,12 +29,13 @@ public class CharacterMotor : MonoBehaviour
     public class CharacterMotorMovement
     {
         // The maximum horizontal speed when moving
-        public float maxForwardSpeed = 3.0f;
-        public float maxSidewaysSpeed = 2.0f;
-        public float maxBackwardsSpeed = 2.0f;
+        public float maxForwardSpeed = 3.0f;        /*! Maximum horizontal speed - forward. */
+        public float maxSidewaysSpeed = 2.0f;       /*! Maximum horizontal speed - sideways. */
+        public float maxBackwardsSpeed = 2.0f;      /*! Maximum horizontal speed - backwards. */
 
-        // Curve for multiplying speed based on slope(negative = downwards)
+        //! Curve for multiplying speed based on slope(negative = downwards)
         public AnimationCurve slopeSpeedMultiplier = new AnimationCurve(new Keyframe(-90, 1), new Keyframe(0, 1), new Keyframe(90, 0));
+        
 
         // How fast does the character change speeds?  Higher is faster.
         public float maxGroundAcceleration = 30.0f;

@@ -2,10 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 
-//! Changes texture soda.
-/*! */
+//! 
+/*! After the soda has spawned, changes it's texture to a random
+ * and sets a clock to destroy the object after timeToLive seconds
+ */
 
-//TODO: testar para saber como funciona.
 public class SodaBehaviour : MonoBehaviour {
 
 	public List<Texture> textureSoda;
@@ -13,8 +14,7 @@ public class SodaBehaviour : MonoBehaviour {
 	private float currentTimeToLive;
 
 
-	// Use this for initialization
-	//! Returns a random texture soda.
+	//! Changes the texture of the soda to a random
 	void Start () {
 
 		int rand  = Random.Range(0, textureSoda.Count);
@@ -22,7 +22,6 @@ public class SodaBehaviour : MonoBehaviour {
 		GetComponent<Renderer>().material.mainTexture = textureSoda[rand];
 	}
 
-	// Update is called once per frame
 	//! if the currentTimeLive is longer than timeToLive, the object is destroyed.
 	void Update () {
 		currentTimeToLive += Time.deltaTime;

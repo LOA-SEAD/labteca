@@ -26,3 +26,6 @@ sysinfo.txt
 _deprecated
 _site
 _resources
+
+#Arquivos de cache
+*.meta

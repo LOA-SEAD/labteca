@@ -6,15 +6,15 @@ using System.Collections;
 
 public class ChangeSceneMessage : MonoBehaviour 
 {
-
 	public string sceneToGo;
 	private bool canChangeScene;
 	private bool startDelay;
 	private float currentTimeToChangeScene;
-
-	//! Changes the scene.
+	
+	//! Loads the level.
+	/*! Loads the level assigned to sceneToGo. */
 	public void Update(){
-
+		
 		if(canChangeScene){
 			Application.LoadLevel (sceneToGo);
 		}
@@ -28,21 +28,24 @@ public class ChangeSceneMessage : MonoBehaviour
 			}
 		}
 	}
-
-	//TODO: metodos parecidos. os dois sao necessarios?
+	
+	//! Loads the first scene.
+	/*! Returns the first active loaded object of InventoryController. */
 	public void LoadScene()
 	{
 		startDelay = true;
 		InventoryController inventory = FindObjectOfType(typeof(InventoryController)) as InventoryController;
-
+		
 	}
-
+	
+	//! Loads the next scene.
+	/*! Loads the scene assigned and returns the first active loaded object of InventoryController. */
 	public void LoadScene(string scene)
 	{
 		sceneToGo = scene;
 		startDelay = true;
-
+		
 		InventoryController inventory = FindObjectOfType(typeof(InventoryController)) as InventoryController;
-
+		
 	}
 }

@@ -3,9 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 //! Setup and use of all machine.
-/*! */
-//TODO: Testar para saber como funciona.
-
+/*! */ 
 public class MachineBehaviour : MonoBehaviour 
 {
 	public enum MACHINES
@@ -66,7 +64,6 @@ public class MachineBehaviour : MonoBehaviour
 						errorStringForm += "0";
 					}
 				}
-
 				textResult.text = applyErrorInFloat(resultFloat).ToString(errorStringForm);
 				timeToUpdateValueAcc = Time.time;
 			}
@@ -111,7 +108,7 @@ public class MachineBehaviour : MonoBehaviour
 			default:
 			{
 				setupFloat = 0f;
-				setupTexture = null; // TODO: do something!
+				setupTexture = null;
 				allowShowFloat = false;
 				allowShowTexture = false;
 			}
@@ -233,7 +230,7 @@ public class MachineBehaviour : MonoBehaviour
 			case MACHINES.SPCTROPHOTOMETER_FLAME:
 			{
 				resultTexture = Resources.Load<Texture2D>("specter/grafico_sem_fitting");
-				//resultTexture = realReagent.flameSpecter; //TODO: some shit goes on here
+				//resultTexture = realReagent.flameSpecter;
 				allowShowFloat = false;
 				allowShowTexture = true;
 			}
@@ -274,7 +271,7 @@ public class MachineBehaviour : MonoBehaviour
 
 		InventoryController	inventory = FindObjectOfType (typeof(InventoryController)) as InventoryController;
 
-
+		//!Prints the chart
 		if (allowShowTexture)
 		{
 			resultTexture = ChartGenerator.GenerateWithTextureConectingDots(resultTexture, concentration, 0.8f);

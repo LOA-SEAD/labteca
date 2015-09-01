@@ -11,7 +11,10 @@ public class DoorBehaviour : InteractObjectBase {
 	public bool automaticClose;             /*!< Bool to set automatic close. */
     public float timeToClose;               /*!< Float to set time to close. */
 	private float currentTimeToClose;
-	public DoorBehaviour closeOtherDoor;    
+	public DoorBehaviour closeOtherDoor; 
+
+	public AudioSource doorClosingSound;
+	public AudioSource doorOpeningSound;
 
 	void Start () {
 		base.Start ();
@@ -35,15 +38,13 @@ public class DoorBehaviour : InteractObjectBase {
 	public override void Interact ()
 	{
 		if(isClosed){
-			doorAnimator.SetTrigger("Open");
-			isClosed = false;
+			this.Open();
 			if(closeOtherDoor != null && !closeOtherDoor.IsClosed()){
 				closeOtherDoor.Interact();
 			}
 		}
 		else {
-			doorAnimator.SetTrigger("Close");
-			isClosed = true;
+			this.Close();
 		}
 	}
 
@@ -57,6 +58,7 @@ public class DoorBehaviour : InteractObjectBase {
 
 		if(!isClosed){
 			doorAnimator.SetTrigger("Close");
+			doorClosingSound.Play();
 			isClosed = true;
 		}
 		
@@ -66,6 +68,7 @@ public class DoorBehaviour : InteractObjectBase {
 	public void Open(){
 		if(isClosed){
 			doorAnimator.SetTrigger("Open");
+			doorOpeningSound.Play();
 			isClosed = false;
 		}
 	

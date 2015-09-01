@@ -3,8 +3,9 @@ using System.Collections;
 using UnityEngine.UI;
 
 //! Alert Dialog
-/*! */
-//TODO: Para testes?
+/*! Class to create alert dialogs in the screen
+ * Is used in /States/PrecisionScale/UI/AlertDialog
+ */
 public class AlertDialogBehaviour : MonoBehaviour {
 
 	//public static AlertDialogBehaviour instance;

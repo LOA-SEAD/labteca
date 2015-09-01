@@ -2,8 +2,7 @@
 using System.Collections;
 
 //! Allows any Equipment to be interactable.
-//TODO: refatorar o nome: access e equipment
-public class AcessEquipamentBehaviour : InteractObjectBase {
+public class AccessEquipmentBehaviour : InteractObjectBase {
 
 	public GameStateBase targetEquipament;      /*!< GameStateBase for equipment. */
 	private bool callInteract;

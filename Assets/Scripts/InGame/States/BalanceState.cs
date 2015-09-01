@@ -16,6 +16,8 @@ public  class BalanceState : GameStateBase {
     public Transform positionGlass2;            /*!< Position of second Glassware. */
     public Transform positionGlass3;            /*!< Position of third Glassware. */
     public Transform positionGlassEquipament;   /*!< Position of Glassware on the Precision Scale. */
+
+	public AudioSource soundBeaker;
     // UI
     // TODO: mudanca em como a UI funciona dentro da balanca
     /* Sugestao: talvez faca mais sentido os dialogs estarem dentro dos objetos em si, exemplo: o dialog da pisseta
@@ -353,35 +355,34 @@ public  class BalanceState : GameStateBase {
 		}
 		else{
 			if(!realocate){
+				if(positionGlass1.childCount == 0){
 
-					if(positionGlass1.childCount == 0){
+					//TODO: Temporariamente esta pegando do gamecontroller, mas tem que pegar do inventario esses dados
+					GameObject tempGlass = Instantiate(gameController.selectedGlassWare.gameObject, positionGlass1.position, gameController.selectedGlassWare.transform.rotation) as GameObject;
+					tempGlass.transform.SetParent(positionGlass1,false);
+					tempGlass.transform.localPosition = Vector3.zero;
+					tempGlass.GetComponent<Glassware>().SetStateInUse(this);
+					gameController.totalBackers--;
+				}
+				else if(positionGlass2.childCount == 0){						//TODO: Temporariamente esta pegando do gamecontroller, mas tem que pegar do inventario esses dados
+					GameObject tempGlass = Instantiate(gameController.selectedGlassWare.gameObject, positionGlass2.position, gameController.selectedGlassWare.transform.rotation) as GameObject;
+					tempGlass.transform.SetParent(positionGlass2,false);
+					tempGlass.transform.localPosition = Vector3.zero;
+					tempGlass.GetComponent<Glassware>().SetStateInUse(this);
+					gameController.totalBackers--;
 
-						//TODO: Temporariamente esta pegando do gamecontroller, mas tem que pegar do inventario esses dados
-						GameObject tempGlass = Instantiate(gameController.selectedGlassWare.gameObject, positionGlass1.position, gameController.selectedGlassWare.transform.rotation) as GameObject;
-						tempGlass.transform.SetParent(positionGlass1,false);
-						tempGlass.transform.localPosition = Vector3.zero;
-						tempGlass.GetComponent<Glassware>().SetStateInUse(this);
-						gameController.totalBackers--;
-					}
-					else if(positionGlass2.childCount == 0){
-						//TODO: Temporariamente esta pegando do gamecontroller, mas tem que pegar do inventario esses dados
-						GameObject tempGlass = Instantiate(gameController.selectedGlassWare.gameObject, positionGlass2.position, gameController.selectedGlassWare.transform.rotation) as GameObject;
-						tempGlass.transform.SetParent(positionGlass2,false);
-						tempGlass.transform.localPosition = Vector3.zero;
-						tempGlass.GetComponent<Glassware>().SetStateInUse(this);
-						gameController.totalBackers--;
+				}
+				else{
+				
+					//TODO: Temporariamente esta pegando do gamecontroller, mas tem que pegar do inventario esses dados
+					GameObject tempGlass = Instantiate(gameController.selectedGlassWare.gameObject, positionGlass3.position, gameController.selectedGlassWare.transform.rotation) as GameObject;
+					tempGlass.transform.SetParent(positionGlass3,false);
+					tempGlass.transform.localPosition = Vector3.zero;
+					tempGlass.GetComponent<Glassware>().SetStateInUse(this);
+					gameController.totalBackers--;
 
-					}
-					else{
-
-						//TODO: Temporariamente esta pegando do gamecontroller, mas tem que pegar do inventario esses dados
-						GameObject tempGlass = Instantiate(gameController.selectedGlassWare.gameObject, positionGlass3.position, gameController.selectedGlassWare.transform.rotation) as GameObject;
-						tempGlass.transform.SetParent(positionGlass3,false);
-						tempGlass.transform.localPosition = Vector3.zero;
-						tempGlass.GetComponent<Glassware>().SetStateInUse(this);
-						gameController.totalBackers--;
-
-					}
+				}
+				soundBeaker.Play ();
 				CloseOptionDialogGlass();
 			}
 			else{

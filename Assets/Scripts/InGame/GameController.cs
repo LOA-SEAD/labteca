@@ -9,6 +9,8 @@ public class GameController : MonoBehaviour {
 
 	private CharacterController player;
 
+	public bool lockPlayerStart;
+
 	public List<GameStateBase> gameStates = new List<GameStateBase>();  /*!< List with all game 'states' of the game. */
 	private GameStateBase currentGameState;
 
@@ -33,8 +35,10 @@ public class GameController : MonoBehaviour {
 
 		player = FindObjectOfType(typeof(CharacterController)) as CharacterController;
 
-		Vector3 positionPlayer = new Vector3(PlayerPrefs.GetFloat("PlayerPosX"), 1, PlayerPrefs.GetFloat("PlayerPosZ"));
-		player.transform.position = positionPlayer;
+		if (lockPlayerStart) {
+			Vector3 positionPlayer = new Vector3 (PlayerPrefs.GetFloat ("PlayerPosX"), 1, PlayerPrefs.GetFloat ("PlayerPosZ"));
+			player.transform.position = positionPlayer;
+		}
 
 		currentGameState = gameStates[0];
 

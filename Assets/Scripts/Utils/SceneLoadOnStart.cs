@@ -7,7 +7,6 @@ using System.Collections;
 public class SceneLoadOnStart : MonoBehaviour {
 
 	public string sceneToGo;
-
 	private bool alreadyCall = false;
 	// Use this for initialization
 	/*void Start () 

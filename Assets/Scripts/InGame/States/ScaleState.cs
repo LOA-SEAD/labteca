@@ -1,11 +1,10 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 //! State for Precision Scale.
 /*! This state has all the behaviour that controls the precision scale and it's UI.
  */
-// TODO: mudar nome da classe de Balance ("Equilibrio") para Scale >.<
 public  class ScaleState : GameStateBase {
 
     // camera and interactive area
@@ -215,7 +214,7 @@ public  class ScaleState : GameStateBase {
 	//TODO: metodo temporario na ausencia do inventario
 	public void CallPutReagent(){
 		if(gameController.haveReagentNaCl){
-			if(HaveGlassInTable() || HaveGlassInEquipament()){
+			if(HaveGlassInTable() || HaveGlassInEquipment()){
 
 				if(selectSpatula){
 					OpenSpatulaDialog(false);
@@ -397,7 +396,7 @@ public  class ScaleState : GameStateBase {
 
 					if(lastGlassWareSelected.transform.parent == positionGlassEquipament){
 						lastGlassWareSelected.transform.SetParent(null);
-						GetComponent<BalanceController>().RemoveObjectInEquipament(lastGlassWareSelected.gameObject);
+						GetComponent<ScaleController>().RemoveObjectInEquipament(lastGlassWareSelected.gameObject);
 
 					}
 					else{
@@ -447,7 +446,7 @@ public  class ScaleState : GameStateBase {
 				tempGlass.transform.SetParent(positionGlassEquipament,false);
 				tempGlass.transform.localPosition = Vector3.zero;
 				gameController.totalBeakers--;
-				GetComponent<BalanceController>().AddObjectInEquipament(tempGlass);
+				GetComponent<ScaleController>().AddObjectInEquipament(tempGlass);
 				tempGlass.GetComponent<Glassware>().SetStateInUse(this);
 			}
 			else{
@@ -460,7 +459,7 @@ public  class ScaleState : GameStateBase {
 					GameObject tempGlass = lastGlassWareSelected.gameObject;
 					tempGlass.transform.SetParent(positionGlassEquipament,false);
 					tempGlass.transform.localPosition = Vector3.zero;
-					GetComponent<BalanceController>().AddObjectInEquipament(tempGlass);
+					GetComponent<ScaleController>().AddObjectInEquipament(tempGlass);
 					tempGlass.GetComponent<Glassware>().SetStateInUse(this);
 				}
 				
@@ -494,8 +493,7 @@ public  class ScaleState : GameStateBase {
 	}
 
     //! Verify if there is any Glassware on the equipment.
-    // TODO: refatorar Equipament para Equipment. 
-	public bool HaveGlassInEquipament(){
+	public bool HaveGlassInEquipment(){
 		if(positionGlassEquipament.childCount > 0){
 			return true;
 		}
@@ -503,7 +501,7 @@ public  class ScaleState : GameStateBase {
 	}
 
     // TODO: Codigo para controle da espatula, talvez modularizar e colocar o script no GameObject da espatula
-	//Spatule//////////////////////////////////////////////////////////////
+	//Spatula//////////////////////////////////////////////////////////////
     //! Set the approximate that the spatule will be taking. 
 	public void SetAmountReagentSpatula(bool Increase){
 
@@ -577,7 +575,7 @@ public  class ScaleState : GameStateBase {
 
 		}
 	}
-	//Spatule//////////////////////////////////////////////////////////////
+	//Spatula//////////////////////////////////////////////////////////////
 
     // TODO: Codigo para controle da Pisseta, se for decidido modularizar, deve ser refatorado isso.
 	//Water//////////////////////////////////////////////////////////////
@@ -705,7 +703,7 @@ public  class ScaleState : GameStateBase {
 			else{ 
 
 				if((float)(glass.GetComponent<Rigidbody>().mass) != (float)(glass.mass) && 
-			        GetComponent<BalanceController>().GetGlassInEquipament() == glass && 
+			        GetComponent<ScaleController>().GetGlassInEquipament() == glass && 
 			        glass.liquid.activeSelf == true &&
 			        amountSelectedSpatula > 0){
 

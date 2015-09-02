@@ -6,8 +6,7 @@ using System.Collections.Generic;
 /*! This is the controller for the Scale, it has all the methods that allows the Scale to work with 
  * the Glassware and Reagents, calculating their mass together and displaying it.
  */
-// TODO: refatorar o nome Balance para Scale.
-public class BalanceController : MonoBehaviour 
+public class ScaleController : MonoBehaviour 
 {
 	private InventoryController inventory;  // TODO: linkar c/ Inventory, se necessario aqui nesse script.
 

@@ -11,7 +11,6 @@ public  class GetReagentState : GameStateBase {
     public GameObject interactBox;      /*!< Box Colider to allow interaction. */
     public DoorBehaviour leftDoor;      /*!< GameObject that contains the left door. */
     public DoorBehaviour rightDoor;     /*!< GameObject that contains the right door. */
-    public string[] reagentList;        /*!< List of Reagents that are inside. */
 	public Dictionary<string, ReagentsLiquidClass> reagents = new Dictionary<string, ReagentsLiquidClass>();
 
     // UI

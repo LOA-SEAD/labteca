@@ -29,6 +29,7 @@ public  class GetReagentState : GameStateBase {
 		// TODO: problema das cameras e Raycast, se usar Raycast tem de tentar arrumar / melhorar isso aqui.
         cameraState.gameObject.SetActive(false);
 		//canvasUI.GetComponent<Canvas>().enabled = false;
+		ReagentsLiquidClass actualReagent;
 		reagents = ComponentsSaver.LoadReagents();
 
         // Set-up components
@@ -43,9 +44,13 @@ public  class GetReagentState : GameStateBase {
         
         contentRect = UIScrollList.content;
 
-        // Populate reagent list UI
-        for (int i = 0; i < reagentList.Length; i++)
-        {
+		// Store keys in a List
+		List<string> list = new List<string>(reagents.Keys);
+		int i = 0;
+		// Loop through list
+		foreach (string k in list)
+		{
+			reagents.TryGetValue(k,out actualReagent);
             // calculate y position
             float y = (prefabRect.rect.height + offSetItens) * lastItemPos ;
             
@@ -64,8 +69,8 @@ public  class GetReagentState : GameStateBase {
                                               prefabRect.transform.rotation) as GameObject;
 
             // set reagent's name
-            tempItem.GetComponent<ReagentUiItemBehaviour>().SetReagent(reagentList[i]);
-            
+            tempItem.GetComponent<ReagentUiItemBehaviour>().SetReagent(actualReagent.name);
+			i++;
             // next position on inventory grid
             lastItemPos++;
 

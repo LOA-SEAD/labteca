@@ -6,7 +6,7 @@ using UnityEngine.UI;
 /*! This state has all the behaviour that controls the precision scale and it's UI.
  */
 // TODO: mudar nome da classe de Balance ("Equilibrio") para Scale >.<
-public  class BalanceState : GameStateBase {
+public  class ScaleState : GameStateBase {
 
     // camera and interactive area
     public Camera cameraState;                  /*!< Camera for this state. */

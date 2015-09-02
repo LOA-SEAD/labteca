@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -29,7 +29,7 @@ public class BalanceController : MonoBehaviour
 	public float addRemoveValue;    /*!< Float number to add remove value? */
     public float addRemoveError;    /*!< Float number to add remove error? */
 
-    public BalanceState balanceState;       /*!< BalanceState component. */
+    public ScaleState balanceState;       /*!< BalanceState component. */
 	public ReagentsSolid solidSelected;     /*!< ReagentsSolid component. */
 	
     // Awake happens before all Start()
@@ -47,7 +47,7 @@ public class BalanceController : MonoBehaviour
 	void Start () 
 	{
         // TODO: se pega o componente BalanceState dentro do proprio GameObject pq variavel publica entao?
-		balanceState = GetComponent<BalanceState>();
+		balanceState = GetComponent<ScaleState>();
 	}
 	
 	void Update () 

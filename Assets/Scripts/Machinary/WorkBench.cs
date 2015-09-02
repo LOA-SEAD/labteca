@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-//! Puts the reagents in slots and mix the reagents.
+//! Puts the reagents in slots and mix the reagents. (on WorkBench)
 /*! */
-//TODO: Testar para saber como funciona.
 public class WorkBench : MonoBehaviour {
 
 	public GameObject slot0;
@@ -101,6 +100,7 @@ public class WorkBench : MonoBehaviour {
 	/*! */
 	public void Mix()
 	{
+		//Result of mix
 		if((slot0Type == "liquid" && slot1Type == "solid" )||(slot1Type == "liquid" && slot0Type == "solid" ))
 		{
 			ReagentsLiquid result;
@@ -109,7 +109,7 @@ public class WorkBench : MonoBehaviour {
 			//result.transform.position = finalSlotPosition.transform.position;
 			result.transform.localScale = resultPrefabScale;
 
-
+			//If liquid, sets the volume 
 			if(slot0Type == "liquid")
 			{
 				result.volume = slot0.GetComponent<ReagentsLiquid>().volume;
@@ -122,7 +122,7 @@ public class WorkBench : MonoBehaviour {
 
 
 			float mass;
-
+			//If solid, sets the mass 
 			if(slot0Type == "solid")
 			{
 				result.GetInfo(slot0.GetComponent<ReagentsSolid>().liquidName);

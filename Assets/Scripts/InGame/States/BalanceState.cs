@@ -204,7 +204,7 @@ public  class BalanceState : GameStateBase {
 
 	//TODO: metodo temporario na ausencia do inventario
 	public void CallPutBequer(){
-		if(gameController.totalBackers > 0){
+		if(gameController.totalBeakers > 0){
 			OpenOptionDialogGlass();
 		}
 		else{
@@ -362,14 +362,14 @@ public  class BalanceState : GameStateBase {
 					tempGlass.transform.SetParent(positionGlass1,false);
 					tempGlass.transform.localPosition = Vector3.zero;
 					tempGlass.GetComponent<Glassware>().SetStateInUse(this);
-					gameController.totalBackers--;
+					gameController.totalBeakers--;
 				}
 				else if(positionGlass2.childCount == 0){						//TODO: Temporariamente esta pegando do gamecontroller, mas tem que pegar do inventario esses dados
 					GameObject tempGlass = Instantiate(gameController.selectedGlassWare.gameObject, positionGlass2.position, gameController.selectedGlassWare.transform.rotation) as GameObject;
 					tempGlass.transform.SetParent(positionGlass2,false);
 					tempGlass.transform.localPosition = Vector3.zero;
 					tempGlass.GetComponent<Glassware>().SetStateInUse(this);
-					gameController.totalBackers--;
+					gameController.totalBeakers--;
 
 				}
 				else{
@@ -379,7 +379,7 @@ public  class BalanceState : GameStateBase {
 					tempGlass.transform.SetParent(positionGlass3,false);
 					tempGlass.transform.localPosition = Vector3.zero;
 					tempGlass.GetComponent<Glassware>().SetStateInUse(this);
-					gameController.totalBackers--;
+					gameController.totalBeakers--;
 
 				}
 				soundBeaker.Play ();
@@ -446,7 +446,7 @@ public  class BalanceState : GameStateBase {
 				GameObject tempGlass = Instantiate(gameController.selectedGlassWare.gameObject, positionGlassEquipament.position, gameController.selectedGlassWare.transform.rotation) as GameObject;
 				tempGlass.transform.SetParent(positionGlassEquipament,false);
 				tempGlass.transform.localPosition = Vector3.zero;
-				gameController.totalBackers--;
+				gameController.totalBeakers--;
 				GetComponent<BalanceController>().AddObjectInEquipament(tempGlass);
 				tempGlass.GetComponent<Glassware>().SetStateInUse(this);
 			}
@@ -478,7 +478,7 @@ public  class BalanceState : GameStateBase {
 
 		if(inInventory){
 			//TODO: metodo temporario pela a ausencia do inventario
-			gameController.totalBackers--;
+			gameController.totalBeakers--;
 		}
 		CloseOptionDialogGlass();
 	}

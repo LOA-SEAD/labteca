@@ -11,7 +11,7 @@ public  class GetReagentState : GameStateBase {
     public GameObject interactBox;      /*!< Box Colider to allow interaction. */
     public DoorBehaviour leftDoor;      /*!< GameObject that contains the left door. */
     public DoorBehaviour rightDoor;     /*!< GameObject that contains the right door. */
-	public Dictionary<string, ReagentsLiquidClass> reagents = new Dictionary<string, ReagentsLiquidClass>();
+	public Dictionary<string, ReagentsLiquidClass> reagents = new Dictionary<string, ReagentsLiquidClass>(); /*!< Dictionary that stores all reagents>!*/
 
     // UI
     public Canvas canvasUI;                         /*!< Canvas where the UI will be shown. */
@@ -25,9 +25,7 @@ public  class GetReagentState : GameStateBase {
     private RectTransform contentRect, prefabRect;
 
 	public void Start () {
-		// TODO: problema das cameras e Raycast, se usar Raycast tem de tentar arrumar / melhorar isso aqui.
         cameraState.gameObject.SetActive(false);
-		//canvasUI.GetComponent<Canvas>().enabled = false;
 		ReagentsLiquidClass actualReagent;
 		reagents = ComponentsSaver.LoadReagents();
 
@@ -45,7 +43,6 @@ public  class GetReagentState : GameStateBase {
 
 		// Store keys in a List
 		List<string> list = new List<string>(reagents.Keys);
-		int i = 0;
 		// Loop through list
 		foreach (string k in list)
 		{
@@ -69,7 +66,6 @@ public  class GetReagentState : GameStateBase {
 
             // set reagent's name
             tempItem.GetComponent<ReagentUiItemBehaviour>().SetReagent(actualReagent.name);
-			i++;
             // next position on inventory grid
             lastItemPos++;
 

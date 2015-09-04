@@ -10,13 +10,13 @@ public class ReagentsLiquidClass
 	public int molarMass;
 	public float density;
 	public float ph;
-	public float polarizibility;
+	public float polarizability;
 	public Texture2D uvSpecter;
 	public Texture2D irSpecter;
 	public Texture2D flameSpecter;
-	public float condutibility;
+	public float conductibility;
 	public float solubility;
-	public float turbility;
+	public float turbidity;
 	public Texture2D hplc;
 	public float refratometer;
 

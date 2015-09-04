@@ -65,7 +65,7 @@ public class CheckComponent : EditorWindow
 			EditorGUILayout.LabelField("Densidade : " + reagent.density.ToString());
 			EditorGUILayout.LabelField("Massa Molar : " + reagent.molarMass.ToString());
 			EditorGUILayout.LabelField("Ph : " + reagent.ph.ToString());
-			EditorGUILayout.LabelField("Polaridade: " + reagent.polarizibility.ToString());
+			EditorGUILayout.LabelField("Polaridade: " + reagent.polarizability.ToString());
 			if(reagent.uvSpecter != null)
 			{
 				EditorGUILayout.LabelField("Espectro UV : " + reagent.uvSpecter.name);
@@ -90,9 +90,9 @@ public class CheckComponent : EditorWindow
 			{
 				EditorGUILayout.LabelField("Espectro de Chama: ");
 			}
-			EditorGUILayout.LabelField("Condutividade: " + reagent.condutibility.ToString());
+			EditorGUILayout.LabelField("Condutividade: " + reagent.conductibility.ToString());
 			EditorGUILayout.LabelField("Solubilidade: " + reagent.solubility.ToString());
-			EditorGUILayout.LabelField("Turbilidade: " + reagent.turbility.ToString());
+			EditorGUILayout.LabelField("Turbilidade: " + reagent.turbidity.ToString());
 			if(reagent.texture != null)
 			{
 				EditorGUILayout.LabelField("Textura: " + reagent.texture.name);

@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 //! Define reaction properties.
-/*! */
-// TODO: Verificar o funcionamento disse junto com os scripts dentro de Editor.
+
 public class ReactionsController : MonoBehaviour 
 {
 	public string nameReaction;     /*!< String for name of reaction. */
@@ -14,10 +13,10 @@ public class ReactionsController : MonoBehaviour
     public bool makeReaction = false;   /*!< Bool to decide make reaction. */
 
     public float ph;                /*!< Float for Ph. */
-    public float polarizibility;    /*!< Foat for polarizability. */    // TODO: refatorar: polarizability
-    public float condutibility;     /*!< Float for conductibility. */   // TODO: refatorar: conductibility 
+    public float polarizability;    /*!< Float for polarizability. */
+    public float conductibility;     /*!< Float for conductibility. */
     public float solubility;        /*!< Float for solubility. */
-    public float turbility;         /*!< Float for turbidity. */    // TODO: turbidity?
+    public float turbidity;         /*!< Float for turbidity. */
 
 	public Color color;             /*!< Color of Reaction */
 	
@@ -52,10 +51,10 @@ public class ReactionsController : MonoBehaviour
 		Dictionary<string, ReagentsLiquidClass> reagents = ComponentsSaver.LoadReagents();
 
 		ph = (reagents [reaction.cName].ph * realConcentrationC + reagents [reaction.dName].ph * realConcentrationD) / (realConcentrationC + realConcentrationD);
-		polarizibility = (reagents [reaction.cName].polarizibility * realConcentrationC + reagents [reaction.dName].polarizibility * realConcentrationD) / (realConcentrationC + realConcentrationD);
-		condutibility = (reagents [reaction.cName].condutibility * realConcentrationC + reagents [reaction.dName].condutibility * realConcentrationD) / (realConcentrationC + realConcentrationD);
+		polarizability = (reagents [reaction.cName].polarizability * realConcentrationC + reagents [reaction.dName].polarizability * realConcentrationD) / (realConcentrationC + realConcentrationD);
+		conductibility = (reagents [reaction.cName].conductibility * realConcentrationC + reagents [reaction.dName].conductibility * realConcentrationD) / (realConcentrationC + realConcentrationD);
 		solubility = (reagents [reaction.cName].solubility * realConcentrationC + reagents [reaction.dName].solubility * realConcentrationD) / (realConcentrationC + realConcentrationD);
-		turbility = (reagents [reaction.cName].turbility * realConcentrationC + reagents [reaction.dName].turbility * realConcentrationD) / (realConcentrationC + realConcentrationD);
+		turbidity = (reagents [reaction.cName].turbidity * realConcentrationC + reagents [reaction.dName].turbidity * realConcentrationD) / (realConcentrationC + realConcentrationD);
 
 		float colorR = (reagents [reaction.cName].color.r * realConcentrationC + reagents [reaction.dName].color.r * realConcentrationD) / (realConcentrationC + realConcentrationD);
 		float colorG = (reagents [reaction.cName].color.g * realConcentrationC + reagents [reaction.dName].color.g * realConcentrationD) / (realConcentrationC + realConcentrationD);

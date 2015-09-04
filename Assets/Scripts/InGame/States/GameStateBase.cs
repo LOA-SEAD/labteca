@@ -56,10 +56,6 @@ public abstract class GameStateBase : MonoBehaviour {
 
     //! Start the State.
 	public void StartState(){
-        //TODO: Redundancia aqui no StartState() ? Ha melhor solucao ?
-        /* Duvida: Se o GameController tem referencia para todos os 'States', pq os estados tem referencia com o GameController e 
-         * precisam passar o index da lista que o GameController tem ao inves de passar o proprio estado como referencia?
-         */
 		gameController.ChangeState(indexState);
 	}
 

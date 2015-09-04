@@ -31,7 +31,7 @@ public class GlasswareUiItemBehaviour : MonoBehaviour {
 	public void AddToInventory(){
 		//isso e para suprir a falta do inventario entao tem que alterar aqui depois;
 		if(nameGlass.text == "Bequer"){
-			GameController.instance.totalBackers += 1;
+			GameController.instance.totalBeakers += 1;
 		}
 	}
 

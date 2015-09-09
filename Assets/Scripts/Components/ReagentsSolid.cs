@@ -9,9 +9,9 @@ public class ReagentsSolid : MonoBehaviour
 {
 	public string name;
 
-	//public float totalMass;
-	//public string liquidName;
-	//private List<GameObject> unities = new List<GameObject>();
+	public float totalMass;
+	public string liquidName;
+	private List<GameObject> unitys = new List<GameObject>();
 
 	public float alphaValueWhenDisable;
 

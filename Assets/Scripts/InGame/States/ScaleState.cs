@@ -60,7 +60,9 @@ public  class ScaleState : GameStateBase {
 	public bool selectPipeta;
 	public float amountSelectedPipeta;
 	public CursorMouse pipetaCursor;
+	//public ButtonObject pipetaCursor;
 	public CursorMouse pipetaReagentCursor;
+	//public ButtonObject pipetaReagentCursor;
 	public Slider pipetaValue;
 	public Text pipetaValueText;
 	//
@@ -68,6 +70,7 @@ public  class ScaleState : GameStateBase {
 	//water
 	public bool selectWater;
 	public CursorMouse waterCursor;
+	//public ButtonObject waterCursos;
 	public float amountSelectedWater;
 	public Slider waterValue;
 	public Text waterValueText;

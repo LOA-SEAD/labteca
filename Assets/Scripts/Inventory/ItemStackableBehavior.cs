@@ -12,10 +12,9 @@ public class ItemStackableBehavior : MonoBehaviour {
 
     void Start()
     {
-        // TODO: mudar o local onde InventoryManager esta associado. No projeto de testes, era na Main Camera.
-        inventoryManager = GameObject.Find("Main Camera").GetComponent<InventoryManager>();
+        inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
         if (inventoryManager == null)
-            Debug.LogError("ItemStackableBehavior: couldnt find Main Camera.");
+            Debug.LogError("ItemStackableBehavior: couldn't find 'InventoryManager'.");
     }
 
     //! Set linked object to AnyObjectInstantiation.

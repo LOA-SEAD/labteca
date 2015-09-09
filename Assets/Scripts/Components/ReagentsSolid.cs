@@ -4,45 +4,31 @@ using System.Collections.Generic;
 
 //! Enable and Disable ReagentsSolid.
 /*! Changes the colors of the reagent solid when is enable or desable. */
-//TODO: Testar para saber exatamente como funciona.
-// Algumas coisas do ReagentsSolid e ReagentLiquid sao iguais. Talvez seja melhor criar uma classe Reagents e herdar Solid e Liquid. Elimina hardcode.
+
 public class ReagentsSolid : MonoBehaviour 
 {
 	public string name;
-	public float totalMass;
 
-	public string liquidName;
+	//public float totalMass;
+	//public string liquidName;
+	//private List<GameObject> unities = new List<GameObject>();
 
 	public float alphaValueWhenDisable;
-
-	private List<GameObject> unitys = new List<GameObject>();
 
 	private InventoryController inventory;
 	private Vector3 originalPosition;  /*!< 3D positions and directions around. */
 
 	public bool solidSource;
 
-	//! Script instance is being loaded.
-	/*! Returns the first active loaded object of Type InventoryController and set position of this object.*/
+	//! Returns the inventory object and its position.
+	/*! Script instance is being loaded. */
 	void Awake()
 	{
 		inventory = FindObjectOfType (typeof(InventoryController)) as InventoryController;
 		originalPosition = this.transform.position;
 	}
 
-	// Use this for initialization
-	/*void Start () 
-	{
-
-	}
-	
-	// Update is called once per frame
-	void Update () 
-	{
-	
-	}*/
-
-	//! Enable collide with other colliders
+	//! Changes (Enable) the color object when collide with other colliders
 	/*! Returns the first instantiated Material assigned to the renderer and creat a new object with certain color. */
 	public void Enable()
 	{
@@ -56,7 +42,7 @@ public class ReagentsSolid : MonoBehaviour
 		}
 	}
 
-	//! Disable collide with other colliders
+	//! Changes (Diable) the color object when collide with other colliders
 	/*! Returns the first instantiated Material assigned to the renderer and creat a new object with alphaValueWhenDisable. */
 	public void Disable()
 	{
@@ -71,6 +57,9 @@ public class ReagentsSolid : MonoBehaviour
 	}
 
 	//! There is no code (it's commented)
+	/*! //! Actions by clicking on an item.
+	/*! If the application is "Scale" and solidSource is true, desactives all (charts, glassware, reagents) 
+	 * If the application is "lab_workBench", remove reagent solid from inventory. */
 	public void MsgMouseDown()
 	{
 //		if(Application.loadedLevelName == "Balance" && solidSource)

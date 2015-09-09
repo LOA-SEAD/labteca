@@ -2,10 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
-//! Interaction with the printer
+//! Interaction with the printer (LIA)
 /*!
- *  Contains four methods that recognizes the interaction with Player and Printer,  
- *	puts the chart in inventory and send the file to printer.
+ *  Contains four methods that recognizes the interaction with Player and Printer.
+ * LIA communicates with the player through the printer *	
  */
 
 public class PrinterUse : MonoBehaviour 
@@ -27,11 +27,6 @@ public class PrinterUse : MonoBehaviour
 	{
 		inventory = FindObjectOfType (typeof(InventoryController)) as InventoryController;
 	}
-	
-	// Update is called once per frame
-	/*void Update () {
-
-	}*/
 
 	//! Is called when the collider other enters the trigger.
 	/*! This message is sent to the trigger collider and the rigidbody 
@@ -77,7 +72,7 @@ public class PrinterUse : MonoBehaviour
 		}
 	}
 
-	//! Send the file (chart) to printer
+	//! Send the file to printer
 	public static void SendFileToPrinter(Texture2D file)
 	{
 		allowGetData = true;

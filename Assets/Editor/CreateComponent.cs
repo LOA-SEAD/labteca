@@ -7,13 +7,13 @@ public class CreateComponent : EditorWindow
 	private float density;
 	private int molarMass;
 	private float ph;
-	private float polarizibility;
+	private float polarizability;
 	private Texture2D uvSpecter;
 	private Texture2D irSpecter;
 	private Texture2D flameSpecter;
-	private float condutibility;
+	private float conductibility;
 	private float solubility;
-	private float turbility;
+	private float turbidity;
 
 	private Texture2D hplc;
 	private float refratometer;
@@ -55,7 +55,7 @@ public class CreateComponent : EditorWindow
 		ph = EditorGUILayout.FloatField("PH:", ph);
 		EditorGUILayout.Space();
 
-		polarizibility = EditorGUILayout.FloatField("Polaridade:", polarizibility);
+		polarizability = EditorGUILayout.FloatField("Polaridade:", polarizability);
 		EditorGUILayout.Space();
 
 
@@ -74,13 +74,13 @@ public class CreateComponent : EditorWindow
 		EditorGUILayout.Space();
 		EditorGUILayout.Space();
 
-		condutibility = EditorGUILayout.FloatField("Condutividade:", condutibility);
+		conductibility = EditorGUILayout.FloatField("Condutividade:", conductibility);
 		EditorGUILayout.Space();
 
 		solubility = EditorGUILayout.FloatField("Solubilidade:", solubility);
 		EditorGUILayout.Space();
 
-		turbility = EditorGUILayout.FloatField("Turbilidade:", turbility);
+		turbidity = EditorGUILayout.FloatField("Turbilidade:", turbidity);
 		EditorGUILayout.Space();
 
 		hplc = EditorGUILayout.ObjectField("HPLC:", hplc, typeof(Texture2D)) as Texture2D;
@@ -101,7 +101,7 @@ public class CreateComponent : EditorWindow
 
 		if (GUILayout.Button ("SALVAR")) 
 		{
-			ComponentsSaver.SaveReagentFromEditor(name, molarMass, density, ph, polarizibility, uvSpecter, irSpecter, flameSpecter, condutibility, solubility, turbility, hplc, refratometer, texture, color);
+			ComponentsSaver.SaveReagentFromEditor(name, molarMass, density, ph, polarizability, uvSpecter, irSpecter, flameSpecter, conductibility, solubility, turbidity, hplc, refratometer, texture, color);
 			this.Close();
 		}
 

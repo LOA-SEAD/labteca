@@ -287,8 +287,9 @@ public  class ScaleState : GameStateBase {
 		canClickTools = true;
 	}
 
-	public void OpenOptionDialogWater(){
+	public void OpenOptionDialogWater(float maxVolumeGlassware){
 		optionDialogWater.SetActive(true);
+		optionDialogWater.GetComponentInChildren<Slider> ().maxValue = maxVolumeGlassware;
 		canClickTools = false;
 		DeselectWater ();
 		waterValue.value = 0;
@@ -299,8 +300,9 @@ public  class ScaleState : GameStateBase {
 		canClickTools = true;
 	} 
 
-	public void OpenOptionDialogPipeta(){
+	public void OpenOptionDialogPipeta(float currentVolumeUsed){
 		optionDialogPipeta.SetActive(true);
+		optionDialogPipeta.GetComponentInChildren<Slider> ().maxValue = currentVolumeUsed;
 		canClickTools = false;
 		DeselectPipeta ();
 		pipetaValue.value = 0;
@@ -681,9 +683,9 @@ public  class ScaleState : GameStateBase {
 		Glassware glass = glassClick.GetComponent<Glassware> ();
 		lastGlassWareSelected = glassClick.GetComponent<Glassware> ();
 
-		if (selectWater) {
+		if (selectWater&&glassClick.GetComponent<Glassware>().volume-glassClick.GetComponent<Glassware>().currentVolumeUsed>0) {
 
-			OpenOptionDialogWater();
+			OpenOptionDialogWater(glassClick.GetComponent<Glassware>().volume-glassClick.GetComponent<Glassware>().currentVolumeUsed);
 
 		}
 		else if(selectPipeta){
@@ -694,7 +696,7 @@ public  class ScaleState : GameStateBase {
 
 			}
 			else if(glass.liquid.activeSelf == true){
-				OpenOptionDialogPipeta();
+				OpenOptionDialogPipeta(glassClick.GetComponent<Glassware>().currentVolumeUsed);
 			}
 
 		}

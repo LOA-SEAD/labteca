@@ -75,7 +75,8 @@ public class FPSInputController : MonoBehaviour
 			if(hitInfo.collider.GetComponent<InteractObjectBase>()){
 				if(Input.GetKeyDown(KeyCode.E)){
 					hitInfo.collider.GetComponent<InteractObjectBase>().Interact();
-					gameObject.GetComponent<PlayerAnimation>().PlayInteractAnimation();
+					if(!hitInfo.collider.GetComponent<AccessEquipmentBehaviour>())
+						gameObject.GetComponent<PlayerAnimation>().PlayInteractAnimation();
 					inInteraction = true;
 					lastPosition = transform.position;
 				}

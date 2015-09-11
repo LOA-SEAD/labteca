@@ -18,10 +18,6 @@ public class InGameState : GameStateBase {
 			player.GetComponent<FPSInputController>().enabled = !player.GetComponent<FPSInputController>().enabled;
 			inventoryCanvas.enabled = !inventoryCanvas.enabled;
 		}
-		/*if (Input.GetKey (KeyCode.I)) {
-			Debug.LogError("Exiting InventoryState");
-			gameController.ChangeState (4);
-		}*/
 	}
 
 	protected override void UpdateState ()

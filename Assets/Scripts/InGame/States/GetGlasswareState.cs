@@ -9,29 +9,60 @@ public  class GetGlasswareState : GameStateBase {
 
     public Camera cameraState;          /*!< Camera for this State. */
     public GameObject interactBox;      /*!< Box Colider to allow interaction. */
-    public GameObject canvasUI;         /*!< Canvas where the UI will be shown. */
-
     public DoorBehaviour leftDoor;      /*!< GameObject that contains the left door. */
     public DoorBehaviour rightDoor;     /*!< GameObject that contains the right door. */
     public Glassware[] glasswareList;   /*!< List of Glassware that are inside. */
 
-    // TODO: Change ScrollRect variables to match the script GetReagentState.
-	public RectTransform UIScrollList;
-	public RectTransform startPoint;
-	public GlasswareUiItemBehaviour glasswarePrefab;
-
+    //UI
+	public GlasswareUiItemBehaviour glasswarePrefab;/*!< Prefab with reagent list layout. */
+	public Canvas canvasUI;                         /*!< Canvas where the UI will be shown. */
+	public float offSetItens;                       /*!< Offset for each reagent on the list. */
+	
+	// ScrollRect variables
+	private ScrollRect UIScrollList;
 	private Vector3 currentPosition;
-	public float offSetItens;
+	private int lastItemPos = 0;
+	private RectTransform contentRect, prefabRect;
+
 
 	public void Start () {
 		cameraState.gameObject.SetActive(false);
-		canvasUI.GetComponent<Canvas>().enabled = false;
-		
-        // TODO: hardcode para criar a lista de itens dentro do armario. Alterar para o mesmo que no GetReagentState.
-        // Explicacao: basta seguir o exemplo do GetReagentState. Eh bem provavel que alteracoes na Cena da Unity sejam necessarias.
+		UIScrollList = canvasUI.GetComponentInChildren<ScrollRect>();
+
+		prefabRect = glasswarePrefab.GetComponent<RectTransform>();		
+		contentRect = UIScrollList.content;
+
+		for(int i=0; i < glasswareList.Length;i++)
+		{
+			// calculate y position
+			float y = (prefabRect.rect.height + offSetItens) * lastItemPos ;
+			
+			// set position
+			Vector3 currentPos = new Vector3(1f, -y);
+			//Debug.Log("Current y position: " + y );
+			
+			// resize content rect
+			contentRect.sizeDelta = new Vector2(
+				1f, // width doesnt change
+				prefabRect.rect.height + (prefabRect.rect.height + offSetItens) * lastItemPos);
+			
+			// instantiate Item
+			GameObject tempItem = Instantiate(prefabRect.gameObject,
+			                                  currentPos,
+			                                  prefabRect.transform.rotation) as GameObject;
+			
+			// set reagent's name
+			tempItem.GetComponent<GlasswareUiItemBehaviour>().SetGlass(glasswareList[i]);
+			// next position on inventory grid
+			lastItemPos++;
+			
+			// set new item parent to scroll rect content
+			tempItem.transform.SetParent(contentRect.transform, false);
+			
+		}
 
         // ------- daqui \/ ---------------------
-        currentPosition = startPoint.localPosition;
+        /*currentPosition = startPoint.localPosition;
 
 		Rect rectScroll = UIScrollList.rect;
 
@@ -55,7 +86,7 @@ public  class GetGlasswareState : GameStateBase {
 			tempGlass.GetComponent<GlasswareUiItemBehaviour>().SetGlass(glasswareList[i]);
 
 			currentPosition.y -= glasswarePrefab.GetComponent<RectTransform>().rect.height + offSetItens;
-		}
+		}*/
         // ------ ateh aqui /\ -----------------
 	}
 	
@@ -85,7 +116,7 @@ public  class GetGlasswareState : GameStateBase {
 		leftDoor.Open();
         canvasUI.GetComponent<Canvas>().enabled = true;
 
-		UIScrollList.transform.parent.GetComponent<ScrollRect>().verticalScrollbar.value = 1;
+		//UIScrollList.transform.parent.GetComponent<ScrollRect>().verticalScrollbar.value = 1;
 
 	}
 

@@ -1,1 +1,10 @@
-numberOfReactions=0
+numberOfReactions=1
+name0=ASD
+aName0=NaCl
+bName0=Reagente2
+cName0=ReagenteTeste
+dName0=
+aMultiply0=1
+bMultiply0=2
+cMultiply0=1
+dMultiply0=0

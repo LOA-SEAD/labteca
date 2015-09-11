@@ -2,7 +2,6 @@
 using System.Collections;
 
 //! Class that defines a Reaction.
-// TODO: fazer a descricao detalhada explicando o que essa classe faz o.O
 public class ReactionClass
 {
     public string name;     /*!< String with Reaction name. */

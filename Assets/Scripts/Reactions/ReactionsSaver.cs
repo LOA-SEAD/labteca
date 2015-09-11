@@ -2,13 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 
-//! Save Reaction and it's properties in a text file.
-/*! */
-// TODO: Verificar o funcionamento disse junto com os scripts dentro de Editor.
+//! Saves a Reaction and it's properties in a text file.
+
 public class ReactionsSaver 
 {
 	private static TextEdit text = new TextEdit("Assets/Resources/reactions.txt");
-
+	//Method for saving the reaction made in the tab "Reacao/Criar reacao" in the unity editor
 	public static void SaveReactionsFromEditor(string name, int aMultiply, string aName,
 	                                           				int bMultiply, string bName,
 	                                           				int cMultiply, string cName,	
@@ -43,7 +42,7 @@ public class ReactionsSaver
 		}
 	}
 
-
+	//Saves the reactions from a dictionary to the text file
 	public static void SaveReactions(Dictionary<string, ReactionClass> reactions)
 	{
 		text.ClearFile ();
@@ -68,7 +67,7 @@ public class ReactionsSaver
 			counter++;
 		}
 	}
-
+	//Loads the reactions from a file, and returns a dictionary
 	public static Dictionary<string, ReactionClass> LoadReactions()
 	{
 		TextAsset loadText = Resources.Load("reactions") as TextAsset;

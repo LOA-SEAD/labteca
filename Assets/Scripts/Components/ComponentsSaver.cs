@@ -11,9 +11,9 @@ using System.Collections.Generic;
 public class ComponentsSaver
 {
 	//! Saves the component information in a Dictionary. 
-	public static void SaveReagentFromEditor(string name, int molarMass, float density, float ph, float polarizibility, 
-	                                         Texture2D uvSpecter, Texture2D irSpecter, Texture2D flameSpecter, float condutibility, 
-	                                         float solubility, float turbility, Texture2D hplc, float refratometer, Texture2D texture, Color color)
+	public static void SaveReagentFromEditor(string name, int molarMass, float density, float ph, float polarizability, 
+	                                         Texture2D uvSpecter, Texture2D irSpecter, Texture2D flameSpecter, float conductibility, 
+	                                         float solubility, float turbidity, Texture2D hplc, float refratometer, Texture2D texture, Color color)
 	{
 
 		Dictionary<string, ReagentsLiquidClass> reagents = LoadReagents ();
@@ -23,13 +23,13 @@ public class ComponentsSaver
 		reagent.molarMass = molarMass;
 		reagent.density = density;
 		reagent.ph = ph;
-		reagent.polarizibility = polarizibility;
+		reagent.polarizability = polarizability;
 		reagent.uvSpecter = uvSpecter;
 		reagent.irSpecter = irSpecter;
 		reagent.flameSpecter = flameSpecter;
-		reagent.condutibility = condutibility;
+		reagent.conductibility = conductibility;
 		reagent.solubility = solubility;
-		reagent.turbility = turbility;
+		reagent.turbidity = turbidity;
 		reagent.hplc = hplc;
 		reagent.refratometer = refratometer;
 		reagent.texture = texture;
@@ -67,7 +67,7 @@ public class ComponentsSaver
 			text.SetInt("molarMass" + counter.ToString(), reagent.molarMass);
 			text.SetFloat("density" + counter.ToString(), reagent.density);
 			text.SetFloat("ph" + counter.ToString(), reagent.ph);
-			text.SetFloat("polarizibility" + counter.ToString(), reagent.polarizibility);
+			text.SetFloat("polarizability" + counter.ToString(), reagent.polarizability);
 
 			if(reagent.uvSpecter != null)
 			{
@@ -94,9 +94,9 @@ public class ComponentsSaver
 				text.SetString("flameSpecter" + counter.ToString(), "");
 			}
 
-			text.SetFloat("condutibility" + counter.ToString(), reagent.condutibility);
+			text.SetFloat("conductibility" + counter.ToString(), reagent.conductibility);
 			text.SetFloat("solubility" + counter.ToString(), reagent.solubility);
-			text.SetFloat("turbility" + counter.ToString(), reagent.turbility);
+			text.SetFloat("turbidity" + counter.ToString(), reagent.turbidity);
 
 			if(reagent.hplc != null)
 			{
@@ -149,7 +149,7 @@ public class ComponentsSaver
 				reagentAcc.molarMass = textLoad.GetInt ("molarMass" + i.ToString ());
 				reagentAcc.density = textLoad.GetFloat ("density" + i.ToString ());
 				reagentAcc.ph = textLoad.GetFloat ("ph" + i.ToString ());
-				reagentAcc.polarizibility = textLoad.GetFloat ("polarizibility" + i.ToString ());
+				reagentAcc.polarizability = textLoad.GetFloat ("polarizability" + i.ToString ());
 				if (!string.IsNullOrEmpty (textLoad.GetString ("uvSpecter" + i.ToString ()))) 
 				{
 					reagentAcc.uvSpecter = Resources.Load<Texture2D> ("specter/" + textLoad.GetString ("uvSpecter" + i.ToString ()));
@@ -174,9 +174,9 @@ public class ComponentsSaver
 				{
 						reagentAcc.flameSpecter = null;
 				}
-				reagentAcc.condutibility = textLoad.GetFloat ("condutibility" + i.ToString ());
+				reagentAcc.conductibility = textLoad.GetFloat ("conductibility" + i.ToString ());
 				reagentAcc.solubility = textLoad.GetFloat ("solubility" + i.ToString ());
-				reagentAcc.turbility = textLoad.GetFloat ("turbility" + i.ToString ());
+				reagentAcc.turbidity = textLoad.GetFloat ("turbidity" + i.ToString ());
 
 				if (!string.IsNullOrEmpty (textLoad.GetString ("hplc" + i.ToString ()))) 
 				{

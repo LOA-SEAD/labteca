@@ -2,9 +2,7 @@
 using System.Collections;
 
 //! Animation of Turbidometer.
-/*! */
-
-//TODO: Testar para saber como funciona.
+/*! Wait to be ready. */
 public class TurbidometerAnimationController : MonoBehaviour {
 
 	public Animator jarAnimator;
@@ -14,15 +12,6 @@ public class TurbidometerAnimationController : MonoBehaviour {
 
 	public MachineBehaviour machine;
 
-	// Use this for initialization
-	/*void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}*/
 
 	//! Active parameter "jar". Used in a transition.
 	public void ButtonJar()

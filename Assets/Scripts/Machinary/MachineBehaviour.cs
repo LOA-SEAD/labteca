@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 //! Setup and use of all machine.
-/*! */ 
+/*! Use: print the chart */ 
 public class MachineBehaviour : MonoBehaviour 
 {
 	public enum MACHINES

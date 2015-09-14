@@ -5,9 +5,9 @@ using System.Collections;
 /*!
  * Contains four methods that generates a chart according to data entered ("Plot the equation").
  * The methods generates charts with pixels, circles and dots connected.
- * No association.
+ * Chart of SPCTROPHOTOMETER_UV, SPCTROPHOTOMETER_IR, SPCTROPHOTOMETER_FLAME, HPLC. (GenerateWithTextureConectingDots)
+ * 
  */
-// TODO: Testar essa classe para ver como funciona.
 public class ChartGenerator : MonoBehaviour 
 {
 
@@ -18,11 +18,6 @@ public class ChartGenerator : MonoBehaviour
 	public int radius; /*!<  */
 
 	public Renderer sampleRender; /*!< Makes an object appear on the screen. */
-
-	/*void Start()
-	{
-
-	}*/
 
 	//! Generates a chart with pixel only. 
 	/*! */

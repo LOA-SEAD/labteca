@@ -5,7 +5,8 @@ using System.Collections.Generic;
 //! Interaction with the printer (LIA)
 /*!
  *  Contains four methods that recognizes the interaction with Player and Printer.
- * LIA communicates with the player through the printer *	
+ * LIA communicates with the player through the printer.
+ * Machines that use the printer: Espectrofotometria UV-Vis.
  */
 
 public class PrinterUse : MonoBehaviour 

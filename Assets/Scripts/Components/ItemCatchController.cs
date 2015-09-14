@@ -34,8 +34,8 @@ public class ItemCatchController : MonoBehaviour
 		{
 			GameObject obj = Instantiate(buttonPrefab, placeHolders[i].position, placeHolders[i].rotation) as GameObject;
 			obj.GetComponentInChildren<TextMesh>().text = itensText[i];
-			obj.GetComponent<SendMessegeMouseButonWithParameter>().parameter = i;
-			obj.GetComponent<SendMessegeMouseButonWithParameter>().target = this.gameObject;
+			obj.GetComponent<SendMessageMouseButtonWithParameter>().parameter = i;
+			obj.GetComponent<SendMessageMouseButtonWithParameter>().target = this.gameObject;
 		}
 	}
 	

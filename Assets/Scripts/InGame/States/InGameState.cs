@@ -10,9 +10,8 @@ public class InGameState : GameStateBase {
 
 	void Update(){
 		base.Update();	// base is the GameStateBase
-		//////////////
-		if (Input.GetKeyDown (KeyCode.I)) {
-			//GameObject.Find("canvas_inventory 1").SetActive(!GameObject.Find("canvas_inventory 1").activeSelf);
+		if (Input.GetKeyDown (KeyCode.I)) {  //To access the inventory from the default state
+			GameObject.Find("Main Camera").GetComponent<MouseLook>().enabled = !GameObject.Find("Main Camera").GetComponent<MouseLook>().enabled;
 			player.GetComponent<MouseLook>().enabled = !player.GetComponent<MouseLook>().enabled;
 			player.GetComponent<CharacterMotor>().enabled = !player.GetComponent<CharacterMotor>().enabled;
 			player.GetComponent<FPSInputController>().enabled = !player.GetComponent<FPSInputController>().enabled;

@@ -13,6 +13,7 @@ public class GameController : MonoBehaviour {
 
 	public List<GameStateBase> gameStates = new List<GameStateBase>();  /*!< List with all game 'states' of the game. */
 	private GameStateBase currentGameState;
+	public int currentStateIndex;
 
 	public static GameController instance;
 
@@ -59,6 +60,7 @@ public class GameController : MonoBehaviour {
 
 		currentGameState.StopRun();
 		currentGameState = selectState;
+		currentStateIndex = indexState;
 		currentGameState.StartRun();
 		
 	}

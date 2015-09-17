@@ -1,22 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-//! Base class for the Reagents
-/*! Solids and Liquids classes inherits this one */
+//! Declaration of information for liquid reagents
+/*! The liquid class inherits this one, because it has all the same attributes */
 
 public abstract class ReagentsBaseClass {
 
 	public string name;
+	public bool isSolid;
 	public int molarMass;
 	public float density;
-	public float ph;
 	public float polarizability;
-	public Texture2D uvSpecter;
-	public Texture2D irSpecter;
-	public Texture2D flameSpecter;
 	public float conductibility;
 	public float solubility;
+	public Texture2D irSpecter;
 
 	public Texture2D texture;
-	public Color color;	
+	public Color color;
 }

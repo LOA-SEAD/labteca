@@ -29,7 +29,7 @@ public class DeleteComponent : EditorWindow
 
 		EditorGUILayout.LabelField("Deletar Reagente:");
 
-		Dictionary<string, ReagentsLiquidClass> reagents = ComponentsSaver.LoadReagents();
+		Dictionary<string, ReagentsBaseClass> reagents = ComponentsSaver.LoadReagents();
 
 		string[] names = new string[reagents.Count];
 
@@ -57,44 +57,43 @@ public class DeleteComponent : EditorWindow
 			{
 				selected = true;
 				deleteSelected = false;
-				reagent = reagents[names[indexOfComponent]];
+				reagent = reagents[names[indexOfComponent]] as ReagentsLiquidClass;
 			}
 		}
 
 		if(selected)
 		{
 			EditorGUILayout.LabelField("Nome: " + reagent.name);
-			EditorGUILayout.LabelField("Densidade : " + reagent.density.ToString());
 			EditorGUILayout.LabelField("Massa Molar : " + reagent.molarMass.ToString());
-			EditorGUILayout.LabelField("Ph : " + reagent.ph.ToString());
+			EditorGUILayout.LabelField("Densidade : " + reagent.density.ToString());
 			EditorGUILayout.LabelField("Polaridade: " + reagent.polarizability.ToString());
-			if(reagent.uvSpecter != null)
-			{
-				EditorGUILayout.LabelField("Espectro UV : " + reagent.uvSpecter.name);
-			}
-			else
-			{
-				EditorGUILayout.LabelField("Espectro UV : ");
-			}
-			if(reagent.irSpecter != null)
-			{
-				EditorGUILayout.LabelField("Espectro IR : " + reagent.irSpecter.name);
-			}
-			else
-			{
-				EditorGUILayout.LabelField("Espectro IR : ");
-			}
-			if(reagent.flameSpecter != null)
-			{
-				EditorGUILayout.LabelField("Espectro de Chama: " + reagent.flameSpecter.name);
-			}
-			else
-			{
-				EditorGUILayout.LabelField("Espectro de Chama: ");
-			}
 			EditorGUILayout.LabelField("Condutividade: " + reagent.conductibility.ToString());
 			EditorGUILayout.LabelField("Solubilidade: " + reagent.solubility.ToString());
-			EditorGUILayout.LabelField("Turbilidade: " + reagent.turbidity.ToString());
+
+			if(!reagent.isSolid) {
+				EditorGUILayout.LabelField("Ph : " + reagent.ph.ToString());
+				EditorGUILayout.LabelField("Turbilidade: " + reagent.turbidity.ToString());
+
+				if(reagent.flameSpecter != null) {
+					EditorGUILayout.LabelField("Espectro de Chama: " + reagent.flameSpecter.name);
+				} else {
+					EditorGUILayout.LabelField("Espectro de Chama: ");
+				}
+
+				if(reagent.uvSpecter != null) {
+					EditorGUILayout.LabelField("Espectro UV : " + reagent.uvSpecter.name);
+				} else {
+					EditorGUILayout.LabelField("Espectro UV : ");
+				}
+			}
+	
+			if(reagent.irSpecter != null) {
+				EditorGUILayout.LabelField("Espectro IR : " + reagent.irSpecter.name);
+			} else {
+				EditorGUILayout.LabelField("Espectro IR : ");
+			}
+
+
 			if(reagent.texture != null)
 			{
 				EditorGUILayout.LabelField("Textura: " + reagent.texture.name);
@@ -117,7 +116,7 @@ public class DeleteComponent : EditorWindow
 				EditorGUILayout.LabelField("Deletar?");
 				if(GUILayout.Button("Sim"))
 				{
-					Dictionary<string, ReagentsLiquidClass> allReagents = ComponentsSaver.LoadReagents();
+					Dictionary<string, ReagentsBaseClass> allReagents = ComponentsSaver.LoadReagents();
 
 					allReagents.Remove(names[indexOfComponent]);
 					ComponentsSaver.SaveReagents(allReagents);

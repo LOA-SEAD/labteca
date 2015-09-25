@@ -9,7 +9,5 @@ public class ReagentsLiquidClass : ReagentsBaseClass {
 	public float ph;
 	public float turbidity;
 	public float refratometer;
-	public Texture2D flameSpecter;
-	public Texture2D uvSpecter;
 	public Texture2D hplc;  //High-Performance liquid chromatography
 }

@@ -68,7 +68,7 @@ public class CreateReaction : EditorWindow
 		EditorGUILayout.Space();
 
 		EditorGUILayout.BeginHorizontal();
-
+		//TODO: Add the isSolid component when defining the components
 		if(aName != "")
 		{
 			if (reagents.ContainsKey(aName)) 

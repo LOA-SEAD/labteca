@@ -9,6 +9,7 @@ public class ReagentUiItemBehaviour : MonoBehaviour {
 
 	public Text nameReagent;
 
+
 	// Use this for initialization
 	/*void Start () {
 	
@@ -30,9 +31,11 @@ public class ReagentUiItemBehaviour : MonoBehaviour {
 	/*! Add the reagent to the inventory (NaCL).*/
 	public void AddToInventory(){
 		//isso e para suprir a falta do inventario entao tem que alterar aqui depois;
-		if(nameReagent.text == "NaCl"){
+		/*if(nameReagent.text == "NaCl"){
 			GameController.instance.haveReagentNaCl = true;
-		}
+		}*/
+
+		Debug.Log ("Add " + nameReagent.text);
 	}
 
 }

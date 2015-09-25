@@ -14,7 +14,9 @@ public abstract class ReagentsBaseClass {
 	public float conductibility;
 	public float solubility;
 	public Texture2D irSpecter;
-
+	public Texture2D flameSpecter;
+	public Texture2D uvSpecter;
+	
 	public Texture2D texture;
 	public Color color;
 }

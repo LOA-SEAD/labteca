@@ -73,17 +73,12 @@ public class DeleteComponent : EditorWindow
 			if(!reagent.isSolid) {
 				EditorGUILayout.LabelField("Ph : " + reagent.ph.ToString());
 				EditorGUILayout.LabelField("Turbilidade: " + reagent.turbidity.ToString());
+				EditorGUILayout.LabelField("Refratometro: " + reagent.refratometer.ToString());
 
-				if(reagent.flameSpecter != null) {
-					EditorGUILayout.LabelField("Espectro de Chama: " + reagent.flameSpecter.name);
+				if(reagent.hplc != null) {
+					EditorGUILayout.LabelField("HPLC = " + reagent.hplc.ToString());
 				} else {
-					EditorGUILayout.LabelField("Espectro de Chama: ");
-				}
-
-				if(reagent.uvSpecter != null) {
-					EditorGUILayout.LabelField("Espectro UV : " + reagent.uvSpecter.name);
-				} else {
-					EditorGUILayout.LabelField("Espectro UV : ");
+					EditorGUILayout.LabelField ("HPLC = " + reagent.hplc.ToString ());
 				}
 			}
 	
@@ -93,6 +88,17 @@ public class DeleteComponent : EditorWindow
 				EditorGUILayout.LabelField("Espectro IR : ");
 			}
 
+			if(reagent.flameSpecter != null) {
+				EditorGUILayout.LabelField("Espectro de Chama: " + reagent.flameSpecter.name);
+			} else {
+				EditorGUILayout.LabelField("Espectro de Chama: ");
+			}
+			
+			if(reagent.uvSpecter != null) {
+				EditorGUILayout.LabelField("Espectro UV : " + reagent.uvSpecter.name);
+			} else {
+				EditorGUILayout.LabelField("Espectro UV : ");
+			}
 
 			if(reagent.texture != null)
 			{

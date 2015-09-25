@@ -64,10 +64,6 @@ public class CreateComponent : EditorWindow
 		solubility = EditorGUILayout.FloatField("Solubilidade:", solubility);
 		EditorGUILayout.Space();
 
-		irSpecter = EditorGUILayout.ObjectField("Espectro IR:", irSpecter, typeof(Texture2D)) as Texture2D;
-		EditorGUILayout.Space();
-		EditorGUILayout.Space();
-		EditorGUILayout.Space();
 
 		if (!isSolid) {
 
@@ -79,22 +75,27 @@ public class CreateComponent : EditorWindow
 
 			refratometer = EditorGUILayout.FloatField("Refratometro:", refratometer);
 			EditorGUILayout.Space();
-
-			flameSpecter = EditorGUILayout.ObjectField("Espectro de Chama:", flameSpecter, typeof(Texture2D)) as Texture2D;
-			EditorGUILayout.Space();
-			EditorGUILayout.Space();
-			EditorGUILayout.Space();
-
-			uvSpecter = EditorGUILayout.ObjectField("Espectro UV:", uvSpecter, typeof(Texture2D)) as Texture2D;
-			EditorGUILayout.Space();
-			EditorGUILayout.Space();
-			EditorGUILayout.Space();
 			
 			hplc = EditorGUILayout.ObjectField("HPLC:", hplc, typeof(Texture2D)) as Texture2D;
 			EditorGUILayout.Space();
 			EditorGUILayout.Space();
 			EditorGUILayout.Space();
 		}
+
+		irSpecter = EditorGUILayout.ObjectField("Espectro IR:", irSpecter, typeof(Texture2D)) as Texture2D;
+		EditorGUILayout.Space();
+		EditorGUILayout.Space();
+		EditorGUILayout.Space();
+
+		flameSpecter = EditorGUILayout.ObjectField("Espectro de Chama:", flameSpecter, typeof(Texture2D)) as Texture2D;
+		EditorGUILayout.Space();
+		EditorGUILayout.Space();
+		EditorGUILayout.Space();
+		
+		uvSpecter = EditorGUILayout.ObjectField("Espectro UV:", uvSpecter, typeof(Texture2D)) as Texture2D;
+		EditorGUILayout.Space();
+		EditorGUILayout.Space();
+		EditorGUILayout.Space();
 
 		texture = EditorGUILayout.ObjectField("Textura:", texture, typeof(Texture2D)) as Texture2D;
 		EditorGUILayout.Space();

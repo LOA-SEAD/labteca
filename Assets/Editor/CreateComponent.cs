@@ -4,6 +4,7 @@ using UnityEditor;
 public class CreateComponent : EditorWindow  
 {
 	private string name;
+	private bool isSolid = false;
 	private float density;
 	private int molarMass;
 	private float ph;
@@ -43,7 +44,9 @@ public class CreateComponent : EditorWindow
 		EditorGUILayout.Space();
 
 		name = EditorGUILayout.TextField("Nome:",name);
+		EditorGUILayout.Space();
 
+		isSolid = GUILayout.Toggle(isSolid, "Solid?");
 		EditorGUILayout.Space();
 
 		density = EditorGUILayout.FloatField("Densidade:", density);
@@ -52,17 +55,32 @@ public class CreateComponent : EditorWindow
 		molarMass = EditorGUILayout.IntField("Massa Molar:", molarMass);
 		EditorGUILayout.Space();
 
-		ph = EditorGUILayout.FloatField("PH:", ph);
-		EditorGUILayout.Space();
-
 		polarizability = EditorGUILayout.FloatField("Polaridade:", polarizability);
 		EditorGUILayout.Space();
 
+		conductibility = EditorGUILayout.FloatField("Condutividade:", conductibility);
+		EditorGUILayout.Space();
+		
+		solubility = EditorGUILayout.FloatField("Solubilidade:", solubility);
+		EditorGUILayout.Space();
 
-		uvSpecter = EditorGUILayout.ObjectField("Espectro UV:", uvSpecter, typeof(Texture2D)) as Texture2D;
-		EditorGUILayout.Space();
-		EditorGUILayout.Space();
-		EditorGUILayout.Space();
+
+		if (!isSolid) {
+
+			ph = EditorGUILayout.FloatField ("PH:", ph);
+			EditorGUILayout.Space ();
+
+			turbidity = EditorGUILayout.FloatField("Turbilidade:", turbidity);
+			EditorGUILayout.Space();
+
+			refratometer = EditorGUILayout.FloatField("Refratometro:", refratometer);
+			EditorGUILayout.Space();
+			
+			hplc = EditorGUILayout.ObjectField("HPLC:", hplc, typeof(Texture2D)) as Texture2D;
+			EditorGUILayout.Space();
+			EditorGUILayout.Space();
+			EditorGUILayout.Space();
+		}
 
 		irSpecter = EditorGUILayout.ObjectField("Espectro IR:", irSpecter, typeof(Texture2D)) as Texture2D;
 		EditorGUILayout.Space();
@@ -73,22 +91,10 @@ public class CreateComponent : EditorWindow
 		EditorGUILayout.Space();
 		EditorGUILayout.Space();
 		EditorGUILayout.Space();
-
-		conductibility = EditorGUILayout.FloatField("Condutividade:", conductibility);
-		EditorGUILayout.Space();
-
-		solubility = EditorGUILayout.FloatField("Solubilidade:", solubility);
-		EditorGUILayout.Space();
-
-		turbidity = EditorGUILayout.FloatField("Turbilidade:", turbidity);
-		EditorGUILayout.Space();
-
-		hplc = EditorGUILayout.ObjectField("HPLC:", hplc, typeof(Texture2D)) as Texture2D;
+		
+		uvSpecter = EditorGUILayout.ObjectField("Espectro UV:", uvSpecter, typeof(Texture2D)) as Texture2D;
 		EditorGUILayout.Space();
 		EditorGUILayout.Space();
-		EditorGUILayout.Space();
-
-		refratometer = EditorGUILayout.FloatField("Refratometro:", refratometer);
 		EditorGUILayout.Space();
 
 		texture = EditorGUILayout.ObjectField("Textura:", texture, typeof(Texture2D)) as Texture2D;
@@ -101,7 +107,7 @@ public class CreateComponent : EditorWindow
 
 		if (GUILayout.Button ("SALVAR")) 
 		{
-			ComponentsSaver.SaveReagentFromEditor(name, molarMass, density, ph, polarizability, uvSpecter, irSpecter, flameSpecter, conductibility, solubility, turbidity, hplc, refratometer, texture, color);
+			ComponentsSaver.SaveReagentFromEditor(name, isSolid, molarMass, density, ph, polarizability, uvSpecter, irSpecter, flameSpecter, conductibility, solubility, turbidity, hplc, refratometer, texture, color);
 			this.Close();
 		}
 

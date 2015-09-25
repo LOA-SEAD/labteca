@@ -91,7 +91,7 @@ public class MachineBehaviour : MonoBehaviour
 	//! Setup of reagent liquid in all machines.
 	public void Setup(string reagent, float concentration)
 	{
-		Dictionary<string, ReagentsLiquidClass> allReagents = ComponentsSaver.LoadReagents ();
+		Dictionary<string, ReagentsBaseClass> allReagents = ComponentsSaver.LoadReagents ();
 
 		if (!allReagents.ContainsKey(reagent))
 		{
@@ -99,7 +99,7 @@ public class MachineBehaviour : MonoBehaviour
 			return;
 		}
 
-		ReagentsLiquidClass realReagent = allReagents [reagent];
+		ReagentsLiquidClass realReagent = allReagents [reagent] as ReagentsLiquidClass;
 
 		allowShowFloat = false;
 		allowShowTexture = false;
@@ -186,7 +186,7 @@ public class MachineBehaviour : MonoBehaviour
 	//! Uses of reagent liquid in all machines.
 	public void Use(string reagent, float concentration)
 	{
-		Dictionary<string, ReagentsLiquidClass> allReagents = ComponentsSaver.LoadReagents ();
+		Dictionary<string, ReagentsBaseClass> allReagents = ComponentsSaver.LoadReagents ();
 		
 		if (!allReagents.ContainsKey(reagent))
 		{
@@ -194,7 +194,7 @@ public class MachineBehaviour : MonoBehaviour
 			return;
 		}
 		
-		ReagentsLiquidClass realReagent = allReagents [reagent];
+		ReagentsLiquidClass realReagent = allReagents [reagent] as ReagentsLiquidClass;
 
 		switch (myType) 
 		{

@@ -11,7 +11,7 @@ public  class GetReagentState : GameStateBase {
     public GameObject interactBox;      /*!< Box Colider to allow interaction. */
     public DoorBehaviour leftDoor;      /*!< GameObject that contains the left door. */
     public DoorBehaviour rightDoor;     /*!< GameObject that contains the right door. */
-	public Dictionary<string, ReagentsLiquidClass> reagents = new Dictionary<string, ReagentsLiquidClass>(); /*!< Dictionary that stores all reagents>!*/
+	public Dictionary<string, ReagentsBaseClass> reagents = new Dictionary<string, ReagentsBaseClass>(); /*!< Dictionary that stores all reagents>!*/
 
     // UI
     public Canvas canvasUI;                         /*!< Canvas where the UI will be shown. */
@@ -26,7 +26,7 @@ public  class GetReagentState : GameStateBase {
 
 	public void Start () {
         cameraState.gameObject.SetActive(false);
-		ReagentsLiquidClass actualReagent;
+		ReagentsBaseClass actualReagent;
 		reagents = ComponentsSaver.LoadReagents();
 
         // Set-up components

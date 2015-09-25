@@ -48,13 +48,27 @@ public class ReactionsController : MonoBehaviour
 
 		realConcentrationD = realConcentrationA * reaction.dMultipler;
 
-		Dictionary<string, ReagentsLiquidClass> reagents = ComponentsSaver.LoadReagents();
+		float phC = 0, phD = 0;
+		float turbidityC = 0, turbidityD = 0;
 
-		ph = (reagents [reaction.cName].ph * realConcentrationC + reagents [reaction.dName].ph * realConcentrationD) / (realConcentrationC + realConcentrationD);
+		Dictionary<string, ReagentsBaseClass> reagents = ComponentsSaver.LoadReagents();
+
+		if (reagents [reaction.cName] is ReagentsLiquidClass) {
+			phC = (reagents [reaction.cName] as ReagentsLiquidClass).ph;
+			turbidityC = (reagents [reaction.cName] as ReagentsLiquidClass).turbidity;
+		}
+
+		if (reagents [reaction.dName] is ReagentsLiquidClass) {
+			phD = (reagents [reaction.dName] as ReagentsLiquidClass).ph;
+			turbidityD = (reagents [reaction.dName] as ReagentsLiquidClass).turbidity;
+		}
+		
 		polarizability = (reagents [reaction.cName].polarizability * realConcentrationC + reagents [reaction.dName].polarizability * realConcentrationD) / (realConcentrationC + realConcentrationD);
 		conductibility = (reagents [reaction.cName].conductibility * realConcentrationC + reagents [reaction.dName].conductibility * realConcentrationD) / (realConcentrationC + realConcentrationD);
 		solubility = (reagents [reaction.cName].solubility * realConcentrationC + reagents [reaction.dName].solubility * realConcentrationD) / (realConcentrationC + realConcentrationD);
-		turbidity = (reagents [reaction.cName].turbidity * realConcentrationC + reagents [reaction.dName].turbidity * realConcentrationD) / (realConcentrationC + realConcentrationD);
+
+		ph = (phC * realConcentrationC + phD * realConcentrationD) / (realConcentrationC + realConcentrationD);
+		turbidity = (turbidityC * realConcentrationC + turbidityD * realConcentrationD) / (realConcentrationC + realConcentrationD);
 
 		float colorR = (reagents [reaction.cName].color.r * realConcentrationC + reagents [reaction.dName].color.r * realConcentrationD) / (realConcentrationC + realConcentrationD);
 		float colorG = (reagents [reaction.cName].color.g * realConcentrationC + reagents [reaction.dName].color.g * realConcentrationD) / (realConcentrationC + realConcentrationD);

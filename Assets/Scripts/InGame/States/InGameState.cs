@@ -9,7 +9,6 @@ public class InGameState : GameStateBase {
 
 	void Update(){
 		base.Update();	// base is the GameStateBase
-		//////////////
 	}
 
 	protected override void UpdateState ()

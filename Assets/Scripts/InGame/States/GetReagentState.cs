@@ -24,6 +24,12 @@ public  class GetReagentState : GameStateBase {
     private int lastItemPos = 0;
     private RectTransform contentRect, prefabRect;
 
+	//Prefabs to instantiate the reagents
+	//! Needs to be attached in the scene
+	public AnyObjectInstantiation solidPrefab;
+	public AnyObjectInstantiation liquidPrefab;
+
+
 	public void Start () {
         cameraState.gameObject.SetActive(false);
 		ReagentsBaseClass actualReagent;
@@ -149,5 +155,23 @@ public  class GetReagentState : GameStateBase {
         leftDoor.Close();
 	}
 
+
+	//! Instantiation of the reagent when clicked
+	/*! Uses the name of the reagent clicked to instantiate an game object (AnyObjectInstantiation) that will be
+	 *!	to  add to the inventory*/
+	public AnyObjectInstantiation ReagentInstantiation (string reagentName) {
+		ReagentsBaseClass instantiatingReagent;
+		reagents.TryGetValue (reagentName, out instantiatingReagent);
+
+		if(instantiatingReagent.isSolid == true) {
+			AnyObjectInstantiation solidReagent = Instantiate(solidPrefab) as AnyObjectInstantiation;
+			solidReagent.name = reagentName;
+			return solidReagent;
+		} else {
+			AnyObjectInstantiation liquidReagent = Instantiate (liquidPrefab) as AnyObjectInstantiation;
+			liquidReagent.name = reagentName;
+			return liquidReagent;
+		}
+	}
 
 }

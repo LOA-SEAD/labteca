@@ -127,4 +127,16 @@ public class InventoryManager : MonoBehaviour {
     {
         this.selectedUIItem = i;
     }
+
+	//! Add the item to inventory
+	public void AddItemToInventory(AnyObjectInstantiation item) {
+		setSelectedItem (item);
+		operateOnInventory ("insert");
+	}
+
+	//! Remove from inventory
+	public void RemoveItemFromInventory(AnyObjectInstantiation item) {
+		setSelectedItem (item);
+		operateOnInventory ("remove");
+	}
 }

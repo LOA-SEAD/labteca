@@ -4,8 +4,6 @@ using System.Collections;
 //! Enable and Disable ReagentsLiquid.
 /*! Changes the colors of the reagent liquid when is enable or desable.
  * Mass and volume of liquid and actions by clicking on an liquid. */
-//TODO: Testar para saber exatamente como funciona.
-// Algumas coisas do ReagentsSolid e ReagentLiquid sao iguais. Talvez seja melhor criar uma classe Reagents e herdar Solid e Liquid. Elimina hardcode.
 public class ReagentsLiquid : MonoBehaviour 
 {
 	public float concentration;
@@ -30,16 +28,16 @@ public class ReagentsLiquid : MonoBehaviour
 		}
 	}
 
-	//! Script instance is being loaded.
-	/*! Returns the first active loaded object of Type InventoryController and set position of this object.*/
+	//! Returns the inventory object and its position.
+	/*! Script instance is being loaded. */
 	void Awake()
 	{
 		inventory = FindObjectOfType (typeof(InventoryController)) as InventoryController;
 		originalPosition = this.transform.position;
 	}
 
-	// Use this for initialization
-	//! Calculates the mass and the volume
+	//! Calculates the mass and the volume of liquid.
+	// Use this for initialization. 
 	void Start () 
 	{
 		if (info != null) 
@@ -55,14 +53,8 @@ public class ReagentsLiquid : MonoBehaviour
 			}
 		}
 	}
-	
-	// Update is called once per frame
-	/*void Update () 
-	{
-		
-	}*/
 
-	//! Enable collide with other colliders
+	//! Changes (Enable) the color object when collide with other colliders
 	/*! Returns the first instantiated Material assigned to the renderer and creat a new object with certain color. */
 	public void Enable()
 	{
@@ -75,8 +67,9 @@ public class ReagentsLiquid : MonoBehaviour
 			}
 		}
 	}
-	//! Disable collide with other colliders
-	/*! Returns the first instantiated Material assigned to the renderer and creat a new object with alphaValueWhenDisable. */
+
+	//! Changes (Disable) the color object when collide with other colliders
+	/*! Returns the first instantiated Material assigned to the renderer and creat a new object with certain color. */
 	public void Disable()
 	{
 		this.collider.enabled = false;

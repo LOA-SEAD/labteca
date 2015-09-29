@@ -3,8 +3,7 @@ using System.Collections;
 
 //! Sents a message and sets cursor.
 /*! */
-//TODO: Testar para saber como funciona.
-public class SendMessegeMouseButonChangeCursor : MonoBehaviour 
+public class SendMessageMouseButtonChangeCursor : MonoBehaviour 
 {
 	private Camera[] cameras;
 	public GameObject target;
@@ -21,7 +20,6 @@ public class SendMessegeMouseButonChangeCursor : MonoBehaviour
 
 	// Use this for initialization
 	//! Returns a list of all active loaded objects of type Camera and sets target.
-	// Why returns a list?
 	void Start () 
 	{
 		cameras = FindObjectsOfType(typeof(Camera)) as Camera[];

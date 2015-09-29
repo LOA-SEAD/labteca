@@ -3,8 +3,7 @@ using System.Collections;
 
 //! Sents a message (with parameter).
 /*! */
-//TODO: Testar para saber como funciona.
-public class SendMessegeMouseButonWithParameter : MonoBehaviour 
+public class SendMessageMouseButtonWithParameter : MonoBehaviour 
 {
 	private Camera[] cameras;
 	public GameObject target;

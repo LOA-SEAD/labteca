@@ -8,8 +8,6 @@ using System.Collections;
  * 
  */
 
-// TODO: Testar para ver como funciona.
-
 public class Chart : MonoBehaviour 
 {
 	public GameObject infoChart; /*!< New gameObject. */
@@ -31,7 +29,7 @@ public class Chart : MonoBehaviour
 	private InventoryController inventory; /*!< InventoryController object. */
 
 	// Use this for initialization
-	//! Returns the first loaded object of InventoryController with original scale and position.
+	//! Returns the first loaded object of InventoryController with local scale and position.
 	/*! */
 	void Start () 
 	{
@@ -67,7 +65,7 @@ public class Chart : MonoBehaviour
 		}
 	}
 
-	//! Set the chart
+	//! Set the infoChart
 	/*! */
 	public void SetChart(Texture2D chart)
 	{
@@ -75,7 +73,7 @@ public class Chart : MonoBehaviour
 	}
 
 	//! Enable infoChart 
-	/*! */
+	/*! Changes the color */
 	public void Enable()
 	{
 		this.collider.enabled = true;
@@ -84,7 +82,7 @@ public class Chart : MonoBehaviour
 	}
 
 	//! Disable infoChart 
-	/*! */
+	/*! Changes the color */
 	public void Disable()
 	{
 		this.collider.enabled = false;
@@ -92,7 +90,7 @@ public class Chart : MonoBehaviour
 		infoChart.renderer.material.color = this.renderer.material.color;
 	}
 
-	//!  
+	//! Sets the variables when is showing/not showing the chart.
 	/*! */
 	public void msgButtonDown()
 	{

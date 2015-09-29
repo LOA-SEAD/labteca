@@ -88,7 +88,7 @@ public class MachineBehaviour : MonoBehaviour
 	//! Setup of reagent liquid in all machines.
 	public void Setup(string reagent, float concentration)
 	{
-		Dictionary<string, ReagentsLiquidClass> allReagents = ComponentsSaver.LoadReagents ();
+		Dictionary<string, ReagentsBaseClass> allReagents = ComponentsSaver.LoadReagents ();
 
 		if (!allReagents.ContainsKey(reagent))
 		{
@@ -96,7 +96,7 @@ public class MachineBehaviour : MonoBehaviour
 			return;
 		}
 
-		ReagentsLiquidClass realReagent = allReagents [reagent];
+		ReagentsLiquidClass realReagent = allReagents [reagent] as ReagentsLiquidClass;
 
 		allowShowFloat = false;
 		allowShowTexture = false;
@@ -116,7 +116,7 @@ public class MachineBehaviour : MonoBehaviour
 
 			case MACHINES.CONDUTIVIMETER:
 			{
-				setupFloat = realReagent.condutibility;
+				setupFloat = realReagent.conductibility;
 				showFloat = true;
 
 				InventoryController	inventory = FindObjectOfType (typeof(InventoryController)) as InventoryController;
@@ -145,7 +145,7 @@ public class MachineBehaviour : MonoBehaviour
 
 			case MACHINES.TURBIDOMETER:
 			{
-				setupFloat = realReagent.turbility;
+				setupFloat = realReagent.turbidity;
 				showFloat = true;
 
 				InventoryController	inventory = FindObjectOfType (typeof(InventoryController)) as InventoryController;
@@ -183,7 +183,7 @@ public class MachineBehaviour : MonoBehaviour
 	//! Uses of reagent liquid in all machines.
 	public void Use(string reagent, float concentration)
 	{
-		Dictionary<string, ReagentsLiquidClass> allReagents = ComponentsSaver.LoadReagents ();
+		Dictionary<string, ReagentsBaseClass> allReagents = ComponentsSaver.LoadReagents ();
 		
 		if (!allReagents.ContainsKey(reagent))
 		{
@@ -191,7 +191,7 @@ public class MachineBehaviour : MonoBehaviour
 			return;
 		}
 		
-		ReagentsLiquidClass realReagent = allReagents [reagent];
+		ReagentsLiquidClass realReagent = allReagents [reagent] as ReagentsLiquidClass;
 
 		switch (myType) 
 		{
@@ -205,7 +205,7 @@ public class MachineBehaviour : MonoBehaviour
 			
 			case MACHINES.CONDUTIVIMETER:
 			{
-				resultFloat = realReagent.condutibility - setupFloat;
+				resultFloat = realReagent.conductibility - setupFloat;
 				allowShowFloat = true;
 				allowShowTexture = false;
 			}
@@ -238,7 +238,7 @@ public class MachineBehaviour : MonoBehaviour
 			
 			case MACHINES.POLARIMETER:
 			{
-				resultFloat = realReagent.polarizibility;
+				resultFloat = realReagent.polarizability;
 				allowShowFloat = true;
 				allowShowTexture = false;
 			}
@@ -262,7 +262,7 @@ public class MachineBehaviour : MonoBehaviour
 
 			case MACHINES.TURBIDOMETER:
 			{
-				resultFloat = realReagent.turbility - setupFloat;
+				resultFloat = realReagent.turbidity - setupFloat;
 				allowShowFloat = true;
 				allowShowTexture = false;
 			}

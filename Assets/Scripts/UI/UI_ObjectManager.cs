@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-// TODO: Alterar controle por Canvas para Raycast vindo do UI_Manager
+// exTODO: Alterar controle por Canvas para Raycast vindo do UI_Manager
 /* Explicacao: Essa classe controla Canvas individuais dentro de cada objeto interagivel. Ou seja, na Balanca, a pisseta,
  * a espatula, etc, sao interagiveis pois neles ha um Canvas posicionado World Space e nesse canvas ha um botao que ocupa todo 
  * o espaco. Atualmente esta classe nao esta implementada no jogo, mas a maneira como foi pensada pode ser encontrada em:
@@ -10,6 +10,11 @@ using UnityEngine.UI;
  * 
  * Essa foi uma solucao imediatada mas nao eh a mais inteligente, ha um codigo comentado para utilizacao de Raycast 
  * dentro de UI_Manager.
+ */
+
+/* Nota do Leo²:
+ * Assim como falei na anterior, atualmente nao da pra alterar isso,
+ * caso tenhamos tempo no futuro, podemos refatorar isso :\
  */
 
 //! Class that works with 3D items that has mouse interaction. 

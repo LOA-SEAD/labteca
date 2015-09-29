@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -6,8 +6,7 @@ using System.Collections.Generic;
 /*! This is the controller for the Scale, it has all the methods that allows the Scale to work with 
  * the Glassware and Reagents, calculating their mass together and displaying it.
  */
-// TODO: refatorar o nome Balance para Scale.
-public class BalanceController : MonoBehaviour 
+public class ScaleController : MonoBehaviour 
 {
 	private InventoryController inventory;  // TODO: linkar c/ Inventory, se necessario aqui nesse script.
 
@@ -29,7 +28,7 @@ public class BalanceController : MonoBehaviour
 	public float addRemoveValue;    /*!< Float number to add remove value? */
     public float addRemoveError;    /*!< Float number to add remove error? */
 
-    public BalanceState balanceState;       /*!< BalanceState component. */
+    public ScaleState balanceState;       /*!< BalanceState component. */
 	public ReagentsSolid solidSelected;     /*!< ReagentsSolid component. */
 	
     // Awake happens before all Start()
@@ -47,7 +46,7 @@ public class BalanceController : MonoBehaviour
 	void Start () 
 	{
         // TODO: se pega o componente BalanceState dentro do proprio GameObject pq variavel publica entao?
-		balanceState = GetComponent<BalanceState>();
+		balanceState = GetComponent<ScaleState>();
 	}
 	
 	void Update () 

@@ -15,7 +15,7 @@ public class ReagentsLiquid : MonoBehaviour
 	private InventoryController inventory;
 	private Vector3 originalPosition;
 
-	public ReagentsLiquidClass info;
+	public ReagentsBaseClass info;
 
 	private bool _inInventory = false;
 

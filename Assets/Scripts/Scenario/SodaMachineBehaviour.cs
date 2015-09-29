@@ -8,6 +8,7 @@ public class SodaMachineBehaviour : InteractObjectBase {
 	public Transform sodaPrefab;        /*!< Prefab of can. */
     public Transform pivotMachine;      /*!< Transform for pivot. */
 	public int totalItens;              /*!< Integer for total items. */
+	public AudioSource machineSound; 	/*!< Sound of using the machine */
 	private float delayToInteract;
 	private bool callInteract;
 	
@@ -17,6 +18,7 @@ public class SodaMachineBehaviour : InteractObjectBase {
 			if(delayToInteract > 1.5f){
 				delayToInteract = 0;
 				callInteract = false;
+				machineSound.Play();
 				SpawnItem();
 			}
 		}

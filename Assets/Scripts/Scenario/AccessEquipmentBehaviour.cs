@@ -2,10 +2,9 @@
 using System.Collections;
 
 //! Allows any Equipment to be interactable.
-//TODO: refatorar o nome: access e equipment
-public class AcessEquipamentBehaviour : InteractObjectBase {
+public class AccessEquipmentBehaviour : InteractObjectBase {
 
-	public GameStateBase targetEquipament;      /*!< GameStateBase for equipment. */
+	public GameStateBase targetEquipment;      /*!< GameStateBase for equipment. */
 	private bool callInteract;
     public float delay = 0.5f;                  /*!< Float delay time. */
 	private float currentDelay;
@@ -16,7 +15,7 @@ public class AcessEquipamentBehaviour : InteractObjectBase {
 
 			if(currentDelay > delay){
 				callInteract = false;
-				targetEquipament.StartState();
+				targetEquipment.StartState();
 				currentDelay = 0;
 
 			}

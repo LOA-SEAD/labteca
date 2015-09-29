@@ -1,25 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-//! Declaration of information reagents
-/*! */
+//! Declaration of information for liquid reagents
+/*! The liquids have all the attributes from solids, plus a couple more (Reason why it was implemented like this)*/
 
-public class ReagentsLiquidClass
-{
-	public string name;
-	public int molarMass;
-	public float density;
+public class ReagentsLiquidClass : ReagentsBaseClass {
+
 	public float ph;
-	public float polarizibility;
-	public Texture2D uvSpecter;
-	public Texture2D irSpecter;
-	public Texture2D flameSpecter;
-	public float condutibility;
-	public float solubility;
-	public float turbility;
-	public Texture2D hplc;
+	public float turbidity;
 	public float refratometer;
-
-	public Texture2D texture;
-	public Color color;
+	public Texture2D hplc;  //High-Performance liquid chromatography
 }

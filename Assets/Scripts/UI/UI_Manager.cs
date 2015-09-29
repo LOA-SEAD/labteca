@@ -16,13 +16,18 @@ public class UI_Manager : MonoBehaviour {
 
     void Update()
     {
-        // TODO: Raycast para click do mouse em objetos
+        // exTODO: Raycast para click do mouse em objetos
         /* Explicacao: O problema aqui eh o fato de que cada 'State' tem uma camera diferente e na troca de estados ha Disable e Enable 
          * para a camera do Player e camera do 'State'. Para o Raycast funcionar eh preciso usar uma camera, e como nao ha tratamento nenhum de
          * Camera nos estados, apenas o Disable e Enable, o Raycast nao encontra a 'Main Camera' nem 'Current Camera' sendo assim 
          * da crash na hora de tentar fazer o Raycast. 
          */
-
+		/*Nota do Leo:
+		 * Conversei com Delano e a Joice, e eles disseram pra usar do jeito que esta,
+		 * apesar de o raycast ser a melhor forma de fazer isso, daria algum trabalho refatorar tudo
+		 * e estamos correndo contra o tempo, ou seja, quando tivermos mais tempo(se algum dia isso rolar)
+		 * podemos tentar refatorar isso :)
+		 */
         /*  
         if (Input.GetMouseButtonDown(0))
         {

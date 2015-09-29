@@ -11,11 +11,18 @@ using System.Collections.Generic;
 public class FPSInputController : MonoBehaviour
 {
     private CharacterMotor motor;
+	public string interactText;			/*!< String value that shows in the screen when an interactable object is near. */
 	public float distanceToInteract;    /*!< Float value that defines the interactable player's distance. */
     public float delayInteract;         /*!< Float value to delay the interaction. */
 	private float currentDelay;
 	private bool inInteraction;
 	private Vector3 lastPosition;
+
+	void Start(){
+		//if interactText is null, sets the text to a default one
+		if (interactText == "")
+			interactText = "Pressione \"E\" Para Interagir";
+	}
 
     void Awake()
     {
@@ -68,17 +75,16 @@ public class FPSInputController : MonoBehaviour
 			if(hitInfo.collider.GetComponent<InteractObjectBase>()){
 				if(Input.GetKeyDown(KeyCode.E)){
 					hitInfo.collider.GetComponent<InteractObjectBase>().Interact();
-					gameObject.GetComponent<PlayerAnimation>().PlayInteractAnimation();
+					if(!hitInfo.collider.GetComponent<AccessEquipmentBehaviour>())
+						gameObject.GetComponent<PlayerAnimation>().PlayInteractAnimation();
 					inInteraction = true;
 					lastPosition = transform.position;
-
 				}
-                // TODO: Esse texto aqui poderia ser uma string publica para edicao no Inspector - facilitar lvl design.
-				HudText.SetText("Pressione \"E\" Para Interagir");
+				HudText.SetText(interactText);
 			}
 		}
 		else{
-			HudText.SetText("");
+			HudText.EraseText();
 		}
     }
 }

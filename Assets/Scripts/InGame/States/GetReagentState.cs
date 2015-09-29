@@ -11,8 +11,7 @@ public  class GetReagentState : GameStateBase {
     public GameObject interactBox;      /*!< Box Colider to allow interaction. */
     public DoorBehaviour leftDoor;      /*!< GameObject that contains the left door. */
     public DoorBehaviour rightDoor;     /*!< GameObject that contains the right door. */
-    public string[] reagentList;        /*!< List of Reagents that are inside. */
-	public Dictionary<string, ReagentsLiquidClass> reagents = new Dictionary<string, ReagentsLiquidClass>();
+	public Dictionary<string, ReagentsBaseClass> reagents = new Dictionary<string, ReagentsBaseClass>(); /*!< Dictionary that stores all reagents>!*/
 
     // UI
     public Canvas canvasUI;                         /*!< Canvas where the UI will be shown. */
@@ -26,9 +25,8 @@ public  class GetReagentState : GameStateBase {
     private RectTransform contentRect, prefabRect;
 
 	public void Start () {
-		// TODO: problema das cameras e Raycast, se usar Raycast tem de tentar arrumar / melhorar isso aqui.
         cameraState.gameObject.SetActive(false);
-		//canvasUI.GetComponent<Canvas>().enabled = false;
+		ReagentsBaseClass actualReagent;
 		reagents = ComponentsSaver.LoadReagents();
 
         // Set-up components
@@ -43,9 +41,12 @@ public  class GetReagentState : GameStateBase {
         
         contentRect = UIScrollList.content;
 
-        // Populate reagent list UI
-        for (int i = 0; i < reagentList.Length; i++)
-        {
+		// Store keys in a List
+		List<string> list = new List<string>(reagents.Keys);
+		// Loop through list
+		foreach (string k in list)
+		{
+			reagents.TryGetValue(k,out actualReagent);
             // calculate y position
             float y = (prefabRect.rect.height + offSetItens) * lastItemPos ;
             
@@ -64,8 +65,7 @@ public  class GetReagentState : GameStateBase {
                                               prefabRect.transform.rotation) as GameObject;
 
             // set reagent's name
-            tempItem.GetComponent<ReagentUiItemBehaviour>().SetReagent(reagentList[i]);
-            
+            tempItem.GetComponent<ReagentUiItemBehaviour>().SetReagent(actualReagent.name);
             // next position on inventory grid
             lastItemPos++;
 

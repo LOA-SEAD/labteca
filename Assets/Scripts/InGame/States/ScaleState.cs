@@ -1,12 +1,11 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 //! State for Precision Scale.
 /*! This state has all the behaviour that controls the precision scale and it's UI.
  */
-// TODO: mudar nome da classe de Balance ("Equilibrio") para Scale >.<
-public  class BalanceState : GameStateBase {
+public  class ScaleState : GameStateBase {
 
     // camera and interactive area
     public Camera cameraState;                  /*!< Camera for this state. */
@@ -16,6 +15,8 @@ public  class BalanceState : GameStateBase {
     public Transform positionGlass2;            /*!< Position of second Glassware. */
     public Transform positionGlass3;            /*!< Position of third Glassware. */
     public Transform positionGlassEquipament;   /*!< Position of Glassware on the Precision Scale. */
+
+	public AudioSource soundBeaker;
     // UI
     // TODO: mudanca em como a UI funciona dentro da balanca
     /* Sugestao: talvez faca mais sentido os dialogs estarem dentro dos objetos em si, exemplo: o dialog da pisseta
@@ -59,7 +60,9 @@ public  class BalanceState : GameStateBase {
 	public bool selectPipeta;
 	public float amountSelectedPipeta;
 	public CursorMouse pipetaCursor;
+	//public ButtonObject pipetaCursor;
 	public CursorMouse pipetaReagentCursor;
+	//public ButtonObject pipetaReagentCursor;
 	public Slider pipetaValue;
 	public Text pipetaValueText;
 	//
@@ -67,6 +70,7 @@ public  class BalanceState : GameStateBase {
 	//water
 	public bool selectWater;
 	public CursorMouse waterCursor;
+	//public ButtonObject waterCursos;
 	public float amountSelectedWater;
 	public Slider waterValue;
 	public Text waterValueText;
@@ -202,7 +206,7 @@ public  class BalanceState : GameStateBase {
 
 	//TODO: metodo temporario na ausencia do inventario
 	public void CallPutBequer(){
-		if(gameController.totalBackers > 0){
+		if(gameController.totalBeakers > 0){
 			OpenOptionDialogGlass();
 		}
 		else{
@@ -213,7 +217,7 @@ public  class BalanceState : GameStateBase {
 	//TODO: metodo temporario na ausencia do inventario
 	public void CallPutReagent(){
 		if(gameController.haveReagentNaCl){
-			if(HaveGlassInTable() || HaveGlassInEquipament()){
+			if(HaveGlassInTable() || HaveGlassInEquipment()){
 
 				if(selectSpatula){
 					OpenSpatulaDialog(false);
@@ -283,8 +287,9 @@ public  class BalanceState : GameStateBase {
 		canClickTools = true;
 	}
 
-	public void OpenOptionDialogWater(){
+	public void OpenOptionDialogWater(float maxVolumeGlassware){
 		optionDialogWater.SetActive(true);
+		optionDialogWater.GetComponentInChildren<Slider> ().maxValue = maxVolumeGlassware;
 		canClickTools = false;
 		DeselectWater ();
 		waterValue.value = 0;
@@ -295,8 +300,9 @@ public  class BalanceState : GameStateBase {
 		canClickTools = true;
 	} 
 
-	public void OpenOptionDialogPipeta(){
+	public void OpenOptionDialogPipeta(float currentVolumeUsed){
 		optionDialogPipeta.SetActive(true);
+		optionDialogPipeta.GetComponentInChildren<Slider> ().maxValue = currentVolumeUsed;
 		canClickTools = false;
 		DeselectPipeta ();
 		pipetaValue.value = 0;
@@ -353,35 +359,34 @@ public  class BalanceState : GameStateBase {
 		}
 		else{
 			if(!realocate){
+				if(positionGlass1.childCount == 0){
 
-					if(positionGlass1.childCount == 0){
+					//TODO: Temporariamente esta pegando do gamecontroller, mas tem que pegar do inventario esses dados
+					GameObject tempGlass = Instantiate(gameController.selectedGlassWare.gameObject, positionGlass1.position, gameController.selectedGlassWare.transform.rotation) as GameObject;
+					tempGlass.transform.SetParent(positionGlass1,false);
+					tempGlass.transform.localPosition = Vector3.zero;
+					tempGlass.GetComponent<Glassware>().SetStateInUse(this);
+					gameController.totalBeakers--;
+				}
+				else if(positionGlass2.childCount == 0){						//TODO: Temporariamente esta pegando do gamecontroller, mas tem que pegar do inventario esses dados
+					GameObject tempGlass = Instantiate(gameController.selectedGlassWare.gameObject, positionGlass2.position, gameController.selectedGlassWare.transform.rotation) as GameObject;
+					tempGlass.transform.SetParent(positionGlass2,false);
+					tempGlass.transform.localPosition = Vector3.zero;
+					tempGlass.GetComponent<Glassware>().SetStateInUse(this);
+					gameController.totalBeakers--;
 
-						//TODO: Temporariamente esta pegando do gamecontroller, mas tem que pegar do inventario esses dados
-						GameObject tempGlass = Instantiate(gameController.selectedGlassWare.gameObject, positionGlass1.position, gameController.selectedGlassWare.transform.rotation) as GameObject;
-						tempGlass.transform.SetParent(positionGlass1,false);
-						tempGlass.transform.localPosition = Vector3.zero;
-						tempGlass.GetComponent<Glassware>().SetStateInUse(this);
-						gameController.totalBackers--;
-					}
-					else if(positionGlass2.childCount == 0){
-						//TODO: Temporariamente esta pegando do gamecontroller, mas tem que pegar do inventario esses dados
-						GameObject tempGlass = Instantiate(gameController.selectedGlassWare.gameObject, positionGlass2.position, gameController.selectedGlassWare.transform.rotation) as GameObject;
-						tempGlass.transform.SetParent(positionGlass2,false);
-						tempGlass.transform.localPosition = Vector3.zero;
-						tempGlass.GetComponent<Glassware>().SetStateInUse(this);
-						gameController.totalBackers--;
+				}
+				else{
+				
+					//TODO: Temporariamente esta pegando do gamecontroller, mas tem que pegar do inventario esses dados
+					GameObject tempGlass = Instantiate(gameController.selectedGlassWare.gameObject, positionGlass3.position, gameController.selectedGlassWare.transform.rotation) as GameObject;
+					tempGlass.transform.SetParent(positionGlass3,false);
+					tempGlass.transform.localPosition = Vector3.zero;
+					tempGlass.GetComponent<Glassware>().SetStateInUse(this);
+					gameController.totalBeakers--;
 
-					}
-					else{
-
-						//TODO: Temporariamente esta pegando do gamecontroller, mas tem que pegar do inventario esses dados
-						GameObject tempGlass = Instantiate(gameController.selectedGlassWare.gameObject, positionGlass3.position, gameController.selectedGlassWare.transform.rotation) as GameObject;
-						tempGlass.transform.SetParent(positionGlass3,false);
-						tempGlass.transform.localPosition = Vector3.zero;
-						tempGlass.GetComponent<Glassware>().SetStateInUse(this);
-						gameController.totalBackers--;
-
-					}
+				}
+				soundBeaker.Play ();
 				CloseOptionDialogGlass();
 			}
 			else{
@@ -396,7 +401,7 @@ public  class BalanceState : GameStateBase {
 
 					if(lastGlassWareSelected.transform.parent == positionGlassEquipament){
 						lastGlassWareSelected.transform.SetParent(null);
-						GetComponent<BalanceController>().RemoveObjectInEquipament(lastGlassWareSelected.gameObject);
+						GetComponent<ScaleController>().RemoveObjectInEquipament(lastGlassWareSelected.gameObject);
 
 					}
 					else{
@@ -445,8 +450,8 @@ public  class BalanceState : GameStateBase {
 				GameObject tempGlass = Instantiate(gameController.selectedGlassWare.gameObject, positionGlassEquipament.position, gameController.selectedGlassWare.transform.rotation) as GameObject;
 				tempGlass.transform.SetParent(positionGlassEquipament,false);
 				tempGlass.transform.localPosition = Vector3.zero;
-				gameController.totalBackers--;
-				GetComponent<BalanceController>().AddObjectInEquipament(tempGlass);
+				gameController.totalBeakers--;
+				GetComponent<ScaleController>().AddObjectInEquipament(tempGlass);
 				tempGlass.GetComponent<Glassware>().SetStateInUse(this);
 			}
 			else{
@@ -459,7 +464,7 @@ public  class BalanceState : GameStateBase {
 					GameObject tempGlass = lastGlassWareSelected.gameObject;
 					tempGlass.transform.SetParent(positionGlassEquipament,false);
 					tempGlass.transform.localPosition = Vector3.zero;
-					GetComponent<BalanceController>().AddObjectInEquipament(tempGlass);
+					GetComponent<ScaleController>().AddObjectInEquipament(tempGlass);
 					tempGlass.GetComponent<Glassware>().SetStateInUse(this);
 				}
 				
@@ -477,7 +482,7 @@ public  class BalanceState : GameStateBase {
 
 		if(inInventory){
 			//TODO: metodo temporario pela a ausencia do inventario
-			gameController.totalBackers--;
+			gameController.totalBeakers--;
 		}
 		CloseOptionDialogGlass();
 	}
@@ -493,8 +498,7 @@ public  class BalanceState : GameStateBase {
 	}
 
     //! Verify if there is any Glassware on the equipment.
-    // TODO: refatorar Equipament para Equipment. 
-	public bool HaveGlassInEquipament(){
+	public bool HaveGlassInEquipment(){
 		if(positionGlassEquipament.childCount > 0){
 			return true;
 		}
@@ -502,7 +506,7 @@ public  class BalanceState : GameStateBase {
 	}
 
     // TODO: Codigo para controle da espatula, talvez modularizar e colocar o script no GameObject da espatula
-	//Spatule//////////////////////////////////////////////////////////////
+	//Spatula//////////////////////////////////////////////////////////////
     //! Set the approximate that the spatule will be taking. 
 	public void SetAmountReagentSpatula(bool Increase){
 
@@ -576,7 +580,7 @@ public  class BalanceState : GameStateBase {
 
 		}
 	}
-	//Spatule//////////////////////////////////////////////////////////////
+	//Spatula//////////////////////////////////////////////////////////////
 
     // TODO: Codigo para controle da Pisseta, se for decidido modularizar, deve ser refatorado isso.
 	//Water//////////////////////////////////////////////////////////////
@@ -679,9 +683,9 @@ public  class BalanceState : GameStateBase {
 		Glassware glass = glassClick.GetComponent<Glassware> ();
 		lastGlassWareSelected = glassClick.GetComponent<Glassware> ();
 
-		if (selectWater) {
+		if (selectWater&&glassClick.GetComponent<Glassware>().volume-glassClick.GetComponent<Glassware>().currentVolumeUsed>0) {
 
-			OpenOptionDialogWater();
+			OpenOptionDialogWater(glassClick.GetComponent<Glassware>().volume-glassClick.GetComponent<Glassware>().currentVolumeUsed);
 
 		}
 		else if(selectPipeta){
@@ -692,7 +696,7 @@ public  class BalanceState : GameStateBase {
 
 			}
 			else if(glass.liquid.activeSelf == true){
-				OpenOptionDialogPipeta();
+				OpenOptionDialogPipeta(glassClick.GetComponent<Glassware>().currentVolumeUsed);
 			}
 
 		}
@@ -704,7 +708,7 @@ public  class BalanceState : GameStateBase {
 			else{ 
 
 				if((float)(glass.GetComponent<Rigidbody>().mass) != (float)(glass.mass) && 
-			        GetComponent<BalanceController>().GetGlassInEquipament() == glass && 
+			        GetComponent<ScaleController>().GetGlassInEquipament() == glass && 
 			        glass.liquid.activeSelf == true &&
 			        amountSelectedSpatula > 0){
 

@@ -10,13 +10,13 @@ public class AnyObjectInstantiation : ItemInventoryBase {
 
     private InventoryManager inventoryManager; /*!< inventoryManager */
     
-    //! Tries to find the inventoryManager inside object Main Camera
+    //! Tries to find the inventoryManager inside object InventoryManager
     void Start()
     {
-        inventoryManager = GameObject.Find("Main Camera").GetComponent<InventoryManager>();
+        inventoryManager = GameObject.Find("InventoryManager").GetComponent<InventoryManager>();
         if(inventoryManager == null)
         {
-            Debug.LogError("AnyObjectInstantiation : couldnt find 'Main Camera'.");
+            Debug.LogError("AnyObjectInstantiation : couldn't find 'InventoryManager'.");
         }
     }
 

@@ -12,14 +12,13 @@ public class HUDController : MonoBehaviour {
 	public bool journalUp=false,inventoryUp=false;
 	public GameObject player,journal; /*< GameObject of Player. */
 	public Canvas inventoryCanvas;
-	public bool inventoryNotLocked=false;
+	public bool inventoryLocked=false;
 
 	void Update(){
 		if(Input.GetKeyDown(journalKey)){
 			callJournal();
 		}
-		if (Input.GetKeyDown (KeyCode.I)&&!journalUp) {
-			inventoryNotLocked=!inventoryNotLocked;
+		if (Input.GetKeyDown (KeyCode.I)) {
 			callInventory();
 		}
 	}
@@ -41,16 +40,18 @@ public class HUDController : MonoBehaviour {
         GetComponent<Canvas>().worldCamera = newCamera;
     }
 	public void callJournal(){
+		if(!inventoryUp)
+			callInventory ();
 		journalUp = !journalUp;
 		journal.SetActive (journalUp);
-		if (!inventoryNotLocked)
-			callInventory ();
 	}
 
 	public void callInventory(){
-		changePlayerState ();		
-		inventoryCanvas.enabled = !inventoryCanvas.enabled;
-		inventoryUp = !inventoryUp;
+		if (!inventoryLocked&&!journalUp) {
+			changePlayerState ();		
+			inventoryCanvas.enabled = !inventoryCanvas.enabled;
+			inventoryUp = !inventoryUp;
+		}
 	}
 
 	public void changePlayerState(){

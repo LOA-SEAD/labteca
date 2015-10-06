@@ -70,4 +70,8 @@ public class GameController : MonoBehaviour {
 	public void GoToDefaultState(){
 		ChangeState(0);
 	}
+
+	public void CallJournalSaver(JournalUIItem journalUI){
+		JournalSaver.AddJournalUIItem (journalUI);
+	}
 }

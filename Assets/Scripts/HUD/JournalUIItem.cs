@@ -3,11 +3,20 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class JournalUIItem : MonoBehaviour {
+	public int index;
+	public string name;
 	public bool isDone,prerequisitesDone;
 	public JournalUIItem[] prerequisites;
 
+	public JournalUIItem(){}
+	public JournalUIItem(int index,string name,bool isDone,int prerequisitesSize){
+		this.index = index;
+		this.name = name;
+		this.isDone = isDone;
+		this.prerequisites = new JournalUIItem[prerequisitesSize];
+	}
+
 	public void Start(){
-		checkPrerequisites ();
 	}
 
 	public void checkItem(){

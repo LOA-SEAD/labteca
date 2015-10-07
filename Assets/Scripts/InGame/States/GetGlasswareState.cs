@@ -24,6 +24,13 @@ public  class GetGlasswareState : GameStateBase {
 	private int lastItemPos = 0;
 	private RectTransform contentRect, prefabRect;
 
+	//Prefabs to instantiate the glasswares
+	//! Needs to be attached in the scene
+	public AnyObjectInstantiation beaker;
+	public AnyObjectInstantiation volumetricFlask0;
+	public AnyObjectInstantiation volumetricFlask1;
+	public AnyObjectInstantiation volumetricFlask2;
+	public AnyObjectInstantiation volumetricFlask3;
 
 	public void Start () {
 		cameraState.gameObject.SetActive(false);
@@ -140,6 +147,16 @@ public  class GetGlasswareState : GameStateBase {
 
 
 	}
+
+	//! Instantiation of the reagent when clicked
+	/*! Uses the name of the reagent clicked to instantiate an game object (AnyObjectInstantiation) that will be
+	 *!	added to the inventory*/
+	/*public AnyObjectInstantiation GlasswareInstantiation (string glassName) {
+		Glassware instantiatingGlass;
+	
+
+		return solidReagent;
+	}*/
 
 
 

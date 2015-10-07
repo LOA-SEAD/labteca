@@ -5,18 +5,14 @@ using System.Collections;
 public class JournalUIItem : MonoBehaviour {
 	public int index;
 	public string name;
+	public Text journalText;
+	public GameObject checkmark;
 	public bool isDone,prerequisitesDone;
 	public JournalUIItem[] prerequisites;
-
-	public JournalUIItem(){}
-	public JournalUIItem(int index,string name,bool isDone,int prerequisitesSize){
-		this.index = index;
-		this.name = name;
-		this.isDone = isDone;
-		this.prerequisites = new JournalUIItem[prerequisitesSize];
-	}
-
+	
 	public void Start(){
+		checkmark.SetActive (isDone?true:false);
+		journalText.text = name;
 	}
 
 	public void checkItem(){
@@ -26,6 +22,7 @@ public class JournalUIItem : MonoBehaviour {
 			for(int i = 0;i<journalItems.Length;i++){
 				journalItems[i].GetComponent<JournalUIItem>().checkPrerequisites();
 			}
+			checkmark.SetActive (true);
 		}
 	}
 	

@@ -7,7 +7,10 @@ using UnityEngine.UI;
 public class GlasswareUiItemBehaviour : MonoBehaviour {
 
 	public Text nameGlass;
+
 	private Glassware prefabGlassware;
+
+	private int glasswareIndex;  //Position in the glasswareList in GetGlasswareState.cs
 
 	private AnyObjectInstantiation glassware;
 	private InventoryManager inventoryManager;
@@ -22,19 +25,18 @@ public class GlasswareUiItemBehaviour : MonoBehaviour {
 	
 	}*/
 
-	public void SetGlass(Glassware glass){
+	public void SetGlass(Glassware glass, int index){
 
 		nameGlass.text = glass.name;
 
 		prefabGlassware = glass;
 	
+		glasswareIndex = index;
 	}
-	//TODO: Comentario: isso e para suprir a falta do inventario entao tem que alterar aqui depois; 
+
 	/*! Add the glassware to the inventory and increases the variable (bequer).*/
 	public void AddToInventory(){
-		//isso e para suprir a falta do inventario entao tem que alterar aqui depois;
-		//glassware = GameObject.Find ("GetReagents").GetComponent<GetGlasswareState>().Instantiation(nameGlass.text);
-		//inventoryManager.AddItemToInventory (glassware);
+		inventoryManager.AddItemToInventory (GameObject.Find ("GetGlassware").GetComponent<GetGlasswareState>().GlasswareInstantiation(glasswareIndex));
 	}
 
 

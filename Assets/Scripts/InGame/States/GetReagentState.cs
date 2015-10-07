@@ -156,9 +156,10 @@ public  class GetReagentState : GameStateBase {
 	}
 
 
+	//TODO: make a way to set the right texture/models for the reagents
 	//! Instantiation of the reagent when clicked
-	/*! Uses the name of the reagent clicked to instantiate an game object (AnyObjectInstantiation) that will be
-	 *!	added to the inventory*/
+	/*! Uses the name of the reagent clicked to instantiate a game object (AnyObjectInstantiation) that will be
+	 *!	added to the inventory */
 	public AnyObjectInstantiation ReagentInstantiation (string reagentName) {
 		ReagentsBaseClass instantiatingReagent;
 		reagents.TryGetValue (reagentName, out instantiatingReagent);

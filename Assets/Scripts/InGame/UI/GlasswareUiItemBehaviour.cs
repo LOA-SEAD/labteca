@@ -9,13 +9,16 @@ public class GlasswareUiItemBehaviour : MonoBehaviour {
 	public Text nameGlass;
 	private Glassware prefabGlassware;
 
+	private AnyObjectInstantiation glassware;
+	private InventoryManager inventoryManager;
+
 	// Use this for initialization
-	/*void Start () {
-	
+	void Start () {
+		inventoryManager = GameObject.Find ("InventoryManager").GetComponent<InventoryManager> ();
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	/*void Update () {
 	
 	}*/
 
@@ -30,9 +33,8 @@ public class GlasswareUiItemBehaviour : MonoBehaviour {
 	/*! Add the glassware to the inventory and increases the variable (bequer).*/
 	public void AddToInventory(){
 		//isso e para suprir a falta do inventario entao tem que alterar aqui depois;
-		if(nameGlass.text == "Bequer"){
-			GameController.instance.totalBeakers += 1;
-		}
+		//glassware = GameObject.Find ("GetReagents").GetComponent<GetGlasswareState>().Instantiation(nameGlass.text);
+		//inventoryManager.AddItemToInventory (glassware);
 	}
 
 

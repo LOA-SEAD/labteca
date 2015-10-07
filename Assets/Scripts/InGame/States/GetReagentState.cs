@@ -158,7 +158,7 @@ public  class GetReagentState : GameStateBase {
 
 	//! Instantiation of the reagent when clicked
 	/*! Uses the name of the reagent clicked to instantiate an game object (AnyObjectInstantiation) that will be
-	 *!	to  add to the inventory*/
+	 *!	added to the inventory*/
 	public AnyObjectInstantiation ReagentInstantiation (string reagentName) {
 		ReagentsBaseClass instantiatingReagent;
 		reagents.TryGetValue (reagentName, out instantiatingReagent);

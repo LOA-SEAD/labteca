@@ -8,8 +8,7 @@ using UnityEngine.UI;
 public class ReagentUiItemBehaviour : MonoBehaviour {
 
 	public Text nameReagent;
-
-	private AnyObjectInstantiation reagent;
+	
 	private InventoryManager inventoryManager;
 
 	void Start () {
@@ -31,8 +30,8 @@ public class ReagentUiItemBehaviour : MonoBehaviour {
 	//! Add the reagent clicked to the inventory
 	public void AddToInventory(){
 		//Debug.Log ("Add " + nameReagent.text);
-		reagent = GameObject.Find ("GetReagents").GetComponent<GetReagentState>().ReagentInstantiation(nameReagent.text);
-		inventoryManager.AddItemToInventory (reagent);
+		//reagent = GameObject.Find ("GetReagents").GetComponent<GetReagentState>().ReagentInstantiation(nameReagent.text);
+		inventoryManager.AddItemToInventory (GameObject.Find ("GetReagents").GetComponent<GetReagentState>().ReagentInstantiation(nameReagent.text));
 
 	}
 

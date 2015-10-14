@@ -6,19 +6,20 @@ using System.Collections.Generic;
 
 public class JournalSaver{
 
-	private static TextEdit text = new TextEdit("Assets/Resources/journalItems.txt");
+	private static TextEdit text;
 
-	public static void AddJournalUIItem(JournalUIItem journalItem){
-		Dictionary<int, JournalUIItem> JournalItems = JournalSaver.LoadJournalUIItems ();
+	public static void AddJournalUIItem(JournalUIItem journalItem,int expo){
+		Dictionary<int, JournalUIItem> JournalItems = JournalSaver.LoadJournalUIItems (expo);
 		if(JournalItems.ContainsKey(journalItem.index))
 		   JournalItems.Remove(journalItem.index);
 		JournalItems.Add (journalItem.index, journalItem);
-		SaveJournalUIItems (JournalItems);
+		SaveJournalUIItems (JournalItems,expo);
 	}
 
 	//Saves the reactions from a dictionary to the text file
-	public static void SaveJournalUIItems(Dictionary<int, JournalUIItem> JournalItems)
+	public static void SaveJournalUIItems(Dictionary<int, JournalUIItem> JournalItems,int expo)
 	{
+		text = new TextEdit("Assets/Resources/journalItems"+expo.ToString()+".txt");
 		text.ClearFile ();
 		text.SetInt ("numberOfJournalItems", JournalItems.Count);
 		
@@ -37,9 +38,10 @@ public class JournalSaver{
 		}
 	}
 	//Loads the reactions from a file, and returns a dictionary
-	public static Dictionary<int, JournalUIItem> LoadJournalUIItems()
+	public static Dictionary<int, JournalUIItem> LoadJournalUIItems(int expo)
 	{
-		TextAsset loadText = Resources.Load("journalItems") as TextAsset;
+		text = new TextEdit("Assets/Resources/journalItems"+expo.ToString()+".txt");
+		TextAsset loadText = Resources.Load("journalItems"+expo.ToString()) as TextAsset;
 		
 		TextEdit textLoad = new TextEdit(loadText);
 		

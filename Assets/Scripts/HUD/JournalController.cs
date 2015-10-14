@@ -1,14 +1,15 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class JournalController : MonoBehaviour {
 	public Canvas canvasUI;
+	public GameObject canvasObject;
 	public JournalUIItem journalPrefab;    /*!< Prefab with reagent list layout. */
 	public float offSetItens;     /*!< Offset for each reagent on the list. */
-
-
+	public int experimentNumber;
+	
 	private ScrollRect UIScrollList;
 	private Vector3 currentPosition;
 	private int lastItemPos = 0;
@@ -16,8 +17,25 @@ public class JournalController : MonoBehaviour {
 	private List<int> listOfJournalIndexes;
 	// Use this for initialization
 	void Start () {
+		canvasObject.SetActive (true);
+		rewriteContent ();
+		canvasObject.SetActive (false);
+	}
+	
+	public void checkJournalItem(int index){
+		GameObject journalUIItem;
+		foreach (int i in listOfJournalIndexes) {
+			if(i==index){
+				journalUIItem = GameObject.Find("JournalUIItem"+i.ToString());
+				journalUIItem.GetComponent<JournalUIItem> ().checkItem ();
+				break;
+			}
+		}
+	}
+
+	public void rewriteContent(){
 		JournalUIItem actualJournalUI;
-		Dictionary<int, JournalUIItem> journalUIItem = JournalSaver.LoadJournalUIItems ();
+		Dictionary<int, JournalUIItem> journalUIItem = JournalSaver.LoadJournalUIItems (experimentNumber);
 		
 		// Set-up components
 		if (canvasUI == null)   
@@ -50,8 +68,8 @@ public class JournalController : MonoBehaviour {
 			
 			// instantiate Item
 			GameObject tempItem = Instantiate (prefabRect.gameObject,
-			                                  currentPos,
-			                                  prefabRect.transform.rotation) as GameObject;
+			                                   currentPos,
+			                                   prefabRect.transform.rotation) as GameObject;
 			tempItem.name = "JournalUIItem" + actualJournalUI.index.ToString ();
 			tempItem.GetComponent<JournalUIItem> ().index = actualJournalUI.index;
 			tempItem.GetComponent<JournalUIItem> ().isDone = actualJournalUI.isDone;
@@ -62,7 +80,7 @@ public class JournalController : MonoBehaviour {
 			}
 			tempItem.GetComponent<JournalUIItem> ().name = actualJournalUI.name;
 			tempItem.GetComponent<JournalUIItem> ().checkPrerequisites ();
-
+			
 			// next position on inventory grid
 			lastItemPos++;
 			
@@ -70,18 +88,5 @@ public class JournalController : MonoBehaviour {
 			tempItem.transform.SetParent (contentRect.transform, false);
 		}
 	}
-
-	public void checkJournalItem(int index){
-		GameObject journalUIItem;
-		foreach (int i in listOfJournalIndexes) {
-			if(i==index){
-				journalUIItem = GameObject.Find("JournalUIItem"+i.ToString());
-				journalUIItem.GetComponent<JournalUIItem> ().checkItem ();
-				break;
-			}
-		}
-
-	}
-
-
+	
 }

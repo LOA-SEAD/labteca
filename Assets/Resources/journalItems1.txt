@@ -15,5 +15,5 @@ indexPrerequisiteOf2_0=0
 indexPrerequisiteOf2_1=1
 index3=3
 name3=Test
-isDone3=False
+isDone3=True
 numberOfPrerequisites3=0

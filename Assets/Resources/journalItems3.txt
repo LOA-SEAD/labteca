@@ -1,5 +1,9 @@
-numberOfJournalItems=1
+numberOfJournalItems=2
 index0=0
 name0=Prefab Expo 3
 isDone0=False
 numberOfPrerequisites0=0
+index1=1
+name1=Index1
+isDone1=False
+numberOfPrerequisites1=0

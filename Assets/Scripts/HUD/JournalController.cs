@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class JournalController : MonoBehaviour {
 	public Canvas canvasUI;
 	public GameObject canvasObject;
+	public JournalUIInfo infoPrefab;
 	public JournalUIItem journalPrefab;    /*!< Prefab with reagent list layout. */
 	public float offSetItens;     /*!< Offset for each reagent on the list. */
 	public int experimentNumber;
@@ -21,6 +22,51 @@ public class JournalController : MonoBehaviour {
 		rewriteContent ();
 		canvasObject.SetActive (false);
 	}
+	public void changeExperiment(int expo){
+		experimentNumber = expo;
+		rewriteContent ();
+	}
+
+	public void writeReagentInfo(string name){
+		deleteContent ();
+		ReagentsBaseClass reagent;
+		Dictionary<string, ReagentsBaseClass> reagents = ComponentsSaver.LoadReagents ();
+		reagents.TryGetValue (name, out reagent);
+		//adds the infoUI to content
+		prefabRect = journalPrefab.GetComponent<RectTransform> ();
+		
+		contentRect = UIScrollList.content;
+		// calculate y position
+		float y = (prefabRect.rect.height + offSetItens) * lastItemPos;
+
+		// set position
+		Vector3 currentPos = new Vector3 (1f, -y);
+		//Debug.Log("Current y position: " + y );
+			
+		// resize content rect
+		contentRect.sizeDelta = new Vector2 (
+											1f, // width doesnt change
+											prefabRect.rect.height + (prefabRect.rect.height + offSetItens) * lastItemPos);
+			
+		// instantiate Item
+		GameObject tempItem = Instantiate (prefabRect.gameObject,
+		                                   currentPos,
+		                                   prefabRect.transform.rotation) as GameObject;
+		//add info to prefab
+		/*tempItem.name = "JournalUIItem" + actualJournalUI.index.ToString ();
+		tempItem.GetComponent<JournalUIItem> ().index = actualJournalUI.index;
+		tempItem.GetComponent<JournalUIItem> ().isDone = actualJournalUI.isDone;
+		tempItem.GetComponent<JournalUIItem> ().prerequisites = new JournalUIItem[actualJournalUI.prerequisites.Length];
+		for (int n = 0; n < actualJournalUI.prerequisites.Length; n++) {
+			Debug.Log (actualJournalUI.prerequisites [n].index.ToString ());
+			tempItem.GetComponent<JournalUIItem> ().prerequisites [n] = GameObject.Find ("JournalUIItem" + actualJournalUI.prerequisites [n].index.ToString ()).GetComponent<JournalUIItem> ();
+		}
+		tempItem.GetComponent<JournalUIItem> ().name = actualJournalUI.name;
+		tempItem.GetComponent<JournalUIItem> ().checkPrerequisites ();*/
+			
+		// set new item parent to scroll rect content
+		tempItem.transform.SetParent (contentRect.transform, false);
+	}
 	
 	public void checkJournalItem(int index){
 		GameObject journalUIItem;
@@ -33,7 +79,18 @@ public class JournalController : MonoBehaviour {
 		}
 	}
 
+	private void deleteContent(){
+		GameObject deletableInfo = GameObject.Find ("JournalUIReagent");
+		if (deletableInfo != null)
+			Destroy (deletableInfo);
+		GameObject[] deletable = GameObject.FindGameObjectsWithTag ("JournalUIItem");
+		for (int i = 0; i < deletable.Length; i++) 
+			Destroy (deletable [i]);
+		lastItemPos = 0;
+	}
+
 	public void rewriteContent(){
+		deleteContent ();
 		JournalUIItem actualJournalUI;
 		Dictionary<int, JournalUIItem> journalUIItem = JournalSaver.LoadJournalUIItems (experimentNumber);
 		

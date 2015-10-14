@@ -24,6 +24,8 @@ public class GameController : MonoBehaviour {
 	public GameObject prefabBeaker;
 	public Glassware selectedGlassWare;
 
+
+
 	//variaveis para suprir a falta de inventario.
 
     //TODO: No Start esta puxando um Glassware do prefab e jogando para selectedGlassware. //Precisa do inventario
@@ -71,7 +73,8 @@ public class GameController : MonoBehaviour {
 		ChangeState(0);
 	}
 
-	public void CallJournalSaver(JournalUIItem journalUI){
-		JournalSaver.AddJournalUIItem (journalUI);
+	public void CallJSaver(JournalUIItem journalUI){
+		int expo = GameObject.Find ("Journal").GetComponent<JournalController> ().experimentNumber;
+		JournalSaver.AddJournalUIItem (journalUI,expo);
 	}
 }

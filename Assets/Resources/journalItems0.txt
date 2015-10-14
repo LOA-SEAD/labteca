@@ -1,0 +1,10 @@
+numberOfJournalItems=2
+index0=0
+name0=Teste
+isDone0=False
+numberOfPrerequisites0=0
+index1=1
+name1=Teste1
+isDone1=False
+numberOfPrerequisites1=1
+indexPrerequisiteOf1_0=0

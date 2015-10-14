@@ -58,7 +58,8 @@ public class TextEdit
 		} 
 		else 
 		{
-			Debug.LogError("Error [ReadConfig]: specified file [" + path + "] not found.");
+			File.Create(path);
+			LoadFile(pathAcc);
 		}
 	}
 	

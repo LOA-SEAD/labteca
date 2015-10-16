@@ -5,75 +5,74 @@ using System.Text;
 using System.IO;
 using UnityEngine;
 
-//! Write a custom editor for an Text-derived component.
-/*! */
-//TODO: testar para saber como funciona.
+//! Loads a .txt file 
+/*! Loads componentsLiquids.txt (Components) and reactions.txt (Reactions) 
+  Gets and sets a string, an int, a float and a bool in the file .txt */
 public class TextEdit
 {
-    private Dictionary<string, string> dictionary = new Dictionary<string, string>();
-
-	//! Loads the path.
+	private Dictionary<string, string> dictionary = new Dictionary<string, string>();
+	
 	public TextEdit(string path)
 	{
 		LoadFile(path);
-    }
-
-	//! Loads file with string.
+	}
+	
 	public TextEdit(TextAsset LoadFromText)
 	{
 		LoadFileWithString(LoadFromText.text);
 	}
-
+	
 	private string pathAcc;
 	private System.IO.StreamWriter WriteFile;
-
-	//!
-	/*! */
-    private void LoadFile(string path)
-    {
+	
+	//! Loads the file whit the path referenced.
+	/*! Reads all lines that starts and ends with \ or ' */
+	private void LoadFile(string path)
+	{
 		dictionary.Clear();
 		pathAcc = path;
 		
 		if (File.Exists(path))
 		{
-	        foreach (string line in File.ReadAllLines(path))
-	        {
-	            if ((!string.IsNullOrEmpty(line)) &&
-	                (!line.StartsWith(";")) &&
-	                (!line.StartsWith("#")) &&
+			foreach (string line in File.ReadAllLines(path))
+			{
+				if ((!string.IsNullOrEmpty(line)) &&
+				    (!line.StartsWith(";")) &&
+				    (!line.StartsWith("#")) &&
 				    (!line.StartsWith("//")) &&
-	                (!line.StartsWith("'")) &&
-	                (line.Contains("=")))
-	            {
-	                int index = line.IndexOf('=');
-	                string key = line.Substring(0, index).Trim();
-	                string value = line.Substring(index + 1).Trim();
-	
-	                if ((value.StartsWith("\"") && value.EndsWith("\"")) ||
-	                    (value.StartsWith("'") && value.EndsWith("'")))
-	                {
-	                    value = value.Substring(1, value.Length - 2);
-	                }
-	                dictionary.Add(key, value);
-	            }
-	        }
+				    (!line.StartsWith("'")) &&
+				    (line.Contains("=")))
+				{
+					int index = line.IndexOf('=');
+					string key = line.Substring(0, index).Trim();
+					string value = line.Substring(index + 1).Trim();
+					
+					if ((value.StartsWith("\"") && value.EndsWith("\"")) ||
+					    (value.StartsWith("'") && value.EndsWith("'")))
+					{
+						value = value.Substring(1, value.Length - 2);
+					}
+					dictionary.Add(key, value);
+				}
+			}
 		} 
 		else 
 		{
-			Debug.LogError("Error [ReadConfig]: specified file [" + path + "] not found.");
+			File.Create(path);
+			LoadFile(pathAcc);
 		}
-    }
-
-	//!
-	/*! */
+	}
+	
+	//! Loads the file with the name referenced.
+	/*! Reads all lines that starts and ends with \ or ' */
 	private void LoadFileWithString(string text)
 	{
 		string[] separator = {"/n", "//n", "\n", "\\n" };
-
+		
 		string[] lines = text.Split(separator, StringSplitOptions.None);
-
+		
 		dictionary.Clear();
-
+		
 		for (int i = 0; i < lines.Length; i++) 
 		{
 			if ((!string.IsNullOrEmpty(lines[i])) &&
@@ -96,20 +95,18 @@ public class TextEdit
 			}
 		}
 	}
-
-
-	//Static wrappers...
 	
 	
+	//Static wrappers (a class which provides some additional features for a standard class)...
 	
 	#region String
-	//!
-	/*! */
+	
 	public string GetString(string key)
 	{
 		return GetString(key, "");
 	}
-	//!
+	
+	//! Gets the key (string) from file. 
 	/*! */
 	public string GetString(string key, string defaultValue)
 	{
@@ -120,7 +117,8 @@ public class TextEdit
 		}
 		return defaultValue;
 	}
-	//!
+	
+	//! Writes a string in the file .txt 
 	/*! */
 	public void SetString(string key,string Value)
 	{
@@ -151,13 +149,12 @@ public class TextEdit
 	
 	
 	#region Int
-	//!
-	/*! */
+	
 	public int GetInt(string key)
 	{
 		return GetInt(key, 0);
 	}
-	//!
+	//! Gets the key (int) from file.
 	/*! */
 	public int GetInt(string key, int defaultValue)
 	{
@@ -167,7 +164,7 @@ public class TextEdit
 		}
 		return defaultValue;
 	}
-	//!
+	//! Writes an int in the file .txt 
 	/*! */
 	public void SetInt(string key,int Value)
 	{
@@ -198,13 +195,12 @@ public class TextEdit
 	
 	
 	#region Float
-	//!
-	/*! */
+	
 	public float GetFloat(string key)
 	{
 		return GetFloat(key, 0.0f);
 	}
-	//!
+	//! Gets the key (float) from file.
 	/*! */
 	public float GetFloat(string key, float defaultValue)
 	{
@@ -213,8 +209,9 @@ public class TextEdit
 			return float.Parse(GetString(key));	
 		}
 		return defaultValue;
-	}	
-	//!
+	}
+	
+	//! Writes an float in the file .txt
 	/*! */
 	public void SetFloat(string key,float Value)
 	{
@@ -250,7 +247,8 @@ public class TextEdit
 	{
 		return GetBool(key, false);
 	}
-	//!
+	
+	//! Gets the key (bool) from file.
 	/*! */
 	public bool GetBool(string key, bool defaultValue)
 	{
@@ -260,7 +258,8 @@ public class TextEdit
 		}
 		return defaultValue;
 	}
-	//!
+	
+	//! Writes an int in the file .txt
 	/*! */
 	public void SetBool(string key,bool Value)
 	{
@@ -286,7 +285,8 @@ public class TextEdit
 		LoadFile(pathAcc);
 	}
 	#endregion
-	//!
+	
+	//! Clears the file.
 	/*! */
 	public void ClearFile()
 	{

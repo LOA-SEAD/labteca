@@ -3,9 +3,7 @@ using System.Collections;
 
 //! Sets a message.
 /*! */
-// Talvez seja melhor fazer uma herança.
-//TODO: Testar para saber como funciona.
-public class SendMessegeMouseButon : MonoBehaviour 
+public class SendMessageMouseButton : MonoBehaviour 
 {
 	private Camera[] cameras;
 	public GameObject target;

@@ -3,7 +3,6 @@ using System.Collections;
 
 //! Interaction Player and machine.
 /*! Show the messagem and set the position(player) and rotation (camera). */
-//TODO: E necessario usar? Testar para saber exatamente como funciona.
 public class MachineUse : MonoBehaviour 
 {
 	public KeyCode keyToUse;
@@ -13,17 +12,7 @@ public class MachineUse : MonoBehaviour
 
 	public string machineName;
 
-	// Use this for initialization
-	/*void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}*/
-
-	//! Message for Interaction with the machine.
+	//! Message for interaction with the machine.
 	/*! Is sent to the trigger collider and the rigidbody that the trigger collider belongs to, and to the rigidbody that touches the trigger.*/
 	void OnTriggerEnter(Collider other)
 	{

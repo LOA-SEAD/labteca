@@ -12,6 +12,9 @@ public  class GetGlasswareState : GameStateBase {
     public DoorBehaviour leftDoor;      /*!< GameObject that contains the left door. */
     public DoorBehaviour rightDoor;     /*!< GameObject that contains the right door. */
     public Glassware[] glasswareList;   /*!< List of Glassware that are inside. */
+	
+	public AnyObjectInstantiation glasswareToInventory;
+
 
     //UI
 	public GlasswareUiItemBehaviour glasswarePrefab;/*!< Prefab with reagent list layout. */
@@ -23,7 +26,6 @@ public  class GetGlasswareState : GameStateBase {
 	private Vector3 currentPosition;
 	private int lastItemPos = 0;
 	private RectTransform contentRect, prefabRect;
-
 
 	public void Start () {
 		cameraState.gameObject.SetActive(false);
@@ -52,7 +54,7 @@ public  class GetGlasswareState : GameStateBase {
 			                                  prefabRect.transform.rotation) as GameObject;
 			
 			// set reagent's name
-			tempItem.GetComponent<GlasswareUiItemBehaviour>().SetGlass(glasswareList[i]);
+			tempItem.GetComponent<GlasswareUiItemBehaviour>().SetGlass(glasswareList[i], i);
 			// next position on inventory grid
 			lastItemPos++;
 			
@@ -140,6 +142,17 @@ public  class GetGlasswareState : GameStateBase {
 		leftDoor.Close();
 
 
+	}
+
+	//TODO: make a way to set the right texture/models for the glasswares
+	//! Instantiation of the glassware when clicked
+	/*! Uses the name of the glassware clicked to instantiate a game object (AnyObjectInstantiation) that will be
+	 *!	added to the inventory */
+	public AnyObjectInstantiation GlasswareInstantiation (int index) {
+
+		AnyObjectInstantiation glasswareObject = Instantiate(glasswareToInventory) as AnyObjectInstantiation;
+		glasswareObject.name = glasswareList[index].name;
+		return glasswareObject;
 	}
 
 

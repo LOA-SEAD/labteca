@@ -15,7 +15,7 @@ public class ReagentsLiquid : MonoBehaviour
 	private InventoryController inventory;
 	private Vector3 originalPosition;
 
-	public ReagentsBaseClass info;
+	public ReagentsLiquidClass info;
 
 	private bool _inInventory = false;
 
@@ -113,6 +113,6 @@ public class ReagentsLiquid : MonoBehaviour
 	//! Loads reagentsLiquid
 	public void GetInfo(string reagent)
 	{
-		info = ComponentsSaver.LoadReagents()[reagent];
+		info = ComponentsSaver.LoadReagents()[reagent] as ReagentsLiquidClass;
 	}
 }

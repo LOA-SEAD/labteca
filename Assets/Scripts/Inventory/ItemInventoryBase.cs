@@ -50,7 +50,7 @@ public abstract class ItemInventoryBase : MonoBehaviour {
 //! Enum that defines the Item Type.
 /*! Define the four types of objects: 'solids', 'liquids', 'glassware' and 'others'. */
 public enum ItemType {
-    Solids,         /*!< Enum Solids type. */
+    Solids,         /*!< Enum Solids type. */	
     Liquids,        /*!< Enum Liquids type. */
     Glassware,      /*!< Enum Glassware type. */
     Others          /*!< Enum Others type. */

@@ -7,32 +7,36 @@ using UnityEngine.UI;
 public class GlasswareUiItemBehaviour : MonoBehaviour {
 
 	public Text nameGlass;
+
 	private Glassware prefabGlassware;
 
+	private int glasswareIndex;  //Position in the glasswareList in GetGlasswareState.cs
+
+	private AnyObjectInstantiation glassware;
+	private InventoryManager inventoryManager;
+
 	// Use this for initialization
-	/*void Start () {
-	
+	void Start () {
+		inventoryManager = GameObject.Find ("InventoryManager").GetComponent<InventoryManager> ();
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	/*void Update () {
 	
 	}*/
 
-	public void SetGlass(Glassware glass){
+	public void SetGlass(Glassware glass, int index){
 
 		nameGlass.text = glass.name;
 
 		prefabGlassware = glass;
 	
+		glasswareIndex = index;
 	}
-	//TODO: Comentario: isso e para suprir a falta do inventario entao tem que alterar aqui depois; 
+
 	/*! Add the glassware to the inventory and increases the variable (bequer).*/
 	public void AddToInventory(){
-		//isso e para suprir a falta do inventario entao tem que alterar aqui depois;
-		if(nameGlass.text == "Bequer"){
-			GameController.instance.totalBeakers += 1;
-		}
+		inventoryManager.AddItemToInventory (GameObject.Find ("GetGlassware").GetComponent<GetGlasswareState>().GlasswareInstantiation(glasswareIndex));
 	}
 
 

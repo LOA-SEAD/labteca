@@ -8,14 +8,14 @@ using UnityEngine.UI;
 public class ReagentUiItemBehaviour : MonoBehaviour {
 
 	public Text nameReagent;
-
-
-	// Use this for initialization
-	/*void Start () {
 	
+	private InventoryManager inventoryManager;
+
+	void Start () {
+		inventoryManager = GameObject.Find ("InventoryManager").GetComponent<InventoryManager> ();
 	}
-	
-	// Update is called once per frame
+
+	/*// Update is called once per frame
 	void Update () {
 	
 	}*/
@@ -27,15 +27,12 @@ public class ReagentUiItemBehaviour : MonoBehaviour {
 	
 	}
 
-	//TODO: Comentario: isso e para suprir a falta do inventario entao tem que alterar aqui depois; 
-	/*! Add the reagent to the inventory (NaCL).*/
+	//! Add the reagent clicked to the inventory
 	public void AddToInventory(){
-		//isso e para suprir a falta do inventario entao tem que alterar aqui depois;
-		/*if(nameReagent.text == "NaCl"){
-			GameController.instance.haveReagentNaCl = true;
-		}*/
+		//Debug.Log ("Add " + nameReagent.text);
+		//reagent = GameObject.Find ("GetReagents").GetComponent<GetReagentState>().ReagentInstantiation(nameReagent.text);
+		inventoryManager.AddItemToInventory (GameObject.Find ("GetReagents").GetComponent<GetReagentState>().ReagentInstantiation(nameReagent.text));
 
-		Debug.Log ("Add " + nameReagent.text);
 	}
 
 }

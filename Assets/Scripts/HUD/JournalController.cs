@@ -31,10 +31,11 @@ public class JournalController : MonoBehaviour {
 		deleteContent ();
 		ReagentsBaseClass reagent;
 		Dictionary<string, ReagentsBaseClass> reagents = ComponentsSaver.LoadReagents ();
+
 		reagents.TryGetValue (name, out reagent);
 		//adds the infoUI to content
-		prefabRect = journalPrefab.GetComponent<RectTransform> ();
-		
+		UIScrollList = canvasUI.GetComponentInChildren<ScrollRect> ();
+		prefabRect = infoPrefab.GetComponent<RectTransform> ();	
 		contentRect = UIScrollList.content;
 		// calculate y position
 		float y = (prefabRect.rect.height + offSetItens) * lastItemPos;
@@ -53,17 +54,8 @@ public class JournalController : MonoBehaviour {
 		                                   currentPos,
 		                                   prefabRect.transform.rotation) as GameObject;
 		//add info to prefab
-		/*tempItem.name = "JournalUIItem" + actualJournalUI.index.ToString ();
-		tempItem.GetComponent<JournalUIItem> ().index = actualJournalUI.index;
-		tempItem.GetComponent<JournalUIItem> ().isDone = actualJournalUI.isDone;
-		tempItem.GetComponent<JournalUIItem> ().prerequisites = new JournalUIItem[actualJournalUI.prerequisites.Length];
-		for (int n = 0; n < actualJournalUI.prerequisites.Length; n++) {
-			Debug.Log (actualJournalUI.prerequisites [n].index.ToString ());
-			tempItem.GetComponent<JournalUIItem> ().prerequisites [n] = GameObject.Find ("JournalUIItem" + actualJournalUI.prerequisites [n].index.ToString ()).GetComponent<JournalUIItem> ();
-		}
-		tempItem.GetComponent<JournalUIItem> ().name = actualJournalUI.name;
-		tempItem.GetComponent<JournalUIItem> ().checkPrerequisites ();*/
-			
+		tempItem.name = "Reagent Info";
+		tempItem.GetComponent<JournalUIInfo> ().setReagent (reagent.name, reagent.molarMass, reagent.isSolid, reagent.density, reagent.polarizability, reagent.conductibility, reagent.solubility, 0, 0, 0);
 		// set new item parent to scroll rect content
 		tempItem.transform.SetParent (contentRect.transform, false);
 	}

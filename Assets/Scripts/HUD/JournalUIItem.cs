@@ -22,7 +22,7 @@ public class JournalUIItem : MonoBehaviour {
 			for(int i = 0;i<journalItems.Length;i++){
 				journalItems[i].GetComponent<JournalUIItem>().checkPrerequisites();
 			}
-			GameObject.Find("GameController").GetComponent<GameController>().CallJSaver(this);
+			//GameObject.Find("GameController").GetComponent<GameController>().CallJSaver(this);
 			checkmark.SetActive (true);
 		}
 	}

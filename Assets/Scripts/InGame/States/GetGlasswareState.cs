@@ -144,16 +144,21 @@ public  class GetGlasswareState : GameStateBase {
 
 	}
 
-	//TODO: make a way to set the right texture/models for the glasswares
+	//TODO: Temporary method. It will change with the new inventory management
 	//! Instantiation of the glassware when clicked
 	/*! Uses the name of the glassware clicked to instantiate a game object (AnyObjectInstantiation) that will be
 	 *!	added to the inventory */
 	public AnyObjectInstantiation GlasswareInstantiation (int index) {
 
-		AnyObjectInstantiation glasswareObject = Instantiate(glasswareToInventory) as AnyObjectInstantiation;
-		glasswareObject.name = glasswareList[index].name;
+		AnyObjectInstantiation glasswareObject = Instantiate (glasswareToInventory) as AnyObjectInstantiation;
+		glasswareObject.name = glasswareList [index].name;
 		return glasswareObject;
 	}
+
+	/*public Glassware GlasswareInstantiation (int index) {
+		return glasswareList[index];
+	}*/
+
 
 
 }

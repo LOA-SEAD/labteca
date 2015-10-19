@@ -133,10 +133,20 @@ public class InventoryManager : MonoBehaviour {
 		setSelectedItem (item);
 		operateOnInventory ("insert");
 	}
-
+	
 	//! Remove from inventory
 	public void RemoveItemFromInventory(AnyObjectInstantiation item) {
 		setSelectedItem (item);
 		operateOnInventory ("remove");
 	}
+
+	//-------------------------------------
+	public void AddGlasswareToInventory(int glasswareIndex) {
+		//Create button using the glassware texture
+	}
+	
+	public void RemoveGlasswareFromInventory() {
+		//Destroy the button (this will be used when the item is being put in the workbench slot)
+	}
+	//--------------------------------------
 }

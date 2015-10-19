@@ -34,9 +34,10 @@ public class GlasswareUiItemBehaviour : MonoBehaviour {
 		glasswareIndex = index;
 	}
 
-	/*! Add the glassware to the inventory and increases the variable (bequer).*/
+	/*! Add the glassware to the inventory.*/
 	public void AddToInventory(){
 		inventoryManager.AddItemToInventory (GameObject.Find ("GetGlassware").GetComponent<GetGlasswareState>().GlasswareInstantiation(glasswareIndex));
+		//inventoryManager.AddGlasswareToInventory (glasswareIndex);
 	}
 
 

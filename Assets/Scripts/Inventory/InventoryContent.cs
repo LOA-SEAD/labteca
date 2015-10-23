@@ -11,7 +11,7 @@ using UnityEngine.UI;
 public class InventoryContent : MonoBehaviour {
 
     public GameObject prefabItem;                       /*!< Prefab that will be put inside the content. */
-    private int rows = 2, columns = 6, maxItems;        /*!< Number of rows, columns and maxItems. */
+    private int rows = 2000000, columns = 1, maxItems;        /*!< Number of rows, columns and maxItems. */
     private float x_Offset, y_Offset;                   /*!< X and Y offset. */
     private RectTransform contentRect, prefabRect;      /*!< Scrollrect contentRect and prefabRect. */
     private int lastItemPos = 0;                        /*!< Last item position inside the inventory. */
@@ -24,8 +24,9 @@ public class InventoryContent : MonoBehaviour {
         prefabRect = prefabItem.GetComponent<RectTransform>();
         columns = (int)(contentRect.rect.width / prefabRect.rect.width);    /*!< Columns = contentRect.width / prefabRect.width */
         rows = (int)(contentRect.rect.height / prefabRect.rect.height);     /*!< Rows = contentRect.height / prefabRect.height */
-        x_Offset = (contentRect.rect.width - (columns * prefabRect.rect.width))/(columns + 1); 
-        y_Offset = (contentRect.rect.height - (rows * prefabRect.rect.height)) / (rows + 1);
+        //x_Offset = (contentRect.rect.width - (columns * prefabRect.rect.width))/(columns + 1); 
+        y_Offset = 10f;
+		//contentRect.transform.localPosition = new Vector3 (170, 0, 0);
         // verify for error
         if (contentRect == null)
             Debug.LogError("InventoryContent : couldnt get component RectTranform for 'contentRect'.");
@@ -39,37 +40,24 @@ public class InventoryContent : MonoBehaviour {
     public void addNewItemUI(AnyObjectInstantiation item)
     {  
         // if there is freedPosition, use it. If NOT, use the last item position.
-        int itemPos;
-        if (freedPos.Count == 0)
-            itemPos = lastItemPos;
-        else
-        {
-            itemPos = freedPos[0];
-            freedPos.Remove(itemPos);
-        }
-
-        // set prefab ItemIventoryBase
-        item.setCurrentPosition(itemPos);
         //prefabItem.GetComponent<AnyObjectInstantiation>().copyItemBase(item);
 
         Debug.Log("Adding " + item.name 
-            + " to " + itemPos 
+            + " to " + 1
             + " at " + transform.parent.transform.parent.transform.parent.name);
         
         // find x and y for position
-        float x = (itemPos % columns) * (prefabRect.rect.width + x_Offset);
-        float y = -1 * (y_Offset + (itemPos / columns) * (prefabRect.rect.height + y_Offset));
+		float y = (prefabRect.rect.height + y_Offset) * lastItemPos ;
+		
+		// set position
+		Vector3 currentPos = new Vector3(1f, -60-110*(lastItemPos));
+
 
         // add content size to fit more items
-        if ((itemPos % columns) == 0 && (itemPos % rows) == 0 && itemPos > columns)
-        {
-            contentRect.sizeDelta = new Vector2(
-                contentRect.rect.width,
-                contentRect.rect.height + prefabRect.rect.height + y_Offset);
-        }
-        
-        // set position
-        Vector3 currentPos = new Vector3(x, y);
+
+		contentRect.sizeDelta = new Vector2(
+			1f, // width doesnt change
+			120 + (prefabRect.rect.height + y_Offset) * lastItemPos);
 
         // instantiate Item
         GameObject tempItem = Instantiate(prefabItem.gameObject,
@@ -80,9 +68,9 @@ public class InventoryContent : MonoBehaviour {
         lastItemPos++;
 
         // set new item parent to scroll rect content
-        tempItem.GetComponent<Image>().sprite = item.icon;
+        //tempItem.GetComponent<Image>().sprite = item.icon;
         tempItem.transform.SetParent(contentRect.transform, false);
-        tempItem.name = item.name + "_" +itemPos;
+        tempItem.name = item.name + "_" +1;
 
         tempItem.GetComponent<ItemStackableBehavior>().setObject(item);
     }

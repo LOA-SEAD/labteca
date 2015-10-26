@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
-//! State for Precision Scale.
-/*! This state has all the behaviour that controls the precision scale and it's UI.
+//! State for Fume Hood.
+/*! This state has all the behaviour that controls the fume hood and it's UI.
  */
 public  class FumeHoodState : GameStateBase {
 	
@@ -29,8 +29,6 @@ public  class FumeHoodState : GameStateBase {
 	public GameObject optionDialogSpatula;      /*!< Dialog. */
 	public GameObject optionDialogWater;        /*!< Dialog. */
 	public GameObject optionDialogPipeta;       /*!< Dialog. */
-	
-	public Hint hints;
 	
 	private ButtonObject[] tools;
 	private bool canClickTools;
@@ -74,23 +72,6 @@ public  class FumeHoodState : GameStateBase {
 	public Text waterValueText;
 	public float porcentErrorWater;
 	//
-	
-	//! Hint of what the player should do next.
-	/*! Display a text message telling the player what he can/should do. */
-	// TODO: nao consegui fazer com que essa funcao fosse executada durante o jogo, teoricamente eh uma ajuda ao jogador. Verificar.
-	[System.Serializable]
-	public class Hint{
-		public Text hintText;
-		public string[] hintMessages;
-		
-		public void ShowHint(int idHint){
-			if(hintMessages[idHint] != null)
-				hintText.text = hintMessages[idHint];
-		}
-		public void HideHint(){
-			hintText.text = "";
-		}
-	}
 	
 	//! Change the mouse cursor.
 	/*! Set a cursor when mouse hover an object and set it back to default when not. */
@@ -146,7 +127,6 @@ public  class FumeHoodState : GameStateBase {
 				interactBox.GetComponent<BoxCollider>().enabled = true;
 				gameController.ChangeState(0);
 				FadeScript.instance.ShowFade();
-				hints.HideHint();
 				amountSelectedSpatula = 0;
 			}
 		}
@@ -479,7 +459,6 @@ public  class FumeHoodState : GameStateBase {
 			CloseSpatulaDialog(false);
 			if(!useToRemove){
 				spatulaReagentCursor.CursorEnter();
-				hints.ShowHint(0);
 			}
 		}
 		
@@ -538,35 +517,30 @@ public  class FumeHoodState : GameStateBase {
 		UnselectAll ();
 		selectSpatula = true;
 		spatulaCursor.CursorEnter();
-		hints.ShowHint(1);
 	}
 	
 	public void SelectPipeta(){
 		UnselectAll ();
 		selectPipeta = true;
 		pipetaCursor.CursorEnter();
-		hints.ShowHint(2);
 	}
 	
 	public void SelectWater(){
 		UnselectAll ();
 		selectWater = true;
 		waterCursor.CursorEnter();
-		hints.ShowHint(3);
 	}
 	
 	public void DeselectPipeta(){
 		selectPipeta = false;
 		pipetaCursor.CursorExit();
 		pipetaReagentCursor.CursorExit ();
-		hints.HideHint();
 		amountSelectedPipeta = 0;
 	}
 	
 	public void DeselectWater(){
 		selectWater = false;
 		waterCursor.CursorExit();
-		hints.HideHint();
 		amountSelectedPipeta = 0;
 	}
 	
@@ -574,7 +548,6 @@ public  class FumeHoodState : GameStateBase {
 		selectSpatula = false;
 		spatulaCursor.CursorExit();
 		spatulaReagentCursor.CursorExit ();
-		hints.HideHint();
 		amountSelectedSpatula = 0;
 	}
 	

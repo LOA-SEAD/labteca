@@ -111,11 +111,9 @@ public  class GetGlasswareState : GameStateBase {
      * does the animation to open the cupboard left door and enable the UI Canvas. */
 	public override void OnStartRun ()
 	{
-		GameObject.Find ("Journal").GetComponent<JournalController> ().checkJournalItem (0);
+		//GameObject.Find ("Journal").GetComponent<JournalController> ().checkJournalItem (0);
 		cameraState.gameObject.SetActive(true);
-        //Camera.main.CopyFrom(cameraState);
 		HudText.SetText("");
-
 		leftDoor.Open();
         canvasUI.GetComponent<Canvas>().enabled = true;
 

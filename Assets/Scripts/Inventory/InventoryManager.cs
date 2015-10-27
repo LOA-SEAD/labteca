@@ -130,6 +130,7 @@ public class InventoryManager : MonoBehaviour {
 
 	//! Add the item to inventory
 	public void AddItemToInventory(AnyObjectInstantiation item) {
+		Debug.Log (item.gameObject.name);
 		setSelectedItem (item);
 		operateOnInventory ("insert");
 	}

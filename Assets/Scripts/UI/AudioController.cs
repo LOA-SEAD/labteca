@@ -15,7 +15,6 @@ public class AudioController : MonoBehaviour{
 			newAudio.volume=(elapsedTime/time)*maxVolume;
 			if(newAudio.volume>maxVolume*.7f)
 				audioPlaying.volume=maxVolume-((elapsedTime-time*.7f)/(.3f*time))*maxVolume;
-			Debug.Log("Sound New= "+newAudio.volume.ToString()+" Sound Playing= "+audioPlaying.volume.ToString());
 			if(elapsedTime>time){
 				AudioSource aux = new AudioSource();
 				aux=audioPlaying;

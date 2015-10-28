@@ -33,7 +33,7 @@ public class InventoryController : MonoBehaviour {
 		if(requestAddItem)
         {
 			requestAddItem = false;
-            content.addNewItemUI(tempItem);
+//            content.addNewItemUI(tempItem);
             tempItem = null;
 		}
         if(requestRemoveItem)

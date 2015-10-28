@@ -75,8 +75,88 @@ public class InventoryContent : MonoBehaviour {
         tempItem.GetComponent<ItemStackableBehavior>().setObject(item);
     }
 
-    //! Remove Item from Inventory UI
-    /*! Using the selected itemUI as reference, delete it from the UI and add it's position into the freedPos queue.*/
+	//-----------------LeMigue para Glassware-----------------------
+	public void addNewGlasswareUI(Glassware item)
+	{  
+		// if there is freedPosition, use it. If NOT, use the last item position.
+		//prefabItem.GetComponent<AnyObjectInstantiation>().copyItemBase(item);
+		
+		Debug.Log("Adding " + item.name 
+		          + " to " + 1
+		          + " at " + transform.parent.transform.parent.transform.parent.name);
+		
+		// find x and y for position
+		float y = (prefabRect.rect.height + y_Offset) * lastItemPos ;
+		
+		// set position
+		Vector3 currentPos = new Vector3(1f, -60-110*(lastItemPos));
+		
+		
+		// add content size to fit more items
+		
+		contentRect.sizeDelta = new Vector2(
+			1f, // width doesnt change
+			120 + (prefabRect.rect.height + y_Offset) * lastItemPos);
+		
+		// instantiate Item
+		GameObject tempItem = Instantiate(prefabItem.gameObject,
+		                                  currentPos,
+		                                  prefabItem.transform.rotation) as GameObject;
+		
+		// next position on inventory grid
+		lastItemPos++;
+		
+		// set new item parent to scroll rect content
+		//tempItem.GetComponent<Image>().sprite = item.icon;
+		tempItem.transform.SetParent(contentRect.transform, false);
+		tempItem.name = item.name + "_" +1;
+		
+		//tempItem.GetComponent<ItemStackableBehavior>().setObject(item);
+	}
+	//-----------------END OF LeMigue para Glassware-----------------------
+
+	//-----------------LeMigue para Reagents-----------------------
+	public void addNewReagentsUI(ReagentsBaseClass item)
+	{  
+		// if there is freedPosition, use it. If NOT, use the last item position.
+		//prefabItem.GetComponent<AnyObjectInstantiation>().copyItemBase(item);
+		
+		Debug.Log("Adding " + item.name 
+		          + " to " + 1
+		          + " at " + transform.parent.transform.parent.transform.parent.name);
+		
+		// find x and y for position
+		float y = (prefabRect.rect.height + y_Offset) * lastItemPos ;
+		
+		// set position
+		Vector3 currentPos = new Vector3(1f, -60-110*(lastItemPos));
+		
+		
+		// add content size to fit more items
+		
+		contentRect.sizeDelta = new Vector2(
+			1f, // width doesnt change
+			120 + (prefabRect.rect.height + y_Offset) * lastItemPos);
+		
+		// instantiate Item
+		GameObject tempItem = Instantiate(prefabItem.gameObject,
+		                                  currentPos,
+		                                  prefabItem.transform.rotation) as GameObject;
+		
+		// next position on inventory grid
+		lastItemPos++;
+		
+		// set new item parent to scroll rect content
+		//tempItem.GetComponent<Image>().sprite = item.icon;
+		tempItem.transform.SetParent(contentRect.transform, false);
+		tempItem.name = item.name + "_" +1;
+		
+		//tempItem.GetComponent<ItemStackableBehavior>().setObject(item);
+	}
+	//-----------------END OF LeMigue para Reagents-----------------------
+	
+	//! Remove Item from Inventory UI
+	/*! Using the selected itemUI as reference, delete it from the UI and add it's position into the freedPos queue.*/
     public void removeItemUI(ItemStackableBehavior itemUI)
     {
         Debug.Log("Removing " + itemUI.name

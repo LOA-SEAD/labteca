@@ -141,13 +141,26 @@ public class InventoryManager : MonoBehaviour {
 		operateOnInventory ("remove");
 	}
 
-	//-------------------------------------
-	public void AddGlasswareToInventory(int glasswareIndex) {
-		//Create button using the glassware texture
+	//-------------LeMigue for Glassware------------------------
+	public void AddGlasswareToInventory(Glassware gl) {
+		Glassware.GetComponentInChildren<InventoryContent> ().addNewGlasswareUI (gl);
 	}
 	
 	public void RemoveGlasswareFromInventory() {
 		//Destroy the button (this will be used when the item is being put in the workbench slot)
 	}
-	//--------------------------------------
+	//-------------END OF LeMigue for Glassware-------------------------
+
+	//-------------LeMigue for Reagents------------------------
+	public void AddReagentToInventory(ReagentsBaseClass reagent) {
+		if(reagent.isSolid)
+			SolidReagents.GetComponentInChildren<InventoryContent> ().addNewReagentsUI (reagent);
+		if(!reagent.isSolid)
+			LiquidReagents.GetComponentInChildren<InventoryContent> ().addNewReagentsUI (reagent);
+	}
+	
+	public void RemoveReagentFromInventory() {
+		//Destroy the button (this will be used when the item is being put in the workbench slot)
+	}
+	//-------------END OF LeMigue for Reagents-------------------------
 }

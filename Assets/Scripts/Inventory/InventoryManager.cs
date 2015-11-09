@@ -14,6 +14,11 @@ public class InventoryManager : MonoBehaviour {
     private AnyObjectInstantiation selectedItem = null;     /*!< Current selected item (game object). */
     private ItemStackableBehavior selectedUIItem = null;    /*!< Current selected item from inventory UI. */
 
+
+	//TODO: Remover depois!!!
+	public GameObject bequerPrefab;
+	///////APAGA AQUI/////////////
+
     //! Does the operation on the inventory (insert, remove or destroy).
     /*! Based on the string passed as parameter, takes the selectedItem or selectedUIItem and does the operation. */
 	void operateOnInventory(string op){
@@ -144,10 +149,23 @@ public class InventoryManager : MonoBehaviour {
 	//-------------LeMigue for Glassware------------------------
 	public void AddGlasswareToInventory(Glassware gl) {
 		Glassware.GetComponentInChildren<InventoryContent> ().addNewGlasswareUI (gl);
+		//Need to save "gl" within the InventoryItemGlassware informations
+		//!(It is not actually saving any information right now, only creating the GameObject inside the inventory with the proper name)
 	}
-	
+
+	//Written in a temporary way!!!!!!
 	public void RemoveGlasswareFromInventory() {
 		//Destroy the button (this will be used when the item is being put in the workbench slot)
+		GameController gameController = GameObject.Find ("GameController").GetComponent<GameController> ();
+		GameObject glasswareInScene = Instantiate(bequerPrefab) as GameObject;// = Instantiate the glassware saved in the informations
+
+		//This here will be done using the PutGlassInTable() method from the WorkBench.
+		glasswareInScene.transform.position = gameController.gameStates [gameController.currentStateIndex].GetComponent<FumeHoodState> ().positionGlass1.transform.position;
+
+	}
+
+	public void DestroyGlasswareFromInvenory() {
+
 	}
 	//-------------END OF LeMigue for Glassware-------------------------
 

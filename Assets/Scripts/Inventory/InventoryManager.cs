@@ -160,7 +160,7 @@ public class InventoryManager : MonoBehaviour {
 		GameObject glasswareInScene = Instantiate(bequerPrefab) as GameObject;// = Instantiate the glassware saved in the informations
 
 		//This here will be done using the PutGlassInTable() method from the WorkBench.
-		glasswareInScene.transform.position = gameController.gameStates [gameController.currentStateIndex].GetComponent<FumeHoodState> ().positionGlass1.transform.position;
+//		glasswareInScene.transform.position = gameController.gameStates [gameController.currentStateIndex].GetComponent<FumeHoodState> ().positionGlass1.transform.position;
 
 	}
 

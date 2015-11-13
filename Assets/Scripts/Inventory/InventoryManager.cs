@@ -161,7 +161,7 @@ public class InventoryManager : MonoBehaviour {
 
 		//This here will be done using the PutGlassInTable() method from the WorkBench.
 //		glasswareInScene.transform.position = gameController.gameStates [gameController.currentStateIndex].GetComponent<FumeHoodState> ().positionGlass1.transform.position;
-
+		gameController.GetCurrentState ().GetComponentInParent<WorkBench> ().PutGlassOnTable (true);
 	}
 
 	public void DestroyGlasswareFromInvenory() {

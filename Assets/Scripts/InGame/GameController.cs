@@ -53,6 +53,10 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
+	public GameStateBase GetCurrentState() {
+		return currentGameState;
+	}
+
     //! Change current state to another one.
     /*! Using the index from list of game states, changes current state to another one. */
 	public void ChangeState(int indexState){

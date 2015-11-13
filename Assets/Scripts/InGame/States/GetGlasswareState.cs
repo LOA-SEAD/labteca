@@ -111,11 +111,9 @@ public  class GetGlasswareState : GameStateBase {
      * does the animation to open the cupboard left door and enable the UI Canvas. */
 	public override void OnStartRun ()
 	{
-		GameObject.Find ("Journal").GetComponent<JournalController> ().checkJournalItem (0);
+		//GameObject.Find ("Journal").GetComponent<JournalController> ().checkJournalItem (0);
 		cameraState.gameObject.SetActive(true);
-        //Camera.main.CopyFrom(cameraState);
 		HudText.SetText("");
-
 		leftDoor.Open();
         canvasUI.GetComponent<Canvas>().enabled = true;
 
@@ -144,16 +142,21 @@ public  class GetGlasswareState : GameStateBase {
 
 	}
 
-	//TODO: make a way to set the right texture/models for the glasswares
+	//TODO: Temporary method. It will change with the new inventory management
 	//! Instantiation of the glassware when clicked
 	/*! Uses the name of the glassware clicked to instantiate a game object (AnyObjectInstantiation) that will be
 	 *!	added to the inventory */
-	public AnyObjectInstantiation GlasswareInstantiation (int index) {
+	/*public AnyObjectInstantiation GlasswareInstantiation (int index) {
 
-		AnyObjectInstantiation glasswareObject = Instantiate(glasswareToInventory) as AnyObjectInstantiation;
-		glasswareObject.name = glasswareList[index].name;
+		AnyObjectInstantiation glasswareObject = Instantiate (glasswareToInventory) as AnyObjectInstantiation;
+		glasswareObject.name = glasswareList [index].name;
 		return glasswareObject;
+	}*/
+
+	public Glassware GlasswareInstantiation (int index) {
+		return glasswareList[index];
 	}
+
 
 
 }

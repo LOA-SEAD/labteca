@@ -175,7 +175,7 @@ public class MachineBehaviour : MonoBehaviour
 		{
 			setupTexture = ChartGenerator.GenerateWithTextureConectingDots(setupTexture, concentration, 0.8f);
 			HudText.SetText("O grafico foi Impresso!");
-			PrinterUse.SendFileToPrinter(setupTexture);
+			GameObject.FindObjectOfType<PrinterUse>().SendFileToPrinter(setupTexture);
 			timeToShowPrintTextAcc = Time.time;
 		}
 	}
@@ -275,7 +275,7 @@ public class MachineBehaviour : MonoBehaviour
 		if (allowShowTexture)
 		{
 			resultTexture = ChartGenerator.GenerateWithTextureConectingDots(resultTexture, concentration, 0.8f);
-			PrinterUse.SendFileToPrinter(resultTexture);
+			GameObject.FindObjectOfType<PrinterUse>().SendFileToPrinter(setupTexture);
 
 			HudText.SetText("O grafico foi Impresso!");
 			timeToShowPrintTextAcc = Time.time;

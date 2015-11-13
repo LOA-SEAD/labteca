@@ -48,6 +48,7 @@ public class HUDController : MonoBehaviour {
 
 	public void callInventory(){
 		if (!inventoryLocked&&!journalUp) {
+			GameObject.Find("GameController").GetComponent<AudioController>().crossFade();
 			changePlayerState ();		
 			inventoryCanvas.enabled = !inventoryCanvas.enabled;
 			inventoryUp = !inventoryUp;

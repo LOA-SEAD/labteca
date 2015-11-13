@@ -1,0 +1,192 @@
+fileFormatVersion: 2
+guid: b155f77fd494c64458533bb0c408eeda
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Infobox_info_icon.svg_0
+    21300002: Infobox_info_icon.svg_1
+    21300004: Infobox_info_icon.svg_2
+    21300006: Infobox_info_icon.svg_3
+    21300008: Infobox_info_icon.svg_4
+    21300010: Infobox_info_icon.svg_5
+    21300012: Infobox_info_icon.svg_6
+    21300014: Infobox_info_icon.svg_7
+    21300016: Infobox_info_icon.svg_8
+    21300018: Infobox_info_icon.svg_9
+    21300020: Infobox_info_icon.svg_10
+    21300022: Infobox_info_icon.svg_11
+    21300024: Infobox_info_icon.svg_12
+    21300026: Infobox_info_icon.svg_13
+    21300028: Infobox_info_icon.svg_14
+    21300030: Infobox_info_icon.svg_15
+    21300032: Infobox_info_icon.svg_16
+    21300034: Infobox_info_icon.svg_17
+    21300036: Infobox_info_icon.svg_18
+    21300038: Infobox_info_icon.svg_19
+    21300040: Infobox_info_icon.svg_20
+    21300042: Infobox_info_icon.svg_21
+    21300044: Infobox_info_icon.svg_22
+    21300046: Infobox_info_icon.svg_23
+    21300048: Infobox_info_icon.svg_24
+    21300050: Infobox_info_icon.svg_25
+    21300052: Infobox_info_icon.svg_26
+    21300054: Infobox_info_icon.svg_27
+    21300056: Infobox_info_icon.svg_28
+    21300058: Infobox_info_icon.svg_29
+    21300060: Infobox_info_icon.svg_30
+    21300062: Infobox_info_icon.svg_31
+    21300064: Infobox_info_icon.svg_32
+    21300066: Infobox_info_icon.svg_33
+    21300068: Infobox_info_icon.svg_34
+    21300070: Infobox_info_icon.svg_35
+    21300072: Infobox_info_icon.svg_36
+    21300074: Infobox_info_icon.svg_37
+    21300076: Infobox_info_icon.svg_38
+    21300078: Infobox_info_icon.svg_39
+    21300080: Infobox_info_icon.svg_40
+    21300082: Infobox_info_icon.svg_41
+    21300084: Infobox_info_icon.svg_42
+    21300086: Infobox_info_icon.svg_43
+    21300088: Infobox_info_icon.svg_44
+    21300090: Infobox_info_icon.svg_45
+    21300092: Infobox_info_icon.svg_46
+    21300094: Infobox_info_icon.svg_47
+    21300096: Infobox_info_icon.svg_48
+    21300098: Infobox_info_icon.svg_49
+    21300100: Infobox_info_icon.svg_50
+    21300102: Infobox_info_icon.svg_51
+    21300104: Infobox_info_icon.svg_52
+    21300106: Infobox_info_icon.svg_53
+    21300108: Infobox_info_icon.svg_54
+    21300110: Infobox_info_icon.svg_55
+    21300112: Infobox_info_icon.svg_56
+    21300114: Infobox_info_icon.svg_57
+    21300116: Infobox_info_icon.svg_58
+    21300118: Infobox_info_icon.svg_59
+    21300120: Infobox_info_icon.svg_60
+    21300122: Infobox_info_icon.svg_61
+    21300124: Infobox_info_icon.svg_62
+    21300126: Infobox_info_icon.svg_63
+    21300128: Infobox_info_icon.svg_64
+    21300130: Infobox_info_icon.svg_65
+    21300132: Infobox_info_icon.svg_66
+    21300134: Infobox_info_icon.svg_67
+    21300136: Infobox_info_icon.svg_68
+    21300138: Infobox_info_icon.svg_69
+    21300140: Infobox_info_icon.svg_70
+    21300142: Infobox_info_icon.svg_71
+    21300144: Infobox_info_icon.svg_72
+    21300146: Infobox_info_icon.svg_73
+    21300148: Infobox_info_icon.svg_74
+    21300150: Infobox_info_icon.svg_75
+    21300152: Infobox_info_icon.svg_76
+    21300154: Infobox_info_icon.svg_77
+    21300156: Infobox_info_icon.svg_78
+    21300158: Infobox_info_icon.svg_79
+    21300160: Infobox_info_icon.svg_80
+    21300162: Infobox_info_icon.svg_81
+    21300164: Infobox_info_icon.svg_82
+    21300166: Infobox_info_icon.svg_83
+    21300168: Infobox_info_icon.svg_84
+    21300170: Infobox_info_icon.svg_85
+    21300172: Infobox_info_icon.svg_86
+    21300174: Infobox_info_icon.svg_87
+    21300176: Infobox_info_icon.svg_88
+    21300178: Infobox_info_icon.svg_89
+    21300180: Infobox_info_icon.svg_90
+    21300182: Infobox_info_icon.svg_91
+    21300184: Infobox_info_icon.svg_92
+    21300186: Infobox_info_icon.svg_93
+    21300188: Infobox_info_icon.svg_94
+    21300190: Infobox_info_icon.svg_95
+    21300192: Infobox_info_icon.svg_96
+    21300194: Infobox_info_icon.svg_97
+    21300196: Infobox_info_icon.svg_98
+    21300198: Infobox_info_icon.svg_99
+    21300200: Infobox_info_icon.svg_100
+    21300202: Infobox_info_icon.svg_101
+    21300204: Infobox_info_icon.svg_102
+    21300206: Infobox_info_icon.svg_103
+    21300208: Infobox_info_icon.svg_104
+    21300210: Infobox_info_icon.svg_105
+    21300212: Infobox_info_icon.svg_106
+    21300214: Infobox_info_icon.svg_107
+    21300216: Infobox_info_icon.svg_108
+    21300218: Infobox_info_icon.svg_109
+    21300220: Infobox_info_icon.svg_110
+    21300222: Infobox_info_icon.svg_111
+    21300224: Infobox_info_icon.svg_112
+    21300226: Infobox_info_icon.svg_113
+    21300228: Infobox_info_icon.svg_114
+    21300230: Infobox_info_icon.svg_115
+    21300232: Infobox_info_icon.svg_116
+    21300234: Infobox_info_icon.svg_117
+    21300236: Infobox_info_icon.svg_118
+    21300238: Infobox_info_icon.svg_119
+    21300240: Infobox_info_icon.svg_120
+    21300242: Infobox_info_icon.svg_121
+    21300244: Infobox_info_icon.svg_122
+    21300246: Infobox_info_icon.svg_123
+    21300248: Infobox_info_icon.svg_124
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 1024
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Infobox_info_icon.svg_0
+      rect:
+        serializedVersion: 2
+        x: 431
+        y: 623
+        width: 146
+        height: 146
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Infobox_info_icon.svg_1
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 255
+        width: 258
+        height: 322
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 

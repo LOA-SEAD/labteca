@@ -91,7 +91,7 @@ public class ReagentsLiquid : MonoBehaviour
 			WorkBench wb = FindObjectOfType(typeof(WorkBench)) as WorkBench;
 			Enable();
 			inventory.RemoveReagentLiquid(this);
-			wb.useSlot(this, null);
+//			wb.useSlot(this, null); //TODO descomentar isso, fazendo as alteraçoes necessarias no workbench
 		}
 		else
 		{

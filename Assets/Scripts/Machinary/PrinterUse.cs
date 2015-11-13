@@ -13,7 +13,7 @@ public class PrinterUse : MonoBehaviour
 {
 	public KeyCode keyToUse; /*!< Capture keyboard input */
 
-	private static bool allowGetData = false;
+	public bool allowGetData = false;
 
 	private static List<Texture2D> pressSheets = new List<Texture2D>(); /*!< List of Texture2D*/
 
@@ -34,7 +34,8 @@ public class PrinterUse : MonoBehaviour
 	 * that the trigger collider belongs to, and the rigidbody that touches the trigger.*/
 	void OnTriggerEnter(Collider other)
 	{
-		if (other.tag == "Player" && allowGetData) 
+		Debug.Log (other.name);
+		if (other.name == "Player" && allowGetData) 
 		{
 			HudText.SetText("Aperte " + keyToUse.ToString() + " para pegar as folhas da impressora.");
 		}
@@ -74,7 +75,7 @@ public class PrinterUse : MonoBehaviour
 	}
 
 	//! Send the file to printer
-	public static void SendFileToPrinter(Texture2D file)
+	public void SendFileToPrinter(Texture2D file)
 	{
 		allowGetData = true;
 		pressSheets.Add (file);

@@ -25,7 +25,6 @@ public class GameController : MonoBehaviour {
 	public Glassware selectedGlassWare;
 
 
-
 	//variaveis para suprir a falta de inventario.
 
     //TODO: No Start esta puxando um Glassware do prefab e jogando para selectedGlassware. //Precisa do inventario
@@ -52,6 +51,10 @@ public class GameController : MonoBehaviour {
 		if(GameController.instance == null){
 			GameController.instance = this;
 		}
+	}
+
+	public GameStateBase GetCurrentState() {
+		return currentGameState;
 	}
 
     //! Change current state to another one.

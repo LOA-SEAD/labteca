@@ -146,16 +146,16 @@ public  class GetGlasswareState : GameStateBase {
 	//! Instantiation of the glassware when clicked
 	/*! Uses the name of the glassware clicked to instantiate a game object (AnyObjectInstantiation) that will be
 	 *!	added to the inventory */
-	public AnyObjectInstantiation GlasswareInstantiation (int index) {
+	/*public AnyObjectInstantiation GlasswareInstantiation (int index) {
 
 		AnyObjectInstantiation glasswareObject = Instantiate (glasswareToInventory) as AnyObjectInstantiation;
 		glasswareObject.name = glasswareList [index].name;
 		return glasswareObject;
-	}
-
-	/*public Glassware GlasswareInstantiation (int index) {
-		return glasswareList[index];
 	}*/
+
+	public Glassware GlasswareInstantiation (int index) {
+		return glasswareList[index];
+	}
 
 
 

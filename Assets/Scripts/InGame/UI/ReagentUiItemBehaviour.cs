@@ -30,9 +30,8 @@ public class ReagentUiItemBehaviour : MonoBehaviour {
 	//! Add the reagent clicked to the inventory
 	public void AddToInventory(){
 		//Debug.Log ("Add " + nameReagent.text);
-		//reagent = GameObject.Find ("GetReagents").GetComponent<GetReagentState>().ReagentInstantiation(nameReagent.text);
-		inventoryManager.AddItemToInventory (GameObject.Find ("GetReagents").GetComponent<GetReagentState>().ReagentInstantiation(nameReagent.text));
-
+		//inventoryManager.AddItemToInventory (GameObject.Find ("GetReagents").GetComponent<GetReagentState>().ReagentInstantiation(nameReagent.text));
+		inventoryManager.AddReagentToInventory (ComponentsSaver.LoadReagents () [nameReagent.text]);
 	}
 
 }

@@ -26,8 +26,8 @@ public  class GetReagentState : GameStateBase {
 
 	//Prefabs to instantiate the reagents
 	//! Needs to be attached in the scene
-	public AnyObjectInstantiation solidPrefab;
-	public AnyObjectInstantiation liquidPrefab;
+	public ReagentsBaseClass solidPrefab;
+	public ReagentsLiquidClass liquidPrefab;
 
 
 	public void Start () {
@@ -71,7 +71,10 @@ public  class GetReagentState : GameStateBase {
                                               prefabRect.transform.rotation) as GameObject;
 
             // set reagent's name
-            tempItem.GetComponent<ReagentUiItemBehaviour>().SetReagent(actualReagent.name);
+			if(actualReagent.isSolid)
+            	tempItem.GetComponent<ReagentUiItemBehaviour>().SetReagent(actualReagent.name, solidPrefab);
+			else
+				tempItem.GetComponent<ReagentUiItemBehaviour>().SetReagent(actualReagent.name, liquidPrefab);
             // next position on inventory grid
             lastItemPos++;
 

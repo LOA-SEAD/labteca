@@ -7,7 +7,11 @@ public class InventoryItem : MonoBehaviour {
 	public Image itemIcon;
 	public Text nameText,actionText;
 	public Button actionButton, infoButton; 
-	
+
+	//Item being held by the button
+	public ItemToInventory itemBeingHeld;
+
+
 	void Start () {
 		gameController = GameObject.Find ("GameController").GetComponent<GameController> ();
 	}

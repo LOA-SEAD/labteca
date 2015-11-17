@@ -110,7 +110,8 @@ public class InventoryContent : MonoBehaviour {
 		//tempItem.GetComponent<Image>().sprite = item.icon;
 		tempItem.transform.SetParent(contentRect.transform, false);
 		tempItem.name = item.name + "_" +1;
-		
+		tempItem.GetComponent<InventoryItem> ().itemBeingHeld = item;
+
 		//tempItem.GetComponent<ItemStackableBehavior>().setObject(item);
 	}
 	//-----------------END OF LeMigue para Glassware-----------------------

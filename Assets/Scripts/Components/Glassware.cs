@@ -8,7 +8,7 @@ using System.Collections.Generic;
 * add and remove liquids and solids.
 */
 
-public class Glassware : MonoBehaviour 
+public class Glassware : ItemToInventory 
 {
 	public float volume;
 	public float uncalibrateVolume;

@@ -20,6 +20,8 @@ public class WorkBench : MonoBehaviour {
 	public GameObject optionDialogSpatula;      /*!< Dialog. */
 	public GameObject optionDialogWater;        /*!< Dialog. */
 	public GameObject optionDialogPipeta;       /*!< Dialog. */
+	public GameObject optionDialogEquipment;    /*!< Dialog. */ //Should only be linke when there's an equipment in the state
+
 	public GameController gameController;
 	public GameStateBase currentState;
 	
@@ -302,6 +304,9 @@ public class WorkBench : MonoBehaviour {
 		}
 	}
 
+
+
+
 	//! Remove the Glassware.
 	public void RemoveGlass(bool inInventory){
 		
@@ -555,7 +560,67 @@ public class WorkBench : MonoBehaviour {
 		}
 	}
 
+
+	//Methods for equipment
+
+	//! Put the Glassware on the equipment.
+	/*! Verifiy if glassware can be put on the equipment. */
+	public void PutGlassInEquip(bool realocate){
+		if(positionGlassEquipament.childCount > 0){
+			uiManager.alertDialog.ShowAlert("O equipamento ja tem um recipiente!");
+		}
+		else{
+			if(!realocate){
+				//TODO: Temporariamente esta pegando do gamecontroller, mas tem que pegar do inventario esses dados
+				GameObject tempGlass = Instantiate(gameController.selectedGlassWare.gameObject, positionGlassEquipament.position, gameController.selectedGlassWare.transform.rotation) as GameObject;
+				tempGlass.transform.SetParent(positionGlassEquipament,false);
+				tempGlass.transform.localPosition = Vector3.zero;
+				gameController.totalBeakers--;
+				GetComponent<ScaleController>().AddObjectInEquipament(tempGlass);
+				tempGlass.GetComponent<Glassware>().SetStateInUse(currentState);
+			}
+			else{
+				
+				if(lastGlassWareSelected.transform.parent == positionGlassEquipament){
+					uiManager.alertDialog.ShowAlert("O equipamento ja Esta na bancada");
+				}
+				else{
+					
+					GameObject tempGlass = lastGlassWareSelected.gameObject;
+					tempGlass.transform.SetParent(positionGlassEquipament,false);
+					tempGlass.transform.localPosition = Vector3.zero;
+					GetComponent<ScaleController>().AddObjectInEquipament(tempGlass);
+					tempGlass.GetComponent<Glassware>().SetStateInUse(currentState);
+				}
+				
+			}
+			
+		}
+		
+		CloseOptionDialogGlass();
+		CloseOptionDialogGlassTable ();
+		RefreshInteractiveItens ();
+	}
+
+	//! Verify if there is any Glassware on the equipment.
+	public bool HaveGlassInEquipment(){
+		if(positionGlassEquipament.childCount > 0){
+			return true;
+		}
+		return false;
+	}
+
+	public void OpenOptionDialogEquipment(){
+		optionDialogEquipment.SetActive(true);
+		canClickTools = false;
+	}
 	
+	public void CloseOptionDialogEquipment(){
+		optionDialogEquipment.SetActive(false);
+		canClickTools = true;
+	}
+
+
 }
 
 

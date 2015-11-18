@@ -59,4 +59,8 @@ public abstract class GameStateBase : MonoBehaviour {
 		gameController.ChangeState(indexState);
 	}
 
+	public virtual EquipmentControllerBase GetEquipmentController () {
+		return null;
+	}
+
 }

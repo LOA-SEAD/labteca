@@ -14,6 +14,8 @@ public class InventoryItem : MonoBehaviour {
 
 	void Start () {
 		gameController = GameObject.Find ("GameController").GetComponent<GameController> ();
+
+		//this.GetComponentInChildren<Button> ().onClick.AddListener(() => callGlassToTable());
 	}
 	//void Update () {}
 
@@ -49,6 +51,17 @@ public class InventoryItem : MonoBehaviour {
 	public void disableButton(){
 		actionButton.interactable=false;
 		actionText.color = new Color (actionText.color.r, actionText.color.g, actionText.color.b, 128/256f);
+	}
+
+	public void HoldItem(ItemToInventory item) {
+		itemBeingHeld = item;
+	}
+
+	//! Calls the method in the workbench that will put the object on the table
+	/*! This method should be used as the onClick effect for the button. It calls the method that will put the
+	 * 	item on the table */
+	public void CallWorkbenchToTable() {
+		//gameController.GetCurrentState ().GetComponent<WorkBench> ().PutGlassOnTable (true, itemBeingHeld);
 	}
 
 }

@@ -287,7 +287,7 @@ public class WorkBench : MonoBehaviour {
 				} else {
 					if (lastGlassWareSelected.transform.parent == positionGlassEquipament) {
 						lastGlassWareSelected.transform.SetParent (null);
-						GetComponent<ScaleController> ().RemoveObjectInEquipament (lastGlassWareSelected.gameObject);
+						gameController.GetCurrentState().GetEquipmentController().RemoveObjectInEquipament (lastGlassWareSelected.gameObject);
 					} else {
 						lastGlassWareSelected.transform.SetParent (null);
 					} i = 0;

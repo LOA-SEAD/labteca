@@ -11,6 +11,8 @@ public  class ScaleState : GameStateBase {
     public Camera cameraState;                  /*!< Camera for this state. */
     public GameObject interactBox;              /*!< BoxCollider that allows the Player to enter this state. */
 
+	public EquipmentControllerBase equipmentController;	/*!< Equipment controller for this state */
+
 	public void Start () {
 		cameraState.gameObject.SetActive(false);
 	}
@@ -56,6 +58,10 @@ public  class ScaleState : GameStateBase {
         cameraState.gameObject.SetActive(false);
 		GetComponentInParent<WorkBench> ().OnStopRun ();
 
+	}
+
+	public override EquipmentControllerBase GetEquipmentController () {
+		return base.GetEquipmentController ();
 	}
 
 }

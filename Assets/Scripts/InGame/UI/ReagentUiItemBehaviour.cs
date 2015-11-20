@@ -9,7 +9,7 @@ public class ReagentUiItemBehaviour : MonoBehaviour {
 
 	public Text nameReagent;
 
-	private ReagentsBaseClass prefabReagent;
+	public ReagentsBaseClass prefabReagent;
 
 	private InventoryManager inventoryManager;
 
@@ -27,6 +27,8 @@ public class ReagentUiItemBehaviour : MonoBehaviour {
 
 		nameReagent.text = name;
 
+		prefabReagent = r;
+
 		//Copies the ReagentClass component
 		if (r.isSolid) {
 			if (UnityEditorInternal.ComponentUtility.CopyComponent (r.GetComponent<ReagentsBaseClass> ())) {
@@ -34,7 +36,7 @@ public class ReagentUiItemBehaviour : MonoBehaviour {
 				}
 			}
 		} else {
-			if (UnityEditorInternal.ComponentUtility.CopyComponent (r.GetComponent<ReagentsBaseClass> ())) {
+			if (UnityEditorInternal.ComponentUtility.CopyComponent (r.GetComponent<ReagentsLiquidClass> ())) {
 				if (UnityEditorInternal.ComponentUtility.PasteComponentValues (prefabReagent)) {
 				}
 			}

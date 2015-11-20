@@ -6,7 +6,7 @@ using System.Collections.Generic;
 /*! This is the controller for the Scale, it has all the methods that allows the Scale to work with 
  * the Glassware and Reagents, calculating their mass together and displaying it.
  */
-public class ScaleController : MonoBehaviour 
+public class ScaleController : EquipmentControllerBase 
 {
 	private InventoryController inventory;  // TODO: linkar c/ Inventory, se necessario aqui nesse script.
 
@@ -111,13 +111,13 @@ public class ScaleController : MonoBehaviour
 	}
 
     //! Add a GameObject to be measured on Scale.
-	public void AddObjectInEquipament(GameObject objectToAdd){
+	public override void AddObjectInEquipament(GameObject objectToAdd){
 		activeMass.Add(objectToAdd);
 		RefreshEquipament();
 	}
 
     //! Remove a GameObject from being measured on Scale.
-	public void RemoveObjectInEquipament(GameObject objectToRemove){
+	public override void RemoveObjectInEquipament(GameObject objectToRemove){
 		activeMass.Remove(objectToRemove);
 		RefreshEquipament();
 		balanceText.text = applyErrorInFloat(realMass).ToString();

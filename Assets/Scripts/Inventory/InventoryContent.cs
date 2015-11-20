@@ -151,7 +151,8 @@ public class InventoryContent : MonoBehaviour {
 		//tempItem.GetComponent<Image>().sprite = item.icon;
 		tempItem.transform.SetParent(contentRect.transform, false);
 		tempItem.name = item.name + "_" +1;
-		
+
+		tempItem.GetComponent<InventoryItem> ().HoldItem(item);
 		//tempItem.GetComponent<ItemStackableBehavior>().setObject(item);
 	}
 	//-----------------END OF LeMigue para Reagents-----------------------

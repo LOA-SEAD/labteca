@@ -22,7 +22,7 @@ public class ScaleController : EquipmentControllerBase
 	public float errorAmplitude;    /*!< Float number representing the 'error' amplitude. */
     public int errorPrecision;      /*!< Int number that defines the scale's precision. */
 
-	private List<GameObject> activeMass = new List<GameObject>();   /*!< List of GameObjects that composes the mass. */
+	public List<GameObject> activeMass = new List<GameObject>();   /*!< List of GameObjects that composes the mass. */
 
     // TODO: Add Remove tah bem, mas bem, confuso.
 	public float addRemoveValue;    /*!< Float number to add remove value? */
@@ -118,6 +118,7 @@ public class ScaleController : EquipmentControllerBase
 
     //! Remove a GameObject from being measured on Scale.
 	public override void RemoveObjectInEquipament(GameObject objectToRemove){
+		Debug.Log ("chegou aqui");
 		activeMass.Remove(objectToRemove);
 		RefreshEquipament();
 		balanceText.text = applyErrorInFloat(realMass).ToString();

@@ -44,7 +44,7 @@ public  class FumeHoodState : GameStateBase {
 		cameraState.gameObject.SetActive(true);
 		cameraState.depth = 2;
 		HudText.SetText("");
-		GetComponentInParent<WorkBench>().OnStartRun ();;
+		GetComponentInParent<WorkBench>().OnStartRun ();
 		
 	}
 	

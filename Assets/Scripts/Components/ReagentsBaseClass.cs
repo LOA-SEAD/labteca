@@ -4,7 +4,7 @@ using System.Collections;
 //! Declaration of information for liquid reagents
 /*! The liquid class inherits this one, because it has all the same attributes */
 
-public abstract class ReagentsBaseClass {
+public class ReagentsBaseClass : ItemToInventory {
 
 	public string name;
 	public bool isSolid;

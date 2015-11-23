@@ -124,7 +124,6 @@ public class JournalController : MonoBehaviour {
 			tempItem.GetComponent<JournalUIItem> ().isDone = actualJournalUI.isDone;
 			tempItem.GetComponent<JournalUIItem> ().prerequisites = new JournalUIItem[actualJournalUI.prerequisites.Length];
 			for (int n = 0; n < actualJournalUI.prerequisites.Length; n++) {
-				Debug.Log (actualJournalUI.prerequisites [n].index.ToString ());
 				tempItem.GetComponent<JournalUIItem> ().prerequisites [n] = GameObject.Find ("JournalUIItem" + actualJournalUI.prerequisites [n].index.ToString ()).GetComponent<JournalUIItem> ();
 			}
 			tempItem.GetComponent<JournalUIItem> ().name = actualJournalUI.name;

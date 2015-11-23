@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour {
 	private CharacterController player;
 
 	public bool lockPlayerStart;
+	public List<InventoryItem> inventoryItems = new List<InventoryItem> ();
 
 	public List<GameStateBase> gameStates = new List<GameStateBase>();  /*!< List with all game 'states' of the game. */
 	private GameStateBase currentGameState;
@@ -51,10 +52,20 @@ public class GameController : MonoBehaviour {
 		if(GameController.instance == null){
 			GameController.instance = this;
 		}
+
+		GameObject[] invItem = GameObject.FindGameObjectsWithTag ("InventoryItem");
+		for (int i=0; i < invItem.Length; i++)
+			inventoryItems.Add (invItem [i].GetComponent<InventoryItem>());
 	}
 
 	public GameStateBase GetCurrentState() {
 		return currentGameState;
+	}
+
+	public void refreshInventory(){
+		foreach (InventoryItem inv in inventoryItems) {
+			inv.refreshState();
+		}
 	}
 
     //! Change current state to another one.
@@ -66,6 +77,7 @@ public class GameController : MonoBehaviour {
 		currentGameState.StopRun();
 		currentGameState = selectState;
 		currentStateIndex = indexState;
+		refreshInventory ();
 		currentGameState.StartRun();
 		
 	}

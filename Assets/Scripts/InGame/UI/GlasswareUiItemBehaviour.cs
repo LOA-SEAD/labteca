@@ -37,8 +37,7 @@ public class GlasswareUiItemBehaviour : MonoBehaviour {
 	/*! Add the glassware to the inventory.*/
 	public void AddToInventory(){
 		//This is how it is now//inventoryManager.AddItemToInventory (GameObject.Find ("GetGlassware").GetComponent<GetGlasswareState>().GlasswareInstantiation(glasswareIndex));
-		inventoryManager.AddGlasswareToInventory (GameObject.Find ("GetGlassware").GetComponent<GetGlasswareState>().GlasswareInstantiation(glasswareIndex)); //This is working
-		//Maybe should be like this? inventoryManager.AddGlasswareToInventory (glasswareIndex);
+		inventoryManager.AddGlasswareToInventory (prefabGlassware); //This is working
 
 	}
 

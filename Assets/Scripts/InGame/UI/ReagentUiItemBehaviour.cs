@@ -8,7 +8,9 @@ using UnityEngine.UI;
 public class ReagentUiItemBehaviour : MonoBehaviour {
 
 	public Text nameReagent;
-	
+
+	public ReagentsBaseClass prefabReagent;
+
 	private InventoryManager inventoryManager;
 
 	void Start () {
@@ -21,17 +23,31 @@ public class ReagentUiItemBehaviour : MonoBehaviour {
 	}*/
 
 
-	public void SetReagent(string name){
+	public void SetReagent(string name, ReagentsBaseClass r){
 
 		nameReagent.text = name;
-	
+
+		prefabReagent = r;
+
+		//Copies the ReagentClass component
+		if (r.isSolid) {
+			if (UnityEditorInternal.ComponentUtility.CopyComponent (r.GetComponent<ReagentsBaseClass> ())) {
+				if (UnityEditorInternal.ComponentUtility.PasteComponentValues (prefabReagent)) {
+				}
+			}
+		} else {
+			if (UnityEditorInternal.ComponentUtility.CopyComponent (r.GetComponent<ReagentsLiquidClass> ())) {
+				if (UnityEditorInternal.ComponentUtility.PasteComponentValues (prefabReagent)) {
+				}
+			}
+		}
 	}
 
 	//! Add the reagent clicked to the inventory
 	public void AddToInventory(){
 		//Debug.Log ("Add " + nameReagent.text);
 		//inventoryManager.AddItemToInventory (GameObject.Find ("GetReagents").GetComponent<GetReagentState>().ReagentInstantiation(nameReagent.text));
-		inventoryManager.AddReagentToInventory (ComponentsSaver.LoadReagents () [nameReagent.text]);
+		inventoryManager.AddReagentToInventory (prefabReagent);
 	}
 
 }

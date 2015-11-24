@@ -44,7 +44,7 @@ public class WorkBench : MonoBehaviour {
 	public Button confirmAddButton;
 	public Button confirmRemoveButton;
 	private bool usePrecision;
-	private Glassware lastGlassWareSelected;
+	public Glassware lastGlassWareSelected;
 	//
 	private string lastReagentName;
 
@@ -492,7 +492,9 @@ public class WorkBench : MonoBehaviour {
 	// TODO: nao ha nenhuma referencia disso em outro codigo, tambem nao achei dentro da cena onde esta utilizando.
 	//! Click Glass.
 	public void ClickGlass(GameObject glassClick){
-		
+
+		Debug.Log ("WB CLICKOU CU");
+
 		Glassware glass = glassClick.GetComponent<Glassware> ();
 		lastGlassWareSelected = glassClick.GetComponent<Glassware> ();
 		
@@ -600,6 +602,30 @@ public class WorkBench : MonoBehaviour {
 		CloseOptionDialogGlass();
 		CloseOptionDialogGlassTable ();
 		RefreshInteractiveItens ();
+	}
+
+	//! Put an item on the table from the inventory
+	/*! Verifiy if there's an available position to put the item */
+	/*public void PutItemFromInventory(GameObject item) {
+		foreach(Transform position in positionGlass) {	//The first position available
+			if(position.childCount == 0){
+				item.transform.SetParent (position, true);
+				item.transform.localPosition = Vector3.zero;
+				return;
+			}
+		}
+		uiManager.alertDialog.ShowAlert ("A Bancada esta cheia!");
+	}*/
+	public void PutItemFromInventory(ItemToInventory item) {
+		foreach(Transform position in positionGlass) {	//The first position available
+			if(position.childCount == 0){
+				GameObject tempItem = Instantiate(item.gameObject/*, position.position/*, gameController.selectedGlassWare.transform.rotation*/) as GameObject;
+				tempItem.transform.SetParent (position, /*true*/false);
+				tempItem.transform.localPosition = Vector3.zero;
+				return;
+			}
+		}
+		uiManager.alertDialog.ShowAlert ("A Bancada esta cheia!");
 	}
 
 	//! Verify if there is any Glassware on the equipment.

@@ -15,6 +15,7 @@ public  class ScaleState : GameStateBase {
 
 	public void Start () {
 		cameraState.gameObject.SetActive(false);
+		equipmentController = this.GetComponent<ScaleController> ();
 	}
 	
 	protected override void UpdateState ()

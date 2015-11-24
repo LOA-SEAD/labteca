@@ -93,7 +93,9 @@ public class InventoryItem : MonoBehaviour {
 	/*! This method should be used as the onClick effect for the button. It calls the method that will put the
 	 * 	item on the table */
 	public void CallWorkbenchToTable() {
-		//gameController.GetCurrentState ().GetComponent<WorkBench> ().PutGlassOnTable (true, itemBeingHeld);
+		//GameObject tempItem = Instantiate (itemBeingHeld.gameObject) as GameObject;
+		//gameController.GetCurrentState ().GetComponent<WorkBench> ().PutItemFromInventory (tempItem);
+		gameController.GetCurrentState ().GetComponent<WorkBench> ().PutItemFromInventory (itemBeingHeld);
 	}
 
 }

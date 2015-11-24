@@ -111,13 +111,13 @@ public class InventoryContent : MonoBehaviour {
 		tempItem.transform.SetParent(contentRect.transform, false);
 		tempItem.name = item.name + "_" +1;
 		tempItem.GetComponent<InventoryItem> ().itemBeingHeld = item;
-
+		tempItem.GetComponent<InventoryItem> ().nameText.text = item.name;
 		//tempItem.GetComponent<ItemStackableBehavior>().setObject(item);
 	}
 	//-----------------END OF LeMigue para Glassware-----------------------
 
 	//-----------------LeMigue para Reagents-----------------------
-	public void addNewReagentsUI(ReagentsBaseClass item)
+	public void addNewReagentsUI(ReagentsBaseClass item, ReagentsBaseClass data)
 	{  
 		// if there is freedPosition, use it. If NOT, use the last item position.
 		//prefabItem.GetComponent<AnyObjectInstantiation>().copyItemBase(item);
@@ -150,8 +150,13 @@ public class InventoryContent : MonoBehaviour {
 		// set new item parent to scroll rect content
 		//tempItem.GetComponent<Image>().sprite = item.icon;
 		tempItem.transform.SetParent(contentRect.transform, false);
-		tempItem.name = item.name + "_" +1;
-
+		tempItem.name = data.name + "_" +1;
+		tempItem.GetComponent<InventoryItem> ().nameText.text = data.name;
+		if (data.isSolid)
+			tempItem.AddComponent<ReagentsBaseClass> ();
+		else
+			tempItem.AddComponent<ReagentsLiquidClass> ();
+		tempItem.GetComponent<ReagentsBaseClass> ().receiveValues (data);
 		tempItem.GetComponent<InventoryItem> ().HoldItem(item);
 		//tempItem.GetComponent<ItemStackableBehavior>().setObject(item);
 	}
@@ -174,6 +179,4 @@ public class InventoryContent : MonoBehaviour {
 
         Destroy(itemUI.gameObject);
     }
-
-
 }

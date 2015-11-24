@@ -9,12 +9,10 @@ public class InventoryItem : MonoBehaviour {
 	public Button actionButton, infoButton; 
 
 	//Item being held by the button
+	public ReagentsBaseClass reagent;
 	public ItemToInventory itemBeingHeld;
 	public GameObject physicalObject; 
 
-	~InventoryItem(){
-		gameController.inventoryItems.Remove (this);
-	}
 
 	void Start () {
 		gameController = GameObject.Find ("GameController").GetComponent<GameController> ();
@@ -25,28 +23,24 @@ public class InventoryItem : MonoBehaviour {
 	//void Update () {}
 
 	public void refreshState(){
-		int currentState = gameController.currentStateIndex;
-		Debug.Log ("Mudança de estado em " + gameObject.name);
-		switch (currentState) {
-		case 0:
-			disableButton();
-			break;
-		case 1:
-			enableButton();
-			actionText.text = "Utilizar";
-			break;
-		case 2:
-			enableButton();
-			//actionText.text = "Utilizar";
-			break;
-		case 3:
-			enableButton();
-			//actionText.text = "Utilizar";
-			//açoes no getGlassware
-			break;
-		default:
-			Debug.Log("teste");
-			break;
+		GameStateBase currentState = gameController.GetCurrentState();
+		if (currentState is InGameState)
+			disableButton ();
+		else {
+			if(currentState.gameObject.GetComponent<WorkBench>()!=null){
+				enableButton();
+				actionText.text="Utilizar";
+			}else if(currentState is GetInterface){
+				GetInterface interfaceTest = currentState as GetInterface;
+				if(interfaceTest.isGlassware()&&gameObject.GetComponent<AnyObjectInstantiation>().itemType==ItemType.Glassware){
+					enableButton();
+					actionText.text="Remover";
+				}
+				if(!interfaceTest.isGlassware()&&(gameObject.GetComponent<AnyObjectInstantiation>().itemType==ItemType.Liquids||gameObject.GetComponent<AnyObjectInstantiation>().itemType==ItemType.Solids)){
+					enableButton();
+					actionText.text="Remover";
+				}
+			}
 		}
 	}
 
@@ -55,29 +49,20 @@ public class InventoryItem : MonoBehaviour {
 	}
 
 	public void actionButtonClick(){
-		int currentState = gameController.currentStateIndex;
-
-		switch (currentState) {
-			case 0:
-				//açao no inGameState(provavelmente nada)
-				break;
-			case 1:
-				//açoes no precisionScale
-				break;
-			case 2:
-				//açoes no getReagents
-				break;
-			case 3:
-				//açoes no getGlassware
-				break;
-			default:
-				break;
+		GameStateBase currentState = gameController.GetCurrentState();
+		if (currentState.GetComponent<WorkBench> () != null)
+			CallWorkbenchToTable ();
+		else {
+			gameObject.GetComponentInParent<InventoryContent>().removeItemUI(gameObject.GetComponent<ItemStackableBehavior>());
 		}
+
+
 	}
 
 	public void disableButton(){
 		actionButton.interactable=false;
 		actionText.color = new Color (actionText.color.r, actionText.color.g, actionText.color.b, 128/256f);
+		actionText.text = "Inativo";
 	}
 
 	public void enableButton(){
@@ -93,7 +78,9 @@ public class InventoryItem : MonoBehaviour {
 	/*! This method should be used as the onClick effect for the button. It calls the method that will put the
 	 * 	item on the table */
 	public void CallWorkbenchToTable() {
-		//gameController.GetCurrentState ().GetComponent<WorkBench> ().PutGlassOnTable (true, itemBeingHeld);
+		//GameObject tempItem = Instantiate (itemBeingHeld.gameObject) as GameObject;
+		//gameController.GetCurrentState ().GetComponent<WorkBench> ().PutItemFromInventory (tempItem);
+		gameController.GetCurrentState ().GetComponent<WorkBench> ().PutItemFromInventory (itemBeingHeld,gameObject.GetComponent<ReagentsBaseClass>());
 	}
 
 }

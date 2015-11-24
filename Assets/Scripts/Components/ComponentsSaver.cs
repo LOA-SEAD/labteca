@@ -101,7 +101,7 @@ public class ComponentsSaver
 			text.SetFloat("colorA" + counter.ToString(), reagent.color.a);
 
 			//!This saves only what is related to liquids
-			if (reagents is ReagentsLiquidClass) {  
+			if (reagent is ReagentsLiquidClass) {  
 				text.SetFloat("ph" + counter.ToString(), reagent.ph);
 				text.SetFloat("turbidity" + counter.ToString(), reagent.turbidity);
 				text.SetFloat("refratometer" + counter.ToString(), reagent.refratometer);
@@ -184,7 +184,7 @@ public class ComponentsSaver
 					reagentAcc.ph = textLoad.GetFloat ("ph" + i.ToString ());
 					reagentAcc.turbidity = textLoad.GetFloat ("turbidity" + i.ToString ());
 					reagentAcc.refratometer = textLoad.GetFloat ("refratometer" + i.ToString ());
-
+					Debug.Log(reagentAcc.ph);
 					if (!string.IsNullOrEmpty (textLoad.GetString ("uvSpecter" + i.ToString ()))) {
 						reagentAcc.uvSpecter = Resources.Load<Texture2D> ("specter/" + textLoad.GetString ("uvSpecter" + i.ToString ()));
 					} else {

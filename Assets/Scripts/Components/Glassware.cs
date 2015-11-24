@@ -20,6 +20,8 @@ public class Glassware : ItemToInventory
 
 	public GameStateBase stateInUse;
 
+	public GameController gameController;
+
 	public float currentVolumeUsed;
 
 	public List<ReagentsInGlass> reagents = new List<ReagentsInGlass>();
@@ -33,8 +35,13 @@ public class Glassware : ItemToInventory
 	//!  Is called when the script instance is being loaded.
 	void Awake()
 	{
-		solid.SetActive(false);
-		liquid.SetActive(false);
+		if(solid!=null)
+			solid.SetActive(false);
+		if(liquid!=null)
+			liquid.SetActive(false);
+
+		gameController = GameObject.Find ("GameController").GetComponent<GameController> ();
+		SetStateInUse (gameController.GetCurrentState ());
 	}
 
 	// Use this for initialization
@@ -126,6 +133,7 @@ public class Glassware : ItemToInventory
 
 	//!Message when the player clicks in glass.
 	public void CLickInGlass(){
-		stateInUse.SendMessage ("ClickGlass", gameObject, SendMessageOptions.DontRequireReceiver);
+		Debug.Log ("CLick");
+		gameController.GetCurrentState().GetComponent<WorkBench> ().ClickGlass (this.gameObject);
 	}
 }

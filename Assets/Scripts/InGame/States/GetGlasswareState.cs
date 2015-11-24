@@ -5,14 +5,14 @@ using UnityEngine.UI;
 
 //! Get Glassware State is when the Player access the cupboard with Glassware.
 /*! This state allows the Player to access the cupboard so one can add Glassware to the inventory. */
-public  class GetGlasswareState : GameStateBase {
+public  class GetGlasswareState : GameStateBase, GetInterface {
 
     public Camera cameraState;          /*!< Camera for this State. */
     public GameObject interactBox;      /*!< Box Colider to allow interaction. */
     public DoorBehaviour leftDoor;      /*!< GameObject that contains the left door. */
     public DoorBehaviour rightDoor;     /*!< GameObject that contains the right door. */
     public Glassware[] glasswareList;   /*!< List of Glassware that are inside. */
-	
+
 	public AnyObjectInstantiation glasswareToInventory;
 
 
@@ -26,6 +26,10 @@ public  class GetGlasswareState : GameStateBase {
 	private Vector3 currentPosition;
 	private int lastItemPos = 0;
 	private RectTransform contentRect, prefabRect;
+
+	public bool isGlassware(){
+		return true;
+	}
 
 	public void Start () {
 		cameraState.gameObject.SetActive(false);

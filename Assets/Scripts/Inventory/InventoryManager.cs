@@ -170,11 +170,11 @@ public class InventoryManager : MonoBehaviour {
 	//-------------END OF LeMigue for Glassware-------------------------
 
 	//-------------LeMigue for Reagents------------------------
-	public void AddReagentToInventory(ReagentsBaseClass reagent) {
+	public void AddReagentToInventory(ReagentsBaseClass reagent, ReagentsBaseClass r ) {
 		if(reagent.isSolid)
-			SolidReagents.GetComponentInChildren<InventoryContent> ().addNewReagentsUI (reagent);
+			SolidReagents.GetComponentInChildren<InventoryContent> ().addNewReagentsUI (reagent,r);
 		if(!reagent.isSolid)
-			LiquidReagents.GetComponentInChildren<InventoryContent> ().addNewReagentsUI (reagent);
+			LiquidReagents.GetComponentInChildren<InventoryContent> ().addNewReagentsUI (reagent,r);
 	}
 	
 	public void RemoveReagentFromInventory() {

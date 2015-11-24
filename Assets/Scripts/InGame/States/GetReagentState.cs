@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 //! Get Reagent State is when the Player access the cupboard with Reagents.
 /*! This state allows the Player to access the cupboard so one can add Reagents to the inventory. */
-public  class GetReagentState : GameStateBase {
+public  class GetReagentState : GameStateBase, GetInterface {
 
 	public Camera cameraState;          /*!< Camera for this State. */
     public GameObject interactBox;      /*!< Box Colider to allow interaction. */
@@ -29,6 +29,9 @@ public  class GetReagentState : GameStateBase {
 	public ReagentsBaseClass solidPrefab;
 	public ReagentsLiquidClass liquidPrefab;
 
+	public bool isGlassware(){
+		return false;
+	}
 
 	public void Start () {
         cameraState.gameObject.SetActive(false);

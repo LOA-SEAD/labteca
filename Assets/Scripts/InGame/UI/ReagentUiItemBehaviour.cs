@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 //! Set a reagent and add to the inventory.
@@ -47,7 +48,11 @@ public class ReagentUiItemBehaviour : MonoBehaviour {
 	public void AddToInventory(){
 		//Debug.Log ("Add " + nameReagent.text);
 		//inventoryManager.AddItemToInventory (GameObject.Find ("GetReagents").GetComponent<GetReagentState>().ReagentInstantiation(nameReagent.text));
-		inventoryManager.AddReagentToInventory (prefabReagent);
+		ReagentsBaseClass reagent;
+		Dictionary<string, ReagentsBaseClass> reagentDictionary = ComponentsSaver.LoadReagents ();
+		reagentDictionary.TryGetValue (nameReagent.text, out reagent);
+		Debug.Log (reagent.name);
+		inventoryManager.AddReagentToInventory (prefabReagent,reagent);
 	}
 
 }

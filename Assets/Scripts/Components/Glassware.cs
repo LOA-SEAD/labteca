@@ -35,10 +35,13 @@ public class Glassware : ItemToInventory
 	//!  Is called when the script instance is being loaded.
 	void Awake()
 	{
-		solid.SetActive(false);
-		liquid.SetActive(false);
+		if(solid!=null)
+			solid.SetActive(false);
+		if(liquid!=null)
+			liquid.SetActive(false);
 
 		gameController = GameObject.Find ("GameController").GetComponent<GameController> ();
+		SetStateInUse (gameController.GetCurrentState ());
 	}
 
 	// Use this for initialization

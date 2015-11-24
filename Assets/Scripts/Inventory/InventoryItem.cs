@@ -10,17 +10,44 @@ public class InventoryItem : MonoBehaviour {
 
 	//Item being held by the button
 	public ItemToInventory itemBeingHeld;
+	public GameObject physicalObject; 
 
+	~InventoryItem(){
+		gameController.inventoryItems.Remove (this);
+	}
 
 	void Start () {
 		gameController = GameObject.Find ("GameController").GetComponent<GameController> ();
-
+		gameController.inventoryItems.Add (this);
+		refreshState ();
 		//this.GetComponentInChildren<Button> ().onClick.AddListener(() => callGlassToTable());
 	}
 	//void Update () {}
 
-	void refreshState(){
-
+	public void refreshState(){
+		int currentState = gameController.currentStateIndex;
+		Debug.Log ("Mudança de estado em " + gameObject.name);
+		switch (currentState) {
+		case 0:
+			disableButton();
+			break;
+		case 1:
+			enableButton();
+			actionText.text = "Utilizar";
+			break;
+		case 2:
+			enableButton();
+			//actionText.text = "Utilizar";
+			break;
+		case 3:
+			enableButton();
+			//actionText.text = "Utilizar";
+			//açoes no getGlassware
+			break;
+		default:
+			Debug.Log("teste");
+			break;
+		}
 	}
 
 	public void infoButtonClick(){
@@ -51,6 +78,11 @@ public class InventoryItem : MonoBehaviour {
 	public void disableButton(){
 		actionButton.interactable=false;
 		actionText.color = new Color (actionText.color.r, actionText.color.g, actionText.color.b, 128/256f);
+	}
+
+	public void enableButton(){
+		actionButton.interactable=true;
+		actionText.color = new Color (actionText.color.r, actionText.color.g, actionText.color.b, 1);
 	}
 
 	public void HoldItem(ItemToInventory item) {

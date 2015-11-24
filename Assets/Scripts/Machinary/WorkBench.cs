@@ -104,6 +104,7 @@ public class WorkBench : MonoBehaviour {
 	}
 
 	void Update(){
+
 		if(uiManager.alertDialog.IsShowing() || !canClickTools){
 			DesactiveInteractObjects();
 		}
@@ -139,7 +140,7 @@ public class WorkBench : MonoBehaviour {
 		CloseOptionDialogWater ();
 		CloseOptionDialogPipeta ();
 		CloseOptionDialogGlassTable ();
-		
+		returnPosition ();
 	}
 
 	//! Actions for when the State ends.
@@ -265,14 +266,15 @@ public class WorkBench : MonoBehaviour {
 	/*! Verifiy each position available and let the Player choose an available, if any, position to put the glassware. */
 	// TODO: Revisar este codigo maroto aqui, tem coisas muito identicas que poderiam ser funcoes menores, ou talvez feito de maneira melhor?
 	public void PutGlassOnTable(bool realocate){
-		if (i == positionGlass.Length) {
+		if (returnPosition()==null) {
 			uiManager.alertDialog.ShowAlert ("A Bancada esta cheia!");
 			CloseOptionDialogGlassTable ();
 		} else {
 			if (!realocate) {
-				if (positionGlass [i].childCount == 0) {
-					GameObject tempGlass = Instantiate (gameController.selectedGlassWare.gameObject, positionGlass [i].position, gameController.selectedGlassWare.transform.rotation) as GameObject;
-					tempGlass.transform.SetParent (positionGlass [i], false);
+				if (returnPosition().childCount == 0) {
+					Debug.Log(returnPosition().name);
+					GameObject tempGlass = Instantiate (gameController.selectedGlassWare.gameObject, returnPosition().position, gameController.selectedGlassWare.transform.rotation) as GameObject;
+					tempGlass.transform.SetParent (returnPosition(), false);
 					tempGlass.transform.localPosition = Vector3.zero;
 					tempGlass.GetComponent<Glassware> ().SetStateInUse (currentState);
 					i++;
@@ -281,24 +283,21 @@ public class WorkBench : MonoBehaviour {
 				CloseOptionDialogGlass ();
 			}
 			else { i = 0;
-				if (lastGlassWareSelected.transform.parent == positionGlass [i]) {
-					uiManager.alertDialog.ShowAlert ("Esse recipiente ja esta na bancada");
-					i++;
-				} else {
 					if (lastGlassWareSelected.transform.parent == positionGlassEquipament) {
-						lastGlassWareSelected.transform.SetParent (null);
-						gameController.GetCurrentState().GetEquipmentController().RemoveObjectInEquipament (lastGlassWareSelected.gameObject);
+						//lastGlassWareSelected.transform.SetParent (null);
+					gameObject.GetComponent<EquipmentControllerBase>().RemoveObjectInEquipament(lastGlassWareSelected.gameObject);
+						
 					} else {
 						lastGlassWareSelected.transform.SetParent (null);
 					} i = 0;
-					if (positionGlass [i].childCount == 0) {
+					if (returnPosition().childCount == 0) {
 						GameObject tempGlass = lastGlassWareSelected.gameObject;
-						tempGlass.transform.SetParent (positionGlass [i], true);
+						tempGlass.transform.SetParent (returnPosition(), true);
 						tempGlass.transform.localPosition = Vector3.zero;
 						tempGlass.GetComponent<Glassware> ().SetStateInUse (currentState);
 						i++;
 					}
-				}
+
 				CloseOptionDialogGlassTable ();
 			}
 		}
@@ -562,7 +561,13 @@ public class WorkBench : MonoBehaviour {
 		}
 	}
 
-
+	public Transform returnPosition(){
+		for (int z=0; z<positionGlass.Length; z++) {
+			if(positionGlass[z].childCount==0)
+				return positionGlass[z];
+		}
+		return null;
+	}
 	//Methods for equipment
 
 	//! Put the Glassware on the equipment.
@@ -589,6 +594,7 @@ public class WorkBench : MonoBehaviour {
 				else{
 					
 					GameObject tempGlass = lastGlassWareSelected.gameObject;
+					i--;
 					tempGlass.transform.SetParent(positionGlassEquipament,false);
 					tempGlass.transform.localPosition = Vector3.zero;
 					GetComponent<ScaleController>().AddObjectInEquipament(tempGlass);

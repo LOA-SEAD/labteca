@@ -622,12 +622,18 @@ public class WorkBench : MonoBehaviour {
 		}
 		uiManager.alertDialog.ShowAlert ("A Bancada esta cheia!");
 	}*/
-	public void PutItemFromInventory(ItemToInventory item) {
+	public void PutItemFromInventory(ItemToInventory item, ItemToInventory data) {
 		foreach(Transform position in positionGlass) {	//The first position available
 			if(position.childCount == 0){
 				GameObject tempItem = Instantiate(item.gameObject/*, position.position/*, gameController.selectedGlassWare.transform.rotation*/) as GameObject;
 				tempItem.transform.SetParent (position, /*true*/false);
 				tempItem.transform.localPosition = Vector3.zero;
+				if(tempItem.GetComponent<ReagentsBaseClass>()!=null){
+					if(tempItem.GetComponent<ReagentsBaseClass>().isSolid)
+						tempItem.GetComponent<ReagentsBaseClass>().receiveValues(data as ReagentsBaseClass);
+					else
+						tempItem.GetComponent<ReagentsBaseClass>().receiveValues(data as ReagentsLiquidClass);
+				}
 				return;
 			}
 		}

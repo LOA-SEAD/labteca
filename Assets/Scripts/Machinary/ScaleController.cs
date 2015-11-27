@@ -10,6 +10,7 @@ public class ScaleController : EquipmentControllerBase
 {
 	private InventoryController inventory;  // TODO: linkar c/ Inventory, se necessario aqui nesse script.
 
+	public float previousMass;
     public float realMass;  /*!< Real mass that is on the scale. */
 	public bool changed;
     // TODO: quando isso foi implementado a versao do Unity era anterior a 4.6, da pra usar Text da nova UI do Unity.
@@ -36,7 +37,6 @@ public class ScaleController : EquipmentControllerBase
 	{
 	    // TODO: quando implemeentar o inventario, talvez precise alterar isso.
         inventory = FindObjectOfType (typeof(InventoryController)) as InventoryController;
-
 		PlayerPrefs.SetFloat ("setupBalance", 0);
 //		buttonAdd.SetActive(false);
 //		buttonRemove.SetActive(false);
@@ -45,6 +45,7 @@ public class ScaleController : EquipmentControllerBase
 
 	void Start () 
 	{
+		previousMass = 0;
         // TODO: se pega o componente BalanceState dentro do proprio GameObject pq variavel publica entao?
 		balanceState = GetComponent<ScaleState>();
 		timeToCheckBalanceValueAcc = 0;
@@ -53,17 +54,18 @@ public class ScaleController : EquipmentControllerBase
 
 	void Update () 
 	{
+		RefreshEquipament ();
+		if (previousMass != realMass) {
+			timeToCheckBalanceValueAcc=0;
+			previousMass=realMass;
+		}
         // Creates the 'fluctuation' effect on Scale display.
 		if (timeToCheckBalanceValueAcc < timeToCheckBalanceValue && activeMass.Count > 0) {
 			balanceText.text = applyErrorInFloat (realMass).ToString ();
 			timeToCheckBalanceValueAcc += Time.fixedDeltaTime;
 			Debug.Log (timeToCheckBalanceValueAcc);
 			RefreshEquipament ();
-		} else{
-			if(activeMass.Count <= 0){
-				timeToCheckBalanceValueAcc=0;
-			}
-		}
+		} 
 	}
 
     //! Apply the "error" on Scale value - the value is rounded and sometimes the display keeps changing the value.
@@ -129,7 +131,6 @@ public class ScaleController : EquipmentControllerBase
 
     //! Remove a GameObject from being measured on Scale.
 	public override void RemoveObjectInEquipament(GameObject objectToRemove){
-		Debug.Log ("chegou aqui");
 		activeMass.Remove(objectToRemove);
 		RefreshEquipament();
 		balanceText.text = applyErrorInFloat(realMass).ToString();

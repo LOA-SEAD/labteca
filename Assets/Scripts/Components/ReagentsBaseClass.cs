@@ -38,4 +38,26 @@ public class ReagentsBaseClass : ItemToInventory {
 			(this as ReagentsLiquidClass).refratometer = (r as ReagentsLiquidClass).refratometer;
 		}
 	}
+
+	public ReagentsBaseClass getValues(){
+		ReagentsBaseClass reg = new ReagentsBaseClass ();
+		reg.name = this.name;
+		reg.isSolid = this.isSolid;
+		reg.molarMass = this.molarMass;
+		reg.density = this.density;
+		reg.polarizability = this.polarizability;
+		reg.conductibility = this.conductibility;
+		reg.solubility = this.solubility;
+		reg.irSpecter = this.irSpecter;
+		reg.flameSpecter = this.flameSpecter;
+		reg.uvSpecter = this.uvSpecter;
+		reg.texture = this.texture;
+		if (!reg.isSolid) {
+			(reg as ReagentsLiquidClass).ph = (this as ReagentsLiquidClass).ph;
+			(reg as ReagentsLiquidClass).turbidity = (this as ReagentsLiquidClass).turbidity;
+			(reg as ReagentsLiquidClass).refratometer = (this as ReagentsLiquidClass).refratometer;
+		}
+
+		return reg;
+	}
 }

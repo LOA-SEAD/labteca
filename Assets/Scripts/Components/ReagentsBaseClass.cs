@@ -60,4 +60,13 @@ public class ReagentsBaseClass : ItemToInventory {
 
 		return reg;
 	}
+
+	//!For when the object is clicked on.
+	/*!This method will be attached to the button for when the reagent is clicked. */
+	public void ClickInReagent(){
+		if(isSolid)
+			GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench> ().ClickSolidReagent (this.gameObject);
+		else
+			GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench> ().ClickLiquidReagent (this.gameObject);
+	}
 }

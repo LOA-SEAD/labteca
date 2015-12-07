@@ -52,10 +52,11 @@ public class Glassware : ItemToInventory
 	}
 	
 	// Update is called once per frame
-	/*void Update () 
+	void Update () 
 	{
-	
-	}*/
+		/*if (volume == 0.0f)
+			liquid.SetActive (false);*/
+	}
 	
 	//! Add the solid
 	public void AddSolid(float massSolid, string reagent){

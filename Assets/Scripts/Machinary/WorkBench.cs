@@ -28,6 +28,7 @@ public class WorkBench : MonoBehaviour {
 	private ButtonObject[] tools;
 	private bool canClickTools;
 
+	public GameObject lastItemSelected;
 
 	// TODO: revisar esse hardcode maroto aqui, talvez separar em outros scripts para cada funcionalidade da balanca?
 	//spatula
@@ -39,12 +40,12 @@ public class WorkBench : MonoBehaviour {
 	public CursorMouse spatulaCursor;
 	public CursorMouse spatulaReagentCursor;
 	//Estas duas variaves sao usadas para o texto dependendo se ele esta usando a balança ou nao
-	public Text textExactValue;
-	public Text textVariableValue;
+	public Text textExactValue;		//When the spatula is used for a glassware in the precision scale, the amount should exact
+	public Text textVariableValue;	//Otherwise the amount is variable
 	public Button confirmAddButton;
 	public Button confirmRemoveButton;
 	private bool usePrecision;
-	public Glassware lastGlassWareSelected;
+	public ReagentsBaseClass heldInSpatula;  //Reagent being held by the spatula
 	//
 	private string lastReagentName;
 
@@ -57,6 +58,7 @@ public class WorkBench : MonoBehaviour {
 	//public ButtonObject pipetaReagentCursor;
 	public Slider pipetaValue;
 	public Text pipetaValueText;
+	public ReagentsLiquidClass heldInPipette; //Reagent being held by the pipette
 	//
 	
 	//water
@@ -236,11 +238,11 @@ public class WorkBench : MonoBehaviour {
 		amountSelectedSpatula = 0;
 		textDisplayAmountSpatula.text = "0";
 		if(usePrecision){
-			textExactValue.gameObject.SetActive(true);
+//			textExactValue.gameObject.SetActive(true);
 			textVariableValue.gameObject.SetActive(false);
 		}
 		else{
-			textExactValue.gameObject.SetActive(false);
+//			textExactValue.gameObject.SetActive(false);
 			textVariableValue.gameObject.SetActive(true);
 		}
 		
@@ -283,15 +285,15 @@ public class WorkBench : MonoBehaviour {
 				CloseOptionDialogGlass ();
 			}
 			else { i = 0;
-					if (lastGlassWareSelected.transform.parent == positionGlassEquipament) {
+					if (lastItemSelected.transform.parent == positionGlassEquipament) {
 						//lastGlassWareSelected.transform.SetParent (null);
-					gameObject.GetComponent<EquipmentControllerBase>().RemoveObjectInEquipament(lastGlassWareSelected.gameObject);
+					gameObject.GetComponent<EquipmentControllerBase>().RemoveObjectInEquipament(lastItemSelected.gameObject);
 						
 					} else {
-						lastGlassWareSelected.transform.SetParent (null);
+						lastItemSelected.transform.SetParent (null);
 					} i = 0;
 					if (returnPosition().childCount == 0) {
-						GameObject tempGlass = lastGlassWareSelected.gameObject;
+						GameObject tempGlass = lastItemSelected.gameObject;
 						tempGlass.transform.SetParent (returnPosition(), true);
 						tempGlass.transform.localPosition = Vector3.zero;
 						tempGlass.GetComponent<Glassware> ().SetStateInUse (currentState);
@@ -375,27 +377,24 @@ public class WorkBench : MonoBehaviour {
 	/*! This is done so the spatula isn't precise, it will only be precise if you're using the scale itself, 
      * not taking the solid reagent directly from the inventory. */
 	public void DefineAmountSpatule(bool useToRemove){
+		if (usePrecision) {
+			CloseSpatulaDialog (false);
 		
-		if(usePrecision){
-			CloseSpatulaDialog(false);
-			
-		}
-		else{
-			float currentError = amountSelectedSpatula*porcentErrorSpatula/100;
-			if((int)(Time.time) % 2 == 0)
+		} else {
+			float currentError = amountSelectedSpatula * porcentErrorSpatula / 100;
+			if ((int)(Time.time) % 2 == 0)
 				amountSelectedSpatula -= currentError;
 			else
 				amountSelectedSpatula += currentError;
-			
-			CloseSpatulaDialog(false);
-			if(!useToRemove){
-				spatulaReagentCursor.CursorEnter();
+		
+			CloseSpatulaDialog (false);
+			if (!useToRemove) {
+				spatulaReagentCursor.CursorEnter ();
 			}
 		}
-		
-		if(useToRemove){
-			lastGlassWareSelected.RemoveSolid(amountSelectedSpatula);
-			
+		if (!lastItemSelected.GetComponent<Glassware> () == null) {  //Interactions Spatula-Glassware
+			if (useToRemove)
+				lastItemSelected.GetComponent<Glassware>().RemoveSolid (amountSelectedSpatula);	
 		}
 	}
 	//Spatula//////////////////////////////////////////////////////////////
@@ -412,8 +411,8 @@ public class WorkBench : MonoBehaviour {
 		else
 			amountSelectedWater += currentError;
 		
-		
-		lastGlassWareSelected.AddLiquid (amountSelectedWater);
+		if (!(lastItemSelected.GetComponent<Glassware>() == null))
+			lastItemSelected.GetComponent<Glassware>().AddLiquid (amountSelectedWater);
 		amountSelectedWater = 0;
 		CloseOptionDialogWater ();
 	}
@@ -430,10 +429,14 @@ public class WorkBench : MonoBehaviour {
 	//! Define the precise amount of water.
 	public void DefineAmountPipeta(){
 		CloseOptionDialogPipeta ();
+
 		if (amountSelectedPipeta > 0) {
 			pipetaReagentCursor.CursorEnter ();
 			selectPipeta = true;
-			lastGlassWareSelected.RemoveLiquid (amountSelectedPipeta);
+			if(!(lastItemSelected.GetComponent<ReagentsLiquidClass>() == null))
+				heldInPipette = lastItemSelected.GetComponent<ReagentsLiquidClass>();
+			if (!(lastItemSelected.GetComponent<Glassware> () == null)) //Only removes from the last selected object if it's a glassware
+				lastItemSelected.GetComponent<Glassware>().RemoveLiquid (amountSelectedPipeta);
 		}
 	}
 	//! Set current amount of water inside pipette.
@@ -488,14 +491,11 @@ public class WorkBench : MonoBehaviour {
 		DeselectSpatula ();
 	}
 
-	// TODO: nao ha nenhuma referencia disso em outro codigo, tambem nao achei dentro da cena onde esta utilizando.
 	//! Click Glass.
 	public void ClickGlass(GameObject glassClick){
 
-		Debug.Log ("WB CLICKOU CU");
-
 		Glassware glass = glassClick.GetComponent<Glassware> ();
-		lastGlassWareSelected = glassClick.GetComponent<Glassware> ();
+		lastItemSelected = glassClick;
 		
 		if (selectWater&&glassClick.GetComponent<Glassware>().volume-glassClick.GetComponent<Glassware>().currentVolumeUsed>0) {
 			
@@ -505,8 +505,14 @@ public class WorkBench : MonoBehaviour {
 		else if(selectPipeta){
 			
 			if(amountSelectedPipeta > 0){
-				glass.AddLiquid(amountSelectedPipeta);
-				DeselectPipeta();
+				if(!(heldInPipette == null)) {
+					glass.AddLiquid(heldInPipette.molarMass, amountSelectedPipeta);
+					DeselectPipeta();
+					heldInPipette = null;
+				} else {
+					glass.AddLiquid(amountSelectedPipeta);
+					DeselectPipeta();
+				}
 				
 			}
 			else if(glass.liquid.activeSelf == true){
@@ -561,6 +567,40 @@ public class WorkBench : MonoBehaviour {
 		}
 	}
 
+	//! Clicked in a Solid Reagent
+	public void ClickSolidReagent(GameObject solidClick){
+
+		lastItemSelected = solidClick;
+		ReagentsBaseClass solid = solidClick.GetComponent<ReagentsBaseClass> ();
+
+		if(selectSpatula){
+			usePrecision = false;
+			OpenSpatulaDialog(false);
+			DeselectSpatula();
+		} else{
+			OpenOptionDialogReagent();
+		}
+	}
+
+	//! Clicked in a Liquid Reagent
+	public void ClickLiquidReagent (GameObject liquidClick) {
+
+		lastItemSelected = liquidClick;
+		ReagentsLiquidClass liquid = liquidClick.GetComponent<ReagentsLiquidClass> ();
+	
+		if (selectPipeta) {
+			
+			if (amountSelectedPipeta > 0) {
+
+				DeselectPipeta ();
+				
+			}
+			OpenOptionDialogPipeta (300);
+			
+		} else
+			OpenOptionDialogReagent ();
+	}
+
 	public Transform returnPosition(){
 		for (int z=0; z<positionGlass.Length; z++) {
 			if(positionGlass[z].childCount==0)
@@ -588,12 +628,12 @@ public class WorkBench : MonoBehaviour {
 			}
 			else{
 				
-				if(lastGlassWareSelected.transform.parent == positionGlassEquipament){
+				if(lastItemSelected.transform.parent == positionGlassEquipament){
 					uiManager.alertDialog.ShowAlert("O equipamento ja Esta na bancada");
 				}
 				else{
 					
-					GameObject tempGlass = lastGlassWareSelected.gameObject;
+					GameObject tempGlass = lastItemSelected.gameObject;
 					i--;
 					tempGlass.transform.SetParent(positionGlassEquipament,false);
 					tempGlass.transform.localPosition = Vector3.zero;

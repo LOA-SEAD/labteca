@@ -8,7 +8,7 @@ public class DeleteComponent : EditorWindow
 	private string selectedComponent = "";
 	private string selectedComponentLastInteraction = "";
 	private bool selected = false;
-	private ReagentsLiquidClass reagent;
+	private ReagentsBaseClass reagent;
 
 	private bool deleteSelected = false;
 
@@ -71,14 +71,14 @@ public class DeleteComponent : EditorWindow
 			EditorGUILayout.LabelField("Solubilidade: " + reagent.solubility.ToString());
 
 			if(!reagent.isSolid) {
-				EditorGUILayout.LabelField("Ph : " + reagent.ph.ToString());
-				EditorGUILayout.LabelField("Turbilidade: " + reagent.turbidity.ToString());
-				EditorGUILayout.LabelField("Refratometro: " + reagent.refratometer.ToString());
+				EditorGUILayout.LabelField("Ph : " + (reagent as ReagentsLiquidClass).ph.ToString());
+				EditorGUILayout.LabelField("Turbilidade: " + (reagent as ReagentsLiquidClass).turbidity.ToString());
+				EditorGUILayout.LabelField("Refratometro: " + (reagent as ReagentsLiquidClass).refratometer.ToString());
 
-				if(reagent.hplc != null) {
-					EditorGUILayout.LabelField("HPLC = " + reagent.hplc.ToString());
+				if((reagent as ReagentsLiquidClass).hplc != null) {
+					EditorGUILayout.LabelField("HPLC = " + (reagent as ReagentsLiquidClass).hplc.ToString());
 				} else {
-					EditorGUILayout.LabelField ("HPLC = " + reagent.hplc.ToString ());
+					EditorGUILayout.LabelField ("HPLC = ");
 				}
 			}
 	

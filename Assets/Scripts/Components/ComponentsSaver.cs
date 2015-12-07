@@ -184,7 +184,6 @@ public class ComponentsSaver
 					reagentAcc.ph = textLoad.GetFloat ("ph" + i.ToString ());
 					reagentAcc.turbidity = textLoad.GetFloat ("turbidity" + i.ToString ());
 					reagentAcc.refratometer = textLoad.GetFloat ("refratometer" + i.ToString ());
-					Debug.Log(reagentAcc.ph);
 					if (!string.IsNullOrEmpty (textLoad.GetString ("uvSpecter" + i.ToString ()))) {
 						reagentAcc.uvSpecter = Resources.Load<Texture2D> ("specter/" + textLoad.GetString ("uvSpecter" + i.ToString ()));
 					} else {

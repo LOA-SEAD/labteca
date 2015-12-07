@@ -118,14 +118,16 @@ public class WorkBench : MonoBehaviour {
 	// Desactive tah errado >.< refatorar isso se for continuar usando aqui.
 	private void DesactiveInteractObjects(){
 		foreach(ButtonObject t in tools){
-			t.GetComponent<Transform>().parent.GetComponent<Canvas>().enabled = false;
+			if(t!=null)
+				t.GetComponent<Transform>().parent.GetComponent<Canvas>().enabled = false;
 		}
 	}
 	
 	// TODO: funcao que estava dentro do script UI_ObjectManager e foi jogada aqui. Poderia usar o script já feito e não fazer redundancia no codigo.
 	private void ActiveInteractObjects(){
 		foreach(ButtonObject t in tools){
-			t.GetComponent<Transform>().parent.GetComponent<Canvas>().enabled = true;
+			if(t!=null)
+				t.GetComponent<Transform>().parent.GetComponent<Canvas>().enabled = true;
 		}
 	}
 
@@ -303,8 +305,14 @@ public class WorkBench : MonoBehaviour {
 		}
 	}
 
+	public void PutInInventory(){
+		//implementar a "colocaçao" no inventario
+		Destroy (lastGlassWareSelected.gameObject);
 
-
+		CloseOptionDialogGlass();
+		CloseOptionDialogGlassTable ();
+		RefreshInteractiveItens ();
+	}
 
 	//! Remove the Glassware.
 	public void RemoveGlass(bool inInventory){

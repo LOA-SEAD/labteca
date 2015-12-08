@@ -61,11 +61,20 @@ public class ScaleController : EquipmentControllerBase
 		}
         // Creates the 'fluctuation' effect on Scale display.
 		if (timeToCheckBalanceValueAcc < timeToCheckBalanceValue && activeMass.Count > 0) {
-			balanceText.text = applyErrorInFloat (realMass).ToString ();
+			balanceText.text = BalanceTextToString(applyErrorInFloat (realMass));
 			timeToCheckBalanceValueAcc += Time.fixedDeltaTime;
-			Debug.Log (timeToCheckBalanceValueAcc);
 			RefreshEquipament ();
 		} 
+	}
+
+	private string BalanceTextToString(float value){
+		if(Mathf.FloorToInt(value)==Mathf.CeilToInt(value)){
+			return value.ToString()+".00";
+		}else{
+			if((Mathf.RoundToInt((value-((int)value))*100))%10==0)
+				return value.ToString()+"0";
+		}
+		return value.ToString();
 	}
 
     //! Apply the "error" on Scale value - the value is rounded and sometimes the display keeps changing the value.
@@ -144,8 +153,8 @@ public class ScaleController : EquipmentControllerBase
 			float tempMass = 0;
 			
 			foreach(GameObject g in activeMass){
-				tempMass += g.GetComponent<Rigidbody>().mass;
-				
+				if(g!=null)
+					tempMass += g.GetComponent<Rigidbody>().mass;		
 			}
 			
 			realMass = tempMass - PlayerPrefs.GetFloat ("setupBalance");

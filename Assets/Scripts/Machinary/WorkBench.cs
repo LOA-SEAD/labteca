@@ -500,8 +500,6 @@ public class WorkBench : MonoBehaviour {
 	//! Click Glass.
 	public void ClickGlass(GameObject glassClick){
 
-		Debug.Log ("WB CLICKOU CU");
-
 		Glassware glass = glassClick.GetComponent<Glassware> ();
 		lastGlassWareSelected = glassClick.GetComponent<Glassware> ();
 		

@@ -31,7 +31,7 @@ public class ReagentUiItemBehaviour : MonoBehaviour {
 		prefabReagent = r;
 
 		//Copies the ReagentClass component
-		if (r.isSolid) {
+		/*if (r.isSolid) {
 			if (UnityEditorInternal.ComponentUtility.CopyComponent (r.GetComponent<ReagentsBaseClass> ())) {
 				if (UnityEditorInternal.ComponentUtility.PasteComponentValues (prefabReagent)) {
 				}
@@ -41,7 +41,7 @@ public class ReagentUiItemBehaviour : MonoBehaviour {
 				if (UnityEditorInternal.ComponentUtility.PasteComponentValues (prefabReagent)) {
 				}
 			}
-		}
+		}*/
 	}
 
 	//! Add the reagent clicked to the inventory

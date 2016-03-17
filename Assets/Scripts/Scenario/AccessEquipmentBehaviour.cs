@@ -8,6 +8,7 @@ public class AccessEquipmentBehaviour : InteractObjectBase {
 	private bool callInteract;
     public float delay = 0.5f;                  /*!< Float delay time. */
 	private float currentDelay;
+	public string informationText;
 
 	void Update () {
 		if(callInteract){

@@ -1,5 +1,5 @@
 numberOfReagents=2
-name0=Acido Sulf
+name0=HCl
 isSolid0=False
 molarMass0=15
 density0=2

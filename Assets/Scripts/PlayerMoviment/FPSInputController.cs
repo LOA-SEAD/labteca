@@ -71,20 +71,30 @@ public class FPSInputController : MonoBehaviour
 		Ray cameraRay = Camera.main.ScreenPointToRay(new Vector3(Screen.width/2, Screen.height/2,  Mathf.Infinity));
 		RaycastHit hitInfo;
 
-		if(Physics.Raycast(cameraRay, out hitInfo, distanceToInteract)){
-			if(hitInfo.collider.GetComponent<InteractObjectBase>()){
-				if(Input.GetKeyDown(KeyCode.E)){
-					hitInfo.collider.GetComponent<InteractObjectBase>().Interact();
-					if(!hitInfo.collider.GetComponent<AccessEquipmentBehaviour>())
-						gameObject.GetComponent<PlayerAnimation>().PlayInteractAnimation();
+
+		if (Physics.Raycast (cameraRay, out hitInfo, Mathf.Infinity)) {
+			if (hitInfo.collider.GetComponent<InteractObjectBase> () && hitInfo.distance <= distanceToInteract) {
+				if (Input.GetKeyDown (KeyCode.E)) {
+					hitInfo.collider.GetComponent<InteractObjectBase> ().Interact ();
+					if (!hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ())
+						gameObject.GetComponent<PlayerAnimation> ().PlayInteractAnimation ();
 					inInteraction = true;
 					lastPosition = transform.position;
 				}
-				HudText.SetText(interactText);
+				HudText.SetText (interactText);
+			} else {
+				HudText.EraseText ();
 			}
+			//show information about the object
+			if (hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ()) {
+				HudText.SetText (hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ().informationText);
+			}
+			
 		}
-		else{
-			HudText.EraseText();
-		}
+
+
+
+
+
     }
 }

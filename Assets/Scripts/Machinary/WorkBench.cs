@@ -3,8 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-//! Puts the reagents in slots and mix the reagents. (on WorkBench)
-/*! */
+//! It's what defines if a state may be used to make reactions	
+/*! Work as a bridge for the player-equipments interactions.
+ 	It also manages how this interaction is going to be. */
+
+
+/*TODO: MouseManager vai segurar os estados da bancada!! O estado sera mandado como parametro na OnClick para 
+ * definir como sera a interaçao com os equipamentos!!!!
+ * 
+ * 
+ * 
+ * */
 public class WorkBench : MonoBehaviour {
 
 	public Transform positionGlassEquipament;   /*!< Position of Glassware on the Precision Scale. */
@@ -307,14 +316,14 @@ public class WorkBench : MonoBehaviour {
 		}
 	}
 
-	public void PutInInventory(){
+	/*public void PutInInventory(){
 		//implementar a "colocaçao" no inventario
 		Destroy (lastGlassWareSelected.gameObject);
 
 		CloseOptionDialogGlass();
 		CloseOptionDialogGlassTable ();
 		RefreshInteractiveItens ();
-	}
+	}*/
 
 	//! Remove the Glassware.
 	public void RemoveGlass(bool inInventory){

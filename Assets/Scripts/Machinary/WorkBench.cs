@@ -177,6 +177,7 @@ public class WorkBench : MonoBehaviour {
 		}
 	}
 
+
 	//TODO: todos esses OpenDialogX e CloseDialogX podem ser uma funcao cada, ou ateh mesmo uma funcao que use parametros.
 	/* Sugestao: Se cada objeto tiver seu proprio dialog, chamar essas funcoes pelo Raycast e passar o dialog como parametro pra ser exibido,
      * se achar melhor usar uma funcao soh com dois parametros: (GameObject dialog, bool show), tambem pode funcionar.

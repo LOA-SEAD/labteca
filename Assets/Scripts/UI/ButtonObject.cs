@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 //! Allows any object inside a 'state' to become interactable.
@@ -43,7 +43,7 @@ public class ButtonObject : MonoBehaviour {
     public void cursorExit()
     {
 		if (changeIconeOut || CursorManager.GetLastCursor() == cursorTexture) {
-			CursorManager.SetDefaultCursor();
+			CursorManager.SetCursorToDefault();
 		}
     }
 

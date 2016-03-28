@@ -9,19 +9,20 @@ using UnityEngine.UI;
 //TODO: Needs to add the volumetric pipette
 public class Pipette : MonoBehaviour {
 
-	private float amountHeld; // Volume being held by the pipette [ml]
+	private float volumeHeld; // Volume being held by the pipette [ml]
 
 
 	public UI_Manager uiManager;		// The UI Manager Game Object.
 
 	//Interaction boxes to chose between graduated pipettes or volumetric pipettes
-	public GameObject interactionBox;	//Interaction box
+	public GameObject interactionBoxPipette;	//Interaction box
 	//Interaction box for graduated pipette
 	public Slider boxSlider;  			//Interaction box's slider
 	public Text pipetteValueText; 		//Text showing the slider's value
 	public float volumeSelected;		//Amount selected in the slider
 	//Interaction box for volumetric pipette
-
+	/*
+	 */
 
 	//For the cursor
 	public Texture2D pipette_CursorTexture;
@@ -33,7 +34,7 @@ public class Pipette : MonoBehaviour {
 
 	//! Use this for initialization
 	void Start () {
-		interactionBox.SetActive (false);
+		interactionBoxPipette.SetActive (false);
 	}
 	
 	//! Update is called once per frame
@@ -52,11 +53,11 @@ public class Pipette : MonoBehaviour {
 			break;
 		case MouseState.ms_pipette: //Pipette -> Pipette: put back the pipette
 			CursorManager.SetMouseState(MouseState.ms_default);
-			CursorManager.SetDefaultCursor();
+			CursorManager.SetCursorToDefault();
 			break;
 		case MouseState.ms_filledPipette: // Filled Pipette -> Pipette: nothing
 			break;
-		case MouseState.ms_spatula: // Spatula -> Piepette: nothing
+		case MouseState.ms_spatula: // Spatula -> Piepette: nothing   //TODO: poder trocar
 			break;
 		case MouseState.ms_filledSpatula: // Filled Spatula -> Pipette: nothing
 			break;
@@ -69,23 +70,14 @@ public class Pipette : MonoBehaviour {
 		}
 	}
 
-	//! Is called in the event of an empty pipette clicking on a liquid reagent
-	void FillPipette() {
-		/*
-		 * CODE FILLING THE PIPETTE
-	 	*/
-
-		CursorManager.SetMouseState (MouseState.ms_filledPipette);
-		CursorManager.SetNewCursor (filledPipette_CursorTexture, hotSpot);
-	}
 
 	//! Close the interaction box
 	public void CloseInteractionBox(){
-		interactionBox.SetActive(false);
+		interactionBoxPipette.SetActive(false);
 	}
-
+	//! Open the interaction box
 	public void OpenInteractionBox() {
-		interactionBox.SetActive (true);
+		interactionBoxPipette.SetActive (true);
 		//CursorManager.SetDefaultCursor ();
 		/*
 		 * DEFINE HOW TO BLOCK CLICKS OUTSIDE 
@@ -93,13 +85,13 @@ public class Pipette : MonoBehaviour {
 	}
 
 	//! Set value of volume currently set by the slider.
-	public void VolumeOnSlider(){
+	public void VolumeOnSlider(){ //BasicallyDone
 		volumeSelected = boxSlider.value;
 		pipetteValueText.text = volumeSelected.ToString ();
 	}
 
 	//! Use the pipette to hold the selected volume.
-	public void SetVolumeInPipette(){
+	public void SetVolumeInPipette() { //BasicallyDone
 		CloseInteractionBox ();
 
 		if (volumeSelected > 0.0f) {
@@ -108,8 +100,42 @@ public class Pipette : MonoBehaviour {
 				lastItemSelected.GetComponent<Glassware>().RemoveLiquid (amountSelectedPipeta);*/
 			CursorManager.SetMouseState (MouseState.ms_filledPipette);//pipetaReagentCursor.CursorEnter ();
 			CursorManager.SetNewCursor (filledPipette_CursorTexture, hotSpot);
+		}
 
+		volumeHeld = volumeSelected;
+		volumeSelected = 0.0f;
+	}
+
+	//! Unloads the pipette into a proper vessel
+	/*! Called when the filled pipette clicks on a valid vessel for the reagent.
+	 	In this overload, the vessel is a glassware */
+	public void unfillPipette(Glassware glassware) {
+		/*
+		 * CODE PASSING THIS VOLUME AND REAGENT TO THE GLASSWARE
+		 */
+		glassware.volume = volumeHeld;
+		//glassware.reagent = reagentInPipette;
+
+		volumeHeld = 0.0f;
+		reagentInPipette = null;
+	}
+	//! Unloads the pipette into a proper vessel
+	/*! The vessel being the same reagent used to get the volume */
+	public void unfillPipette(ReagentsLiquidClass reagentPot, bool sameReagent) { //BasicallyDone
+
+		if (reagentPot == reagentInPipette) {
+			volumeHeld = 0.0f;
+			reagentInPipette = null;
+
+			CursorManager.SetMouseState (MouseState.ms_default);
+			CursorManager.SetCursorToDefault();
+
+			sameReagent = true;
+		}
+		else {
+			sameReagent = false;
 		}
 	}
+
 
 }

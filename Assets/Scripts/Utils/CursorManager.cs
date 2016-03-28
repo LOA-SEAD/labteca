@@ -54,7 +54,7 @@ public class CursorManager : MonoBehaviour {
 	}
 
 	//! Changes the mouse cursor back to default.
-	public static void SetDefaultCursor(){
+	public static void SetCursorToDefault(){
 		Cursor.SetCursor (null, Vector2.zero, CursorManager.cursorMode);
 		inDefaultCursor = true;
 		lastCursor = null;

@@ -95,7 +95,7 @@ public class WorkBench : MonoBehaviour {
 		
 		public void CursorExit()
 		{
-			CursorManager.SetDefaultCursor();
+			CursorManager.SetCursorToDefault();
 		}
 	}
 	

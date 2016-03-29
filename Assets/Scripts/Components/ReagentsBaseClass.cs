@@ -61,12 +61,40 @@ public class ReagentsBaseClass : ItemToInventory {
 		return reg;
 	}
 
-	//!For when the object is clicked on.
-	/*!This method will be attached to the button for when the reagent is clicked. */
-	public void ClickInReagent(){
-		if(isSolid)
+	//! Holds the events for when the interactive solid reagent on the Workbench is clicked
+	public void OnClick(){
+		/*if(isSolid)
 			GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench> ().ClickSolidReagent (this.gameObject);
 		else
-			GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench> ().ClickLiquidReagent (this.gameObject);
+			GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench> ().ClickLiquidReagent (this.gameObject);*/
+
+		MouseState currentState = CursorManager.GetCurrentState ();
+		Spatula spatula = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().spatula;
+
+
+		switch (currentState) {
+		case MouseState.ms_default: 		//Default -> Solid Reagent: open interaction box to take the reagent to the inventory?
+			//
+			break;
+		case MouseState.ms_pipette: 		//Pipette -> Solid Reagent: nothing
+			break;
+		case MouseState.ms_filledPipette: 	// Filled Spatula -> Solid Reagent: nothing
+			break;
+		case MouseState.ms_spatula: 		// Spatula -> Solid Reagent: fill the spatula with the reagent clicked
+			spatula.FillSpatula(this);
+			break;
+		case MouseState.ms_filledSpatula: 	// Filled Spatula -> Solid Reagent: put back the content if it is the same reagent
+			if(spatula.reagentInSpatula == this)
+				spatula.UnfillSpatula(/*this*/);
+			//else
+			//	GameObject.Find("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().differentReagentErrorBox.SetActive(true);
+			break;
+		case MouseState.ms_washBottle: 		// Wash Bottle -> Solid Reagent: nothing
+			break;
+		case MouseState.ms_glassStick:		// Glass Stick -> Solid Reagent: nothing
+			break;
+		case MouseState.ms_usingTool:  		// Unable to click somewhere else TODO:is it necessary?
+			break;
+		}
 	}
 }

@@ -37,7 +37,7 @@ public class Spatula : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		interactionBoxSpatula.SetActive (false);
 	}
 	
 	// Update is called once per frame
@@ -45,32 +45,36 @@ public class Spatula : MonoBehaviour {
 	
 	}
 
-	//! Holds the events for when the interactive pipette on the Workbench is clicked
+	//! Holds the events for when the interactive spatula on the Workbench is clicked
 	void OnClick() {
 		MouseState currentState = CursorManager.GetCurrentState ();
 		
 		switch (currentState) {
-		case MouseState.ms_default: //Default -> Spatula: prepares the spatula for use
+		case MouseState.ms_default: 		//Default -> Spatula: prepares the spatula for use
 			CursorManager.SetMouseState(MouseState.ms_spatula);
 			CursorManager.SetNewCursor(spatula_CursorTexture, hotSpot);
 			break;
-		case MouseState.ms_pipette: //Pipette -> Spatula: change to spatula state
+		case MouseState.ms_pipette: 		//Pipette -> Spatula: change to spatula state
 			CursorManager.SetMouseState(MouseState.ms_spatula);
 			CursorManager.SetNewCursor(spatula_CursorTexture, hotSpot);
 			break;
-		case MouseState.ms_filledPipette: // Filled Spatula -> Spatula: nothing
+		case MouseState.ms_filledPipette: 	// Filled Spatula -> Spatula: nothing
 			break;
-		case MouseState.ms_spatula: // Spatula -> Spatula: put back the spatula
+		case MouseState.ms_spatula: 		// Spatula -> Spatula: put back the spatula
 			CursorManager.SetMouseState(MouseState.ms_default);
 			CursorManager.SetCursorToDefault();
 			break;
-		case MouseState.ms_filledSpatula: // Filled Spatula -> Spatula: nothing
+		case MouseState.ms_filledSpatula: 	// Filled Spatula -> Spatula: nothing
 			break;
-		case MouseState.ms_washBottle: // Wash Bottle -> Spatula: nothing
+		case MouseState.ms_washBottle: 		// Washe Bottle -> Spatula: change to spatula state
+			CursorManager.SetMouseState(MouseState.ms_spatula);
+			CursorManager.SetNewCursor(spatula_CursorTexture, hotSpot);
 			break;
-		case MouseState.ms_glassStick:
+		case MouseState.ms_glassStick:		// Glass Stick -> Spatula: change to spatula state
+			CursorManager.SetMouseState(MouseState.ms_spatula);
+			CursorManager.SetNewCursor(spatula_CursorTexture, hotSpot);
 			break;
-		case MouseState.ms_usingTool:  // Unable to click somewhere else TODO:is it necessary?
+		case MouseState.ms_usingTool:  		// Unable to click somewhere else TODO:is it necessary?
 			break;
 		}
 	}
@@ -127,12 +131,14 @@ public class Spatula : MonoBehaviour {
 	}
 
 	//! Uses the spatula to hold pinches of a solid reagent
-	public void FillSpatula () {
+	public void FillSpatula (ReagentsBaseClass reagent) {
 		CloseInteractionBox();
 
 		if(pinchesSelected > 0) {
-			CursorManager.SetMouseState (MouseState.ms_filledSpatula);//pipetaReagentCursor.CursorEnter ();
+			CursorManager.SetMouseState (MouseState.ms_filledSpatula);
 			CursorManager.SetNewCursor (filledSpatula_CursorTexture, hotSpot);
+
+			reagentInSpatula = reagent;
 		}
 
 		pinchesHeld = pinchesSelected;
@@ -144,10 +150,11 @@ public class Spatula : MonoBehaviour {
 	 	In this overload, the vessel is a glassware */
 	public void UnfillSpatula(bool usingPrecision, Glassware glassware) {
 		/*
-		 * CODE 
+		 * CODE TO PUT THE CONTENT INTO THE GLASSWARE
 		 */
 
 		pinchesHeld = 0;
+		reagentInSpatula = null;
 
 		CursorManager.SetMouseState (MouseState.ms_default);
 		CursorManager.SetCursorToDefault();
@@ -156,21 +163,12 @@ public class Spatula : MonoBehaviour {
 	//! Unloads the spatula into a proper vessel
 	/*! Called when the filled spatula clicks on a valid vessel for the reagent.
 	 	In this overload, the vessel the pot of reagent used to get the pinches before */
-	public void UnfillSpatula(ReagentsBaseClass reagentPot, bool sameReagent) {
+	public void UnfillSpatula(/*ReagentsBaseClass reagentPot*/) {
+	
+		pinchesHeld = 0;
+		reagentInSpatula = null;
 
-		if (reagentPot == reagentInSpatula) {
-			pinchesHeld = 0;
-			reagentInSpatula = null;
-			
-			CursorManager.SetMouseState (MouseState.ms_default);
-			CursorManager.SetCursorToDefault();
-			
-			sameReagent = true;
-		}
-		else {
-			sameReagent = false;
-		}
+		CursorManager.SetMouseState (MouseState.ms_default);
+		CursorManager.SetCursorToDefault();
 	}
-
-
 }

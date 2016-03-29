@@ -47,27 +47,31 @@ public class Pipette : MonoBehaviour {
 		MouseState currentState = CursorManager.GetCurrentState ();
 
 		switch (currentState) {
-		case MouseState.ms_default: //Default -> Pipette: prepares the pipette for use
+		case MouseState.ms_default: 		//Default -> Pipette: prepares the pipette for use
 			CursorManager.SetMouseState(MouseState.ms_pipette);
 			CursorManager.SetNewCursor(pipette_CursorTexture, hotSpot);
 			break;
-		case MouseState.ms_pipette: //Pipette -> Pipette: put back the pipette
+		case MouseState.ms_pipette: 		//Pipette -> Pipette: put back the pipette
 			CursorManager.SetMouseState(MouseState.ms_default);
 			CursorManager.SetCursorToDefault();
 			break;
-		case MouseState.ms_filledPipette: // Filled Pipette -> Pipette: nothing
+		case MouseState.ms_filledPipette: 	// Filled Pipette -> Pipette: nothing
 			break;
-		case MouseState.ms_spatula: // Spatula -> Piepette: change to pipette state
+		case MouseState.ms_spatula: 		// Spatula -> Piepette: change to pipette state
 			CursorManager.SetMouseState(MouseState.ms_pipette);
 			CursorManager.SetNewCursor(pipette_CursorTexture, hotSpot);
 			break;
-		case MouseState.ms_filledSpatula: // Filled Spatula -> Pipette: nothing
+		case MouseState.ms_filledSpatula: 	// Filled Spatula -> Pipette: nothing
 			break;
-		case MouseState.ms_washBottle: // Wash Bottle -> Pipette: nothing
+		case MouseState.ms_washBottle: 		// Wash Bottle -> Pipette: change to pipette state
+			CursorManager.SetMouseState(MouseState.ms_pipette);
+			CursorManager.SetNewCursor(pipette_CursorTexture, hotSpot);
 			break;
-		case MouseState.ms_glassStick:
+		case MouseState.ms_glassStick:		// Glass Stic -> Pipette: change to pipette state
+			CursorManager.SetMouseState(MouseState.ms_pipette);
+			CursorManager.SetNewCursor(pipette_CursorTexture, hotSpot);
 			break;
-		case MouseState.ms_usingTool:  // Unable to click somewhere else
+		case MouseState.ms_usingTool:  		// Unable to click somewhere else
 			break;
 		}
 	}
@@ -93,7 +97,7 @@ public class Pipette : MonoBehaviour {
 	}
 
 	//! Use the pipette to hold the selected volume.
-	public void FillPipette() { //BasicallyDone
+	public void FillPipette(ReagentsLiquidClass reagent) { //BasicallyDone
 		CloseInteractionBox ();
 
 		if (volumeSelected > 0.0f) {
@@ -102,6 +106,8 @@ public class Pipette : MonoBehaviour {
 				lastItemSelected.GetComponent<Glassware>().RemoveLiquid (amountSelectedPipeta);*/
 			CursorManager.SetMouseState (MouseState.ms_filledPipette);//pipetaReagentCursor.CursorEnter ();
 			CursorManager.SetNewCursor (filledPipette_CursorTexture, hotSpot);
+
+			reagentInPipette = reagent;
 		}
 
 		volumeHeld = volumeSelected;
@@ -127,20 +133,13 @@ public class Pipette : MonoBehaviour {
 	}
 	//! Unloads the pipette into a proper vessel
 	/*! The vessel being the same reagent used to get the volume */
-	public void UnfillPipette(ReagentsLiquidClass reagentPot, bool sameReagent) { //BasicallyDone
+	public void UnfillPipette(/*ReagentsLiquidClass reagentPot*/) { //BasicallyDone
 
-		if (reagentPot == reagentInPipette) {
-			volumeHeld = 0.0f;
-			reagentInPipette = null;
+		volumeHeld = 0.0f;
+		reagentInPipette = null;
 
-			CursorManager.SetMouseState (MouseState.ms_default);
-			CursorManager.SetCursorToDefault();
-
-			sameReagent = true;
-		}
-		else {
-			sameReagent = false;
-		}
+		CursorManager.SetMouseState (MouseState.ms_default);
+		CursorManager.SetCursorToDefault();
 	}
 
 

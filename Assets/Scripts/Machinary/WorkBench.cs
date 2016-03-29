@@ -38,6 +38,16 @@ public class WorkBench : MonoBehaviour {
 	private bool canClickTools;
 
 	public GameObject lastItemSelected;
+	
+	//Tools on the workbench
+	public Pipette pipette;
+	public Spatula spatula;
+	public WashBottle washBottle;
+	public GlassStick glassStick;
+
+	//Error box of different reagents
+	public GameObject differentReagentErrorBox; //
+
 
 	// TODO: revisar esse hardcode maroto aqui, talvez separar em outros scripts para cada funcionalidade da balanca?
 	//spatula

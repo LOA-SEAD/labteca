@@ -10,4 +10,33 @@ public class ReagentsLiquidClass : ReagentsBaseClass {
 	public float turbidity;
 	public float refratometer;
 	public Texture2D hplc;  //High-Performance liquid chromatography
+
+	//! Holds the events for when the interactive liquid reagent on the Workbench is clicked
+	public void OnClick(){		
+		MouseState currentState = CursorManager.GetCurrentState ();
+		Pipette pipette = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().pipette;
+			
+		switch (currentState) {
+		case MouseState.ms_default: 		//Default -> Liquid Reagent: open interaction box to take the reagent to the inventory?
+			//
+			break;
+		case MouseState.ms_pipette: 		//Pipette -> Liquid Reagent: fill the pipette with the reagent clicked
+			pipette.FillPipette(this);
+			break;
+		case MouseState.ms_filledPipette: 	// Filled Spatula -> Liquid Reagent: put back the content if it is the same reagent
+			if(pipette.reagentInPipette == this)
+				pipette.UnfillPipette(/*this*/);
+			break;
+		case MouseState.ms_spatula: 		// Spatula -> Liquid Reagent: nothing
+			break;
+		case MouseState.ms_filledSpatula: 	// Filled Spatula -> Liquid Reagent: nothing
+			break;
+		case MouseState.ms_washBottle: 		// Wash Bottle -> Liquid Reagent: nothing
+			break;
+		case MouseState.ms_glassStick:		// Glass Stick -> Liquid Reagent: nothing
+			break;
+		case MouseState.ms_usingTool:  		// Unable to click somewhere else TODO:is it necessary?
+			break;
+		}
+	}
 }

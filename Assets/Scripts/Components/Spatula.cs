@@ -45,6 +45,36 @@ public class Spatula : MonoBehaviour {
 	
 	}
 
+	//! Holds the events for when the interactive pipette on the Workbench is clicked
+	void OnClick() {
+		MouseState currentState = CursorManager.GetCurrentState ();
+		
+		switch (currentState) {
+		case MouseState.ms_default: //Default -> Spatula: prepares the spatula for use
+			CursorManager.SetMouseState(MouseState.ms_spatula);
+			CursorManager.SetNewCursor(spatula_CursorTexture, hotSpot);
+			break;
+		case MouseState.ms_pipette: //Pipette -> Spatula: change to spatula state
+			CursorManager.SetMouseState(MouseState.ms_spatula);
+			CursorManager.SetNewCursor(spatula_CursorTexture, hotSpot);
+			break;
+		case MouseState.ms_filledPipette: // Filled Spatula -> Spatula: nothing
+			break;
+		case MouseState.ms_spatula: // Spatula -> Spatula: put back the spatula
+			CursorManager.SetMouseState(MouseState.ms_default);
+			CursorManager.SetCursorToDefault();
+			break;
+		case MouseState.ms_filledSpatula: // Filled Spatula -> Spatula: nothing
+			break;
+		case MouseState.ms_washBottle: // Wash Bottle -> Spatula: nothing
+			break;
+		case MouseState.ms_glassStick:
+			break;
+		case MouseState.ms_usingTool:  // Unable to click somewhere else TODO:is it necessary?
+			break;
+		}
+	}
+
 	//! Close the interaction box
 	public void CloseInteractionBox(){
 		interactionBoxSpatula.SetActive(false);
@@ -57,7 +87,13 @@ public class Spatula : MonoBehaviour {
 		 * DEFINE HOW TO BLOCK CLICKS OUTSIDE 
 		 */
 	}
-
+	
+	//! Used by the checkboxes on the canvas to set the range.
+	/*! The startpoint and endpoint come to the fill/unfill spatula. The values HAVE to be defined on the canvas! */
+	public void SetInterval (int startpoint, int endpoint) {
+		checkboxStartpoint = startpoint;
+		checkboxEndpoint = endpoint;
+	}
 
 	//! Is called on the event of a empty spatula clicking on a solid reagent
 	/*! If the spatula is not using precision (on a scale, for example), then the amount taken by it is
@@ -91,7 +127,7 @@ public class Spatula : MonoBehaviour {
 	}
 
 	//! Uses the spatula to hold pinches of a solid reagent
-	public void SetPinchesOnSpatula () {
+	public void FillSpatula () {
 		CloseInteractionBox();
 
 		if(pinchesSelected > 0) {
@@ -103,15 +139,38 @@ public class Spatula : MonoBehaviour {
 		pinchesSelected = 0;
 	}
 
-	//! Used by the checkboxes on the canvas to set the range.
-	/*! The startpoint and endpoint come to the fill/unfill spatula. The values HAVE to be defined on the canvas! */
-	public void SetInterval (int startpoint, int endpoint) {
-		checkboxStartpoint = startpoint;
-		checkboxEndpoint = endpoint;
+	//! Unloads the spatula into a proper vessel
+	/*! Called when the filled spatula clicks on a valid vessel for the reagent.
+	 	In this overload, the vessel is a glassware */
+	public void UnfillSpatula(bool usingPrecision, Glassware glassware) {
+		/*
+		 * CODE 
+		 */
+
+		pinchesHeld = 0;
+
+		CursorManager.SetMouseState (MouseState.ms_default);
+		CursorManager.SetCursorToDefault();
 	}
 
-	public void UnfillSpatula(bool usingPrecision) {
+	//! Unloads the spatula into a proper vessel
+	/*! Called when the filled spatula clicks on a valid vessel for the reagent.
+	 	In this overload, the vessel the pot of reagent used to get the pinches before */
+	public void UnfillSpatula(ReagentsBaseClass reagentPot, bool sameReagent) {
 
+		if (reagentPot == reagentInSpatula) {
+			pinchesHeld = 0;
+			reagentInSpatula = null;
+			
+			CursorManager.SetMouseState (MouseState.ms_default);
+			CursorManager.SetCursorToDefault();
+			
+			sameReagent = true;
+		}
+		else {
+			sameReagent = false;
+		}
 	}
+
 
 }

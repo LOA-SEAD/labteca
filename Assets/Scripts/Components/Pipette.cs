@@ -57,7 +57,9 @@ public class Pipette : MonoBehaviour {
 			break;
 		case MouseState.ms_filledPipette: // Filled Pipette -> Pipette: nothing
 			break;
-		case MouseState.ms_spatula: // Spatula -> Piepette: nothing   //TODO: poder trocar
+		case MouseState.ms_spatula: // Spatula -> Piepette: change to pipette state
+			CursorManager.SetMouseState(MouseState.ms_pipette);
+			CursorManager.SetNewCursor(pipette_CursorTexture, hotSpot);
 			break;
 		case MouseState.ms_filledSpatula: // Filled Spatula -> Pipette: nothing
 			break;
@@ -91,7 +93,7 @@ public class Pipette : MonoBehaviour {
 	}
 
 	//! Use the pipette to hold the selected volume.
-	public void SetVolumeInPipette() { //BasicallyDone
+	public void FillPipette() { //BasicallyDone
 		CloseInteractionBox ();
 
 		if (volumeSelected > 0.0f) {
@@ -109,19 +111,23 @@ public class Pipette : MonoBehaviour {
 	//! Unloads the pipette into a proper vessel
 	/*! Called when the filled pipette clicks on a valid vessel for the reagent.
 	 	In this overload, the vessel is a glassware */
-	public void unfillPipette(Glassware glassware) {
+	public void UnfillPipette(Glassware glassware) {
 		/*
 		 * CODE PASSING THIS VOLUME AND REAGENT TO THE GLASSWARE
+		 * Refreshing method!
 		 */
-		glassware.volume = volumeHeld;
+		//glassware.volume = volumeHeld;
 		//glassware.reagent = reagentInPipette;
 
 		volumeHeld = 0.0f;
 		reagentInPipette = null;
+
+		CursorManager.SetMouseState (MouseState.ms_default);
+		CursorManager.SetCursorToDefault();
 	}
 	//! Unloads the pipette into a proper vessel
 	/*! The vessel being the same reagent used to get the volume */
-	public void unfillPipette(ReagentsLiquidClass reagentPot, bool sameReagent) { //BasicallyDone
+	public void UnfillPipette(ReagentsLiquidClass reagentPot, bool sameReagent) { //BasicallyDone
 
 		if (reagentPot == reagentInPipette) {
 			volumeHeld = 0.0f;

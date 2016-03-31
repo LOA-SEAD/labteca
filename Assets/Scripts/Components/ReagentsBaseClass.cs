@@ -8,7 +8,7 @@ public class ReagentsBaseClass : ItemToInventory {
 
 	public string name;
 	public bool isSolid;
-	public int molarMass;
+	public float molarMass;
 	public float density;
 	public float polarizability;
 	public float conductibility;

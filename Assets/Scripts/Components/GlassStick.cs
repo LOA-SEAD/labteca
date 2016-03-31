@@ -59,6 +59,9 @@ public class GlassStick : MonoBehaviour {
 	public void Mix(Glassware glassware) {
 		/*
 		 * DO THE MIX, BASED ON THE GLASSWARE
+		 * It knows the stoichiometry, so only a certain amount will react
+		 * This certain amount will be ~consumed~, and the rest will remain.
+		 * 
 		 */
 	}
 }

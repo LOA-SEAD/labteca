@@ -7,7 +7,7 @@ public class JournalUIInfo : MonoBehaviour
 	public Text nameT,physicalState,molarMassT,densityT,polarityT,conductibilityT,solubilityT,phT,turbidityT,refratometerT;
 	public GameObject phG, turbilityG, refratometerG;
 
-	public void setReagent(string name,int molarMass,bool isSolid,float density,float polarity,float conductibility,float solubility,float ph,float turbidity,float refratometer){
+	public void setReagent(string name, float molarMass,bool isSolid,float density,float polarity,float conductibility,float solubility,float ph,float turbidity,float refratometer){
 		nameT.text = name;
 		molarMassT.text = molarMass.ToString ();
 		densityT.text = density.ToString ();

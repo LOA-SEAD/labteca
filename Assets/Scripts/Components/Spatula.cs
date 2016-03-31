@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class Spatula : MonoBehaviour {
 
 	private float pinchesHeld; // Mass being held in the spatule [g]
+	private const float pinchVolume = 0.25f; //Volume of one spatula [ml or cm3]
 
 	//Interaction boxes
 	public UI_Manager uiManager;	/*!< The UI Manager Game Object. */

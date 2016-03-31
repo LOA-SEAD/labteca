@@ -70,7 +70,7 @@ public class ComponentsSaver
 		{
 			text.SetString("name" + counter.ToString(), reagent.name);
 			text.SetBool("isSolid" + counter.ToString(), reagent.isSolid);
-			text.SetInt("molarMass" + counter.ToString(), reagent.molarMass);
+			text.SetFloat("molarMass" + counter.ToString(), reagent.molarMass);
 			text.SetFloat("density" + counter.ToString(), reagent.density);
 			text.SetFloat("polarizability" + counter.ToString(), reagent.polarizability);
 

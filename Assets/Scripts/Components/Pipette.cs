@@ -82,8 +82,9 @@ public class Pipette : MonoBehaviour {
 		interactionBoxPipette.SetActive(false);
 	}
 	//! Open the interaction box
-	public void OpenInteractionBox() {
+	public void OpenInteractionBox(float maxSliderVolume) {
 		interactionBoxPipette.SetActive (true);
+		interactionBoxPipette.GetComponentInChildren<Slider> ().maxValue = maxSliderVolume;
 		//CursorManager.SetDefaultCursor ();
 		/*
 		 * DEFINE HOW TO BLOCK CLICKS OUTSIDE 

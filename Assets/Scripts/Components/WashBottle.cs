@@ -20,9 +20,27 @@ public class WashBottle : MonoBehaviour {
 	public Texture2D washBottle_CursorTexture;
 	public Vector2 hotSpot = Vector2.zero;
 
+	public ReagentsLiquidClass Water;
+
 	// Use this for initialization
 	void Start () {
 		interactionBoxWashBottle.SetActive (false);
+
+		Water.name = "H2O";
+		Water.isSolid = false;
+		Water.molarMass = 18.01f;
+		Water.density = 1;
+		Water.polarizability = 1;
+		Water.conductibility = 1;
+		Water.solubility = 1;
+		Water.irSpecter = null;
+		Water.flameSpecter = null;
+		Water.uvSpecter = null;
+		Water.texture = null;
+		Water.ph = 7.0f;
+		Water.turbidity = 1;
+		Water.refratometer = 1;
+		Water.hplc = null;
 	}
 	
 	// Update is called once per frame
@@ -69,8 +87,9 @@ public class WashBottle : MonoBehaviour {
 		interactionBoxWashBottle.SetActive(false);
 	}
 	//! Open the interaction box
-	public void OpenInteractionBox() {
+	public void OpenInteractionBox(float maxSliderVolume) {
 		interactionBoxWashBottle.SetActive (true);
+		interactionBoxWashBottle.GetComponentInChildren<Slider> ().maxValue = maxSliderVolume;
 		//CursorManager.SetDefaultCursor ();
 		/*
 		 * DEFINE HOW TO BLOCK CLICKS OUTSIDE 
@@ -83,7 +102,7 @@ public class WashBottle : MonoBehaviour {
 		washBottleValueText.text = volumeSelected.ToString ();
 	}
 	
-	//! Pours the water into the vessel (mostly glasswares.
+	//! Pours the water into the vessel (mostly glasswares).
 	public void PourWater() { //BasicallyDone
 		CloseInteractionBox ();
 		
@@ -91,6 +110,7 @@ public class WashBottle : MonoBehaviour {
 			/*
 			 * CODE MAKING GLASSWARE RECEIVE THE WATER
 			 */
+
 		}
 
 		volumeSelected = 0.0f;

@@ -525,9 +525,9 @@ public class WorkBench : MonoBehaviour {
 		Glassware glass = glassClick.GetComponent<Glassware> ();
 		lastItemSelected = glassClick;
 		
-		if (selectWater&&glassClick.GetComponent<Glassware>().volume-glassClick.GetComponent<Glassware>().currentVolumeUsed>0) {
+		if (selectWater&&glassClick.GetComponent<Glassware>().maxVolume-glassClick.GetComponent<Glassware>().currentVolume>0) {
 			
-			OpenOptionDialogWater(glassClick.GetComponent<Glassware>().volume-glassClick.GetComponent<Glassware>().currentVolumeUsed);
+			OpenOptionDialogWater(glassClick.GetComponent<Glassware>().maxVolume-glassClick.GetComponent<Glassware>().currentVolume);
 			
 		}
 		else if(selectPipeta){
@@ -544,7 +544,7 @@ public class WorkBench : MonoBehaviour {
 				
 			}
 			else if(glass.liquid.activeSelf == true){
-				OpenOptionDialogPipeta(glassClick.GetComponent<Glassware>().currentVolumeUsed);
+				OpenOptionDialogPipeta(glassClick.GetComponent<Glassware>().currentVolume);
 			}
 			
 		}

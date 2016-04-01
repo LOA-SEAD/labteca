@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 // Require a character controller to be attached to the same game object
 [RequireComponent(typeof(CharacterMotor))]
@@ -17,11 +18,15 @@ public class FPSInputController : MonoBehaviour
 	private float currentDelay;
 	private bool inInteraction;
 	private Vector3 lastPosition;
+	private RaycastHit lastHit;
 
 	void Start(){
 		//if interactText is null, sets the text to a default one
 		if (interactText == "")
 			interactText = "Pressione \"E\" Para Interagir";
+
+		Ray cameraRay = Camera.main.ScreenPointToRay(new Vector3(Screen.width/2, Screen.height/2,  200));
+		Physics.Raycast (cameraRay, out lastHit, Mathf.Infinity);
 	}
 
     void Awake()
@@ -87,9 +92,25 @@ public class FPSInputController : MonoBehaviour
 			}
 			//show information about the object
 			if (hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ()) {
-				HudText.SetText (hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ().informationText);
+				hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ().descriptionCanvas.enabled = true;
+				Debug.Log(hitInfo.distance);
+				if(hitInfo.distance>200){
+					Color cor = hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ().descriptionCanvas.GetComponentInChildren<Image>().color;
+					cor.a=1f;
+					hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ().descriptionCanvas.GetComponentInChildren<Image>().color = cor;
+				}
+				else{
+					Color cor = hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ().descriptionCanvas.GetComponentInChildren<Image>().color;
+					//cor.a=1f-1*(200-hitInfo.distance)/200f;
+					hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ().descriptionCanvas.GetComponentInChildren<Image>().color=cor;
+				}
+			}else{
+				if(lastHit.collider.GetComponent<AccessEquipmentBehaviour>()){
+					if(lastHit.collider.GetComponent<AccessEquipmentBehaviour> ().descriptionCanvas!=null)
+						lastHit.collider.GetComponent<AccessEquipmentBehaviour> ().descriptionCanvas.enabled = false;
+				}
 			}
-			
+			lastHit=hitInfo;
 		}
 
 

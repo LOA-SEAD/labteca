@@ -92,22 +92,17 @@ public class FPSInputController : MonoBehaviour
 			}
 			//show information about the object
 			if (hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ()) {
-				hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ().descriptionCanvas.enabled = true;
-				Debug.Log(hitInfo.distance);
-				if(hitInfo.distance>200){
-					Color cor = hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ().descriptionCanvas.GetComponentInChildren<Image>().color;
-					cor.a=1f;
-					hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ().descriptionCanvas.GetComponentInChildren<Image>().color = cor;
+				hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ().fadeIn();
+				if(hitInfo.distance>3){
+					hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ().setCanvasAlpha(1f);
 				}
 				else{
-					Color cor = hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ().descriptionCanvas.GetComponentInChildren<Image>().color;
-					//cor.a=1f-1*(200-hitInfo.distance)/200f;
-					hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ().descriptionCanvas.GetComponentInChildren<Image>().color=cor;
+					hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ().setCanvasAlpha(0.5f*hitInfo.distance-0.5f);
 				}
 			}else{
 				if(lastHit.collider.GetComponent<AccessEquipmentBehaviour>()){
 					if(lastHit.collider.GetComponent<AccessEquipmentBehaviour> ().descriptionCanvas!=null)
-						lastHit.collider.GetComponent<AccessEquipmentBehaviour> ().descriptionCanvas.enabled = false;
+						lastHit.collider.GetComponent<AccessEquipmentBehaviour> ().fadeOut();
 				}
 			}
 			lastHit=hitInfo;

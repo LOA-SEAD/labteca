@@ -91,6 +91,14 @@ public class Pipette : MonoBehaviour {
 		 */
 	}
 
+	/*//! The Pipette is being put to work
+	public void ActivatePipette(float valueForSlider, Glassware interactingGlass) {
+		this.OpenInteractionBox (valueForSlider);
+
+		interactingGlass.PourLiquid(volumeHeld, volumeHeld * reagentInPipette.density, reagentInPipette);
+
+	}*/
+
 	//! Set value of volume currently set by the slider.
 	public void VolumeOnSlider(){ //BasicallyDone
 		volumeSelected = boxSlider.value;
@@ -125,6 +133,8 @@ public class Pipette : MonoBehaviour {
 		 */
 		//glassware.volume = volumeHeld;
 		//glassware.reagent = reagentInPipette;
+
+		glassware.PourLiquid(volumeHeld, volumeHeld * reagentInPipette.density, reagentInPipette);//TODO:Needs to treat the case in which the glassware can't receive everything
 
 		volumeHeld = 0.0f;
 		reagentInPipette = null;

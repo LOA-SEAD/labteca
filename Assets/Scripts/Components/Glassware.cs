@@ -81,11 +81,12 @@ public class Glassware : ItemToInventory
 			break;
 		case MouseState.ms_pipette: 		//Pipette -> Glassware: gets the solids, if there's only solid inside. So, opens the pipette's interaction box.
 			Pipette pipette = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().pipette;
-			pipette.OpenInteractionBox(maxVolume - currentVolume);
+			pipette.OpenFillingBox(maxVolume - currentVolume, this);
 			break;
 		case MouseState.ms_filledPipette: 	// Filled Pipette -> Glassware: pours the pipette's contents into the glassware
 			Pipette filledPipette = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().pipette;
-			filledPipette.UnfillPipette(this);
+			//filledPipette.UnfillPipette(this);
+			filledPipette.OpenUnfillingBox(maxVolume - currentVolume, this);
 			break;
 		case MouseState.ms_spatula: 		// Spatula -> Glassware: gets the solids, if there's only solid inside. So, opens the spatula's interaction box
 			Spatula spatula = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().spatula;
@@ -93,11 +94,10 @@ public class Glassware : ItemToInventory
 			break;
 		case MouseState.ms_filledSpatula: 	// Filled Spatula -> Glassware: unloads the spatula into the glassare
 			Spatula filledSpatula = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().spatula;
-			filledSpatula.UnfillSpatula(onScale, this);
+			filledSpatula.OpenInteractionBox(maxVolume - currentVolume, this);
 			break;
 		case MouseState.ms_washBottle: 		// Washe Bottle -> Glassware: pours water into the glassware
 			WashBottle washBottle = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().washBottle;
-			//washBottle.OpenInteractionBox(maxVolume - currentVolume);
 			washBottle.ActivateWashBottle(maxVolume - currentVolume, this);
 			break;
 		case MouseState.ms_glassStick:		// Glass Stick -> Glassware: mix the contents, if there is any.
@@ -161,11 +161,11 @@ public class Glassware : ItemToInventory
 		RefreshContents ();
 	}
 
-	//! Pours a liquid into the glassware
-	//	The liquid might come from pipettes or wash bottles (H2O)
-	public void InsertSolid(/*float volumeFromTool, */float liquidMass, ReagentsBaseClass reagentFromTool) {
-		//currentVolume += volumeFromTool;
-		totalMass += liquidMass;
+	//!	Inserts a solid into the glassware
+	//	The solid only comes from spatulas
+	public void InsertSolid(float volumeFromTool, float solidMass, ReagentsBaseClass reagentFromTool) {
+		currentVolume += volumeFromTool;
+		totalMass += solidMass;
 		
 		/*
 		 * ADD THE REAGENT INTO THE REAGENTS LISTS

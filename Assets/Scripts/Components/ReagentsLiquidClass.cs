@@ -21,7 +21,7 @@ public class ReagentsLiquidClass : ReagentsBaseClass {
 			//
 			break;
 		case MouseState.ms_pipette: 		//Pipette -> Liquid Reagent: fill the pipette with the reagent clicked
-			pipette.FillPipette(this);
+			pipette.OpenFillingBox(this);
 			break;
 		case MouseState.ms_filledPipette: 	// Filled Spatula -> Liquid Reagent: put back the content if it is the same reagent
 			if(pipette.reagentInPipette == this)

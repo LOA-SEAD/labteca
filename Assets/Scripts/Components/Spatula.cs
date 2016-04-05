@@ -18,9 +18,10 @@ public class Spatula : MonoBehaviour {
 
 	//Interaction box
 	public GameObject interactionBoxSpatula;	//Interaction box
+	public GameObject boxToUnfillSpatula;		//Interaction box to unfill spatula
 	public Text spatulaValueText;				//Text showing the selected value
 	public float pinchesSelected;				//Pinches selected during the interaction
-
+	public float maxPinches;					//Maximum value of pinches that might be put into the vessel
 	/*	public Button confirmAddButton;		is the spatula going to remove and add reagents?
 	 *	public Button confirmRemoveButton;
 	 */
@@ -34,7 +35,9 @@ public class Spatula : MonoBehaviour {
 	public Texture2D filledSpatula_CursorTexture;
 	public Vector2 hotSpot = Vector2.zero;
 	
-	public ReagentsBaseClass reagentInSpatula; //Reagent being held by the pipette
+	public ReagentsBaseClass reagentInSpatula;	//Reagent being held by the pipette
+
+	public Glassware interactingGlassware;		//Glassware which the spatula is interacting with
 
 	// Use this for initialization
 	void Start () {
@@ -83,18 +86,38 @@ public class Spatula : MonoBehaviour {
 	//! Close the interaction box
 	public void CloseInteractionBox(){
 		interactionBoxSpatula.SetActive(false);
+		boxToUnfillSpatula.SetActive (false);
 	}
 	//! Open the interaction box
 	public void OpenInteractionBox() {
+		pinchesSelected = 0.0f;
+
 		interactionBoxSpatula.SetActive (true);
 		//CursorManager.SetDefaultCursor ();
 		/*
 		 * DEFINE HOW TO BLOCK CLICKS OUTSIDE 
 		 */
 	}
+	public void OpenInteractionBox(float volumeAvailable, Glassware glassware) {
+
+		/*
+		 * OPENS THE RIGHT BOX WHETHER THE GLASSWARE IS ON A SCALE OR NOT
+		 */
+
+		boxToUnfillSpatula.SetActive(true);
+		
+		//Defining volume on slider
+		if(volumeAvailable < pinchesHeld * pinchVolume)
+			maxPinches = volumeAvailable;
+		else
+			maxPinches = pinchesHeld * pinchVolume;
+		
+		interactingGlassware = glassware;
+		maxPinches = (volumeAvailable / pinchVolume) - (volumeAvailable % pinchVolume); //Truncating the value
+	}
 	
 	//! Used by the checkboxes on the canvas to set the range.
-	/*! The startpoint and endpoint come to the fill/unfill spatula. The values HAVE to be defined on the canvas! */
+	/*! The startpoint and endpoint go to the fill/unfill spatula. The values HAVE to be defined on the canvas! */
 	public void SetInterval (int startpoint, int endpoint) {
 		checkboxStartpoint = startpoint;
 		checkboxEndpoint = endpoint;
@@ -123,8 +146,10 @@ public class Spatula : MonoBehaviour {
 			else
 				pinchesSelected -= Random.Range(checkboxStartpoint, checkboxEndpoint);
 
+			if(pinchesSelected > maxPinches && interactingGlassware != null)	
+				pinchesSelected = maxPinches;
 
-			if(pinchesSelected < 0)
+			if(pinchesSelected < 0)		//Can't go below 0 pinches
 		 		pinchesSelected = 0;
 
 			spatulaValueText.text = pinchesSelected.ToString();
@@ -149,22 +174,32 @@ public class Spatula : MonoBehaviour {
 	//! Unloads the spatula into a proper vessel
 	/*! Called when the filled spatula clicks on a valid vessel for the reagent.
 	 	In this overload, the vessel is a glassware */
-	public void UnfillSpatula(bool usingPrecision, Glassware glassware) {
+	public void UnfillSpatula() {
 		/*
 		 * CODE TO PUT THE CONTENT INTO THE GLASSWARE
 		 */
+		CloseInteractionBox ();
 
-		pinchesHeld = 0;
-		reagentInSpatula = null;
+		if (pinchesSelected > 0) {
+			interactingGlassware.InsertSolid (pinchesHeld * pinchVolume, pinchesHeld * pinchVolume * reagentInSpatula.density, reagentInSpatula);
+			pinchesHeld -= pinchesSelected;
+		}
+		if (pinchesHeld <= pinchesSelected) {
+			pinchesHeld = 0;
+			reagentInSpatula = null;
 
-		CursorManager.SetMouseState (MouseState.ms_default);
-		CursorManager.SetCursorToDefault();
+			CursorManager.SetMouseState (MouseState.ms_default);
+			CursorManager.SetCursorToDefault();
+		}
+
+		pinchesSelected = 0.0f;
+		interactingGlassware = null;
 	}
 
 	//! Unloads the spatula into a proper vessel
 	/*! Called when the filled spatula clicks on a valid vessel for the reagent.
-	 	In this overload, the vessel the pot of reagent used to get the pinches before */
-	public void UnfillSpatula(/*ReagentsBaseClass reagentPot*/) {
+	 	In this overload, the vessel is the pot of reagent used to get the pinches before */
+	public void UnloadSpatula() {
 	
 		pinchesHeld = 0;
 		reagentInSpatula = null;

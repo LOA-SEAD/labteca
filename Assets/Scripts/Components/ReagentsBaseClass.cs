@@ -85,7 +85,7 @@ public class ReagentsBaseClass : ItemToInventory {
 			break;
 		case MouseState.ms_filledSpatula: 	// Filled Spatula -> Solid Reagent: put back the content if it is the same reagent
 			if(spatula.reagentInSpatula == this)
-				spatula.UnfillSpatula(/*this*/);
+				spatula.UnloadSpatula();
 			//else
 			//	GameObject.Find("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().differentReagentErrorBox.SetActive(true);
 			break;

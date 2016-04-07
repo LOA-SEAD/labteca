@@ -17,7 +17,8 @@ public class Spatula : MonoBehaviour {
 	
 
 	//Interaction box
-	public GameObject interactionBoxSpatula;	//Interaction box
+	public GameObject boxToChooseSpatula;		//Interaction box to choose the spatula
+	public GameObject boxToFillSpatula;			//Interaction box to fill spatula
 	public GameObject boxToUnfillSpatula;		//Interaction box to unfill spatula
 	public Text spatulaValueText;				//Text showing the selected value
 	public float pinchesSelected;				//Pinches selected during the interaction
@@ -25,8 +26,11 @@ public class Spatula : MonoBehaviour {
 	/*	public Button confirmAddButton;		is the spatula going to remove and add reagents?
 	 *	public Button confirmRemoveButton;
 	 */
-	public int checkboxStartpoint;				//Startpoint for the interval that defines the amount of pinches
-	public int checkboxEndpoint; 				//Endpoint for the interval that defines the amount of pinches
+	/*public int checkboxStartpoint;				//Startpoint for the interval that defines the amount of pinches
+	public int checkboxEndpoint; 				//Endpoint for the interval that defines the amount of pinches*/
+
+	public float spatulaCapacity;				//Capacity of the spatula being used
+	public float capacityError;					//Error associated with the spatula's capacity
 
 	public bool usingPrecision;					//If checked, the amount does not vary. Depends on the glassware being on the scale
 
@@ -41,7 +45,7 @@ public class Spatula : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		interactionBoxSpatula.SetActive (false);
+		boxToFillSpatula.SetActive (false);
 	}
 	
 	// Update is called once per frame
@@ -55,6 +59,7 @@ public class Spatula : MonoBehaviour {
 		
 		switch (currentState) {
 		case MouseState.ms_default: 		//Default -> Spatula: prepares the spatula for use
+			OpenChooseBox();
 			CursorManager.SetMouseState(MouseState.ms_spatula);
 			CursorManager.SetNewCursor(spatula_CursorTexture, hotSpot);
 			break;
@@ -83,16 +88,22 @@ public class Spatula : MonoBehaviour {
 		}
 	}
 
+	//! Opens the box where the choice of spatula is made
+	public void OpenChooseBox() {
+		boxToChooseSpatula.SetActive(true);
+	}
+
 	//! Close the interaction box
 	public void CloseInteractionBox(){
-		interactionBoxSpatula.SetActive(false);
+		boxToChooseSpatula.SetActive (false);
+		boxToFillSpatula.SetActive(false);
 		boxToUnfillSpatula.SetActive (false);
 	}
 	//! Open the interaction box
 	public void OpenInteractionBox() {
 		pinchesSelected = 0.0f;
 
-		interactionBoxSpatula.SetActive (true);
+		boxToFillSpatula.SetActive (true);
 		//CursorManager.SetDefaultCursor ();
 		/*
 		 * DEFINE HOW TO BLOCK CLICKS OUTSIDE 
@@ -116,11 +127,11 @@ public class Spatula : MonoBehaviour {
 		maxPinches = (volumeAvailable / pinchVolume) - (volumeAvailable % pinchVolume); //Truncating the value
 	}
 	
-	//! Used by the checkboxes on the canvas to set the range.
-	/*! The startpoint and endpoint go to the fill/unfill spatula. The values HAVE to be defined on the canvas! */
-	public void SetInterval (int startpoint, int endpoint) {
-		checkboxStartpoint = startpoint;
-		checkboxEndpoint = endpoint;
+	//! Used by the checkboxes on the canvas to set spatula capacity.
+	/*! There's an error associated with the value. The values HAVE to be defined on the canvas! */
+	public void SetCapacity (float capacity) {//TODO NEEDS TO DEFINE THE ERROR
+		spatulaCapacity = capacity;
+		//capacityError = error;
 	}
 
 	//! Is called on the event of a empty spatula clicking on a solid reagent
@@ -142,9 +153,9 @@ public class Spatula : MonoBehaviour {
 		if (!usingPrecision) { //If the vessel is NOT on a scale
 
 			if(increase)
-				pinchesSelected += Random.Range(checkboxStartpoint, checkboxEndpoint);
+				pinchesSelected += Random.Range(spatulaCapacity - capacityError, spatulaCapacity + capacityError);
 			else
-				pinchesSelected -= Random.Range(checkboxStartpoint, checkboxEndpoint);
+				pinchesSelected -= Random.Range(spatulaCapacity - capacityError, spatulaCapacity + capacityError);
 
 			if(pinchesSelected > maxPinches && interactingGlassware != null)	
 				pinchesSelected = maxPinches;

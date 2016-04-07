@@ -16,16 +16,21 @@ public class Pipette : MonoBehaviour {
 
 	//Interaction boxes to chose between graduated pipettes or volumetric pipettes
 	public GameObject interactionBoxPipette;	//Interaction box
+	//public bool graduated;						//Knows if the pipette being used is graduated or volumetric
 	//Interaction box for graduated pipette
+	//public GameObject boxGraduatedPipette;		//Interaction box for the graduated pipette
 	public Slider boxSlider;  					//Interaction box's slider
 	public Text pipetteValueText; 				//Text showing the slider's value
 	public float volumeSelected;				//Amount selected in the slider
-	
+	//Interaction box to unfill graduated pipette
 	public GameObject BoxToUnfillPipette;		//Interaction box to unfill pipette
 	public Slider u_boxSlider;  				//Unfilling box's slider
 	public Text u_pipetteValueText; 			//Text showing the slider's value
 	public float u_volumeSelected;				//Amount selected in the slider
+
 	//Interaction box for volumetric pipette
+	//public GameObject boxVolumetricPipette;		//Interaction box for the volumetric pipette
+	//public float volumetricPipetteChosen;		//Volume chosen in the interaction
 	/*
 	 */
 
@@ -55,6 +60,7 @@ public class Pipette : MonoBehaviour {
 
 		switch (currentState) {
 		case MouseState.ms_default: 		//Default -> Pipette: prepares the pipette for use
+			//ChoosePipetteBox
 			CursorManager.SetMouseState(MouseState.ms_pipette);
 			CursorManager.SetNewCursor(pipette_CursorTexture, hotSpot);
 			break;
@@ -83,6 +89,21 @@ public class Pipette : MonoBehaviour {
 		}
 	}
 
+
+	//! Opens the box where the choice of pipette is done
+	public void ChoosePipetteBox() {
+
+	}
+
+	//! For the button that chooses the graduated pipette
+	public void ChooseGraduatedPipette() {
+
+	}
+	//! For the button that chooses the volumetric pipette
+	//	The volume is given as a checkbox parameter
+	public void ChooseVolumetricPipette(float volume) {
+	
+	}
 
 	//! Close the interaction box
 	public void CloseInteractionBox(){

@@ -72,7 +72,7 @@ public class Glassware : ItemToInventory
 	}
 
 	//! Holds the events for when the interactive spatula on the Workbench is clicked
-	void OnClick() {
+	public void OnClick() {
 		MouseState currentState = CursorManager.GetCurrentState ();
 
 		switch (currentState) {
@@ -90,11 +90,14 @@ public class Glassware : ItemToInventory
 			break;
 		case MouseState.ms_spatula: 		// Spatula -> Glassware: gets the solids, if there's only solid inside. So, opens the spatula's interaction box
 			Spatula spatula = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().spatula;
-			spatula.OpenInteractionBox ();
+			//TODO:NEEDS TO CHECK THE REAGENT INSIDE, AND IF IT'S THE ONLY ONE
+			//spatula.OpenInteractionBox (true);
+			//!!!spatula.FillSpatula();
 			break;
 		case MouseState.ms_filledSpatula: 	// Filled Spatula -> Glassware: unloads the spatula into the glassare
 			Spatula filledSpatula = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().spatula;
-			filledSpatula.OpenInteractionBox(maxVolume - currentVolume, this);
+			//filledSpatula.OpenInteractionBox(maxVolume - currentVolume, this);
+			filledSpatula.UnfillSpatula(maxVolume - currentVolume, this);
 			break;
 		case MouseState.ms_washBottle: 		// Washe Bottle -> Glassware: pours water into the glassware
 			WashBottle washBottle = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().washBottle;

@@ -75,7 +75,7 @@ public class CursorManager : MonoBehaviour {
 		return currentState;
 	}
 
-	//! Setting the new state. This method most likely should be called together with SetNewCursos()
+	//! Setting the new state. This method most likely should be called together with SetNewCursor()
 	public static void SetMouseState(MouseState newState) {
 		currentState = newState;
 	}

@@ -9,8 +9,9 @@ using UnityEngine.UI;
 
 public class Spatula : MonoBehaviour {
 
-	private float pinchesHeld; // Mass being held in the spatule [g]
-	private const float pinchVolume = 0.25f; //Volume of one spatula [ml or cm3]
+	private float volumeHeld;					//Total volume being held in that number of spatulas
+	public ReagentsBaseClass reagentInSpatula;	//Reagent being held by the pipette
+	//private const float pinchVolume = 0.25f; //Volume of one spatula [ml or cm3]
 
 	//Interaction boxes
 	public UI_Manager uiManager;	/*!< The UI Manager Game Object. */
@@ -19,10 +20,15 @@ public class Spatula : MonoBehaviour {
 	//Interaction box
 	public GameObject boxToChooseSpatula;		//Interaction box to choose the spatula
 	public GameObject boxToFillSpatula;			//Interaction box to fill spatula
+//	public Text f_timesToUseText;				//Text showing the selected number of spatulas for the filling interaction box
 	public GameObject boxToUnfillSpatula;		//Interaction box to unfill spatula
-	public Text spatulaValueText;				//Text showing the selected value
-	public float pinchesSelected;				//Pinches selected during the interaction
-	public float maxPinches;					//Maximum value of pinches that might be put into the vessel
+//	public Text u_timesToUseText;				//Text showing the selected number of spatulas for the unfilling interaction box
+//	public float realVolumeSelected;			//Volume selected during the interaction
+//	public float maxVolume;						//Maximum value of spatulas that might be put into the vessel
+
+	/*public int timesToUseSpatula;				//Amount of times that the spatula is going to be used
+	public int maxNumberOfSpatulas;				//Maximum number of times the spatula can be used to put reagent into the vessel
+	public Text maxNumberText;					//Text showing the maximum number of spatula uses*/
 	/*	public Button confirmAddButton;		is the spatula going to remove and add reagents?
 	 *	public Button confirmRemoveButton;
 	 */
@@ -31,6 +37,7 @@ public class Spatula : MonoBehaviour {
 
 	public float spatulaCapacity;				//Capacity of the spatula being used
 	public float capacityError;					//Error associated with the spatula's capacity
+	private float error = 0.01f;				//Percentage of error
 
 	public bool usingPrecision;					//If checked, the amount does not vary. Depends on the glassware being on the scale
 
@@ -38,14 +45,15 @@ public class Spatula : MonoBehaviour {
 	public Texture2D spatula_CursorTexture;
 	public Texture2D filledSpatula_CursorTexture;
 	public Vector2 hotSpot = Vector2.zero;
-	
-	public ReagentsBaseClass reagentInSpatula;	//Reagent being held by the pipette
+
 
 	public Glassware interactingGlassware;		//Glassware which the spatula is interacting with
 
 	// Use this for initialization
 	void Start () {
-		boxToFillSpatula.SetActive (false);
+		//boxToFillSpatula.SetActive (false);
+		CloseInteractionBox ();
+		interactingGlassware = null;
 	}
 	
 	// Update is called once per frame
@@ -54,14 +62,12 @@ public class Spatula : MonoBehaviour {
 	}
 
 	//! Holds the events for when the interactive spatula on the Workbench is clicked
-	void OnClick() {
+	public void OnClick() {
 		MouseState currentState = CursorManager.GetCurrentState ();
 		
 		switch (currentState) {
 		case MouseState.ms_default: 		//Default -> Spatula: prepares the spatula for use
 			OpenChooseBox();
-			CursorManager.SetMouseState(MouseState.ms_spatula);
-			CursorManager.SetNewCursor(spatula_CursorTexture, hotSpot);
 			break;
 		case MouseState.ms_pipette: 		//Pipette -> Spatula: change to spatula state
 			CursorManager.SetMouseState(MouseState.ms_spatula);
@@ -89,7 +95,10 @@ public class Spatula : MonoBehaviour {
 	}
 
 	//! Opens the box where the choice of spatula is made
+	//  Is called on the event of a empty spatula clicking on a vessel that holds a solid
 	public void OpenChooseBox() {
+		spatulaCapacity = 0.0f;
+		capacityError = 0.0f;
 		boxToChooseSpatula.SetActive(true);
 	}
 
@@ -100,10 +109,13 @@ public class Spatula : MonoBehaviour {
 		boxToUnfillSpatula.SetActive (false);
 	}
 	//! Open the interaction box
-	public void OpenInteractionBox() {
-		pinchesSelected = 0.0f;
+	public void OpenInteractionBox(bool fill) {
+//		realVolumeSelected = 0.0f;
 
-		boxToFillSpatula.SetActive (true);
+		if(fill)
+			boxToFillSpatula.SetActive (true);
+		else
+			boxToUnfillSpatula.SetActive (true);
 		//CursorManager.SetDefaultCursor ();
 		/*
 		 * DEFINE HOW TO BLOCK CLICKS OUTSIDE 
@@ -117,27 +129,37 @@ public class Spatula : MonoBehaviour {
 
 		boxToUnfillSpatula.SetActive(true);
 		
-		//Defining volume on slider
-		if(volumeAvailable < pinchesHeld * pinchVolume)
-			maxPinches = volumeAvailable;
-		else
-			maxPinches = pinchesHeld * pinchVolume;
+		//Defining maximum amount of spatulas
+/*		if (volumeAvailable < realVolumeSelected) {
+			maxVolume = volumeAvailable;
+			maxNumberOfSpatulas = (int)(volumeAvailable - (volumeAvailable % 1)); //Truncanting value
+		}
+		else {
+			maxVolume = realVolumeSelected;
+			maxNumberOfSpatulas = (int)(realVolumeSelected - (realVolumeSelected % 1)); //Trucanting value
+		}*/
 		
 		interactingGlassware = glassware;
-		maxPinches = (volumeAvailable / pinchVolume) - (volumeAvailable % pinchVolume); //Truncating the value
 	}
 	
-	//! Used by the checkboxes on the canvas to set spatula capacity.
-	/*! There's an error associated with the value. The values HAVE to be defined on the canvas! */
-	public void SetCapacity (float capacity) {//TODO NEEDS TO DEFINE THE ERROR
+	//! Used by the checkboxes on the boxToChooseSpatula canvas to set spatula capacity.
+	//  There's an error associated with the value. The value HAS to be defined on the canvas!
+	public void ChoosingCapacity (float capacity) {
 		spatulaCapacity = capacity;
-		//capacityError = error;
+		capacityError = capacity * error;
 	}
 
-	//! Is called on the event of a empty spatula clicking on a solid reagent
-	/*! If the spatula is not using precision (on a scale, for example), then the amount taken by it is
-	 	a value in a set interval. Otherwise, the value should be chosen with a slider?TODO*/
-	public void SelectingPinches(bool increase) {
+	//! Consolidate the choice of spatula state, after choosing the capacity
+	public void ChooseSpatula() {
+		CursorManager.SetMouseState(MouseState.ms_spatula);
+		CursorManager.SetNewCursor(spatula_CursorTexture, hotSpot);
+
+		CloseInteractionBox ();
+	}
+
+	//! Select the number of times the selected spatula is going to be used
+	//  The volume of reagent held by the spatula will be define in a range associated if its capacity
+/*	public void SelectingNumberOfSpatulas(bool increase) {
 		/*
 		 * CODE FILLING THE SPATULA
 		 */
@@ -147,75 +169,108 @@ public class Spatula : MonoBehaviour {
 		 *	use intervals
 		 *
 		 */
-		 if(pinchesSelected < 0)
-		 	pinchesSelected = 0;
+/*		if(realVolumeSelected < 0 || timesToUseSpatula < 0) {		//Can't go below zero
+			realVolumeSelected = 0.0f;
+			timesToUseSpatula = 0;
+		}
 
 		if (!usingPrecision) { //If the vessel is NOT on a scale
 
-			if(increase)
-				pinchesSelected += Random.Range(spatulaCapacity - capacityError, spatulaCapacity + capacityError);
-			else
-				pinchesSelected -= Random.Range(spatulaCapacity - capacityError, spatulaCapacity + capacityError);
+			if(increase) {
+				timesToUseSpatula++;
+				realVolumeSelected += Random.Range(spatulaCapacity - capacityError, spatulaCapacity + capacityError);
+			}
+			else {
+				timesToUseSpatula--;
+				realVolumeSelected -= Random.Range(spatulaCapacity - capacityError, spatulaCapacity + capacityError);
+			}
+			if(realVolumeSelected > maxVolume && interactingGlassware != null)	
+				realVolumeSelected = maxVolume;
 
-			if(pinchesSelected > maxPinches && interactingGlassware != null)	
-				pinchesSelected = maxPinches;
-
-			if(pinchesSelected < 0)		//Can't go below 0 pinches
-		 		pinchesSelected = 0;
-
-			spatulaValueText.text = pinchesSelected.ToString();
+			if(realVolumeSelected < 0 || timesToUseSpatula < 0) {		//Can't go below zero
+		 		realVolumeSelected = 0.0f;
+				timesToUseSpatula = 0;
+			}
+			//timesToUseText.text = realVolumeSelected.ToString();
 		}
-	}
+	}*/
 
-	//! Uses the spatula to hold pinches of a solid reagent
+	/*//! Amount of Spatulas chosen
+	public void SetUsesOfSpatula() {
+		volumeHeld = realVolumeSelected;
+
+	}*/
+
+	//! Uses the spatula to hold a volume of a solid reagent
 	public void FillSpatula (ReagentsBaseClass reagent) {
 		CloseInteractionBox();
 
-		if(pinchesSelected > 0) {
+		/*if(realVolumeSelected > 0) {
 			CursorManager.SetMouseState (MouseState.ms_filledSpatula);
 			CursorManager.SetNewCursor (filledSpatula_CursorTexture, hotSpot);
 
 			reagentInSpatula = reagent;
 		}
 
-		pinchesHeld = pinchesSelected;
-		pinchesSelected = 0;
+		spatulasInUse = realVolumeSelected;
+		realVolumeSelected = 0;*/
+
+		CursorManager.SetMouseState (MouseState.ms_filledSpatula);
+		CursorManager.SetNewCursor (filledSpatula_CursorTexture, hotSpot);
+
+		volumeHeld = Random.Range (spatulaCapacity - capacityError, spatulaCapacity + capacityError);
+		reagentInSpatula = reagent;
 	}
 
 	//! Unloads the spatula into a proper vessel
-	/*! Called when the filled spatula clicks on a valid vessel for the reagent.
-	 	In this overload, the vessel is a glassware */
-	public void UnfillSpatula() {
-		/*
-		 * CODE TO PUT THE CONTENT INTO THE GLASSWARE
-		 */
+	//  Called when the filled spatula clicks on a valid vessel for the reagent.
+	// 	In this overload, the vessel is a glassware
+	public void UnfillSpatula(float volumeAvailable, Glassware glassware) {
+
 		CloseInteractionBox ();
 
-		if (pinchesSelected > 0) {
-			interactingGlassware.InsertSolid (pinchesHeld * pinchVolume, pinchesHeld * pinchVolume * reagentInSpatula.density, reagentInSpatula);
-			pinchesHeld -= pinchesSelected;
+		if (volumeAvailable > volumeHeld) {
+			glassware.InsertSolid (volumeHeld, volumeHeld * reagentInSpatula.density, reagentInSpatula);
+
+			CursorManager.SetMouseState (MouseState.ms_default);
+			CursorManager.SetCursorToDefault ();
+
+			volumeHeld = 0.0f;
+			reagentInSpatula = null;
 		}
-		if (pinchesHeld <= pinchesSelected) {
-			pinchesHeld = 0;
+		else {
+			glassware.InsertSolid (volumeAvailable, volumeAvailable * reagentInSpatula.density, reagentInSpatula);
+			//TODO: Show something to the player?
+
+			volumeHeld -= volumeAvailable;
+		}
+		/*if (realVolumeSelected > 0) {
+			interactingGlassware.InsertSolid (realVolumeSelected, realVolumeSelected * reagentInSpatula.density, reagentInSpatula);
+			spatulasInUse -= realVolumeSelected;
+		}
+		if (spatulasInUse <= realVolumeSelected) {
+			spatulasInUse = 0;
 			reagentInSpatula = null;
 
 			CursorManager.SetMouseState (MouseState.ms_default);
 			CursorManager.SetCursorToDefault();
 		}
 
-		pinchesSelected = 0.0f;
-		interactingGlassware = null;
+		realVolumeSelected = 0.0f;
+		interactingGlassware = null;*/
 	}
 
 	//! Unloads the spatula into a proper vessel
-	/*! Called when the filled spatula clicks on a valid vessel for the reagent.
-	 	In this overload, the vessel is the pot of reagent used to get the pinches before */
-	public void UnloadSpatula() {
+	//  Called when the filled spatula clicks on a valid vessel for the reagent.
+	// 	In this overload, the vessel is the reagent pot or a proper discard place
+	public void UnfillSpatula() {
 	
-		pinchesHeld = 0;
-		reagentInSpatula = null;
+		CloseInteractionBox ();
 
 		CursorManager.SetMouseState (MouseState.ms_default);
 		CursorManager.SetCursorToDefault();
+
+		volumeHeld = 0.0f;
+		reagentInSpatula = null;
 	}
 }

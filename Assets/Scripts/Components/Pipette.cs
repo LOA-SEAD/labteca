@@ -10,15 +10,16 @@ using UnityEngine.UI;
 public class Pipette : MonoBehaviour {
 
 	private float volumeHeld;			//Volume being held by the pipette [ml]
-	private float maxVolume;		//Max volume the pipette can hold [ml]
+	private float maxVolume;			//Max volume the pipette can hold [ml]
+	public bool graduated;				//Knows if the pipette being used is graduated or volumetric
 
 	public UI_Manager uiManager;		// The UI Manager Game Object.
 
 	//Interaction boxes to chose between graduated pipettes or volumetric pipettes
-	public GameObject interactionBoxPipette;	//Interaction box
-	//public bool graduated;						//Knows if the pipette being used is graduated or volumetric
+	public GameObject boxToChoosePipette;		//Interaction box to choose the pipette
+
 	//Interaction box for graduated pipette
-	//public GameObject boxGraduatedPipette;		//Interaction box for the graduated pipette
+	public GameObject boxGraduatedPipette;		//Interaction box
 	public Slider boxSlider;  					//Interaction box's slider
 	public Text pipetteValueText; 				//Text showing the slider's value
 	public float volumeSelected;				//Amount selected in the slider
@@ -46,7 +47,7 @@ public class Pipette : MonoBehaviour {
 
 	//! Use this for initialization
 	void Start () {
-		interactionBoxPipette.SetActive (false);
+		boxGraduatedPipette.SetActive (false);
 	}
 	
 	//! Update is called once per frame
@@ -61,8 +62,7 @@ public class Pipette : MonoBehaviour {
 		switch (currentState) {
 		case MouseState.ms_default: 		//Default -> Pipette: prepares the pipette for use
 			//ChoosePipetteBox
-			CursorManager.SetMouseState(MouseState.ms_pipette);
-			CursorManager.SetNewCursor(pipette_CursorTexture, hotSpot);
+			OpenSelectingBox();
 			break;
 		case MouseState.ms_pipette: 		//Pipette -> Pipette: put back the pipette
 			CursorManager.SetMouseState(MouseState.ms_default);
@@ -89,29 +89,37 @@ public class Pipette : MonoBehaviour {
 		}
 	}
 
-
-	//! Opens the box where the choice of pipette is done
-	public void ChoosePipetteBox() {
-
-	}
-
-	//! For the button that chooses the graduated pipette
-	public void ChooseGraduatedPipette() {
-
-	}
-	//! For the button that chooses the volumetric pipette
-	//	The volume is given as a checkbox parameter
-	public void ChooseVolumetricPipette(float volume) {
-	
-	}
-
 	//! Close the interaction box
 	public void CloseInteractionBox(){
-		interactionBoxPipette.SetActive(false);
+		boxGraduatedPipette.SetActive(false);
 		BoxToUnfillPipette.SetActive (false);
-
+		
 		interactingGlassware = null;
 		interactingReagent = null;
+	}
+
+	//! Open the interaction box to choose the pipette
+	public void OpenSelectingBox() {
+		boxToChoosePipette.SetActive (true);
+	}
+
+	//! Opens the box where the choice of pipette is done
+	public void SelectingVolumetricPipette(float volume) {
+		maxVolume = volume;	
+		graduated = false;
+	}
+	
+	//! For the button that chooses the graduated pipette
+	public void SelectingGraduatedPipette(float volume) {
+		maxVolume = volume;
+		graduated = true;
+	}
+	
+	//! For the button that chooses the volumetric pipette
+	//	The volume is given as a checkbox parameter
+	public void ChoosePipette() {
+		CursorManager.SetMouseState(MouseState.ms_pipette);
+		CursorManager.SetNewCursor(pipette_CursorTexture, hotSpot);
 	}
 
 	//! Open the interaction box to fill the pipette
@@ -122,8 +130,8 @@ public class Pipette : MonoBehaviour {
 		volumeSelected = 0.0f;
 
 		interactingReagent = reagent;
-		interactionBoxPipette.SetActive (true);
-		interactionBoxPipette.GetComponentInChildren<Slider> ().maxValue = maxVolume;
+		boxGraduatedPipette.SetActive (true);
+		boxGraduatedPipette.GetComponentInChildren<Slider> ().maxValue = maxVolume;
 	
 		//CursorManager.SetDefaultCursor ();
 		/*
@@ -136,8 +144,8 @@ public class Pipette : MonoBehaviour {
 		volumeSelected = 0.0f;
 		
 		//interactingReagent = glassware;TODO: Get the reagent from the glassware
-		interactionBoxPipette.SetActive (true);
-		interactionBoxPipette.GetComponentInChildren<Slider> ().maxValue = maxSliderVolume;
+		boxGraduatedPipette.SetActive (true);
+		boxGraduatedPipette.GetComponentInChildren<Slider> ().maxValue = maxSliderVolume;
 		
 		//CursorManager.SetDefaultCursor ();
 		/*

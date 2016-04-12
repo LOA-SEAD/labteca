@@ -19,12 +19,12 @@ public class Pipette : MonoBehaviour {
 	public GameObject boxToChoosePipette;		//Interaction box to choose the pipette
 
 	//Interaction box for graduated pipette
-	public GameObject boxGraduatedPipette;		//Interaction box
+	public GameObject boxGraduatedFilling;		//Interaction box
 	public Slider boxSlider;  					//Interaction box's slider
 	public Text pipetteValueText; 				//Text showing the slider's value
 	public float volumeSelected;				//Amount selected in the slider
 	//Interaction box to unfill graduated pipette
-	public GameObject BoxToUnfillPipette;		//Interaction box to unfill pipette
+	public GameObject boxGraduatedUnfilling;	//Interaction box to unfill pipette
 	public Slider u_boxSlider;  				//Unfilling box's slider
 	public Text u_pipetteValueText; 			//Text showing the slider's value
 	public float u_volumeSelected;				//Amount selected in the slider
@@ -47,7 +47,7 @@ public class Pipette : MonoBehaviour {
 
 	//! Use this for initialization
 	void Start () {
-		boxGraduatedPipette.SetActive (false);
+		boxGraduatedFilling.SetActive (false);
 	}
 	
 	//! Update is called once per frame
@@ -91,15 +91,21 @@ public class Pipette : MonoBehaviour {
 
 	//! Close the interaction box
 	public void CloseInteractionBox(){
-		boxGraduatedPipette.SetActive(false);
-		BoxToUnfillPipette.SetActive (false);
+		boxToChoosePipette.SetActive (false);
+		boxGraduatedFilling.SetActive(false);
+		boxGraduatedUnfilling.SetActive (false);
 		
 		interactingGlassware = null;
 		interactingReagent = null;
+		volumeSelected = 0.0f;
 	}
+
+	/* CHOOSING INTERACTION */
 
 	//! Open the interaction box to choose the pipette
 	public void OpenSelectingBox() {
+		maxVolume = 0.0f;
+		graduated = false;
 		boxToChoosePipette.SetActive (true);
 	}
 
@@ -120,18 +126,26 @@ public class Pipette : MonoBehaviour {
 	public void ChoosePipette() {
 		CursorManager.SetMouseState(MouseState.ms_pipette);
 		CursorManager.SetNewCursor(pipette_CursorTexture, hotSpot);
+
+		CloseInteractionBox ();
 	}
+
+	/* END OF CHOOSING INTERACTION */
+
+	/* GRADUATED PIPETTE */
+		//FILLING INTERACTION
 
 	//! Open the interaction box to fill the pipette
 	//	Also defines the maximum value for the slider
 	//	This case is to get liquid from a reagent
-	public void OpenFillingBox(ReagentsLiquidClass reagent) {
-	
-		volumeSelected = 0.0f;
+	public void OpenGraduatedFillingBox(ReagentsLiquidClass reagent) {
 
+		boxGraduatedFilling.SetActive (true);
+		boxGraduatedFilling.GetComponentInChildren<Slider> ().maxValue = maxVolume;
+
+		volumeSelected = 0.0f;
 		interactingReagent = reagent;
-		boxGraduatedPipette.SetActive (true);
-		boxGraduatedPipette.GetComponentInChildren<Slider> ().maxValue = maxVolume;
+
 	
 		//CursorManager.SetDefaultCursor ();
 		/*
@@ -139,52 +153,22 @@ public class Pipette : MonoBehaviour {
 		 */
 	}
 	//	This case is to get liquid from a glassware
-	public void OpenFillingBox(float maxSliderVolume, Glassware glassware) {
+	public void OpenGraduatedFillingBox(float volumeAvailable, Glassware glassware) {
 		
 		volumeSelected = 0.0f;
 		
 		//interactingReagent = glassware;TODO: Get the reagent from the glassware
-		boxGraduatedPipette.SetActive (true);
-		boxGraduatedPipette.GetComponentInChildren<Slider> ().maxValue = maxSliderVolume;
+		boxGraduatedFilling.SetActive (true);
+		if(volumeAvailable < maxVolume)
+			boxGraduatedFilling.GetComponentInChildren<Slider> ().maxValue = volumeAvailable;
+		else
+			boxGraduatedFilling.GetComponentInChildren<Slider> ().maxValue = maxVolume;
 		
 		//CursorManager.SetDefaultCursor ();
 		/*
 		 * DEFINE HOW TO BLOCK CLICKS OUTSIDE 
 		 */
 	}
-
-	//! Open the interaction box to unfill the pipette
-	//	Also defines the maximum value for the slider
-	//	Case to unfill pipette into a glassware
-	public void OpenUnfillingBox(float volumeAvailable, Glassware glassware) {
-		BoxToUnfillPipette.SetActive(true);
-
-		//Defining volume on slider
-		if(volumeAvailable < volumeHeld)
-			BoxToUnfillPipette.GetComponentInChildren<Slider>().maxValue = volumeAvailable;
-		else
-			BoxToUnfillPipette.GetComponentInChildren<Slider>().maxValue = volumeHeld;
-
-		interactingGlassware = glassware;
-	}
-	//! Open the interaction box to unfill the pipette
-	//	Also defines the maximum value for the slider
-	//	Case to unfill pipette into a reagent pot
-	/*public void OpenUnfillingBox(float volumeAvailable, ReagentsLiquidClass reagentPot) {
-		BoxToUnfillPipette.SetActive(true);
-		
-		//Defining volume on slider
-		BoxToUnfillPipette.GetComponentInChildren<Slider>().maxValue = volumeHeld;
-
-	}*/
-
-	/*//! The Pipette is being put to work
-	public void ActivatePipette(float valueForSlider, Glassware interactingGlass) {
-		this.OpenInteractionBox (valueForSlider);
-
-		interactingGlass.PourLiquid(volumeHeld, volumeHeld * reagentInPipette.density, reagentInPipette);
-
-	}*/
 
 	//! Set value of volume currently set by the slider.
 	public void VolumeOnSlider(){ //BasicallyDone
@@ -193,37 +177,75 @@ public class Pipette : MonoBehaviour {
 	}
 
 	//! Use the pipette to hold the selected volume.
-	public void FillPipette() { //BasicallyDone
-		CloseInteractionBox ();
-
+	public void FillGraduatedPipette() { //BasicallyDone
+		
 		if (volumeSelected > 0.0f) {
 			//TODO: Keeping this for checking. Will be removed as soon as the Glassware part is implemented
 			/*if (!(lastItemSelected.GetComponent<Glassware> () == null)) //Only removes from the last selected object if it's a glassware
 				lastItemSelected.GetComponent<Glassware>().RemoveLiquid (amountSelectedPipeta);*/
 			CursorManager.SetMouseState (MouseState.ms_filledPipette);//pipetaReagentCursor.CursorEnter ();
 			CursorManager.SetNewCursor (filledPipette_CursorTexture, hotSpot);
-
+			
 			reagentInPipette = interactingReagent;
 		}
 
-		volumeHeld = volumeSelected;
-		volumeSelected = 0.0f;
-	}
 
+		volumeHeld = volumeSelected;
+		CloseInteractionBox ();
+	}
+	
+		//UNFILLING INTERACTION
+
+	//! Open the interaction box to unfill the pipette
+	//	Also defines the maximum value for the slider
+	//	Case to unfill pipette into a glassware
+	public void OpenGraduatedUnfillingBox(float volumeAvailable, Glassware glassware) {
+		boxGraduatedUnfilling.SetActive(true);
+		u_volumeSelected = 0.0f;
+
+		//Defining volume on slider
+		if(volumeAvailable < volumeHeld)
+			boxGraduatedUnfilling.GetComponentInChildren<Slider>().maxValue = volumeAvailable;
+		else
+			boxGraduatedUnfilling.GetComponentInChildren<Slider>().maxValue = volumeHeld;
+
+		interactingGlassware = glassware;
+	}
+	//! Open the interaction box to unfill the pipette
+	//	Also defines the maximum value for the slider
+	//	Case to unfill pipette into a reagent pot
+	public void OpenGraduatedUnfillingBox(ReagentsLiquidClass reagentPot) {
+		boxGraduatedUnfilling.SetActive(true);
+		u_volumeSelected = 0.0f;
+
+		//Defining volume on slider
+		boxGraduatedUnfilling.GetComponentInChildren<Slider>().maxValue = volumeHeld;
+
+		interactingGlassware = null;
+	}
+	
+	//! Set value of volume currently set by the slider.
+	//	Unfilling variation
+	public void u_VolumeOnSlider(){ //BasicallyDone
+		u_volumeSelected = u_boxSlider.value;
+		u_pipetteValueText.text = volumeSelected.ToString ();
+	}
+	
 	//! Unloads the pipette into a proper vessel
 	/*! Called when the filled pipette clicks on a valid vessel for the reagent.
 	 	In this overload, the vessel is a glassware */
-	public void UnfillPipette() {
+	public void UnfillGraduatedPipette() {
 		/*
 		 * CODE PASSING THIS VOLUME AND REAGENT TO THE GLASSWARE
 		 * Refreshing method!
 		 */
 		//glassware.volume = volumeHeld;
 		//glassware.reagent = reagentInPipette;
-		CloseInteractionBox ();
 
 		if (volumeSelected > 0.0f) { //If some liquid is selected, the amount is poured into the glassware
-			interactingGlassware.PourLiquid (volumeHeld, volumeHeld * reagentInPipette.density, reagentInPipette);//TODO:Needs to treat the case in which the glassware can't receive everything
+			if (interactingGlassware != null)
+				interactingGlassware.PourLiquid (volumeHeld, volumeHeld * reagentInPipette.density, reagentInPipette);//TODO:Needs to treat the case in which the glassware can't receive everything
+				
 			volumeHeld -= volumeSelected;
 		}
 
@@ -232,12 +254,13 @@ public class Pipette : MonoBehaviour {
 			reagentInPipette = null;
 
 			CursorManager.SetMouseState (MouseState.ms_default);
-			CursorManager.SetCursorToDefault();
+			CursorManager.SetCursorToDefault ();
 		}
-
+	
 		volumeSelected = 0.0f;
 		interactingGlassware = null;
 
+		CloseInteractionBox ();
 	}
 	//! Unloads the pipette into a proper vessel
 	// The vessel being the same reagent used to get the volume */
@@ -250,5 +273,57 @@ public class Pipette : MonoBehaviour {
 		CursorManager.SetCursorToDefault();
 	}
 */
+
+	/* END OF GRADUATED PIPETTE */
+
+	public void FillVolumetricPipette(Glassware glassware) {
+		if ((glassware.maxVolume - glassware.currentVolume) < maxVolume)
+			volumeHeld = glassware.maxVolume - glassware.currentVolume;
+		else
+			volumeHeld = maxVolume;
+
+		//reagentInPipette = TODO: RECEIVE THE REAGENT FROM GLASSWARE
+		if (volumeHeld > 0.0f) {
+			CursorManager.SetMouseState (MouseState.ms_filledPipette);
+			CursorManager.SetNewCursor (filledPipette_CursorTexture, hotSpot);
+		}
+	}
+	public void FillVolumetricPipette(ReagentsLiquidClass reagent) {
+		volumeHeld = maxVolume;
+
+		reagentInPipette = reagent;
+		CursorManager.SetMouseState (MouseState.ms_filledPipette);
+		CursorManager.SetNewCursor (filledPipette_CursorTexture, hotSpot);
+	}
+
+	public void UnfillVolumetricPipette(Glassware glassware) {
+		if ((glassware.maxVolume - glassware.currentVolume) < maxVolume) {
+			glassware.PourLiquid (glassware.maxVolume - glassware.currentVolume, (glassware.maxVolume - glassware.currentVolume) * reagentInPipette.density, reagentInPipette);
+			volumeHeld -= (glassware.maxVolume - glassware.currentVolume);
+		} else {
+			glassware.PourLiquid (glassware.maxVolume - glassware.currentVolume, (glassware.maxVolume - glassware.currentVolume) * reagentInPipette.density, reagentInPipette);
+			volumeHeld = 0.0f;
+		}
+
+		if (volumeHeld == 0.0f) {
+			/*CursorManager.SetMouseState (MouseState.ms_pipette);
+			CursorManager.SetNewCursor (pipette_CursorTexture, hotSpot);*///TODO: DECIDE WHETHER TO GO BACK TO THE DEFAULT OR PIPETTE STATE
+
+			reagentInPipette = null;
+
+			CursorManager.SetMouseState (MouseState.ms_default);
+			CursorManager.SetCursorToDefault();
+		}
+	}
+	public void UnfillVolumetricPipette() {
+		volumeHeld = 0.0f;
+		reagentInPipette = null;
+
+		/*CursorManager.SetMouseState (MouseState.ms_pipette);
+			CursorManager.SetNewCursor (pipette_CursorTexture, hotSpot);*///TODO: DECIDE WHETHER TO GO BACK TO THE DEFAULT OR PIPETTE STATE
+		
+		CursorManager.SetMouseState (MouseState.ms_default);
+		CursorManager.SetCursorToDefault();
+	}
 
 }

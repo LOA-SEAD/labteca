@@ -81,17 +81,22 @@ public class Glassware : ItemToInventory
 			break;
 		case MouseState.ms_pipette: 		//Pipette -> Glassware: gets the solids, if there's only solid inside. So, opens the pipette's interaction box.
 			Pipette pipette = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().pipette;
-			pipette.OpenFillingBox(maxVolume - currentVolume, this);
+			if(pipette.graduated)
+				pipette.OpenGraduatedFillingBox(maxVolume - currentVolume, this);
+			else
+				pipette.FillVolumetricPipette(this);
 			break;
 		case MouseState.ms_filledPipette: 	// Filled Pipette -> Glassware: pours the pipette's contents into the glassware
 			Pipette filledPipette = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().pipette;
 			//filledPipette.UnfillPipette(this);
-			filledPipette.OpenUnfillingBox(maxVolume - currentVolume, this);
+			if(filledPipette.graduated)
+				filledPipette.OpenGraduatedUnfillingBox(maxVolume - currentVolume, this);
+			else
+				filledPipette.UnfillVolumetricPipette(this);
 			break;
 		case MouseState.ms_spatula: 		// Spatula -> Glassware: gets the solids, if there's only solid inside. So, opens the spatula's interaction box
 			Spatula spatula = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().spatula;
 			//TODO:NEEDS TO CHECK THE REAGENT INSIDE, AND IF IT'S THE ONLY ONE
-			//spatula.OpenInteractionBox (true);
 			//!!!spatula.FillSpatula();
 			break;
 		case MouseState.ms_filledSpatula: 	// Filled Spatula -> Glassware: unloads the spatula into the glassare

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 //! Declaration of information for liquid reagents
@@ -21,11 +21,18 @@ public class ReagentsLiquidClass : ReagentsBaseClass {
 			//
 			break;
 		case MouseState.ms_pipette: 		//Pipette -> Liquid Reagent: fill the pipette with the reagent clicked
-			pipette.FillPipette(this);
+			if(pipette.graduated)
+				pipette.OpenGraduatedFillingBox(this);
+			else
+				pipette.FillVolumetricPipette(this);
 			break;
 		case MouseState.ms_filledPipette: 	// Filled Spatula -> Liquid Reagent: put back the content if it is the same reagent
-			if(pipette.reagentInPipette == this)
-				pipette.UnfillPipette(/*this*/);
+			if(pipette.reagentInPipette == this) {
+				if(pipette.graduated)
+					pipette.OpenGraduatedUnfillingBox(this);
+				else
+					pipette.UnfillVolumetricPipette();
+			}
 			break;
 		case MouseState.ms_spatula: 		// Spatula -> Liquid Reagent: nothing
 			break;

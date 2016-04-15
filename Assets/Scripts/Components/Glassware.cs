@@ -48,6 +48,8 @@ public class Glassware : ItemToInventory
 		if(liquid!=null)
 			liquid.SetActive(false);
 
+		currentVolume = 0.0f;
+
 		gameController = GameObject.Find ("GameController").GetComponent<GameController> ();
 		SetStateInUse (gameController.GetCurrentState ());
 	}
@@ -70,7 +72,7 @@ public class Glassware : ItemToInventory
 	}
 
 	//! Holds the events for when the interactive spatula on the Workbench is clicked
-	void OnClick() {
+	public void OnClick() {
 		MouseState currentState = CursorManager.GetCurrentState ();
 
 		switch (currentState) {
@@ -79,23 +81,32 @@ public class Glassware : ItemToInventory
 			break;
 		case MouseState.ms_pipette: 		//Pipette -> Glassware: gets the solids, if there's only solid inside. So, opens the pipette's interaction box.
 			Pipette pipette = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().pipette;
-			pipette.OpenInteractionBox(maxVolume);
+			if(pipette.graduated)
+				pipette.OpenGraduatedFillingBox(maxVolume - currentVolume, this);
+			else
+				pipette.FillVolumetricPipette(this);
 			break;
 		case MouseState.ms_filledPipette: 	// Filled Pipette -> Glassware: pours the pipette's contents into the glassware
 			Pipette filledPipette = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().pipette;
-			filledPipette.UnfillPipette(this);
+			//filledPipette.UnfillPipette(this);
+			if(filledPipette.graduated)
+				filledPipette.OpenGraduatedUnfillingBox(maxVolume - currentVolume, this);
+			else
+				filledPipette.UnfillVolumetricPipette(this);
 			break;
 		case MouseState.ms_spatula: 		// Spatula -> Glassware: gets the solids, if there's only solid inside. So, opens the spatula's interaction box
 			Spatula spatula = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().spatula;
-			spatula.OpenInteractionBox ();
+			//TODO:NEEDS TO CHECK THE REAGENT INSIDE, AND IF IT'S THE ONLY ONE
+			//!!!spatula.FillSpatula();
 			break;
 		case MouseState.ms_filledSpatula: 	// Filled Spatula -> Glassware: unloads the spatula into the glassare
 			Spatula filledSpatula = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().spatula;
-			filledSpatula.UnfillSpatula(onScale, this);
+			//filledSpatula.OpenInteractionBox(maxVolume - currentVolume, this);
+			filledSpatula.UnfillSpatula(maxVolume - currentVolume, this);
 			break;
 		case MouseState.ms_washBottle: 		// Washe Bottle -> Glassware: pours water into the glassware
 			WashBottle washBottle = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().washBottle;
-			washBottle.OpenInteractionBox(maxVolume);
+			washBottle.ActivateWashBottle(maxVolume - currentVolume, this);
 			break;
 		case MouseState.ms_glassStick:		// Glass Stick -> Glassware: mix the contents, if there is any.
 			GlassStick glassStick =  GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().glassStick;
@@ -109,38 +120,24 @@ public class Glassware : ItemToInventory
 	//! Refreshes the contents
 	/*! The method set the correct values and visual states for the glassware */
 	public void RefreshContents() {
+		if (hasLiquid) {
+			liquid.SetActive (true);
 
-	}
-	
-//	//! Tries to insert new contents into the glassware
-//	//! The method returns false in case it wasn't possible to insert it
-//	public bool InsertNewContent(Pipette pipette) {
-//	/*
-//	 *  TRY TO ADD STUFF
-//	 */
-//		return false;
-//	}
-//	//! Tries to insert new contents into the glassware
-//	//! Spatula overload
-//	public bool InsertNewContent(Spatula spatula) {
-//	/*
-//	 *  TRY TO ADD STUFF
-//	 */
-//		return false;
-//	}
-//	//! Tries to insert new contents into the glassware
-//	//! Wash bottle overload
-//	public bool InsertNewContent(WashBottle washBottle) {
-//	/*
-//	 *  TRY TO ADD STUFF
-//	 */
-//		return false;
-//	}
+			/*
+			 * CODE SETTING THE COLOUR OF THE LIQUID
+			 */
+		} else
+			liquid.SetActive (false);
 
-	public void InsertReagent(float liquidVolume, ReagentsLiquidClass reagent) {
+		if (hasSolid) {
+			solid.SetActive (true);
 
-
-
+			/*
+			 * CODE SETTING THE COLOUR OF THE SOLID
+			 */
+		} else
+			solid.SetActive (false);
+			                
 	}
 
 	//! Close the interaction box
@@ -155,6 +152,38 @@ public class Glassware : ItemToInventory
 		 * DEFINE HOW TO BLOCK CLICKS OUTSIDE 
 		 */
 	}
+
+
+	//! Pours a liquid into the glassware
+	//	The liquid might come from pipettes or wash bottles (H2O)
+	public void PourLiquid(float volumeFromTool, float liquidMass, ReagentsLiquidClass reagentFromTool) { //TODO:Needs to check if the glassaware has enough space!!
+		currentVolume += volumeFromTool;
+		totalMass += liquidMass;
+
+
+
+		/*
+		 * ADD THE REAGENT INTO THE REAGENTS LISTS
+		 */
+
+		RefreshContents ();
+	}
+
+	//!	Inserts a solid into the glassware
+	//	The solid only comes from spatulas
+	public void InsertSolid(float volumeFromTool, float solidMass, ReagentsBaseClass reagentFromTool) {
+		currentVolume += volumeFromTool;
+		totalMass += solidMass;
+		
+		/*
+		 * ADD THE REAGENT INTO THE REAGENTS LISTS
+		 */
+
+		RefreshContents ();
+	}
+
+
+	//-------------------------------------------------------------------------//
 
 	//! Add the solid
 	public void AddSolid(float massSolid, string reagent){

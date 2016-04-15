@@ -20,7 +20,9 @@ public class WashBottle : MonoBehaviour {
 	public Texture2D washBottle_CursorTexture;
 	public Vector2 hotSpot = Vector2.zero;
 
-	public ReagentsLiquidClass Water;
+	public ReagentsLiquidClass Water;			//Defining H2O reagent
+
+	public Glassware interactingGlassware; 		//Glassware which the wash bottle is interacting with
 
 	// Use this for initialization
 	void Start () {
@@ -96,6 +98,13 @@ public class WashBottle : MonoBehaviour {
 		 */
 	}
 
+	//! The wash bottle is being put to work
+	public void ActivateWashBottle(float valueForSlider, Glassware glassware) {
+		this.OpenInteractionBox (valueForSlider);
+		
+		interactingGlassware = glassware;
+	}
+
 	//! Set value of volume currently set by the slider.
 	public void VolumeOnSlider(){ //BasicallyDone
 		volumeSelected = boxSlider.value;
@@ -107,13 +116,13 @@ public class WashBottle : MonoBehaviour {
 		CloseInteractionBox ();
 		
 		if (volumeSelected > 0.0f) {
-			/*
-			 * CODE MAKING GLASSWARE RECEIVE THE WATER
-			 */
+
+			interactingGlassware.PourLiquid(volumeSelected, volumeSelected * Water.density, Water);
 
 		}
 
 		volumeSelected = 0.0f;
+		interactingGlassware = null;
 	}
 
 }

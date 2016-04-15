@@ -81,11 +81,12 @@ public class ReagentsBaseClass : ItemToInventory {
 		case MouseState.ms_filledPipette: 	// Filled Spatula -> Solid Reagent: nothing
 			break;
 		case MouseState.ms_spatula: 		// Spatula -> Solid Reagent: fill the spatula with the reagent clicked
+			//spatula.OpenInteractionBox(true);
 			spatula.FillSpatula(this);
 			break;
 		case MouseState.ms_filledSpatula: 	// Filled Spatula -> Solid Reagent: put back the content if it is the same reagent
 			if(spatula.reagentInSpatula == this)
-				spatula.UnfillSpatula(/*this*/);
+				spatula.UnfillSpatula();
 			//else
 			//	GameObject.Find("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().differentReagentErrorBox.SetActive(true);
 			break;

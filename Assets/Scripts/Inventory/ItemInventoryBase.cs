@@ -7,23 +7,53 @@ using UnityEngine.UI;
  * This Class is inherited by other classes and is used to define the base for any object that will be used
  * by any inventory.
  */
-public abstract class ItemInventoryBase : MonoBehaviour {
+public class ItemInventoryBase : MonoBehaviour {
 
-	public int currentPosition;                 /*!< Current position at the inventory interface. */
+	public GameObject objectReceived;
+	public string name;
+	public Glassware gl;
+	public ReagentsBaseClass reagent;
     public Sprite icon;                         /*!< Icon that represents this object */
-    public float amountItem;                    /*!< Amount of 'this' item. */
     public bool stackable;                      /*!< If can be stacked. */
     public ItemType itemType;                   /*!< Enum to set this item type: 'solids', 'liquids', 'glassware' and 'others'. */
-    protected InventoryController inventory;    /*!< Inventory that this object belongs. */
 
     //! Empty Constructor
-    public ItemInventoryBase()
-    {
+	public ItemInventoryBase (){}
 
-    }
+	public ItemInventoryBase(Component item)
+	{
+		Debug.Log ("constructor called");
+		if (item.GetComponent<ReagentsBaseClass>()!=null) {
+			reagent = item.GetComponent<ReagentsBaseClass>();
+			if(reagent.isSolid)
+				itemType=ItemType.Solids;
+			else
+				itemType=ItemType.Liquids;
+		}
+		if(item.GetComponent<Glassware>()!=null){
+			gl = item.GetComponent<Glassware>();
+			itemType=ItemType.Glassware;
+		}
+	}
+
+	public void Info(Component item)
+	{
+		Debug.Log ("constructor called");
+		if (item.GetComponent<ReagentsBaseClass>()!=null) {
+			reagent = item.GetComponent<ReagentsBaseClass>();
+			if(reagent.isSolid)
+				itemType=ItemType.Solids;
+			else
+				itemType=ItemType.Liquids;
+		}
+		if(item.GetComponent<Glassware>()!=null){
+			gl = item.GetComponent<Glassware>();
+			itemType=ItemType.Glassware;
+		}
+	}
 
     //! Constructor using ItemInventoryBase
-    public ItemInventoryBase(ItemInventoryBase i)
+    /*public ItemInventoryBase(ItemInventoryBase i)
     {
         this.currentPosition = i.currentPosition;
         this.icon = i.icon;
@@ -37,7 +67,7 @@ public abstract class ItemInventoryBase : MonoBehaviour {
         this.icon = i.icon;
         this.amountItem = i.amountItem;
         this.stackable = i.stackable;    
-    }
+    }*/
 
     //! Get this object type.
     /*! Returns the enum type that this object represents. */

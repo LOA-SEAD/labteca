@@ -1,26 +1,70 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 //! Manages all 'types' of Inventory Controller.
 /*! It has information of all of the four types of InventoryController ( Solid, Liquid, Glassware and Others ). */
 public class InventoryManager : MonoBehaviour {
 
     // need to be set on the inspector with the correct game object containing each InventoryController
-	public InventoryController SolidReagents;       /*!< InventoryController for Solid Reagents. */
-    public InventoryController LiquidReagents;      /*!< InventoryController for Liquid Reagents. */
-    public InventoryController Glassware;           /*!< InventoryController for Glassware. */
-    public InventoryController Others;              /*!< InventoryController for Others. */
+	public ArrayList SolidReagents  = new ArrayList();       /*!< InventoryController for Solid Reagents. */
+	public ArrayList LiquidReagents = new ArrayList();      /*!< InventoryController for Liquid Reagents. */
+	public ArrayList Glassware      = new ArrayList();           /*!< InventoryController for Glassware. */
+	public ArrayList Others         = new ArrayList();              /*!< InventoryController for Others. */
+
+	public ArrayList SelectedList   = new ArrayList();
 
     private AnyObjectInstantiation selectedItem = null;     /*!< Current selected item (game object). */
     private ItemStackableBehavior selectedUIItem = null;    /*!< Current selected item from inventory UI. */
+	///-----------REFACTOR-------------------
+	public void DebugList(Component obj){
+		ItemInventoryBase test = new ItemInventoryBase ();
+		test.Info (obj);
+		SolidReagents.Add (test);
+		test.name = "asd";
+		Debug.Log(test.getItemType());
+		SelectedList = SolidReagents;
+	}
+
+	public void refreshGrid(){
+		int n = 0;
+		foreach (ItemInventoryBase item in SelectedList) {
+			
+		}
+	}
+
+	public void AddGlasswareToInventory(Glassware gl) {
+		//Glassware.GetComponentInChildren<InventoryContent> ().addNewGlasswareUI (gl);
+		//Need to save "gl" within the InventoryItemGlassware informations
+		//!(It is not actually saving any information right now, only creating the GameObject inside the inventory with the proper name)
+	}
+
+	public void AddReagentToInventory(ReagentsBaseClass reagent, ReagentsBaseClass r ) {
+		/*if(reagent.isSolid)
+			SolidReagents.GetComponentInChildren<InventoryContent> ().addNewReagentsUI (reagent,r);
+		if(!reagent.isSolid)
+			LiquidReagents.GetComponentInChildren<InventoryContent> ().addNewReagentsUI (reagent,r);*/
+	}
+
+	public void setSelectedItem(AnyObjectInstantiation i)
+	{
+		this.selectedItem = i;
+	}
+
+	public void setSelectedUIItem(ItemStackableBehavior i)
+	{
+		this.selectedUIItem = i;
+	}
 
 
+
+	///------------REFACTOR------------------
 	//TODO: Remover depois!!!
-	public GameObject bequerPrefab;
+	//public GameObject bequerPrefab;
 	///////APAGA AQUI/////////////
 
     //! Does the operation on the inventory (insert, remove or destroy).
-    /*! Based on the string passed as parameter, takes the selectedItem or selectedUIItem and does the operation. */
+    /*! Based on the string passed as parameter, takes the selectedItem or selectedUIItem and does the operation. *//*
 	void operateOnInventory(string op){
         // Insertion
 		if(string.Compare(op,"insert") == 0 && selectedItem != null){
@@ -179,6 +223,6 @@ public class InventoryManager : MonoBehaviour {
 	
 	public void RemoveReagentFromInventory() {
 		//Destroy the button (this will be used when the item is being put in the workbench slot)
-	}
+	}*/
 	//-------------END OF LeMigue for Reagents-------------------------
 }

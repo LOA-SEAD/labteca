@@ -9,9 +9,7 @@ using UnityEngine.UI;
 public class ReagentUiItemBehaviour : MonoBehaviour {
 
 	public Text nameReagent;
-
 	public ReagentsBaseClass prefabReagent;
-
 	private InventoryManager inventoryManager;
 
 	void Start () {

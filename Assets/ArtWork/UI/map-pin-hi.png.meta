@@ -1,7 +1,8 @@
 fileFormatVersion: 2
-guid: e94320c649a17514d96a5b1e03778e68
+guid: ee254a9241bb1384ca84723a4d6c08fa
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: map-pin-hi_0
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -21,7 +22,7 @@ TextureImporter:
   grayScaleToAlpha: 0
   generateCubemap: 0
   seamlessCubemap: 0
-  textureFormat: -2
+  textureFormat: -1
   maxTextureSize: 1024
   textureSettings:
     filterMode: -1
@@ -31,17 +32,27 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: .5, y: .5}
-  spriteBorder: {x: 200, y: 0, z: 200, w: 0}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: map-pin-hi_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 8
+        width: 390
+        height: 591
+      alignment: 9
+      pivot: {x: .409386635, y: .131260037}
+      border: {x: 0, y: 57, z: 26, w: 0}
   spritePackingTag: 
   userData: 

@@ -21,7 +21,6 @@ public class AccessEquipmentBehaviour : InteractObjectBase {
 		if (fadeTime == 0)
 			fadeTime = .5f;
 		if (descriptionCanvas != null) {
-			Debug.Log(descriptionCanvas.name);
 			setCanvasAlphaForce(0f);
 		}
 	}

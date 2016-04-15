@@ -8,18 +8,26 @@ using System.Collections;
  */
 
 public class HUDController : MonoBehaviour {
-	public KeyCode journalKey;
+	public InventoryControl invControl;
+	public KeyCode journalKey,inventoryKey,mapKey;
 	public bool journalUp=false,inventoryUp=false;
-	public GameObject player,journal; /*< GameObject of Player. */
+	public GameObject player,map; /*< GameObject of Player. */
 	public Canvas inventoryCanvas;
 	public bool inventoryLocked=false;
+
+	void Start(){
+		map.SetActive (false);
+	}
 
 	void Update(){
 		if(Input.GetKeyDown(journalKey)){
 			callJournal();
 		}
-		if (Input.GetKeyDown (KeyCode.I)) {
+		if (Input.GetKeyDown (inventoryKey)) {
 			callInventory();
+		}
+		if(Input.GetKeyDown(mapKey)){
+			callMap();
 		}
 	}
 	//!Set the local state of the gameObject.
@@ -40,20 +48,35 @@ public class HUDController : MonoBehaviour {
         GetComponent<Canvas>().worldCamera = newCamera;
     }
 	public void callJournal(){
-		if(!inventoryUp)
-			callInventory ();
-		journalUp = !journalUp;
-		journal.SetActive (journalUp);
+		journalUp = (!journalUp);
+		invControl.setJournalState (journalUp);
+
+		if (map.activeSelf)
+			map.SetActive (false);	
 	}
 
 	public void callInventory(){
-		if (!inventoryLocked&&!journalUp) {
-			GameObject.Find("GameController").GetComponent<AudioController>().crossFade();
-			changePlayerState ();		
-			inventoryCanvas.enabled = !inventoryCanvas.enabled;
-			inventoryUp = !inventoryUp;
+		if (!inventoryLocked) {
+			inventoryUp = (!inventoryUp);
+			invControl.setInventoryState (inventoryUp);
+			if (player.GetComponent<MouseLook> ().enabled && inventoryUp)
+				changePlayerState ();
+			if (!player.GetComponent<MouseLook> ().enabled && !inventoryUp && !inventoryLocked)
+				changePlayerState ();
 		}
+
+		if (map.activeSelf)
+			map.SetActive (false);				
 	}
+
+	public void callMap(){
+		if (inventoryUp)
+			callInventory ();
+		if (journalUp)
+			callJournal ();
+		map.SetActive (!map.activeSelf);
+	}
+
 
 	public void changePlayerState(){
 		if (player.activeSelf) {

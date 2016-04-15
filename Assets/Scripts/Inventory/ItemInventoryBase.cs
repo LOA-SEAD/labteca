@@ -8,14 +8,17 @@ using UnityEngine.UI;
  * by any inventory.
  */
 public class ItemInventoryBase : MonoBehaviour {
-
-	public GameObject objectReceived;
+	
 	public string name;
+	public int index;
 	public Glassware gl;
 	public ReagentsBaseClass reagent;
     public Sprite icon;                         /*!< Icon that represents this object */
     public bool stackable;                      /*!< If can be stacked. */
     public ItemType itemType;                   /*!< Enum to set this item type: 'solids', 'liquids', 'glassware' and 'others'. */
+	
+	public ItemToInventory itemBeingHeld;
+	public GameObject physicalObject;
 
     //! Empty Constructor
 	public ItemInventoryBase (){}
@@ -52,6 +55,35 @@ public class ItemInventoryBase : MonoBehaviour {
 		}
 	}
 
+	public void copyData(ItemInventoryBase item)
+	{
+		 this.name=item.name;
+		 this.gl=item.gl;
+		 this.reagent = item.reagent;
+		 this.icon=item.icon;         
+		 this.stackable=item.stackable;   
+		 this.itemType=item.itemType;
+		 this.itemBeingHeld=item.itemBeingHeld;
+		 this.index = item.index;
+	}
+
+	public void addReagent(ReagentsBaseClass r){
+		if (r!=null) {
+			reagent = r;
+			if(reagent.isSolid)
+				itemType=ItemType.Solids;
+			else
+				itemType=ItemType.Liquids;
+		}
+	}
+
+	public void addGlassware(Glassware g){
+		if(g!=null){
+			gl = g;
+			itemType=ItemType.Glassware;
+		}
+	}
+
     //! Constructor using ItemInventoryBase
     /*public ItemInventoryBase(ItemInventoryBase i)
     {
@@ -75,6 +107,67 @@ public class ItemInventoryBase : MonoBehaviour {
     {
         return this.itemType;
     }
+
+	public void refreshState(){
+		GameStateBase currentState = GameObject.Find("GameController").GetComponent<GameController>().GetCurrentState();
+		if (currentState is InGameState)
+			disableButton ();
+		else {
+			if(currentState.gameObject.GetComponent<WorkBench>()!=null){
+				enableButton();
+				//actionText.text="Utilizar";
+			}else if(currentState is GetInterface){
+				GetInterface interfaceTest = currentState as GetInterface;
+				if(interfaceTest.isGlassware()&&gameObject.GetComponent<AnyObjectInstantiation>().itemType==ItemType.Glassware){
+					enableButton();
+					//actionText.text="Remover";
+				}
+				if(!interfaceTest.isGlassware()&&(gameObject.GetComponent<AnyObjectInstantiation>().itemType==ItemType.Liquids||gameObject.GetComponent<AnyObjectInstantiation>().itemType==ItemType.Solids)){
+					enableButton();
+					//actionText.text="Remover";
+				}
+			}
+		}
+	}
+	
+	public void infoButtonClick(){
+		
+	}
+	
+	public void actionButtonClick(){
+		GameStateBase currentState = GameObject.Find("GameController").GetComponent<GameController>().GetCurrentState();
+		if (currentState.GetComponent<WorkBench> () != null)
+			CallWorkbenchToTable ();
+		else {
+			gameObject.GetComponentInParent<InventoryContent>().removeItemUI(gameObject.GetComponent<ItemStackableBehavior>());
+		}
+		
+		
+	}
+	
+	public void disableButton(){
+		/*actionButton.interactable=false;
+		actionText.color = new Color (actionText.color.r, actionText.color.g, actionText.color.b, 128/256f);
+		actionText.text = "Inativo";*/
+	}
+	
+	public void enableButton(){
+		/*actionButton.interactable=true;
+		actionText.color = new Color (actionText.color.r, actionText.color.g, actionText.color.b, 1);*/
+	}
+	
+	public void HoldItem(ItemToInventory item) {
+		itemBeingHeld = item;
+	}
+	
+	//! Calls the method in the workbench that will put the object on the table
+	/*! This method should be used as the onClick effect for the button. It calls the method that will put the
+	 * 	item on the table */
+	public void CallWorkbenchToTable() {
+		//GameObject tempItem = Instantiate (itemBeingHeld.gameObject) as GameObject;
+		//gameController.GetCurrentState ().GetComponent<WorkBench> ().PutItemFromInventory (tempItem);
+		GameObject.Find("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench> ().PutItemFromInventory (itemBeingHeld,gameObject.GetComponent<ReagentsBaseClass>());
+	}
 }
 
 //! Enum that defines the Item Type.

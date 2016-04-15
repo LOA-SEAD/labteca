@@ -15,8 +15,6 @@ public class InventoryItem : MonoBehaviour {
 
 
 	void Start () {
-		gameController = GameObject.Find ("GameController").GetComponent<GameController> ();
-		gameController.inventoryItems.Add (this);
 		refreshState ();
 		//this.GetComponentInChildren<Button> ().onClick.AddListener(() => callGlassToTable());
 	}
@@ -29,16 +27,16 @@ public class InventoryItem : MonoBehaviour {
 		else {
 			if(currentState.gameObject.GetComponent<WorkBench>()!=null){
 				enableButton();
-				actionText.text="Utilizar";
+				//actionText.text="Utilizar";
 			}else if(currentState is GetInterface){
 				GetInterface interfaceTest = currentState as GetInterface;
 				if(interfaceTest.isGlassware()&&gameObject.GetComponent<AnyObjectInstantiation>().itemType==ItemType.Glassware){
 					enableButton();
-					actionText.text="Remover";
+					//actionText.text="Remover";
 				}
 				if(!interfaceTest.isGlassware()&&(gameObject.GetComponent<AnyObjectInstantiation>().itemType==ItemType.Liquids||gameObject.GetComponent<AnyObjectInstantiation>().itemType==ItemType.Solids)){
 					enableButton();
-					actionText.text="Remover";
+					//actionText.text="Remover";
 				}
 			}
 		}
@@ -60,14 +58,14 @@ public class InventoryItem : MonoBehaviour {
 	}
 
 	public void disableButton(){
-		actionButton.interactable=false;
+		/*actionButton.interactable=false;
 		actionText.color = new Color (actionText.color.r, actionText.color.g, actionText.color.b, 128/256f);
-		actionText.text = "Inativo";
+		actionText.text = "Inativo";*/
 	}
 
 	public void enableButton(){
-		actionButton.interactable=true;
-		actionText.color = new Color (actionText.color.r, actionText.color.g, actionText.color.b, 1);
+		/*actionButton.interactable=true;
+		actionText.color = new Color (actionText.color.r, actionText.color.g, actionText.color.b, 1);*/
 	}
 
 	public void HoldItem(ItemToInventory item) {

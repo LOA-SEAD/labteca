@@ -6,44 +6,170 @@ using System.Collections.Generic;
 /*! It has information of all of the four types of InventoryController ( Solid, Liquid, Glassware and Others ). */
 public class InventoryManager : MonoBehaviour {
 
+	public GameObject itemPrefab;
+	public ArrayList ObjectList     = new ArrayList();
     // need to be set on the inspector with the correct game object containing each InventoryController
 	public ArrayList SolidReagents  = new ArrayList();       /*!< InventoryController for Solid Reagents. */
 	public ArrayList LiquidReagents = new ArrayList();      /*!< InventoryController for Liquid Reagents. */
 	public ArrayList Glassware      = new ArrayList();           /*!< InventoryController for Glassware. */
 	public ArrayList Others         = new ArrayList();              /*!< InventoryController for Others. */
 
-	public ArrayList SelectedList   = new ArrayList();
+	//private ArrayList SelectedList   = new ArrayList();
+
+	private ItemType itemType;
+	private int count = 0;
+	public int listIndex;
+	public RectTransform content;
 
     private AnyObjectInstantiation selectedItem = null;     /*!< Current selected item (game object). */
     private ItemStackableBehavior selectedUIItem = null;    /*!< Current selected item from inventory UI. */
 	///-----------REFACTOR-------------------
 	public void DebugList(Component obj){
+		selectList (0);
 		ItemInventoryBase test = new ItemInventoryBase ();
 		test.Info (obj);
-		SolidReagents.Add (test);
-		test.name = "asd";
-		Debug.Log(test.getItemType());
-		SelectedList = SolidReagents;
+		test.name = "Teste";
+		addItem (test);
 	}
 
-	public void refreshGrid(){
-		int n = 0;
-		foreach (ItemInventoryBase item in SelectedList) {
-			
+	void Start(){
+		listIndex = 0;
+		selectList(listIndex);
+	}
+
+	public GameObject addItem(ItemInventoryBase item){
+		if (item.getItemType () == itemType) {
+			item.index=count;
+			GameObject aux = instantiateObject (item);
+
+			switch (item.getItemType ()) {
+			case ItemType.Glassware:
+				Glassware.Add (item);
+				break;
+			case ItemType.Liquids:
+				LiquidReagents.Add (item);
+				break;
+			case ItemType.Others:
+				Others.Add (item);
+				break;
+			case ItemType.Solids:
+				SolidReagents.Add (item);
+				break;
+			}
+			refreshGrid ();
+
+			return aux;
+
+		} else {
+			switch (item.getItemType ()) {
+			case ItemType.Glassware:
+				Glassware.Add (item);
+				break;
+			case ItemType.Liquids:
+				LiquidReagents.Add(item);
+				break;
+			case ItemType.Others:
+				Others.Add(item);
+				break;
+			case ItemType.Solids:
+				SolidReagents.Add(item);
+				break;
+			}
+			return null;
 		}
 	}
 
+	public void changeList(int index){
+		for (int i = ObjectList.Count -1; i>=0; i--) {
+			ObjectList.Remove (ObjectList[i]);
+			Destroy(content.GetChild(i).gameObject);
+		}
+
+		count = 0;
+
+		selectList (index);
+		foreach (ItemInventoryBase item in getCurrentList()) {
+			instantiateObject(item).GetComponent<ItemInventoryBase>().index = count-1;
+		}
+		refreshGrid ();
+	}
+
+	public GameObject instantiateObject(ItemInventoryBase item){
+		GameObject tempItem = Instantiate(itemPrefab) as GameObject;
+		tempItem.transform.SetParent(content.transform,false);
+		tempItem.name = "InventoryItem"+count.ToString();
+		count++;
+		tempItem.GetComponent<ItemInventoryBase>().copyData(item);
+		ObjectList.Add(tempItem);
+
+		return tempItem;
+	}
+
+	public void selectList(int index){
+		listIndex = index;
+		switch (index) {
+		case 0:
+			//SelectedList=SolidReagents;
+			itemType=ItemType.Solids;
+			break;
+		case 1:
+			//SelectedList=LiquidReagents;
+			itemType=ItemType.Liquids;
+			break;
+		case 2:
+			//SelectedList=Glassware;
+			itemType=ItemType.Glassware;
+			break;
+		case 3:
+			//SelectedList=Others;
+			itemType=ItemType.Others;
+			break;
+		}
+	}
+
+
+	public void refreshGrid(){
+		content.sizeDelta = new Vector2(0f , (Mathf.Ceil (getCurrentList().Count / 3f)) * 90 - 10f);
+		int n = 0;
+		int top = (int)content.sizeDelta.y / 2 - 40;
+		foreach (GameObject obj in ObjectList) {
+			int posX = 40 + 100*(n%3);
+			int posY = top-(n/3)*90;
+			obj.GetComponent<RectTransform>().anchoredPosition = new Vector2(posX,posY);
+			n++;
+		}
+	}
+
+	public void removeItem(GameObject item){
+		int index = item.GetComponent<ItemInventoryBase> ().index;
+		Debug.Log (index);
+		ObjectList.Remove (item);
+
+		foreach (ItemInventoryBase it in getCurrentList()) {
+			Debug.Log (it.index);
+			if (it.index == index) {
+				Debug.Log (it.name);
+				getCurrentList().Remove (it);
+				break;
+			}
+		}
+
+		Destroy (item);
+		refreshGrid ();
+	}
+
 	public void AddGlasswareToInventory(Glassware gl) {
-		//Glassware.GetComponentInChildren<InventoryContent> ().addNewGlasswareUI (gl);
-		//Need to save "gl" within the InventoryItemGlassware informations
-		//!(It is not actually saving any information right now, only creating the GameObject inside the inventory with the proper name)
+		ItemInventoryBase item = new ItemInventoryBase();
+		item.addGlassware(gl);
+		item.HoldItem (gl);
+		addItem(item);
 	}
 
 	public void AddReagentToInventory(ReagentsBaseClass reagent, ReagentsBaseClass r ) {
-		/*if(reagent.isSolid)
-			SolidReagents.GetComponentInChildren<InventoryContent> ().addNewReagentsUI (reagent,r);
-		if(!reagent.isSolid)
-			LiquidReagents.GetComponentInChildren<InventoryContent> ().addNewReagentsUI (reagent,r);*/
+		ItemInventoryBase item = new ItemInventoryBase();
+		item.addReagent(reagent);
+		item.HoldItem (reagent);
+		addItem(item);
 	}
 
 	public void setSelectedItem(AnyObjectInstantiation i)
@@ -56,6 +182,19 @@ public class InventoryManager : MonoBehaviour {
 		this.selectedUIItem = i;
 	}
 
+	public ArrayList getCurrentList(){
+		switch (listIndex) {
+		case 0:
+			return SolidReagents;
+		case 1:
+			return LiquidReagents;
+		case 2:
+			return Glassware;;
+		case 3:
+			return Others;
+		}
+		return null;
+	}
 
 
 	///------------REFACTOR------------------

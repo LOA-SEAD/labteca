@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class ItemInventoryBase : MonoBehaviour {
 	
 	public string name;
-	public int index;
+	public string index;
 	public Glassware gl;
 	public ReagentsBaseClass reagent;
     public Sprite icon;                         /*!< Icon that represents this object */

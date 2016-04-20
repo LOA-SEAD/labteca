@@ -7,7 +7,7 @@ public class InventoryControl : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		setJournalState (false);
-		setInventoryState (true);
+		setInventoryState (false);
 	}
 	
 	// Update is called once per frame

@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
+using UnityEngine.UI;
 
 //! Manages all 'types' of Inventory Controller.
 /*! It has information of all of the four types of InventoryController ( Solid, Liquid, Glassware and Others ). */
@@ -20,8 +22,9 @@ public class InventoryManager : MonoBehaviour {
 	private int count = 0;
 	public int listIndex;
 	public RectTransform content;
+	public Button action;
 
-    private AnyObjectInstantiation selectedItem = null;     /*!< Current selected item (game object). */
+    public ItemInventoryBase selectedItem = null;     /*!< Current selected item (game object). */
     private ItemStackableBehavior selectedUIItem = null;    /*!< Current selected item from inventory UI. */
 	///-----------REFACTOR-------------------
 	public void DebugList(Component obj){
@@ -38,22 +41,33 @@ public class InventoryManager : MonoBehaviour {
 	}
 
 	public GameObject addItem(ItemInventoryBase item){
+		ItemInventoryBase auxItem = new ItemInventoryBase ();
+		auxItem.copyData (item);
+
+		if (auxItem.index == null) {
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < 6; i++) {
+				char aux = (char)Random.Range (65, 126);
+				sb.Append(aux);
+			}
+			auxItem.index=sb.ToString();
+			Debug.Log(auxItem.index);
+		}
 		if (item.getItemType () == itemType) {
-			item.index=count;
-			GameObject aux = instantiateObject (item);
+			GameObject aux = instantiateObject (auxItem);
 
 			switch (item.getItemType ()) {
 			case ItemType.Glassware:
-				Glassware.Add (item);
+				Glassware.Add (auxItem);
 				break;
 			case ItemType.Liquids:
-				LiquidReagents.Add (item);
+				LiquidReagents.Add (auxItem);
 				break;
 			case ItemType.Others:
-				Others.Add (item);
+				Others.Add (auxItem);
 				break;
 			case ItemType.Solids:
-				SolidReagents.Add (item);
+				SolidReagents.Add (auxItem);
 				break;
 			}
 			refreshGrid ();
@@ -63,16 +77,16 @@ public class InventoryManager : MonoBehaviour {
 		} else {
 			switch (item.getItemType ()) {
 			case ItemType.Glassware:
-				Glassware.Add (item);
+				Glassware.Add (auxItem);
 				break;
 			case ItemType.Liquids:
-				LiquidReagents.Add(item);
+				LiquidReagents.Add(auxItem);
 				break;
 			case ItemType.Others:
-				Others.Add(item);
+				Others.Add(auxItem);
 				break;
 			case ItemType.Solids:
-				SolidReagents.Add(item);
+				SolidReagents.Add(auxItem);
 				break;
 			}
 			return null;
@@ -80,6 +94,9 @@ public class InventoryManager : MonoBehaviour {
 	}
 
 	public void changeList(int index){
+
+		selectedItem = null;
+
 		for (int i = ObjectList.Count -1; i>=0; i--) {
 			ObjectList.Remove (ObjectList[i]);
 			Destroy(content.GetChild(i).gameObject);
@@ -89,7 +106,7 @@ public class InventoryManager : MonoBehaviour {
 
 		selectList (index);
 		foreach (ItemInventoryBase item in getCurrentList()) {
-			instantiateObject(item).GetComponent<ItemInventoryBase>().index = count-1;
+			instantiateObject(item);
 		}
 		refreshGrid ();
 	}
@@ -101,6 +118,8 @@ public class InventoryManager : MonoBehaviour {
 		count++;
 		tempItem.GetComponent<ItemInventoryBase>().copyData(item);
 		ObjectList.Add(tempItem);
+
+		tempItem.gameObject.GetComponent<Button> ().onClick.AddListener (() => this.setSelectedItem(tempItem.GetComponent<ItemInventoryBase>()));
 
 		return tempItem;
 	}
@@ -141,17 +160,23 @@ public class InventoryManager : MonoBehaviour {
 	}
 
 	public void removeItem(GameObject item){
-		int index = item.GetComponent<ItemInventoryBase> ().index;
+		string index = item.GetComponent<ItemInventoryBase> ().index;
 		Debug.Log (index);
 		ObjectList.Remove (item);
+
+		int n = 0;
 
 		foreach (ItemInventoryBase it in getCurrentList()) {
 			Debug.Log (it.index);
 			if (it.index == index) {
-				Debug.Log (it.name);
-				getCurrentList().Remove (it);
+				Debug.Log (it.index);
+				getCurrentList().RemoveAt(n);
+				foreach (ItemInventoryBase db in getCurrentList()){
+					Debug.Log("DEBUG: "+db.index);
+				}
 				break;
 			}
+			n++;
 		}
 
 		Destroy (item);
@@ -196,7 +221,32 @@ public class InventoryManager : MonoBehaviour {
 		return null;
 	}
 
+	public void setSelectedItem(ItemInventoryBase i)
+	{
+		this.selectedItem = i;
+		ItemInventoryBase aux = new ItemInventoryBase ();
+		aux.copyData (i);
+		action.onClick.AddListener (() => this.actionButtonClick (aux));
+	}
 
+	public void actionButtonClick(ItemInventoryBase item ){
+		GameStateBase currentState = GameObject.Find("GameController").GetComponent<GameController>().GetCurrentState();
+		if (currentState.GetComponent<WorkBench> () != null)
+			CallWorkbenchToTable (item);
+		else {
+			gameObject.GetComponentInParent<InventoryContent>().removeItemUI(gameObject.GetComponent<ItemStackableBehavior>());
+		}
+		
+		
+	}
+
+	public void CallWorkbenchToTable(ItemInventoryBase item) {
+		//GameObject tempItem = Instantiate (itemBeingHeld.gameObject) as GameObject;
+		//gameController.GetCurrentState ().GetComponent<WorkBench> ().PutItemFromInventory (tempItem);
+		GameObject.Find("GameController").GetComponent<GameController>().GetCurrentState ().GetComponent<WorkBench> ().PutItemFromInventory (item.itemBeingHeld,gameObject.GetComponent<ReagentsBaseClass>());
+	}
+	
+	
 	///------------REFACTOR------------------
 	//TODO: Remover depois!!!
 	//public GameObject bequerPrefab;

@@ -9,12 +9,22 @@ using UnityEngine.UI;
 public class InventoryManager : MonoBehaviour {
 
 	public GameObject itemPrefab;
+	public GameObject selectedObject;
+	public List<Button> listButton;
 	public ArrayList ObjectList     = new ArrayList();
     // need to be set on the inspector with the correct game object containing each InventoryController
 	public ArrayList SolidReagents  = new ArrayList();       /*!< InventoryController for Solid Reagents. */
 	public ArrayList LiquidReagents = new ArrayList();      /*!< InventoryController for Liquid Reagents. */
 	public ArrayList Glassware      = new ArrayList();           /*!< InventoryController for Glassware. */
 	public ArrayList Others         = new ArrayList();              /*!< InventoryController for Others. */
+
+	public List<Sprite> backgroundInventory;
+	public List<Sprite> backgroundPanel;
+	public List<Sprite> backgroundIcons;
+	private Sprite selectedIcon;
+
+	public Image inventoryImage,tabImage,scrollbar;
+
 
 	//private ArrayList SelectedList   = new ArrayList();
 
@@ -38,6 +48,8 @@ public class InventoryManager : MonoBehaviour {
 	void Start(){
 		listIndex = 0;
 		selectList(listIndex);
+		selectedIcon = backgroundIcons [0];
+		refreshGrid ();
 	}
 
 	public GameObject addItem(ItemInventoryBase item){
@@ -144,8 +156,15 @@ public class InventoryManager : MonoBehaviour {
 			itemType=ItemType.Others;
 			break;
 		}
+		inventoryImage.sprite = backgroundInventory [index];
+		tabImage.sprite = backgroundPanel [index];
+		selectedIcon = backgroundIcons [index];
+		//GameObject.Find (selectedItem.gameObject.name).GetComponentInChildren<Image> ().sprite = selectedIcon;
 	}
 
+	public void refreshButtons(){
+		//for int
+	}
 
 	public void refreshGrid(){
 		content.sizeDelta = new Vector2(0f , (Mathf.Ceil (getCurrentList().Count / 3f)) * 90 - 10f);
@@ -156,6 +175,11 @@ public class InventoryManager : MonoBehaviour {
 			int posY = top-(n/3)*90;
 			obj.GetComponent<RectTransform>().anchoredPosition = new Vector2(posX,posY);
 			n++;
+		}
+		if (n > 12) {
+			scrollbar.color = new Color (1, 1, 1, 1);
+		} else {
+			scrollbar.color = new Color (1, 1, 1, 0);
 		}
 	}
 
@@ -223,21 +247,25 @@ public class InventoryManager : MonoBehaviour {
 
 	public void setSelectedItem(ItemInventoryBase i)
 	{
+		if (selectedObject != null) {
+			selectedObject.GetComponentInChildren<Image> ().sprite = backgroundIcons [3];
+		}
 		this.selectedItem = i;
-		ItemInventoryBase aux = new ItemInventoryBase ();
-		aux.copyData (i);
-		action.onClick.AddListener (() => this.actionButtonClick (aux));
+		selectedObject = GameObject.Find (selectedItem.gameObject.name);
+		selectedObject.GetComponentInChildren<Image>().sprite = selectedIcon;
 	}
 
-	public void actionButtonClick(ItemInventoryBase item ){
-		GameStateBase currentState = GameObject.Find("GameController").GetComponent<GameController>().GetCurrentState();
-		if (currentState.GetComponent<WorkBench> () != null)
-			CallWorkbenchToTable (item);
-		else {
-			gameObject.GetComponentInParent<InventoryContent>().removeItemUI(gameObject.GetComponent<ItemStackableBehavior>());
+	public void actionButtonClick(){
+		if (selectedItem != null) {
+			ItemInventoryBase item = selectedItem;
+			GameStateBase currentState = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ();
+			Debug.Log (currentState);
+			if (currentState.GetComponent<WorkBench> () != null)
+				CallWorkbenchToTable (item);
+			else {
+				removeItem (GameObject.Find (selectedItem.gameObject.name));
+			}
 		}
-		
-		
 	}
 
 	public void CallWorkbenchToTable(ItemInventoryBase item) {

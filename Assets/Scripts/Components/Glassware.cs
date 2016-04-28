@@ -29,6 +29,8 @@ public class Glassware : ItemToInventory
 	public GameController gameController;
 
 	public List<ReagentsInGlass> reagents = new List<ReagentsInGlass>();
+	private int numberOfReagents = 0;
+
 
 	private GameObject interactionBoxGlassware; //Interaction box when the object is clicked while on a Workbench
 	private bool onScale;	//The glassware is currently on a scale
@@ -36,8 +38,13 @@ public class Glassware : ItemToInventory
 
 	[System.Serializable] /*!< Lets you embed a class with sub properties in the inspector. */
 	public class ReagentsInGlass{
-		public string reagentName;
-		public float massReagent;
+		public ReagentsBaseClass reagent;
+		public float howMuch; //[g]
+
+		public ReagentsInGlass(ReagentsBaseClass re, float qu) {
+			reagent = re;
+			howMuch = qu;
+		}
 	}
 
 	//!  Is called when the script instance is being loaded.
@@ -120,11 +127,18 @@ public class Glassware : ItemToInventory
 	//! Refreshes the contents
 	/*! The method set the correct values and visual states for the glassware */
 	public void RefreshContents() {
+		foreach (ReagentsInGlass re in reagents) {
+			if(re.reagent.isSolid)
+				hasSolid = true;
+			else
+				hasLiquid = true;
+		}
+
 		if (hasLiquid) {
 			liquid.SetActive (true);
 
 			/*
-			 * CODE SETTING THE COLOUR OF THE LIQUID
+			 * CODE SETTING THE COLOUR OF THE LIQUID?
 			 */
 		} else
 			liquid.SetActive (false);
@@ -133,7 +147,7 @@ public class Glassware : ItemToInventory
 			solid.SetActive (true);
 
 			/*
-			 * CODE SETTING THE COLOUR OF THE SOLID
+			 * CODE SETTING THE COLOUR OF THE SOLID?
 			 */
 		} else
 			solid.SetActive (false);
@@ -156,12 +170,12 @@ public class Glassware : ItemToInventory
 
 	//! Pours a liquid into the glassware
 	//	The liquid might come from pipettes or wash bottles (H2O)
-	public void PourLiquid(float volumeFromTool, float liquidMass, ReagentsLiquidClass reagentFromTool) { //TODO:Needs to check if the glassaware has enough space!!
+	public void PourLiquid(float volumeFromTool, float liquidMass, ReagentsLiquidClass reagentFromTool) {
 		currentVolume += volumeFromTool;
 		totalMass += liquidMass;
 
 
-
+		reagents.Add (new ReagentsInGlass(reagentFromTool as ReagentsBaseClass, liquidMass));
 		/*
 		 * ADD THE REAGENT INTO THE REAGENTS LISTS
 		 */

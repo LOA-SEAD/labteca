@@ -28,6 +28,8 @@ public class WashBottle : MonoBehaviour {
 	void Start () {
 		interactionBoxWashBottle.SetActive (false);
 
+		Water = new ReagentsLiquidClass ();
+
 		Water.name = "H2O";
 		Water.isSolid = false;
 		Water.molarMass = 18.01f;
@@ -51,7 +53,7 @@ public class WashBottle : MonoBehaviour {
 	}
 
 	//! Holds the events for when the interactive wash bottle on the Workbench is clicked
-	void OnClick() {
+	public void OnClick() {
 		MouseState currentState = CursorManager.GetCurrentState ();
 		
 		switch (currentState) {
@@ -100,8 +102,8 @@ public class WashBottle : MonoBehaviour {
 
 	//! The wash bottle is being put to work
 	public void ActivateWashBottle(float valueForSlider, Glassware glassware) {
+		Debug.Log("Volume activated " + valueForSlider);
 		this.OpenInteractionBox (valueForSlider);
-		
 		interactingGlassware = glassware;
 	}
 
@@ -113,16 +115,16 @@ public class WashBottle : MonoBehaviour {
 	
 	//! Pours the water into the vessel (mostly glasswares).
 	public void PourWater() { //BasicallyDone
-		CloseInteractionBox ();
-		
 		if (volumeSelected > 0.0f) {
-
 			interactingGlassware.PourLiquid(volumeSelected, volumeSelected * Water.density, Water);
-
 		}
 
+		boxSlider.value = 0.0f;
 		volumeSelected = 0.0f;
 		interactingGlassware = null;
+		CursorManager.SetMouseState(MouseState.ms_default);
+		CursorManager.SetCursorToDefault();
+		CloseInteractionBox ();
 	}
 
 }

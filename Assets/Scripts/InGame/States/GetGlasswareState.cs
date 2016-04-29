@@ -41,7 +41,7 @@ public  class GetGlasswareState : GameStateBase, GetInterface {
 		for(int i=0; i < glasswareList.Length;i++)
 		{
 			// calculate y position
-			float y = (prefabRect.rect.height + offSetItens) * lastItemPos ;
+			float y = (prefabRect.rect.height + offSetItens) * lastItemPos;
 			
 			// set position
 			Vector3 currentPos = new Vector3(1f, -y);
@@ -51,7 +51,6 @@ public  class GetGlasswareState : GameStateBase, GetInterface {
 			contentRect.sizeDelta = new Vector2(
 				1f, // width doesnt change
 				prefabRect.rect.height + (prefabRect.rect.height + offSetItens) * lastItemPos);
-			
 			// instantiate Item
 			GameObject tempItem = Instantiate(prefabRect.gameObject,
 			                                  currentPos,
@@ -66,34 +65,6 @@ public  class GetGlasswareState : GameStateBase, GetInterface {
 			tempItem.transform.SetParent(contentRect.transform, false);
 			
 		}
-
-        // ------- daqui \/ ---------------------
-        /*currentPosition = startPoint.localPosition;
-
-		Rect rectScroll = UIScrollList.rect;
-
-		rectScroll.height = (glasswarePrefab.GetComponent<RectTransform>().rect.height * (glasswareList.Length)) + (glasswareList.Length *offSetItens);
-
-		Vector3 newScale = new Vector3(1,1,1);
-
-		newScale.y *= glasswareList.Length;
-
-		RectTransform newUIScrollList = UIScrollList;
-
-		newUIScrollList.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0, rectScroll.height);
-
-		UIScrollList = newUIScrollList;
-
-		for(int i = 0; i<glasswareList.Length; i++)
-        {
-			GameObject tempGlass = Instantiate(glasswarePrefab.gameObject,  currentPosition, startPoint.rotation) as GameObject;
-			tempGlass.transform.SetParent(UIScrollList.transform, false);
-			tempGlass.GetComponent<RectTransform>().localPosition = currentPosition;
-			tempGlass.GetComponent<GlasswareUiItemBehaviour>().SetGlass(glasswareList[i]);
-
-			currentPosition.y -= glasswarePrefab.GetComponent<RectTransform>().rect.height + offSetItens;
-		}*/
-        // ------ ateh aqui /\ -----------------
 	}
 	
 	protected override void UpdateState ()

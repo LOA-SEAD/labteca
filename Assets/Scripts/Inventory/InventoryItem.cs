@@ -78,7 +78,7 @@ public class InventoryItem : MonoBehaviour {
 	public void CallWorkbenchToTable() {
 		//GameObject tempItem = Instantiate (itemBeingHeld.gameObject) as GameObject;
 		//gameController.GetCurrentState ().GetComponent<WorkBench> ().PutItemFromInventory (tempItem);
-		gameController.GetCurrentState ().GetComponent<WorkBench> ().PutItemFromInventory (itemBeingHeld,gameObject.GetComponent<ReagentsBaseClass>());
+		//gameController.GetCurrentState ().GetComponent<WorkBench> ().PutItemFromInventory (itemBeingHeld,gameObject.GetComponent<ReagentsBaseClass>());
 	}
 
 }

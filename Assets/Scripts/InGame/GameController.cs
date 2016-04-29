@@ -79,6 +79,19 @@ public class GameController : MonoBehaviour {
 		currentStateIndex = indexState;
 		refreshInventory ();
 		currentGameState.StartRun();
+		switch(indexState){
+			case 0:
+			case 1:
+			case 4:
+				GameObject.FindObjectOfType<InventoryManager> ().refreshActionButton();
+				break;
+			case 2:
+				GameObject.FindObjectOfType<InventoryManager> ().changeList(0);
+				break;
+			case 3:
+				GameObject.FindObjectOfType<InventoryManager> ().changeList(2);
+				break;
+		}
 		
 	}
 

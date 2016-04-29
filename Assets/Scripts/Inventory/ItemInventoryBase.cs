@@ -12,7 +12,7 @@ public class ItemInventoryBase : MonoBehaviour {
 	public string name;
 	public string index;
 	public Glassware gl;
-	public ReagentsBaseClass reagent;
+	public string reagent;
     public Sprite icon;                         /*!< Icon that represents this object */
     public bool stackable;                      /*!< If can be stacked. */
     public ItemType itemType;                   /*!< Enum to set this item type: 'solids', 'liquids', 'glassware' and 'others'. */
@@ -23,7 +23,7 @@ public class ItemInventoryBase : MonoBehaviour {
     //! Empty Constructor
 	public ItemInventoryBase (){}
 
-	public ItemInventoryBase(Component item)
+/*	public ItemInventoryBase(Component item)
 	{
 		Debug.Log ("constructor called");
 		if (item.GetComponent<ReagentsBaseClass>()!=null) {
@@ -54,7 +54,7 @@ public class ItemInventoryBase : MonoBehaviour {
 			itemType=ItemType.Glassware;
 		}
 	}
-
+*/
 	public void copyData(ItemInventoryBase item)
 	{
 		 this.name=item.name;
@@ -68,13 +68,11 @@ public class ItemInventoryBase : MonoBehaviour {
 	}
 
 	public void addReagent(ReagentsBaseClass r){
-		if (r!=null) {
-			reagent = r;
-			if(reagent.isSolid)
-				itemType=ItemType.Solids;
-			else
-				itemType=ItemType.Liquids;
-		}
+		reagent = r.name;
+		if(r.isSolid)
+			itemType=ItemType.Solids;
+		else
+			itemType=ItemType.Liquids;
 	}
 
 	public void addGlassware(Glassware g){
@@ -166,7 +164,7 @@ public class ItemInventoryBase : MonoBehaviour {
 	public void CallWorkbenchToTable() {
 		//GameObject tempItem = Instantiate (itemBeingHeld.gameObject) as GameObject;
 		//gameController.GetCurrentState ().GetComponent<WorkBench> ().PutItemFromInventory (tempItem);
-		GameObject.Find("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench> ().PutItemFromInventory (itemBeingHeld,gameObject.GetComponent<ReagentsBaseClass>());
+		//GameObject.Find("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench> ().PutItemFromInventory (itemBeingHeld,gameObject.GetComponent<ReagentsBaseClass>());
 	}
 }
 

@@ -33,7 +33,7 @@ public class ItemStackableBehavior : MonoBehaviour {
     /*! Each item is also a button that can be selected, this method is used to set the selected UI item. */
     public void btnItemUI()
     {
-        inventoryManager.setSelectedUIItem(this.gameObject.GetComponent<ItemStackableBehavior>()); 
+        //inventoryManager.setSelectedUIItem(this.gameObject.GetComponent<ItemStackableBehavior>()); 
         
         Debug.Log("Item " + this.name + 
             " selected in " + linkedObject.GetInventory().transform.parent.transform.parent.name +

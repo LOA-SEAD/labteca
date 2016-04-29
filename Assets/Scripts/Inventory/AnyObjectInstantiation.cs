@@ -26,7 +26,7 @@ public class AnyObjectInstantiation : ItemInventoryBase {
     public void btnItem()
     {
         Debug.Log("Item " + this.name + " selected of " + this.getItemType() + " type");
-        inventoryManager.setSelectedItem(this);
+        //inventoryManager.setSelectedItem(this);
     }
 
     //! Set the inventory where this object belongs.

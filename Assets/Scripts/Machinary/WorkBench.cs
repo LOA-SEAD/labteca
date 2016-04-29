@@ -690,17 +690,22 @@ public class WorkBench : MonoBehaviour {
 		}
 		uiManager.alertDialog.ShowAlert ("A Bancada esta cheia!");
 	}*/
-	public void PutItemFromInventory(ItemToInventory item, ItemToInventory data) {
+	public void PutItemFromInventory(ItemToInventory item,string key) {
 		foreach(Transform position in positionGlass) {	//The first position available
 			if(position.childCount == 0){
 				GameObject tempItem = Instantiate(item.gameObject/*, position.position/*, gameController.selectedGlassWare.transform.rotation*/) as GameObject;
 				tempItem.transform.SetParent (position, /*true*/false);
 				tempItem.transform.localPosition = Vector3.zero;
 				if(tempItem.GetComponent<ReagentsBaseClass>()!=null){
+					ReagentsBaseClass reagent;
+					Dictionary<string, ReagentsBaseClass> reagentDictionary = ComponentsSaver.LoadReagents ();
+					reagentDictionary.TryGetValue (key, out reagent);
+					Debug.Log(key);
+
 					if(tempItem.GetComponent<ReagentsBaseClass>().isSolid)
-						tempItem.GetComponent<ReagentsBaseClass>().receiveValues(data as ReagentsBaseClass);
+						tempItem.GetComponent<ReagentsBaseClass>().receiveValues(reagent as ReagentsBaseClass);
 					else
-						tempItem.GetComponent<ReagentsBaseClass>().receiveValues(data as ReagentsLiquidClass);
+						tempItem.GetComponent<ReagentsBaseClass>().receiveValues(reagent as ReagentsLiquidClass);
 				}
 				return;
 			}

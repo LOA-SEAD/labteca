@@ -8,6 +8,10 @@ using UnityEngine.UI;
 /*! It has information of all of the four types of InventoryController ( Solid, Liquid, Glassware and Others ). */
 public class InventoryManager : MonoBehaviour {
 
+	private int count = 0;
+	public int[] indexButtons = new int[]{1,2};
+	public int listIndex;
+	public GameController gameController;
 	public GameObject itemPrefab;
 	public GameObject selectedObject;
 	public List<Button> listButton;
@@ -21,6 +25,8 @@ public class InventoryManager : MonoBehaviour {
 	public List<Sprite> backgroundInventory;
 	public List<Sprite> backgroundPanel;
 	public List<Sprite> backgroundIcons;
+	public List<Sprite> backgroundButtons;
+	public List<Sprite> backgroundAction;
 	private Sprite selectedIcon;
 
 	public Image inventoryImage,tabImage,scrollbar;
@@ -29,25 +35,14 @@ public class InventoryManager : MonoBehaviour {
 	//private ArrayList SelectedList   = new ArrayList();
 
 	private ItemType itemType;
-	private int count = 0;
-	public int listIndex;
 	public RectTransform content;
-	public Button action;
 
     public ItemInventoryBase selectedItem = null;     /*!< Current selected item (game object). */
     private ItemStackableBehavior selectedUIItem = null;    /*!< Current selected item from inventory UI. */
 	///-----------REFACTOR-------------------
-	public void DebugList(Component obj){
-		selectList (0);
-		ItemInventoryBase test = new ItemInventoryBase ();
-		test.Info (obj);
-		test.name = "Teste";
-		addItem (test);
-	}
-
 	void Start(){
 		listIndex = 0;
-		selectList(listIndex);
+		changeList(listIndex);
 		selectedIcon = backgroundIcons [0];
 		refreshGrid ();
 	}
@@ -63,7 +58,6 @@ public class InventoryManager : MonoBehaviour {
 				sb.Append(aux);
 			}
 			auxItem.index=sb.ToString();
-			Debug.Log(auxItem.index);
 		}
 		if (item.getItemType () == itemType) {
 			GameObject aux = instantiateObject (auxItem);
@@ -90,15 +84,18 @@ public class InventoryManager : MonoBehaviour {
 			switch (item.getItemType ()) {
 			case ItemType.Glassware:
 				Glassware.Add (auxItem);
+				changeList(2);
 				break;
 			case ItemType.Liquids:
 				LiquidReagents.Add(auxItem);
+				changeList(1);
 				break;
 			case ItemType.Others:
 				Others.Add(auxItem);
 				break;
 			case ItemType.Solids:
 				SolidReagents.Add(auxItem);
+				changeList(0);
 				break;
 			}
 			return null;
@@ -159,11 +156,48 @@ public class InventoryManager : MonoBehaviour {
 		inventoryImage.sprite = backgroundInventory [index];
 		tabImage.sprite = backgroundPanel [index];
 		selectedIcon = backgroundIcons [index];
-		//GameObject.Find (selectedItem.gameObject.name).GetComponentInChildren<Image> ().sprite = selectedIcon;
+		refreshButtons ();
 	}
 
 	public void refreshButtons(){
-		//for int
+		int aux = 0;
+		for(int i = 0; i < 3; i++){
+			if(i!=listIndex){
+				indexButtons[aux]=i;
+				listButton[aux++].GetComponent<Image>().sprite = backgroundButtons[i];
+			}
+		}
+		refreshActionButton ();
+	}
+
+	public void auxSideButton(int i){
+		changeList (indexButtons [i]);
+	}
+
+	public void refreshActionButton(){
+		GameStateBase currentState = gameController.GetCurrentState ();
+		if (currentState != null) {
+			listButton[2].interactable = true;
+			if (currentState.GetComponent<InGameState> () == null) {
+				if ((currentState.GetComponent<GetGlasswareState> () != null && listIndex == 2) || (currentState.GetComponent<GetReagentState> () != null && (listIndex == 1 || listIndex == 0)))
+					listButton [2].GetComponent<Image> ().sprite = backgroundAction [2];
+				else {
+					if (currentState.GetComponent<WorkBench> () != null){
+						listButton [2].GetComponent<Image> ().sprite = backgroundAction [1];
+					}
+					else{
+						listButton[2].interactable = false;
+						listButton [2].GetComponent<Image> ().sprite = backgroundAction [0];
+					}
+				}
+			} else {
+				listButton[2].interactable = false;
+				listButton [2].GetComponent<Image> ().sprite = backgroundAction [0];
+			}
+		} else {
+			listButton[2].interactable = false;
+			listButton [2].GetComponent<Image> ().sprite = backgroundAction [0];
+		}
 	}
 
 	public void refreshGrid(){
@@ -193,7 +227,6 @@ public class InventoryManager : MonoBehaviour {
 		foreach (ItemInventoryBase it in getCurrentList()) {
 			Debug.Log (it.index);
 			if (it.index == index) {
-				Debug.Log (it.index);
 				getCurrentList().RemoveAt(n);
 				foreach (ItemInventoryBase db in getCurrentList()){
 					Debug.Log("DEBUG: "+db.index);
@@ -216,19 +249,9 @@ public class InventoryManager : MonoBehaviour {
 
 	public void AddReagentToInventory(ReagentsBaseClass reagent, ReagentsBaseClass r ) {
 		ItemInventoryBase item = new ItemInventoryBase();
-		item.addReagent(reagent);
 		item.HoldItem (reagent);
+		item.addReagent(r);
 		addItem(item);
-	}
-
-	public void setSelectedItem(AnyObjectInstantiation i)
-	{
-		this.selectedItem = i;
-	}
-
-	public void setSelectedUIItem(ItemStackableBehavior i)
-	{
-		this.selectedUIItem = i;
 	}
 
 	public ArrayList getCurrentList(){
@@ -257,8 +280,9 @@ public class InventoryManager : MonoBehaviour {
 
 	public void actionButtonClick(){
 		if (selectedItem != null) {
-			ItemInventoryBase item = selectedItem;
-			GameStateBase currentState = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ();
+			ItemInventoryBase item = new ItemInventoryBase();
+			item = selectedItem;
+			GameStateBase currentState = gameController.GetCurrentState ();
 			Debug.Log (currentState);
 			if (currentState.GetComponent<WorkBench> () != null)
 				CallWorkbenchToTable (item);
@@ -271,175 +295,6 @@ public class InventoryManager : MonoBehaviour {
 	public void CallWorkbenchToTable(ItemInventoryBase item) {
 		//GameObject tempItem = Instantiate (itemBeingHeld.gameObject) as GameObject;
 		//gameController.GetCurrentState ().GetComponent<WorkBench> ().PutItemFromInventory (tempItem);
-		GameObject.Find("GameController").GetComponent<GameController>().GetCurrentState ().GetComponent<WorkBench> ().PutItemFromInventory (item.itemBeingHeld,gameObject.GetComponent<ReagentsBaseClass>());
+		gameController.GetCurrentState ().GetComponent<WorkBench> ().PutItemFromInventory (item.itemBeingHeld,item.reagent);
 	}
-	
-	
-	///------------REFACTOR------------------
-	//TODO: Remover depois!!!
-	//public GameObject bequerPrefab;
-	///////APAGA AQUI/////////////
-
-    //! Does the operation on the inventory (insert, remove or destroy).
-    /*! Based on the string passed as parameter, takes the selectedItem or selectedUIItem and does the operation. *//*
-	void operateOnInventory(string op){
-        // Insertion
-		if(string.Compare(op,"insert") == 0 && selectedItem != null){
-            switch(selectedItem.getItemType())
-            {
-                case ItemType.Solids:
-                    SolidReagents.AddItem(selectedItem);
-                    break;
-
-                case ItemType.Liquids:
-                    LiquidReagents.AddItem(selectedItem);
-                    break;
-
-                case ItemType.Glassware:
-                    Glassware.AddItem(selectedItem);
-                    break;
-
-                case ItemType.Others:
-                    Others.AddItem(selectedItem);
-                    break;
-
-                default:
-                    Debug.LogError("ItemType not found!");
-                    break;
-            }
-		}
-        // Removal
-		else if(string.Compare(op,"remove") == 0 && selectedUIItem != null)
-        {
-            switch (selectedUIItem.getObject().getItemType())
-            {
-                case ItemType.Solids:
-                    SolidReagents.RemoveItem(selectedUIItem);
-                    break;
-
-                case ItemType.Liquids:
-                    LiquidReagents.RemoveItem(selectedUIItem);
-                    break;
-
-                case ItemType.Glassware:
-                    Glassware.RemoveItem(selectedUIItem);
-                    break;
-
-                case ItemType.Others:
-                    Others.RemoveItem(selectedUIItem);
-                    break;
-
-                default:
-                    Debug.LogError("ItemType not found!");
-                    break;
-            }
-		}
-        // Destruction
-        else if (string.Compare(op, "destroy") == 0 && selectedUIItem != null)
-        {
-            switch (selectedUIItem.getObject().getItemType())
-            {
-                case ItemType.Solids:
-                    SolidReagents.DestroyItem(selectedUIItem);
-                    break;
-
-                case ItemType.Liquids:
-                    LiquidReagents.DestroyItem(selectedUIItem);
-                    break;
-
-                case ItemType.Glassware:
-                    Glassware.DestroyItem(selectedUIItem);
-                    break;
-
-                case ItemType.Others:
-                    Others.DestroyItem(selectedUIItem);
-                    break;
-
-                default:
-                    Debug.LogError("ItemType not found!");
-                    break;
-            }
-        }
-
-        selectedItem = null;
-	}
-
-    // TODO: Remover estes botoes de teste e utilizar as funcoes nos devidos locais.
-    // Ex.: Quando o objeto eh clicado dentro do laboratorio.
-	void Update () 
-    {
-        if(Input.GetKeyDown(KeyCode.A))
-        {
-			operateOnInventory("insert");
-		}
-		if(Input.GetKeyDown(KeyCode.S))
-        {
-			operateOnInventory("remove");
-		}
-        if(Input.GetKeyDown(KeyCode.D))
-        {
-            operateOnInventory("destroy");
-        }
-	}
-
-    //! Set the selected Item.
-    public void setSelectedItem(AnyObjectInstantiation i)
-    {
-        this.selectedItem = i;
-    }
-
-    //! Set the selected Item at the inventory UI.
-    public void setSelectedUIItem(ItemStackableBehavior i)
-    {
-        this.selectedUIItem = i;
-    }
-
-	//! Add the item to inventory
-	public void AddItemToInventory(AnyObjectInstantiation item) {
-		Debug.Log (item.gameObject.name);
-		setSelectedItem (item);
-		operateOnInventory ("insert");
-	}
-	
-	//! Remove from inventory
-	public void RemoveItemFromInventory(AnyObjectInstantiation item) {
-		setSelectedItem (item);
-		operateOnInventory ("remove");
-	}
-
-	//-------------LeMigue for Glassware------------------------
-	public void AddGlasswareToInventory(Glassware gl) {
-		Glassware.GetComponentInChildren<InventoryContent> ().addNewGlasswareUI (gl);
-		//Need to save "gl" within the InventoryItemGlassware informations
-		//!(It is not actually saving any information right now, only creating the GameObject inside the inventory with the proper name)
-	}
-
-	//Written in a temporary way!!!!!!
-	public void RemoveGlasswareFromInventory() {
-		//Destroy the button (this will be used when the item is being put in the workbench slot)
-		GameController gameController = GameObject.Find ("GameController").GetComponent<GameController> ();
-		GameObject glasswareInScene = Instantiate(bequerPrefab) as GameObject;// = Instantiate the glassware saved in the informations
-
-		//This here will be done using the PutGlassInTable() method from the WorkBench.
-//		glasswareInScene.transform.position = gameController.gameStates [gameController.currentStateIndex].GetComponent<FumeHoodState> ().positionGlass1.transform.position;
-		//gameController.GetCurrentState ().GetComponentInParent<WorkBench> ().PutGlassOnTable (true);
-	}
-
-	public void DestroyGlasswareFromInvenory() {
-
-	}
-	//-------------END OF LeMigue for Glassware-------------------------
-
-	//-------------LeMigue for Reagents------------------------
-	public void AddReagentToInventory(ReagentsBaseClass reagent, ReagentsBaseClass r ) {
-		if(reagent.isSolid)
-			SolidReagents.GetComponentInChildren<InventoryContent> ().addNewReagentsUI (reagent,r);
-		if(!reagent.isSolid)
-			LiquidReagents.GetComponentInChildren<InventoryContent> ().addNewReagentsUI (reagent,r);
-	}
-	
-	public void RemoveReagentFromInventory() {
-		//Destroy the button (this will be used when the item is being put in the workbench slot)
-	}*/
-	//-------------END OF LeMigue for Reagents-------------------------
 }

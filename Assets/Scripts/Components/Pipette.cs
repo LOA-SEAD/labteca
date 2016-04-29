@@ -71,8 +71,10 @@ public class Pipette : MonoBehaviour {
 		case MouseState.ms_filledPipette: 	// Filled Pipette -> Pipette: nothing
 			break;
 		case MouseState.ms_spatula: 		// Spatula -> Piepette: change to pipette state
-			CursorManager.SetMouseState(MouseState.ms_pipette);
-			CursorManager.SetNewCursor(pipette_CursorTexture, hotSpot);
+			Spatula spatula = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().spatula;
+			spatula.OpenChooseBox();
+			/*CursorManager.SetMouseState(MouseState.ms_pipette);
+			CursorManager.SetNewCursor(pipette_CursorTexture, hotSpot);*/
 			break;
 		case MouseState.ms_filledSpatula: 	// Filled Spatula -> Pipette: nothing
 			break;
@@ -81,8 +83,10 @@ public class Pipette : MonoBehaviour {
 			CursorManager.SetNewCursor(pipette_CursorTexture, hotSpot);
 			break;
 		case MouseState.ms_glassStick:		// Glass Stic -> Pipette: change to pipette state
-			CursorManager.SetMouseState(MouseState.ms_pipette);
-			CursorManager.SetNewCursor(pipette_CursorTexture, hotSpot);
+			GlassStick glassStick = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().glassStick;
+			//glassStick.OpenInteractiveBox();
+			/*CursorManager.SetMouseState(MouseState.ms_pipette);
+			CursorManager.SetNewCursor(pipette_CursorTexture, hotSpot);*/
 			break;
 		case MouseState.ms_usingTool:  		// Unable to click somewhere else
 			break;

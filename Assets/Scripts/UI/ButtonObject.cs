@@ -35,15 +35,19 @@ public class ButtonObject : MonoBehaviour {
 		if (changeIconeEnter){
 
 			if((changeIconIfOnlyDefault && CursorManager.UsingDefaultCursor()) || !changeIconIfOnlyDefault)
-				CursorManager.SetNewCursor(cursorTexture, hotSpot);
+				CursorManager.SetToInteractiveCursor(cursorTexture, hotSpot);
 		}
     }
 
     //! Set cursor when mouse leaves.
     public void cursorExit()
-    {
-		if (changeIconeOut || CursorManager.GetLastCursor() == cursorTexture) {
-			CursorManager.SetCursorToDefault();
+	{
+		if (!changeIconIfOnlyDefault) {
+			Debug.Log ("Settando cursor anterior 0");
+			if (changeIconeOut) {
+				Debug.Log ("Settando cursor anterior");
+				CursorManager.SetToPreviousCursor ();
+			}
 		}
     }
 

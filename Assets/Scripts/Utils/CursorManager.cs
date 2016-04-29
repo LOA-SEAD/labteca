@@ -53,6 +53,10 @@ public class CursorManager : MonoBehaviour {
 		lastCursor = cursorTexture;
 	}
 
+	public static void SetToInteractiveCursor(Texture2D cursorTexture, Vector2 hotSpot) {
+		Cursor.SetCursor(cursorTexture, hotSpot, CursorManager.cursorMode);
+	}
+
 	//! Changes the mouse cursor back to default.
 	public static void SetCursorToDefault(){
 		Cursor.SetCursor (null, Vector2.zero, CursorManager.cursorMode);
@@ -79,4 +83,10 @@ public class CursorManager : MonoBehaviour {
 	public static void SetMouseState(MouseState newState) {
 		currentState = newState;
 	}
+
+	//Return to the previous cursor. Used to return after hoving over interactive objects.
+	public static void SetToPreviousCursor() {
+		Cursor.SetCursor(lastCursor, Vector2.zero, CursorManager.cursorMode);
+	}
+
 }

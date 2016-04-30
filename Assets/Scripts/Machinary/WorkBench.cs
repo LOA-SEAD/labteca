@@ -20,6 +20,8 @@ public class WorkBench : MonoBehaviour {
 	public Transform[] positionGlass;
 	public int i = 0;
 
+	public bool CannotEndState;					//The player is holding a filled tool, so can't quit the state
+
 	public AudioSource soundBeaker;				/*!< Audio for the workbench. */
 
 	public UI_Manager uiManager;                /*!< The UI Manager Game Object. */
@@ -174,7 +176,12 @@ public class WorkBench : MonoBehaviour {
 			UnselectAll();
 		}
 		amountSelectedSpatula = 0;
-		DesactiveInteractObjects ();	
+		DesactiveInteractObjects ();
+
+		spatula.OnStopRun ();
+		pipette.OnStopRun ();
+		washBottle.OnStopRun ();
+
 	}
 
 	//TODO: metodo temporario na ausencia do inventario

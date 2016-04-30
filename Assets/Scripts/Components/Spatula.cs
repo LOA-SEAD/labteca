@@ -70,8 +70,9 @@ public class Spatula : MonoBehaviour {
 			OpenChooseBox();
 			break;
 		case MouseState.ms_pipette: 		//Pipette -> Spatula: change to spatula state
-			CursorManager.SetMouseState(MouseState.ms_spatula);
-			CursorManager.SetNewCursor(spatula_CursorTexture, hotSpot);
+			OpenChooseBox();
+			CursorManager.SetMouseState(MouseState.ms_default);
+			CursorManager.SetCursorToDefault();
 			break;
 		case MouseState.ms_filledPipette: 	// Filled Spatula -> Spatula: nothing
 			break;
@@ -82,16 +83,30 @@ public class Spatula : MonoBehaviour {
 		case MouseState.ms_filledSpatula: 	// Filled Spatula -> Spatula: nothing
 			break;
 		case MouseState.ms_washBottle: 		// Washe Bottle -> Spatula: change to spatula state
-			CursorManager.SetMouseState(MouseState.ms_spatula);
-			CursorManager.SetNewCursor(spatula_CursorTexture, hotSpot);
+			OpenChooseBox();
+			CursorManager.SetMouseState(MouseState.ms_default);
+			CursorManager.SetCursorToDefault();
 			break;
 		case MouseState.ms_glassStick:		// Glass Stick -> Spatula: change to spatula state
-			CursorManager.SetMouseState(MouseState.ms_spatula);
-			CursorManager.SetNewCursor(spatula_CursorTexture, hotSpot);
+			OpenChooseBox();
+			CursorManager.SetMouseState(MouseState.ms_default);
+			CursorManager.SetCursorToDefault();
 			break;
 		case MouseState.ms_usingTool:  		// Unable to click somewhere else TODO:is it necessary?
 			break;
 		}
+	}
+
+	public void OnStopRun() {
+		CloseInteractionBox ();
+		spatulaCapacity = 0.0f;
+		capacityError = 0.0f;
+		volumeHeld = 0.0f;
+		reagentInSpatula = null;
+		interactingGlassware = null;
+
+		CursorManager.SetMouseState(MouseState.ms_default);
+		CursorManager.SetCursorToDefault();
 	}
 
 	//! Opens the box where the choice of spatula is made
@@ -217,6 +232,8 @@ public class Spatula : MonoBehaviour {
 
 		CursorManager.SetMouseState (MouseState.ms_filledSpatula);
 		CursorManager.SetNewCursor (filledSpatula_CursorTexture, hotSpot);
+		GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().CannotEndState = true;
+
 
 		volumeHeld = Random.Range (spatulaCapacity - capacityError, spatulaCapacity + capacityError);
 		reagentInSpatula = reagent;
@@ -269,6 +286,7 @@ public class Spatula : MonoBehaviour {
 
 		CursorManager.SetMouseState (MouseState.ms_default);
 		CursorManager.SetCursorToDefault();
+		GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().CannotEndState = false;
 
 		volumeHeld = 0.0f;
 		reagentInSpatula = null;

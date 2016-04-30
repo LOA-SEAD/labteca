@@ -9,7 +9,7 @@ using UnityEngine.UI;
 //TODO: Needs to add the volumetric pipette
 public class Pipette : MonoBehaviour {
 
-	private float volumeHeld;			//Volume being held by the pipette [ml]
+	public float volumeHeld;			//Volume being held by the pipette [ml]
 	private float maxVolume;			//Max volume the pipette can hold [ml]
 	public bool graduated;				//Knows if the pipette being used is graduated or volumetric
 
@@ -71,26 +71,39 @@ public class Pipette : MonoBehaviour {
 		case MouseState.ms_filledPipette: 	// Filled Pipette -> Pipette: nothing
 			break;
 		case MouseState.ms_spatula: 		// Spatula -> Piepette: change to pipette state
-			Spatula spatula = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().spatula;
-			spatula.OpenChooseBox();
-			/*CursorManager.SetMouseState(MouseState.ms_pipette);
-			CursorManager.SetNewCursor(pipette_CursorTexture, hotSpot);*/
+			OpenSelectingBox();
+			CursorManager.SetMouseState(MouseState.ms_default);
+			CursorManager.SetCursorToDefault();
 			break;
 		case MouseState.ms_filledSpatula: 	// Filled Spatula -> Pipette: nothing
 			break;
 		case MouseState.ms_washBottle: 		// Wash Bottle -> Pipette: change to pipette state
-			CursorManager.SetMouseState(MouseState.ms_pipette);
-			CursorManager.SetNewCursor(pipette_CursorTexture, hotSpot);
+			OpenSelectingBox();
+			CursorManager.SetMouseState(MouseState.ms_default);
+			CursorManager.SetCursorToDefault();
 			break;
 		case MouseState.ms_glassStick:		// Glass Stic -> Pipette: change to pipette state
-			GlassStick glassStick = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().glassStick;
-			//glassStick.OpenInteractiveBox();
-			/*CursorManager.SetMouseState(MouseState.ms_pipette);
-			CursorManager.SetNewCursor(pipette_CursorTexture, hotSpot);*/
+			OpenSelectingBox();
+			CursorManager.SetMouseState(MouseState.ms_default);
+			CursorManager.SetCursorToDefault();
 			break;
 		case MouseState.ms_usingTool:  		// Unable to click somewhere else
 			break;
 		}
+	}
+
+	public void OnStopRun() {
+		CloseInteractionBox ();
+		maxVolume = 0.0f;
+		volumeHeld = 0.0f;
+		volumeSelected = 0.0f;
+		u_volumeSelected = 0.0f;
+		interactingReagent = null;
+		interactingGlassware = null;
+
+		CursorManager.SetMouseState(MouseState.ms_default);
+		CursorManager.SetCursorToDefault();
+		//TODO: Hide cursor
 	}
 
 	//! Close the interaction box
@@ -102,6 +115,7 @@ public class Pipette : MonoBehaviour {
 		interactingGlassware = null;
 		interactingReagent = null;
 		volumeSelected = 0.0f;
+		u_volumeSelected = 0.0f;
 	}
 
 	/* CHOOSING INTERACTION */
@@ -189,6 +203,8 @@ public class Pipette : MonoBehaviour {
 				lastItemSelected.GetComponent<Glassware>().RemoveLiquid (amountSelectedPipeta);*/
 			CursorManager.SetMouseState (MouseState.ms_filledPipette);//pipetaReagentCursor.CursorEnter ();
 			CursorManager.SetNewCursor (filledPipette_CursorTexture, hotSpot);
+
+			GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().CannotEndState = true;
 			
 			reagentInPipette = interactingReagent;
 		}
@@ -232,7 +248,7 @@ public class Pipette : MonoBehaviour {
 	//	Unfilling variation
 	public void u_VolumeOnSlider(){ //BasicallyDone
 		u_volumeSelected = u_boxSlider.value;
-		u_pipetteValueText.text = volumeSelected.ToString ();
+		u_pipetteValueText.text = u_volumeSelected.ToString ();
 	}
 	
 	//! Unloads the pipette into a proper vessel
@@ -246,14 +262,14 @@ public class Pipette : MonoBehaviour {
 		//glassware.volume = volumeHeld;
 		//glassware.reagent = reagentInPipette;
 
-		if (volumeSelected > 0.0f) { //If some liquid is selected, the amount is poured into the glassware
+		if (u_volumeSelected > 0.0f) { //If some liquid is selected, the amount is poured into the glassware
 			if (interactingGlassware != null)
 				interactingGlassware.PourLiquid (volumeHeld, volumeHeld * reagentInPipette.density, reagentInPipette);//TODO:Needs to treat the case in which the glassware can't receive everything
 				
-			volumeHeld -= volumeSelected;
+			volumeHeld -= u_volumeSelected;
 		}
 
-		if (volumeHeld <= volumeSelected) { //If all the liquid is taken out of the pipette, the pipette is put down and come back to a default state
+		if (volumeHeld <= u_volumeSelected) { //If all the liquid is taken out of the pipette, the pipette is put down and come back to a default state
 			volumeHeld = 0.0f;
 			reagentInPipette = null;
 
@@ -261,7 +277,7 @@ public class Pipette : MonoBehaviour {
 			CursorManager.SetCursorToDefault ();
 		}
 	
-		volumeSelected = 0.0f;
+		u_volumeSelected = 0.0f;
 		interactingGlassware = null;
 
 		CloseInteractionBox ();
@@ -290,6 +306,7 @@ public class Pipette : MonoBehaviour {
 		if (volumeHeld > 0.0f) {
 			CursorManager.SetMouseState (MouseState.ms_filledPipette);
 			CursorManager.SetNewCursor (filledPipette_CursorTexture, hotSpot);
+			GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().CannotEndState = true;
 		}
 	}
 	public void FillVolumetricPipette(ReagentsLiquidClass reagent) {
@@ -317,6 +334,7 @@ public class Pipette : MonoBehaviour {
 
 			CursorManager.SetMouseState (MouseState.ms_default);
 			CursorManager.SetCursorToDefault();
+			GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().CannotEndState = false;
 		}
 	}
 	public void UnfillVolumetricPipette() {
@@ -328,6 +346,6 @@ public class Pipette : MonoBehaviour {
 		
 		CursorManager.SetMouseState (MouseState.ms_default);
 		CursorManager.SetCursorToDefault();
+		GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().CannotEndState = false;
 	}
-
 }

@@ -28,13 +28,18 @@ public  class FumeHoodState : GameStateBase {
 
 		//Pressing Esc will exit the state
 		if(Input.GetKeyDown(KeyCode.Escape)){
-			GetComponentInParent<WorkBench>().OnStopRun();
+			if(GetComponent<WorkBench>().CannotEndState) {
+				//Show message that can't quit.
+			}
+			else {
+				GetComponentInParent<WorkBench>().OnStopRun();
 
-			interactBox.GetComponent<BoxCollider>().enabled = true;
-			gameController.ChangeState(0);
-			FadeScript.instance.ShowFade();
+				interactBox.GetComponent<BoxCollider>().enabled = true;
+				gameController.ChangeState(0);
+				FadeScript.instance.ShowFade();
 			}
 		}
+	}
 	
 	//! Actions for when the State starts.
 	/*! Set the Camera inside the state to be Active, overlaying the Main Camera used at InGameState,

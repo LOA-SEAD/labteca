@@ -86,20 +86,30 @@ public class Glassware : ItemToInventory
 		case MouseState.ms_default: 		//Default -> Glassware: show the interaction options
 			this.OpenInteractionBox ();
 			break;
-		case MouseState.ms_pipette: 		//Pipette -> Glassware: gets the solids, if there's only solid inside. So, opens the pipette's interaction box.
+		case MouseState.ms_pipette: 		//Pipette -> Glassware: gets the liquid, if there's only liquid inside. So, opens the pipette's interaction box.
 			Pipette pipette = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().pipette;
-			if(pipette.graduated)
-				pipette.OpenGraduatedFillingBox(maxVolume - currentVolume, this);
-			else
-				pipette.FillVolumetricPipette(this);
+			if(hasLiquid) {
+				if(pipette.graduated) {
+					pipette.OpenGraduatedFillingBox(currentVolume, this);
+					RefreshContents();
+				}
+				else {
+					pipette.FillVolumetricPipette(this);
+					RefreshContents();
+				}
+			}
 			break;
 		case MouseState.ms_filledPipette: 	// Filled Pipette -> Glassware: pours the pipette's contents into the glassware
 			Pipette filledPipette = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().pipette;
 			//filledPipette.UnfillPipette(this);
-			if(filledPipette.graduated)
+			if(filledPipette.graduated) {
 				filledPipette.OpenGraduatedUnfillingBox(maxVolume - currentVolume, this);
-			else
+				RefreshContents();
+			}
+			else {
 				filledPipette.UnfillVolumetricPipette(this);
+				RefreshContents();
+			}
 			break;
 		case MouseState.ms_spatula: 		// Spatula -> Glassware: gets the solids, if there's only solid inside. So, opens the spatula's interaction box
 			Spatula spatula = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().spatula;
@@ -188,7 +198,8 @@ public class Glassware : ItemToInventory
 	public void InsertSolid(float volumeFromTool, float solidMass, ReagentsBaseClass reagentFromTool) {
 		currentVolume += volumeFromTool;
 		totalMass += solidMass;
-		
+
+		reagents.Add(new ReagentsInGlass(reagentFromTool, solidMass));
 		/*
 		 * ADD THE REAGENT INTO THE REAGENTS LISTS
 		 */

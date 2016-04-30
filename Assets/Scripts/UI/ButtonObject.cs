@@ -43,9 +43,7 @@ public class ButtonObject : MonoBehaviour {
     public void cursorExit()
 	{
 		if (!changeIconIfOnlyDefault) {
-			Debug.Log ("Settando cursor anterior 0");
 			if (changeIconeOut) {
-				Debug.Log ("Settando cursor anterior");
 				CursorManager.SetToPreviousCursor ();
 			}
 		}

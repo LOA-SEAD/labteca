@@ -86,9 +86,21 @@ public class WashBottle : MonoBehaviour {
 		}
 	}
 
+	public void OnStopRun() {
+		CloseInteractionBox ();
+
+		//TODO: Hide cursor
+	}
+
 	//! Close the interaction box
+	//	Also resets all the values
 	public void CloseInteractionBox(){
 		interactionBoxWashBottle.SetActive(false);
+		boxSlider.value = 0.0f;
+		volumeSelected = 0.0f;
+		interactingGlassware = null;
+		CursorManager.SetMouseState(MouseState.ms_default);
+		CursorManager.SetCursorToDefault();
 	}
 	//! Open the interaction box
 	public void OpenInteractionBox(float maxSliderVolume) {
@@ -118,13 +130,6 @@ public class WashBottle : MonoBehaviour {
 		if (volumeSelected > 0.0f) {
 			interactingGlassware.PourLiquid(volumeSelected, volumeSelected * Water.density, Water);
 		}
-
-		boxSlider.value = 0.0f;
-		volumeSelected = 0.0f;
-		interactingGlassware = null;
-		CursorManager.SetMouseState(MouseState.ms_default);
-		CursorManager.SetCursorToDefault();
 		CloseInteractionBox ();
 	}
-
 }

@@ -98,4 +98,11 @@ public class ReagentsBaseClass : ItemToInventory {
 			break;
 		}
 	}
+
+	// Put back the reagent into the inventory
+	public void ReagentToInventory() {
+		/*
+		 * REAGENT TO INVENTORY();
+		 */
+	}
 }

@@ -46,4 +46,9 @@ public class ReagentsLiquidClass : ReagentsBaseClass {
 			break;
 		}
 	}
+
+	// Put back the reagent into the inventory
+	public void ReagentToInventory() {
+
+	}
 }

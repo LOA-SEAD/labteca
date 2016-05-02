@@ -167,7 +167,8 @@ public class Pipette : MonoBehaviour {
 	
 		//CursorManager.SetDefaultCursor ();
 		/*
-		 * DEFINE HOW TO BLOCK CLICKS OUTSIDE 
+		 * DEFINE HOW TO BLOCK CLICKS OUTSIDE
+		 * CANVAS GROUP, MAYBE?
 		 */
 	}
 	//	This case is to get liquid from a glassware
@@ -181,10 +182,12 @@ public class Pipette : MonoBehaviour {
 			boxGraduatedFilling.GetComponentInChildren<Slider> ().maxValue = volumeAvailable;
 		else
 			boxGraduatedFilling.GetComponentInChildren<Slider> ().maxValue = maxVolume;
-		
+
+		interactingGlassware = glassware;
 		//CursorManager.SetDefaultCursor ();
 		/*
 		 * DEFINE HOW TO BLOCK CLICKS OUTSIDE 
+		 * CANVAS GROUP, MAYBE?
 		 */
 	}
 
@@ -196,19 +199,33 @@ public class Pipette : MonoBehaviour {
 
 	//! Use the pipette to hold the selected volume.
 	public void FillGraduatedPipette() { //BasicallyDone
-		
-		if (volumeSelected > 0.0f) {
-			//TODO: Keeping this for checking. Will be removed as soon as the Glassware part is implemented
-			/*if (!(lastItemSelected.GetComponent<Glassware> () == null)) //Only removes from the last selected object if it's a glassware
+
+		if (interactingReagent != null) {
+			if (volumeSelected > 0.0f) {
+				//TODO: Keeping this for checking. Will be removed as soon as the Glassware part is implemented
+				/*if (!(lastItemSelected.GetComponent<Glassware> () == null)) //Only removes from the last selected object if it's a glassware
 				lastItemSelected.GetComponent<Glassware>().RemoveLiquid (amountSelectedPipeta);*/
-			CursorManager.SetMouseState (MouseState.ms_filledPipette);//pipetaReagentCursor.CursorEnter ();
-			CursorManager.SetNewCursor (filledPipette_CursorTexture, hotSpot);
+				CursorManager.SetMouseState (MouseState.ms_filledPipette);//pipetaReagentCursor.CursorEnter ();
+				CursorManager.SetNewCursor (filledPipette_CursorTexture, hotSpot);
 
-			GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().CannotEndState = true;
+				GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().CannotEndState = true;
 			
-			reagentInPipette = interactingReagent;
-		}
+				reagentInPipette = interactingReagent;
+			}
+		} else if (interactingGlassware != null) {
+			if (volumeSelected > 0.0f) {
+				CursorManager.SetMouseState (MouseState.ms_filledPipette);//pipetaReagentCursor.CursorEnter ();
+				CursorManager.SetNewCursor (filledPipette_CursorTexture, hotSpot);
+				
+				GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().CannotEndState = true;
+				
+				reagentInPipette = interactingGlassware.reagents[0].reagent;
 
+				/*
+				 * TODO:REMOVE LIQUID FROM GLASSWARE
+				 */
+			}
+		}
 
 		volumeHeld = volumeSelected;
 		CloseInteractionBox ();

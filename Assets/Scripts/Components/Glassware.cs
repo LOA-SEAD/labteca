@@ -184,14 +184,18 @@ public class Glassware : ItemToInventory
 		currentVolume += volumeFromTool;
 		totalMass += liquidMass;
 
-
 		reagents.Add (new ReagentsInGlass(reagentFromTool as ReagentsBaseClass, liquidMass));
-		/*
-		 * ADD THE REAGENT INTO THE REAGENTS LISTS
-		 */
 
 		RefreshContents ();
 	}
+
+	//! Remove liquids from the glassware
+	//  The liquid is removed into a pipette
+	/*public void RemoveLiquid() {  TODO:IMPLEMENT
+
+
+		RefreshContents();
+	}*/
 
 	//!	Inserts a solid into the glassware
 	//	The solid only comes from spatulas
@@ -207,6 +211,20 @@ public class Glassware : ItemToInventory
 		RefreshContents ();
 	}
 
+	//! Remove solids from the glassware
+	//  The solid is only taken by spatulas
+	/*public void RemoveSolid() {  TODO: IMPLEMENT
+
+
+		RefreshContents();
+	}*/
+
+	//! Put the glassware back to the inventory
+	public void GlasswareToInventory() {
+		/*
+		 * GLASS TO INVENTORY();
+		 */
+	}
 
 	//-------------------------------------------------------------------------//
 

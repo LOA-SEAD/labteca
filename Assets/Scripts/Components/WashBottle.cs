@@ -28,8 +28,6 @@ public class WashBottle : MonoBehaviour {
 	void Start () {
 		interactionBoxWashBottle.SetActive (false);
 
-		Water = new ReagentsLiquidClass ();
-
 		Water.name = "H2O";
 		Water.isSolid = false;
 		Water.molarMass = 18.01f;
@@ -114,7 +112,6 @@ public class WashBottle : MonoBehaviour {
 
 	//! The wash bottle is being put to work
 	public void ActivateWashBottle(float valueForSlider, Glassware glassware) {
-		Debug.Log("Volume activated " + valueForSlider);
 		this.OpenInteractionBox (valueForSlider);
 		interactingGlassware = glassware;
 	}

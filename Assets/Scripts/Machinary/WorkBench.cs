@@ -172,10 +172,10 @@ public class WorkBench : MonoBehaviour {
 	/*! Disable the Camera inside the state, deactivate. */
 	public void OnStopRun ()
 	{
-		if(selectSpatula || selectPipeta || selectWater){
+		/*if(selectSpatula || selectPipeta || selectWater){
 			UnselectAll();
 		}
-		amountSelectedSpatula = 0;
+		amountSelectedSpatula = 0;*/
 		DesactiveInteractObjects ();
 
 		spatula.OnStopRun ();
@@ -334,14 +334,14 @@ public class WorkBench : MonoBehaviour {
 		}
 	}
 
-	/*public void PutInInventory(){
+	public void PutInInventory(){
 		//implementar a "colocaçao" no inventario
 		Destroy (lastGlassWareSelected.gameObject);
 
 		CloseOptionDialogGlass();
 		CloseOptionDialogGlassTable ();
 		RefreshInteractiveItens ();
-	}*/
+	}
 
 	//! Remove the Glassware.
 	public void RemoveGlass(bool inInventory){

@@ -191,11 +191,19 @@ public class Glassware : ItemToInventory
 
 	//! Remove liquids from the glassware
 	//  The liquid is removed into a pipette
-	/*public void RemoveLiquid() {  TODO:IMPLEMENT
+	public void RemoveLiquid(float volumeChosen) {
+		currentVolume -= volumeChosen;
+		totalMass -= volumeChosen * reagents [0].reagent.density;
+		reagents [0].howMuch -= volumeChosen * reagents [0].reagent.density;
+
+		if (reagents [0].howMuch <= 0.0f)
+			reagents [0] = null;
+
+
 
 
 		RefreshContents();
-	}*/
+	}
 
 	//!	Inserts a solid into the glassware
 	//	The solid only comes from spatulas
@@ -213,11 +221,17 @@ public class Glassware : ItemToInventory
 
 	//! Remove solids from the glassware
 	//  The solid is only taken by spatulas
-	/*public void RemoveSolid() {  TODO: IMPLEMENT
+	public void RemoveSolid(float spatulaVolume) {
+		currentVolume -= spatulaVolume;
+		totalMass -= spatulaVolume * reagents [0].reagent.density;
+		reagents [0].howMuch -= spatulaVolume * reagents [0].reagent.density;
+		
+		if (reagents [0].howMuch <= 0.0f)
+			reagents [0] = null;
 
 
 		RefreshContents();
-	}*/
+	}
 
 	//! Put the glassware back to the inventory
 	public void GlasswareToInventory() {
@@ -278,7 +292,7 @@ public class Glassware : ItemToInventory
 	}
 
 	//! Remove the liquid.
-	public void RemoveLiquid(float massLiquid, float volumeLiquid){
+	/*public void RemoveLiquid(float massLiquid, float volumeLiquid){
 
 		GetComponent<Rigidbody>().mass -= massLiquid*volumeLiquid;
 		currentVolume -= volumeLiquid;
@@ -291,11 +305,11 @@ public class Glassware : ItemToInventory
 			liquid.SetActive(false);
 		}
 
-	}
+	}*/
 
-	public void RemoveLiquid(float volumeLiquid){
+	/*public void RemoveLiquid(float volumeLiquid){
 		RemoveLiquid (1, volumeLiquid);
-	}
+	}*/
 
 	//! Sets the glassware state.
 	public void SetStateInUse(GameStateBase state){

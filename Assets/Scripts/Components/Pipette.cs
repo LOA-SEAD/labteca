@@ -219,11 +219,9 @@ public class Pipette : MonoBehaviour {
 				
 				GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().CannotEndState = true;
 				
-				reagentInPipette = interactingGlassware.reagents[0].reagent;
+				reagentInPipette = interactingGlassware.reagents[0].reagent as ReagentsLiquidClass;
 
-				/*
-				 * TODO:REMOVE LIQUID FROM GLASSWARE
-				 */
+				interactingGlassware.RemoveLiquid(volumeSelected);
 			}
 		}
 
@@ -280,9 +278,14 @@ public class Pipette : MonoBehaviour {
 		//glassware.reagent = reagentInPipette;
 
 		if (u_volumeSelected > 0.0f) { //If some liquid is selected, the amount is poured into the glassware
-			if (interactingGlassware != null)
-				interactingGlassware.PourLiquid (volumeHeld, volumeHeld * reagentInPipette.density, reagentInPipette);//TODO:Needs to treat the case in which the glassware can't receive everything
-				
+			if (interactingGlassware != null) {
+				if(volumeSelected <= (interactingGlassware.maxVolume - interactingGlassware.currentVolume))
+					interactingGlassware.PourLiquid (volumeHeld, volumeHeld * reagentInPipette.density, reagentInPipette);
+				else
+					interactingGlassware.PourLiquid ((interactingGlassware.maxVolume - interactingGlassware.currentVolume),
+					                                 (interactingGlassware.maxVolume - interactingGlassware.currentVolume) * reagentInPipette.density, reagentInPipette);
+			}
+
 			volumeHeld -= u_volumeSelected;
 		}
 
@@ -301,15 +304,15 @@ public class Pipette : MonoBehaviour {
 	}
 	//! Unloads the pipette into a proper vessel
 	// The vessel being the same reagent used to get the volume */
-	//public void UnfillPipette(/*ReagentsLiquidClass reagentPot*/) { //BasicallyDone
+	/*public void UnfillPipette(bool reagent) { //BasicallyDone
 
-/*		volumeHeld = 0.0f;
+		volumeHeld = 0.0f;
 		reagentInPipette = null;
 
 		CursorManager.SetMouseState (MouseState.ms_default);
 		CursorManager.SetCursorToDefault();
-	}
-*/
+	}*/
+
 
 	/* END OF GRADUATED PIPETTE */
 
@@ -319,8 +322,8 @@ public class Pipette : MonoBehaviour {
 		else
 			volumeHeld = maxVolume;
 
-		//reagentInPipette = TODO: RECEIVE THE REAGENT FROM GLASSWARE
 		if (volumeHeld > 0.0f) {
+			//reagentInPipette = TODO: RECEIVE THE REAGENT FROM GLASSWARE
 			CursorManager.SetMouseState (MouseState.ms_filledPipette);
 			CursorManager.SetNewCursor (filledPipette_CursorTexture, hotSpot);
 			GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().CannotEndState = true;
@@ -344,9 +347,6 @@ public class Pipette : MonoBehaviour {
 		}
 
 		if (volumeHeld == 0.0f) {
-			/*CursorManager.SetMouseState (MouseState.ms_pipette);
-			CursorManager.SetNewCursor (pipette_CursorTexture, hotSpot);*///TODO: DECIDE WHETHER TO GO BACK TO THE DEFAULT OR PIPETTE STATE
-
 			reagentInPipette = null;
 
 			CursorManager.SetMouseState (MouseState.ms_default);
@@ -357,9 +357,6 @@ public class Pipette : MonoBehaviour {
 	public void UnfillVolumetricPipette() {
 		volumeHeld = 0.0f;
 		reagentInPipette = null;
-
-		/*CursorManager.SetMouseState (MouseState.ms_pipette);
-			CursorManager.SetNewCursor (pipette_CursorTexture, hotSpot);*///TODO: DECIDE WHETHER TO GO BACK TO THE DEFAULT OR PIPETTE STATE
 		
 		CursorManager.SetMouseState (MouseState.ms_default);
 		CursorManager.SetCursorToDefault();

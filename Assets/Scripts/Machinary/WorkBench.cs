@@ -336,7 +336,7 @@ public class WorkBench : MonoBehaviour {
 
 	public void PutInInventory(){
 		//implementar a "colocaçao" no inventario
-		Destroy (lastGlassWareSelected.gameObject);
+		//Destroy (lastGlassWareSelected.gameObject);
 
 		CloseOptionDialogGlass();
 		CloseOptionDialogGlassTable ();

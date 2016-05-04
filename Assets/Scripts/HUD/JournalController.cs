@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class JournalController : MonoBehaviour {
-	public Canvas canvasUI;
 	public GameObject canvasObject;
 	public JournalUIInfo infoPrefab;
 	public JournalUIItem journalPrefab;    /*!< Prefab with reagent list layout. */
@@ -18,9 +17,7 @@ public class JournalController : MonoBehaviour {
 	private List<int> listOfJournalIndexes;
 	// Use this for initialization
 	void Start () {
-		canvasObject.SetActive (true);
 		rewriteContent ();
-		canvasObject.SetActive (false);
 	}
 	public void changeExperiment(int expo){
 		experimentNumber = expo;
@@ -34,7 +31,7 @@ public class JournalController : MonoBehaviour {
 
 		reagents.TryGetValue (name, out reagent);
 		//adds the infoUI to content
-		UIScrollList = canvasUI.GetComponentInChildren<ScrollRect> ();
+		UIScrollList = canvasObject.GetComponentInChildren<ScrollRect> ();
 		prefabRect = infoPrefab.GetComponent<RectTransform> ();	
 		contentRect = UIScrollList.content;
 		// calculate y position
@@ -87,10 +84,10 @@ public class JournalController : MonoBehaviour {
 		Dictionary<int, JournalUIItem> journalUIItem = JournalSaver.LoadJournalUIItems (experimentNumber);
 		
 		// Set-up components
-		if (canvasUI == null)   
+		if (canvasObject == null)   
 			Debug.LogError ("Canvas not found in GetReagentState");
 		
-		UIScrollList = canvasUI.GetComponentInChildren<ScrollRect> ();
+		UIScrollList = canvasObject.GetComponentInChildren<ScrollRect> ();
 		if (UIScrollList == null)
 			Debug.LogError ("ScrollRect not found in GetReagentState");
 		
@@ -104,21 +101,27 @@ public class JournalController : MonoBehaviour {
 		foreach (int k in listOfJournalIndexes) {
 			journalUIItem.TryGetValue (k, out actualJournalUI);
 			// calculate y position
-			float y = (prefabRect.rect.height + offSetItens) * lastItemPos;
+			GameObject tempItem = Instantiate (prefabRect.gameObject,
+			                                   new Vector3(0,0,0),
+			                                   prefabRect.transform.rotation) as GameObject;
+
+			tempItem.GetComponent<JournalUIItem> ().name = actualJournalUI.name;
+
+			tempItem.GetComponent<JournalUIItem>().resize();
+
+			float y = contentRect.sizeDelta.y + offSetItens;
 			
 			// set position
 			Vector3 currentPos = new Vector3 (1f, -y);
+			tempItem.transform.localPosition = currentPos;
 			//Debug.Log("Current y position: " + y );
-			
+			 
 			// resize content rect
 			contentRect.sizeDelta = new Vector2 (
 				1f, // width doesnt change
-				prefabRect.rect.height + (prefabRect.rect.height + offSetItens) * lastItemPos);
-			
-			// instantiate Item
-			GameObject tempItem = Instantiate (prefabRect.gameObject,
-			                                   currentPos,
-			                                   prefabRect.transform.rotation) as GameObject;
+				tempItem.GetComponent<RectTransform>().sizeDelta.y + contentRect.sizeDelta.y+offSetItens);
+
+
 			tempItem.name = "JournalUIItem" + actualJournalUI.index.ToString ();
 			tempItem.GetComponent<JournalUIItem> ().index = actualJournalUI.index;
 			tempItem.GetComponent<JournalUIItem> ().isDone = actualJournalUI.isDone;
@@ -126,9 +129,9 @@ public class JournalController : MonoBehaviour {
 			for (int n = 0; n < actualJournalUI.prerequisites.Length; n++) {
 				tempItem.GetComponent<JournalUIItem> ().prerequisites [n] = GameObject.Find ("JournalUIItem" + actualJournalUI.prerequisites [n].index.ToString ()).GetComponent<JournalUIItem> ();
 			}
-			tempItem.GetComponent<JournalUIItem> ().name = actualJournalUI.name;
 			tempItem.GetComponent<JournalUIItem> ().checkPrerequisites ();
-			
+
+
 			// next position on inventory grid
 			lastItemPos++;
 			

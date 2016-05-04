@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class InventoryManager : MonoBehaviour {
 
 	private int count = 0;
+	public Text selectedName;
 	public int[] indexButtons = new int[]{1,2};
 	public int listIndex;
 	public GameController gameController;
@@ -276,6 +277,16 @@ public class InventoryManager : MonoBehaviour {
 		this.selectedItem = i;
 		selectedObject = GameObject.Find (selectedItem.gameObject.name);
 		selectedObject.GetComponentInChildren<Image>().sprite = selectedIcon;
+		switch (i.getItemType ()) {
+			case ItemType.Glassware:
+				selectedName.text = i.gl.name;
+				break;
+			case ItemType.Liquids:
+			case ItemType.Solids:
+				selectedName.text = i.reagent;
+				break;
+		}
+
 	}
 
 	public void actionButtonClick(){

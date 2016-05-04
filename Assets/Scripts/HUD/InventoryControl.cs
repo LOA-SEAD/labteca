@@ -17,7 +17,7 @@ public class InventoryControl : MonoBehaviour {
 
 	public void setJournalState(bool state){
 		if(journal.activeSelf!=state)
-			journal.SetActive (state);
+			journal.SetActive(state);
 	}
 
 	public void setInventoryState(bool state){

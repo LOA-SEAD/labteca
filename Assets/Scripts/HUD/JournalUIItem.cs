@@ -6,6 +6,7 @@ public class JournalUIItem : MonoBehaviour {
 	public int index;
 	public string name;
 	public Text journalText;
+	public RectTransform self;
 	public GameObject checkmark;
 	public bool isDone,prerequisitesDone;
 	public JournalUIItem[] prerequisites;
@@ -13,9 +14,11 @@ public class JournalUIItem : MonoBehaviour {
 	public void Start(){
 		checkmark.SetActive (isDone?true:false);
 		journalText.text = name;
+		//resize ();
 	}
 
 	public void checkItem(){
+
 		if (!isDone && prerequisitesDone){
 			isDone=true;
 			GameObject[] journalItems = GameObject.FindGameObjectsWithTag("JournalUIItem");
@@ -26,6 +29,14 @@ public class JournalUIItem : MonoBehaviour {
 			checkmark.SetActive (true);
 		}
 	}
+
+	public void resize(){
+		journalText.text = name;
+
+		Debug.Log (journalText.preferredHeight);
+		self.sizeDelta = new Vector2 (self.sizeDelta.x, journalText.preferredHeight);
+
+	}
 	
 	public void checkPrerequisites(){
 		bool allDone=true;
@@ -33,11 +44,8 @@ public class JournalUIItem : MonoBehaviour {
 			allDone = prerequisites[i].isDone;
 		}
 
-		if (allDone) {
+		if (allDone) 
 			prerequisitesDone=true;
-			this.GetComponent<Image> ().color = new Color (this.GetComponent<Image> ().color.r, this.GetComponent<Image> ().color.g, this.GetComponent<Image> ().color.b, 100 / 255f);
-		}
-		else
-			this.GetComponent<Image> ().color = new Color (this.GetComponent<Image> ().color.r, this.GetComponent<Image> ().color.g, this.GetComponent<Image> ().color.b, 0f);
+
 	}
 }

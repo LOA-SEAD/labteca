@@ -250,13 +250,13 @@ public class Glassware : ItemToInventory
 	}
 
 	//! Remove the solid
-	public void RemoveSolid(float massSolid){
+	/*public void RemoveSolid(float massSolid){
 		GetComponent<Rigidbody>().mass -= massSolid;
 		if(GetComponent<Rigidbody>().mass < mass){
 			GetComponent<Rigidbody>().mass = mass;
 			solid.SetActive(false);
 		}
-	}
+	}*/
 
 	//! Add the liquid
 	/*! Checks the current volume (higher, lower or equal) and add the liquid. */

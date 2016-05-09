@@ -1,24 +1,45 @@
 ﻿using UnityEngine;
 using System.Collections;
-
-//! This is the result of reaction.
-/*! Contains all the properties of the liquid reagent, together with
- *!	a list of the reagents that were reacted, plus the reagents still present here.
- 	It also defines if there is any precipitate, and the mesh colors. */
-public class Mixture : ReagentsLiquidClass {
-
-	//List of reagents consumed
-	//List of reagents still here
-	public bool precipitate;		//There is a precipitate
+using System.Collections.Generic;
 
 
-	// Use this for initialization
-	void Start () {
-	
+//! The result of reaction.
+/*  Contains all the properties of the compounds, together with
+ *  a list of the reagents that were reacted, plus the reagents leftover.
+ */
+
+public class Mixture : Compound {
+
+	//The reagents that resulted on this mixture.
+	/* It may indicate reagent leftovers after the reaction.
+	 * The howMuch attribute indicates the amount of leftover compounds, where (howMuch = 0.0f) means there's no leftover of that compound.
+	 */
+	public List<CompoundsInMixture> reagents = new List<CompoundsInMixture>(); //List of reagents inside
+	public Compound product = null; //Product of the reaction
+	public float volume = 0.0f;		//Volume of mixture inside
+
+	[System.Serializable] /*!< Lets you embed a class with sub properties in the inspector. */
+	//Listing the compounds inside, together with the respective masses.
+	public class CompoundsInMixture{
+		public Compound reagent;
+		public float howMuch; //[g]
+		
+		public CompoundsInMixture(Compound re, float qu) {
+			reagent = re;
+			howMuch = qu;
+		}
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+
+	public float GetMass() {
+		float resultingMass = 0.0f;
+
+		if(reagents[0] != null)
+			 resultingMass += reagents [0].reagent.GetMass ();
+		if(reagents[1] != null)
+			resultingMass += reagents [1].reagent.GetMass ();
+		if(product != null)
+			resultingMass += product.GetMass ();
+
+		return resultingMass;
 	}
 }

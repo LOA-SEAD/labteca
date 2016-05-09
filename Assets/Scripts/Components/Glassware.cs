@@ -17,6 +17,9 @@ public class Glassware : ItemToInventory
 	//public float uncalibrateVolume; ?
 	public bool precisionGlass;		//The glassware is a precision one
 
+	//! The compounds inside
+	//Water is a valid reagent, but it is only seem when it's the only thing inside, otherwise it's associated with the reagent's concentration.
+	public List<Compound> compounds = new List<Compound> ();
 
 	//Mesh of liquids and solids
 	public GameObject liquid;
@@ -30,7 +33,6 @@ public class Glassware : ItemToInventory
 
 	public List<ReagentsInGlass> reagents = new List<ReagentsInGlass>();
 	private int numberOfReagents = 0;
-
 
 	private GameObject interactionBoxGlassware; //Interaction box when the object is clicked while on a Workbench
 	private bool onScale;	//The glassware is currently on a scale

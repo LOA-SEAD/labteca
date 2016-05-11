@@ -12,6 +12,27 @@ public class Reagent : Compound {
 	public float volume;		 //[mL]
  
 
+	public Reagent (Compound compound, float _volume, float _concentration) {
+		name = compound.name;
+		isSolid = compound.isSolid;
+		molarMass = compound.molarMass;
+		purity = compound.purity;
+		density = compound.density;
+		solubility = compound.solubility;
+		irSpecter = compound.irSpecter;
+		uvSpecter = compound.uvSpecter;
+		pH = compound.pH;
+		conductibility = compound.conductibility;
+		turbidity = compound.turbidity;
+		polarizability = compound.polarizability;
+		refratometer = compound.refratometer;
+		flameSpecter = compound.flameSpecter;
+		hplc = compound.hplc;
+	
+		volume = _volume;
+		concentration = _concentration;
+	}
+
 	//! Dilutes the reagent into water
 	// 	Takes the reagent Water as a parapeter in order to destroy the component afterwards.
 	public void Dilute (Reagent water) {
@@ -27,7 +48,7 @@ public class Reagent : Compound {
 
 
 	}
-
+	
 	public float GetMass() {
 		float mass = 0.0f;
 

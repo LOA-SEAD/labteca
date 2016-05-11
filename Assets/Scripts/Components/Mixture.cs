@@ -11,7 +11,7 @@ using System.Collections.Generic;
 public class Mixture : Compound {
 
 	//The reagents that resulted on this mixture.
-	/* It may indicate reagent leftovers after the reaction.
+	/* It may also indicate reagent leftovers after the reaction.
 	 * The howMuch attribute indicates the amount of leftover compounds, where (howMuch = 0.0f) means there's no leftover of that compound.
 	 */
 	public List<CompoundsInMixture> reagents = new List<CompoundsInMixture>(); //List of reagents inside
@@ -20,16 +20,21 @@ public class Mixture : Compound {
 
 	[System.Serializable] /*!< Lets you embed a class with sub properties in the inspector. */
 	//Listing the compounds inside, together with the respective masses.
-	public class CompoundsInMixture{
+	public class CompoundsInMixture{ //TODO:having another class is really necessary?
 		public Compound reagent;
 		public float howMuch; //[g]
 		
 		public CompoundsInMixture(Compound re, float qu) {
-			reagent = re;
+			reagent.CopyCompound(re);
 			howMuch = qu;
 		}
 	}
 
+	/*
+	public Mixture() {
+
+	}
+	*/
 	public float GetMass() {
 		float resultingMass = 0.0f;
 

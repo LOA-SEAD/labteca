@@ -4,8 +4,8 @@ using System.Collections;
 //! The basis for all the  chemical compounds.
 /*	Compounds include reagents and the results of reactions (solutions).
 	The compounds are the reagents as "pure" as they can, having all the reference values. */
-
-public class Compound {
+[System.Serializable]
+public class Compound : IPhysicochemical {
 
 	//Water mass;
 	private const float waterMolarMass = 18.015f;
@@ -64,7 +64,7 @@ public class Compound {
 		{
 			field.SetValue(this, field.GetValue(baseCompound));
 		}
-		name = baseCompound.name;
+		/*name = baseCompound.name;
 		isSolid = baseCompound.isSolid;
 		molarMass = baseCompound.molarMass;
 		purity = baseCompound.purity;
@@ -78,14 +78,38 @@ public class Compound {
 		polarizability = baseCompound.polarizability;
 		refratometer = baseCompound.refratometer;
 		flameSpecter = baseCompound.flameSpecter;
-		hplc = baseCompound.hplc;
+		hplc = baseCompound.hplc;*/
 	}
 
-	//Returns the mass based on the purity of the reagent.
-	public float GetMass() {
-
-
-		return molarMass;
-		//return purity * molarMass + (1 - purity)*waterMolarMass
-	}
+	public void SetName(string _name) { name = _name; }
+	public string GetName() { return name; }
+	//isSolid
+	public void SetSolidFlag(bool _flag){ isSolid = _flag; }
+	public bool GetSolidFlag() { return isSolid; }
+	//realMass
+	public void SetRealMass(float _mass) { realMass = _mass; }
+	public float GetRealMass() { return purity * molarMass + (1 - purity)*waterMolarMass; }
+	//density
+	public void SetDensity(float _density) { density = _density; }
+	public float GetDensity() { return density; }
+	//solubility
+	public void SetSolubilitye(float _solubility) { solubility = _solubility; }
+	public float GetSolubility() { return solubility; }
+	
+	
+	//pH
+	public void SetPh (float _pH) { pH = _pH; }
+	public float GetPh() { return pH;}
+	//conductibility
+	public void SetConductibility (float _conductibility) { conductibility = _conductibility;}
+	public float GetConductibility() { return conductibility; }
+	//turbidity
+	public void SetTurbidity (float _turbidity) { turbidity = _turbidity;}
+	public float GetTurbidity() { return turbidity; }
+	//polarizability
+	public void SetPolarizability (float _polarizability) { polarizability = _polarizability; }
+	public float GetPolarizability() { return polarizability; }
+	//refratometer
+	public void SetRefratometer (float _refratometer) { refratometer = _refratometer; }
+	public float GetRefratometer() { return refratometer; } 
 }

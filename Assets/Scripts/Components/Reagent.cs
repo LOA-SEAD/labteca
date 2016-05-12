@@ -32,6 +32,9 @@ public class Reagent : Compound {
 		volume = _volume;
 		concentration = _concentration;
 	}
+	public Reagent() {
+	
+	}
 
 	//! Dilutes the reagent into water
 	// 	Takes the reagent Water as a parapeter in order to destroy the component afterwards.
@@ -47,12 +50,5 @@ public class Reagent : Compound {
 	public void React (Reagent reagent) {
 
 
-	}
-	
-	public float GetMass() {
-		float mass = 0.0f;
-
-		return mass;
-		//return concentration, realMas, volume
 	}
 }

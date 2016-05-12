@@ -8,7 +8,21 @@ using System.Collections.Generic;
  *  a list of the reagents that were reacted, plus the reagents leftover.
  */
 
-public class Mixture : Compound {
+public class Mixture : IPhysicochemical {
+
+	public string name;
+	private float volume = 0.0f; //Volume of mixture inside
+	private float waterVolume = 0.0f;
+	private float realMass;
+	private float density;
+	private float solubility;
+
+	private float pH;
+	private float conductibility;
+	private float turbidity;
+	private float polarizability;
+	private float refratometer;
+
 
 	//The reagents that resulted on this mixture.
 	/* It may also indicate reagent leftovers after the reaction.
@@ -16,7 +30,6 @@ public class Mixture : Compound {
 	 */
 	public List<CompoundsInMixture> reagents = new List<CompoundsInMixture>(); //List of reagents inside
 	public Compound product = null; //Product of the reaction
-	public float volume = 0.0f;		//Volume of mixture inside
 
 	[System.Serializable] /*!< Lets you embed a class with sub properties in the inspector. */
 	//Listing the compounds inside, together with the respective masses.
@@ -39,12 +52,41 @@ public class Mixture : Compound {
 		float resultingMass = 0.0f;
 
 		if(reagents[0] != null)
-			 resultingMass += reagents [0].reagent.GetMass ();
+			 resultingMass += reagents [0].reagent.GetRealMass ();
 		if(reagents[1] != null)
-			resultingMass += reagents [1].reagent.GetMass ();
+			resultingMass += reagents [1].reagent.GetRealMass ();
 		if(product != null)
-			resultingMass += product.GetMass ();
+			resultingMass += product.GetRealMass ();
 
 		return resultingMass;
 	}
+
+	public void SetName(string _name) { name = _name; }
+	public string GetName() { return name; }
+	//realMass
+	public void SetRealMass(float _mass) { realMass = _mass; }
+	public float GetRealMass() { return realMass; }
+	//density
+	public void SetDensity(float _density) { density = _density; }
+	public float GetDensity() { return density; }
+	//solubility
+	public void SetSolubilitye(float _solubility) { solubility = _solubility; }
+	public float GetSolubility() { return solubility; }
+	
+	
+	//pH
+	public void SetPh (float _pH) { pH = _pH; }
+	public float GetPh() { return pH;}
+	//conductibility
+	public void SetConductibility (float _conductibility) { conductibility = _conductibility;}
+	public float GetConductibility() { return conductibility; }
+	//turbidity
+	public void SetTurbidity (float _turbidity) { turbidity = _turbidity;}
+	public float GetTurbidity() { return turbidity; }
+	//polarizability
+	public void SetPolarizability (float _polarizability) { polarizability = _polarizability; }
+	public float GetPolarizability() { return polarizability; }
+	//refratometer
+	public void SetRefratometer (float _refratometer) { refratometer = _refratometer; }
+	public float GetRefratometer() { return refratometer; } 
 }

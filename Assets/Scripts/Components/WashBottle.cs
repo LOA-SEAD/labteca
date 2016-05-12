@@ -20,7 +20,7 @@ public class WashBottle : MonoBehaviour {
 	public Texture2D washBottle_CursorTexture;
 	public Vector2 hotSpot = Vector2.zero;
 
-	public ReagentsLiquidClass Water;			//Defining H2O reagent
+	public Compound Water = new Compound();			//Defining H2O reagent
 
 	public Glassware interactingGlassware; 		//Glassware which the wash bottle is interacting with
 
@@ -38,8 +38,8 @@ public class WashBottle : MonoBehaviour {
 		Water.irSpecter = null;
 		Water.flameSpecter = null;
 		Water.uvSpecter = null;
-		Water.texture = null;
-		Water.ph = 7.0f;
+		//Water.texture = null;
+		Water.pH = 7.0f;
 		Water.turbidity = 1;
 		Water.refratometer = 1;
 		Water.hplc = null;

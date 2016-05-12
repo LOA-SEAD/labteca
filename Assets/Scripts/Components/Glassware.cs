@@ -68,6 +68,7 @@ public class Glassware : ItemToInventory
 	void Start () 
 	{
 		this.rigidbody.mass = mass;
+		totalMass = mass;
 		onScale = false;
 		hasLiquid = false;
 		hasSolid = false;
@@ -179,6 +180,11 @@ public class Glassware : ItemToInventory
 		 */
 	}
 
+	//! 
+	public void IncomingReagent(Compound incomingCompound) {
+
+	
+	}
 
 	//! Pours a liquid into the glassware
 	//	The liquid might come from pipettes or wash bottles (H2O)
@@ -188,6 +194,17 @@ public class Glassware : ItemToInventory
 
 		reagents.Add (new ReagentsInGlass(reagentFromTool as ReagentsBaseClass, liquidMass));
 
+		RefreshContents ();
+	}
+	public void PourLiquid(float volumeFromTool, float liquidMass, Compound reagentFromTool) {
+		currentVolume += volumeFromTool;
+		totalMass += liquidMass;
+
+		Reagent liquid = new Reagent(reagentFromTool, volumeFromTool, 1.0f);
+		liquid.CopyCompound(reagentFromTool);
+
+		compounds.Add (liquid);
+		
 		RefreshContents ();
 	}
 
@@ -241,7 +258,7 @@ public class Glassware : ItemToInventory
 		 * GLASS TO INVENTORY();
 		 */
 	}
-
+	
 	//-------------------------------------------------------------------------//
 
 	//! Add the solid

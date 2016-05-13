@@ -78,20 +78,10 @@ public class FPSInputController : MonoBehaviour
 
 
 		if (Physics.Raycast (cameraRay, out hitInfo, Mathf.Infinity)) {
-			if (hitInfo.collider.GetComponent<InteractObjectBase> () && hitInfo.distance <= distanceToInteract) {
-				if (Input.GetKeyDown (KeyCode.E)) {
-					hitInfo.collider.GetComponent<InteractObjectBase> ().Interact ();
-					if (!hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ())
-						gameObject.GetComponent<PlayerAnimation> ().PlayInteractAnimation ();
-					inInteraction = true;
-					lastPosition = transform.position;
-				}
-				HudText.SetText (interactText);
-			} else {
-				HudText.EraseText ();
-			}
-			//show information about the object
+			bool nameReset = false;
 			if (hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ()) {
+				nameReset = true;
+				HudText.SetText (hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ().equipName);
 				hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ().fadeIn();
 				if(hitInfo.distance>3){
 					hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ().setCanvasAlpha(1f);
@@ -105,6 +95,21 @@ public class FPSInputController : MonoBehaviour
 						lastHit.collider.GetComponent<AccessEquipmentBehaviour> ().fadeOut();
 				}
 			}
+			if (hitInfo.collider.GetComponent<InteractObjectBase> () && hitInfo.distance <= distanceToInteract) {
+				if (Input.GetKeyDown (KeyCode.E)) {
+					hitInfo.collider.GetComponent<InteractObjectBase> ().Interact ();
+					if (!hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ())
+						gameObject.GetComponent<PlayerAnimation> ().PlayInteractAnimation ();
+					inInteraction = true;
+					lastPosition = transform.position;
+				}
+				HudText.SetText (interactText);
+			} else {
+				if(!nameReset)
+				HudText.EraseText ();
+			}
+			//show information about the object
+
 			lastHit=hitInfo;
 		}
 

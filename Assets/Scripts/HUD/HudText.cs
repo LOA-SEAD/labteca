@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class HudText : MonoBehaviour 
 {
-	private static Text textObject;
+	public static Text textObject;
 	public static HudText instance;
 
 	// Use this for initialization

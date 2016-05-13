@@ -14,6 +14,7 @@ public class InventoryManager : MonoBehaviour {
 	public int listIndex;
 	public GameController gameController;
 	public GameObject itemPrefab;
+	public GameObject actionTab;
 	public GameObject selectedObject;
 	public List<Button> listButton;
 	public ArrayList ObjectList     = new ArrayList();
@@ -113,6 +114,8 @@ public class InventoryManager : MonoBehaviour {
 			Destroy(content.GetChild(i).gameObject);
 		}
 
+		selectedObject = null;
+		refreshTab ();
 		count = 0;
 
 		selectList (index);
@@ -219,6 +222,13 @@ public class InventoryManager : MonoBehaviour {
 		refreshActionButton ();
 	}
 
+	public void refreshTab(){
+		if (selectedObject != null)
+			actionTab.SetActive (true);
+		else
+			actionTab.SetActive (false);
+	}
+
 	public void auxSideButton(int i){
 		changeList (indexButtons [i]);
 	}
@@ -284,7 +294,8 @@ public class InventoryManager : MonoBehaviour {
 			}
 			n++;
 		}
-
+		if (item == selectedObject)
+			selectedObject = null;
 		Destroy (item);
 		refreshGrid ();
 	}
@@ -335,6 +346,7 @@ public class InventoryManager : MonoBehaviour {
 				break;
 		}
 
+		refreshTab ();
 	}
 
 	public void actionButtonClick(){
@@ -349,6 +361,8 @@ public class InventoryManager : MonoBehaviour {
 				removeItem (GameObject.Find (selectedItem.gameObject.name));
 			}
 		}
+
+		refreshTab ();
 	}
 
 	public void CallWorkbenchToTable(ItemInventoryBase item) {

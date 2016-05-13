@@ -11,6 +11,7 @@ public class AccessEquipmentBehaviour : InteractObjectBase {
 	public Canvas descriptionCanvas;
 	public float delay = 0.5f;                  /*!< Float delay time. */
 	public float fadeTime;
+	public string equipName;
 	private float currentDelay;
 	private float canvasAlpha=1f;
 	public float timeLeft;

@@ -13,9 +13,10 @@ public class ItemInventoryBase : MonoBehaviour {
 	public string index;
 	public Glassware gl;
 	public string reagent;
-    public Sprite icon;                         /*!< Icon that represents this object */
+    public Image icon;                         /*!< Icon that represents this object */
     public bool stackable;                      /*!< If can be stacked. */
     public ItemType itemType;                   /*!< Enum to set this item type: 'solids', 'liquids', 'glassware' and 'others'. */
+	public Text underText;
 	
 	public ItemToInventory itemBeingHeld;
 	public GameObject physicalObject;
@@ -65,6 +66,7 @@ public class ItemInventoryBase : MonoBehaviour {
 		 this.itemType=item.itemType;
 		 this.itemBeingHeld=item.itemBeingHeld;
 		 this.index = item.index;
+		 this.underText = item.underText;
 	}
 
 	public void addReagent(ReagentsBaseClass r){

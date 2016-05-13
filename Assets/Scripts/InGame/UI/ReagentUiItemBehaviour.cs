@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class ReagentUiItemBehaviour : MonoBehaviour {
 
 	public Text nameReagent;
+	public List<Sprite> bg;
 	public ReagentsBaseClass prefabReagent;
 	private InventoryManager inventoryManager;
 
@@ -27,6 +28,12 @@ public class ReagentUiItemBehaviour : MonoBehaviour {
 		nameReagent.text = name;
 
 		prefabReagent = r;
+
+		if (r.isSolid)
+			gameObject.GetComponent<Image>().sprite = bg[0];
+		else
+			gameObject.GetComponent<Image>().sprite = bg[1];
+		
 
 		//Copies the ReagentClass component
 		/*if (r.isSolid) {

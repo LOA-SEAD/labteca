@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 //! Set a Glassware and add to inventory.
@@ -7,7 +8,8 @@ using UnityEngine.UI;
 public class GlasswareUiItemBehaviour : MonoBehaviour {
 
 	public Text nameGlass;
-
+	public Image icon;
+	public List<Sprite> icons;
 	private Glassware prefabGlassware;
 
 	private int glasswareIndex;  //Position in the glasswareList in GetGlasswareState.cs
@@ -32,6 +34,15 @@ public class GlasswareUiItemBehaviour : MonoBehaviour {
 		prefabGlassware = glass;
 	
 		glasswareIndex = index;
+
+		if(nameGlass.text.Contains("Balão"))
+			icon.sprite = icons[0];
+		if(nameGlass.text.Contains("Erlenmeyer"))
+			icon.sprite = icons[1];
+		if(nameGlass.text.Contains("Bequer"))
+			icon.sprite = icons[2];
+
+
 	}
 
 	/*! Add the glassware to the inventory.*/

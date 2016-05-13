@@ -28,6 +28,7 @@ public class InventoryManager : MonoBehaviour {
 	public List<Sprite> backgroundIcons;
 	public List<Sprite> backgroundButtons;
 	public List<Sprite> backgroundAction;
+	public List<Sprite> icons;
 	private Sprite selectedIcon;
 
 	public Image inventoryImage,tabImage,scrollbar;
@@ -121,6 +122,53 @@ public class InventoryManager : MonoBehaviour {
 		refreshGrid ();
 	}
 
+	public void changeImage(GameObject obj){
+		ItemInventoryBase item = obj.GetComponent<ItemInventoryBase> ();
+		Image icon = null;
+		Image[] img = obj.GetComponentsInChildren<Image> ();
+		for (int i = 0; i < img.Length; i++) {
+			if(img[i].gameObject.name == "Item Image")
+				icon = img[i];
+		}
+
+		Text txt = obj.GetComponentInChildren<Text> ();;
+		switch (item.getItemType ()) {
+		case ItemType.Liquids:
+			icon.sprite = icons[0];
+			txt.text = item.reagent;
+			break;
+		case ItemType.Solids:
+			icon.sprite = icons[1];
+			txt.text = item.reagent;
+			break;
+		case ItemType.Glassware:
+			txt.text = "";
+			if(item.gl.name.Contains("Balão Volumétrico")){
+				icon.sprite = icons[2];
+				break;
+			}
+			if(item.gl.name.Contains("Bequer")){
+				icon.sprite = icons[5];
+				break;
+			}
+			if(item.gl.name.Contains("Erlenmeyer")){
+				if(item.gl.name.Contains("25")){
+					icon.sprite = icons[6];
+					break;
+				}
+				if(item.gl.name.Contains("50")){
+					icon.sprite = icons[7];
+					break;
+				}
+				if(item.gl.name.Contains("100")){
+					icon.sprite = icons[8];
+					break;
+				}
+			}
+			break;
+		}
+	}
+
 	public GameObject instantiateObject(ItemInventoryBase item){
 		GameObject tempItem = Instantiate(itemPrefab) as GameObject;
 		tempItem.transform.SetParent(content.transform,false);
@@ -128,7 +176,7 @@ public class InventoryManager : MonoBehaviour {
 		count++;
 		tempItem.GetComponent<ItemInventoryBase>().copyData(item);
 		ObjectList.Add(tempItem);
-
+		changeImage (tempItem);
 		tempItem.gameObject.GetComponent<Button> ().onClick.AddListener (() => this.setSelectedItem(tempItem.GetComponent<ItemInventoryBase>()));
 
 		return tempItem;

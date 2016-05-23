@@ -69,7 +69,7 @@ public class ItemInventoryBase : MonoBehaviour {
 		 this.underText = item.underText;
 	}
 
-	public void addReagent(ReagentsBaseClass r){
+	public void addReagent(Compound r){
 		reagent = r.name;
 		if(r.isSolid)
 			itemType=ItemType.Solids;

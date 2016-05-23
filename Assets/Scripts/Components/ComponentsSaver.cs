@@ -11,15 +11,15 @@ using System.Collections.Generic;
 public class ComponentsSaver
 {
 	//! Saves the component information in a Dictionary. 
-	public static void SaveReagentFromEditor(string name, bool isSolid, int molarMass, float density, float ph, float polarizability, 
+	public static void SaveReagentFromEditor(string name, bool isSolid, int molarMass, float density, float pH, float polarizability, 
 	                                         Texture2D uvSpecter, Texture2D irSpecter, Texture2D flameSpecter, float conductibility, 
 	                                         float solubility, float turbidity, Texture2D hplc, float refratometer, Texture2D texture, Color color)
 	{
 
-		Dictionary<string, ReagentsBaseClass> reagents = LoadReagents ();
+		Dictionary<string, Compound> reagents = LoadReagents ();
 
 
-		ReagentsLiquidClass reagent = new ReagentsLiquidClass();
+		Compound reagent = new Compound();
 		reagent.isSolid = isSolid;
 		reagent.name = name;
 		reagent.molarMass = molarMass;
@@ -28,11 +28,9 @@ public class ComponentsSaver
 		reagent.irSpecter = irSpecter;
 		reagent.conductibility = conductibility;
 		reagent.solubility = solubility;
-		reagent.texture = texture;
-		reagent.color = color;
 
 		if(!isSolid) {
-			reagent.ph = ph;
+			reagent.pH = pH;
 			reagent.uvSpecter = uvSpecter;
 			reagent.flameSpecter = flameSpecter;
 			reagent.turbidity = turbidity;
@@ -57,7 +55,7 @@ public class ComponentsSaver
 	}
 
 	//! Saves the new reagent in a file 
-	public static void SaveReagents(Dictionary<string, ReagentsBaseClass> reagents)
+	public static void SaveReagents(Dictionary<string, Compound> reagents)
 	{
 		TextEdit text = new TextEdit("Assets/Resources/components.txt");
 
@@ -66,7 +64,7 @@ public class ComponentsSaver
 		text.SetInt ("numberOfReagents", reagents.Count);
 
 		int counter = 0;
-		foreach (ReagentsLiquidClass reagent in reagents.Values)
+		foreach (Compound reagent in reagents.Values)
 		{
 			text.SetString("name" + counter.ToString(), reagent.name);
 			text.SetBool("isSolid" + counter.ToString(), reagent.isSolid);
@@ -86,23 +84,15 @@ public class ComponentsSaver
 
 			text.SetFloat("conductibility" + counter.ToString(), reagent.conductibility);
 			text.SetFloat("solubility" + counter.ToString(), reagent.solubility);
-
-			if(reagent.texture != null)
-			{
-				text.SetString("texture" + counter.ToString(), reagent.texture.name);
-			}
-			else
-			{
-				text.SetString("texture" + counter.ToString(), "");
-			}
+			/*
 			text.SetFloat("colorR" + counter.ToString(), reagent.color.r);
 			text.SetFloat("colorG" + counter.ToString(), reagent.color.g);
 			text.SetFloat("colorB" + counter.ToString(), reagent.color.b);
 			text.SetFloat("colorA" + counter.ToString(), reagent.color.a);
-
+			*/
 			//!This saves only what is related to liquids
-			if (reagent is ReagentsLiquidClass) {  
-				text.SetFloat("ph" + counter.ToString(), reagent.ph);
+			if (!reagent.isSolid) {  
+				text.SetFloat("pH" + counter.ToString(), reagent.pH);
 				text.SetFloat("turbidity" + counter.ToString(), reagent.turbidity);
 				text.SetFloat("refratometer" + counter.ToString(), reagent.refratometer);
 
@@ -128,7 +118,7 @@ public class ComponentsSaver
 	}
 
 	//! Reads/Loads the dictionary from file.
-	public static Dictionary<string, ReagentsBaseClass> LoadReagents()
+	public static Dictionary<string, Compound> LoadReagents()
 	{
 		TextAsset loadText = Resources.Load("components") as TextAsset;
 
@@ -138,14 +128,14 @@ public class ComponentsSaver
 
 		int numberOfReagents = textLoad.GetInt ("numberOfReagents");
 
-		Dictionary<string, ReagentsBaseClass> reagents = new Dictionary<string, ReagentsBaseClass>();
+		Dictionary<string, Compound> reagents = new Dictionary<string, Compound>();
 
 		if (numberOfReagents > 0) 
 		{
 			for (int i = 0; i < numberOfReagents; i++) 
 			{
 
-				ReagentsLiquidClass reagentAcc = new ReagentsLiquidClass();
+				Compound reagentAcc = new Compound();
 
 				reagentAcc.name = textLoad.GetString ("name" + i.ToString ());
 				reagentAcc.isSolid = textLoad.GetBool("isSolid" + i.ToString());
@@ -166,22 +156,12 @@ public class ComponentsSaver
 				reagentAcc.solubility = textLoad.GetFloat ("solubility" + i.ToString ());
 			
 
-
-				if (!string.IsNullOrEmpty (textLoad.GetString ("texture" + i.ToString ()))) 
-				{
-					reagentAcc.texture = Resources.Load<Texture2D>("specter/" + textLoad.GetString ("texture" + i.ToString ()));
-				} 
-				else 
-				{
-					reagentAcc.texture = null;
-				}
-
-				reagentAcc.color = new Color (textLoad.GetFloat ("colorR"+ i.ToString ()), textLoad.GetFloat ("colorG"+ i.ToString ()), textLoad.GetFloat ("colorB"+ i.ToString ()), textLoad.GetFloat ("colorA"+ i.ToString ()));
+				//reagentAcc.color = new Color (textLoad.GetFloat ("colorR"+ i.ToString ()), textLoad.GetFloat ("colorG"+ i.ToString ()), textLoad.GetFloat ("colorB"+ i.ToString ()), textLoad.GetFloat ("colorA"+ i.ToString ()));
 
 				//!Gets the liquid-related variables
 				if(!textLoad.GetBool("isSolid" + i.ToString())) {
 
-					reagentAcc.ph = textLoad.GetFloat ("ph" + i.ToString ());
+					reagentAcc.pH = textLoad.GetFloat ("ph" + i.ToString ());
 					reagentAcc.turbidity = textLoad.GetFloat ("turbidity" + i.ToString ());
 					reagentAcc.refratometer = textLoad.GetFloat ("refratometer" + i.ToString ());
 					if (!string.IsNullOrEmpty (textLoad.GetString ("uvSpecter" + i.ToString ()))) {

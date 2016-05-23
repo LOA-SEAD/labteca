@@ -88,7 +88,7 @@ public class MachineBehaviour : MonoBehaviour
 	//! Setup of reagent liquid in all machines.
 	public void Setup(string reagent, float concentration)
 	{
-		Dictionary<string, ReagentsBaseClass> allReagents = ComponentsSaver.LoadReagents ();
+		Dictionary<string, Compound> allReagents = ComponentsSaver.LoadReagents ();
 
 		if (!allReagents.ContainsKey(reagent))
 		{
@@ -96,7 +96,7 @@ public class MachineBehaviour : MonoBehaviour
 			return;
 		}
 
-		ReagentsLiquidClass realReagent = allReagents [reagent] as ReagentsLiquidClass;
+		Compound realReagent = allReagents [reagent] as Compound;
 
 		allowShowFloat = false;
 		allowShowTexture = false;
@@ -183,7 +183,7 @@ public class MachineBehaviour : MonoBehaviour
 	//! Uses of reagent liquid in all machines.
 	public void Use(string reagent, float concentration)
 	{
-		Dictionary<string, ReagentsBaseClass> allReagents = ComponentsSaver.LoadReagents ();
+		Dictionary<string, Compound> allReagents = ComponentsSaver.LoadReagents ();
 		
 		if (!allReagents.ContainsKey(reagent))
 		{
@@ -191,13 +191,13 @@ public class MachineBehaviour : MonoBehaviour
 			return;
 		}
 		
-		ReagentsLiquidClass realReagent = allReagents [reagent] as ReagentsLiquidClass;
+		Compound realReagent = allReagents [reagent] as Compound;
 
 		switch (myType) 
 		{
 			case MACHINES.PHMETER:
 			{
-				resultFloat = realReagent.ph;
+				resultFloat = realReagent.pH;
 				allowShowFloat = true;
 				allowShowTexture = false;
 			}

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -28,12 +28,12 @@ public class Mixture : IPhysicochemical {
 	/* It may also indicate reagent leftovers after the reaction.
 	 * The howMuch attribute indicates the amount of leftover compounds, where (howMuch = 0.0f) means there's no leftover of that compound.
 	 */
-	public List<CompoundsInMixture> reagents = new List<CompoundsInMixture>(); //List of reagents inside
+	public List<Reagent> reagents = new List<Reagent>(); //List of reagents inside
 	public Compound product = null; //Product of the reaction
 
-	[System.Serializable] /*!< Lets you embed a class with sub properties in the inspector. */
+	//[System.Serializable] /*!< Lets you embed a class with sub properties in the inspector. */
 	//Listing the compounds inside, together with the respective masses.
-	public class CompoundsInMixture{ //TODO:having another class is really necessary?
+/*	public class CompoundsInMixture{ //TODO:having another class is really necessary?
 		public Compound reagent;
 		public float howMuch; //[g]
 		
@@ -42,7 +42,7 @@ public class Mixture : IPhysicochemical {
 			howMuch = qu;
 		}
 	}
-
+*/
 	/*
 	public Mixture() {
 
@@ -51,10 +51,10 @@ public class Mixture : IPhysicochemical {
 	public float GetMass() {
 		float resultingMass = 0.0f;
 
-		if(reagents[0] != null)
-			 resultingMass += reagents [0].reagent.GetRealMass ();
+		if (reagents [0] != null)
+			resultingMass += reagents [0].GetRealMass ();
 		if(reagents[1] != null)
-			resultingMass += reagents [1].reagent.GetRealMass ();
+			resultingMass += reagents [1].GetRealMass ();
 		if(product != null)
 			resultingMass += product.GetRealMass ();
 

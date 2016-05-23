@@ -66,7 +66,7 @@ public class WorkBench : MonoBehaviour {
 	public Button confirmAddButton;
 	public Button confirmRemoveButton;
 	private bool usePrecision;
-	public ReagentsBaseClass heldInSpatula;  //Reagent being held by the spatula
+	public Compound heldInSpatula;  //Reagent being held by the spatula
 	//
 	private string lastReagentName;
 
@@ -79,7 +79,7 @@ public class WorkBench : MonoBehaviour {
 	//public ButtonObject pipetaReagentCursor;
 	public Slider pipetaValue;
 	public Text pipetaValueText;
-	public ReagentsLiquidClass heldInPipette; //Reagent being held by the pipette
+	public Compound heldInPipette; //Reagent being held by the pipette
 	//
 	
 	//water
@@ -113,7 +113,7 @@ public class WorkBench : MonoBehaviour {
 	
 	public void Start () {
 		RefreshInteractiveItens ();
-		DesactiveInteractObjects ();
+		DeactivateInteractObjects ();
 	}
 
 	// TODO: se for alterado o modo de interacao com objetos na cena para Raycast, isso provavelmente vai ter de ser alterado.
@@ -129,7 +129,7 @@ public class WorkBench : MonoBehaviour {
 	void Update(){
 
 		if(uiManager.alertDialog.IsShowing() || !canClickTools){
-			DesactiveInteractObjects();
+			DeactivateInteractObjects();
 		}
 		else{
 			ActiveInteractObjects();
@@ -139,7 +139,7 @@ public class WorkBench : MonoBehaviour {
 
 	// TODO: funcao que estava dentro do script UI_ObjectManager e foi jogada aqui. Poderia usar o script já feito e não fazer redundancia no codigo.
 	// Desactive tah errado >.< refatorar isso se for continuar usando aqui.
-	private void DesactiveInteractObjects(){
+	private void DeactivateInteractObjects(){
 		foreach(ButtonObject t in tools){
 			if(t!=null)
 				t.GetComponent<Transform>().parent.GetComponent<Canvas>().enabled = false;
@@ -159,12 +159,13 @@ public class WorkBench : MonoBehaviour {
      * close all dialogs that might be enabled. */
 	public void OnStartRun ()
 	{
-		CloseSpatulaDialog(false);
+/*		CloseSpatulaDialog(false);
 		CloseOptionDialogReagent();
 		CloseOptionDialogGlass();
 		CloseOptionDialogWater ();
 		CloseOptionDialogPipeta ();
-		CloseOptionDialogGlassTable ();
+		CloseOptionDialogGlassTable ();*/
+		canClickTools = true;
 		returnPosition ();
 	}
 
@@ -176,7 +177,7 @@ public class WorkBench : MonoBehaviour {
 			UnselectAll();
 		}
 		amountSelectedSpatula = 0;*/
-		DesactiveInteractObjects ();
+		DeactivateInteractObjects ();
 
 		spatula.OnStopRun ();
 		pipette.OnStopRun ();
@@ -185,7 +186,7 @@ public class WorkBench : MonoBehaviour {
 	}
 
 	//TODO: metodo temporario na ausencia do inventario
-	public void CallPutBequer(){
+/*	public void CallPutBequer(){
 		if(gameController.totalBeakers > 0){
 			OpenOptionDialogGlass();
 		}
@@ -193,7 +194,7 @@ public class WorkBench : MonoBehaviour {
 			uiManager.alertDialog.ShowAlert("Sem Bequer no inventario!");
 		}
 	}
-
+*/
 
 	//TODO: todos esses OpenDialogX e CloseDialogX podem ser uma funcao cada, ou ateh mesmo uma funcao que use parametros.
 	/* Sugestao: Se cada objeto tiver seu proprio dialog, chamar essas funcoes pelo Raycast e passar o dialog como parametro pra ser exibido,
@@ -205,7 +206,7 @@ public class WorkBench : MonoBehaviour {
      */
 	
 	// ------------------------------------- comeca aqui ---------------------------------------------------------------------
-	public void OpenOptionDialogGlass(){
+/*	public void OpenOptionDialogGlass(){
 		optionDialogGlass.SetActive(true);
 		canClickTools = false;
 	}
@@ -292,11 +293,11 @@ public class WorkBench : MonoBehaviour {
 		canClickTools = true;
 	}
 	// ------------------------------------- termina aqui ---------------------------------------------------------------------
-
+*/
 	//! Put the Glassware on the table.
 	/*! Verifiy each position available and let the Player choose an available, if any, position to put the glassware. */
 	// TODO: Revisar este codigo maroto aqui, tem coisas muito identicas que poderiam ser funcoes menores, ou talvez feito de maneira melhor?
-	public void PutGlassOnTable(bool realocate){
+/*	public void PutGlassOnTable(bool realocate){
 		if (returnPosition()==null) {
 			uiManager.alertDialog.ShowAlert ("A Bancada esta cheia!");
 			CloseOptionDialogGlassTable ();
@@ -333,8 +334,8 @@ public class WorkBench : MonoBehaviour {
 			}
 		}
 	}
-
-	public void PutInInventory(){
+*/
+/*	public void PutInInventory(){
 		//implementar a "colocaçao" no inventario
 		//Destroy (lastGlassWareSelected.gameObject);
 
@@ -360,11 +361,11 @@ public class WorkBench : MonoBehaviour {
 		}
 		return false;
 	}
-
+*/
 	// TODO: Codigo para controle da espatula, talvez modularizar e colocar o script no GameObject da espatula
 	//Spatula//////////////////////////////////////////////////////////////
 	//! Set the approximate that the spatule will be taking. 
-	public void SetAmountReagentSpatula(bool Increase){
+/*	public void SetAmountReagentSpatula(bool Increase){
 		
 		if (amountSelectedSpatula < 0)
 			amountSelectedSpatula = 0;
@@ -407,11 +408,11 @@ public class WorkBench : MonoBehaviour {
 		typeSpatulaSelected = typeNumber;
 		
 	}
-	
+*/	
 	//! Define the ammount that spatula took.
 	/*! This is done so the spatula isn't precise, it will only be precise if you're using the scale itself, 
      * not taking the solid reagent directly from the inventory. */
-	public void DefineAmountSpatule(bool useToRemove){
+/*	public void DefineAmountSpatule(bool useToRemove){
 		if (usePrecision) {
 			CloseSpatulaDialog (false);
 		
@@ -433,12 +434,12 @@ public class WorkBench : MonoBehaviour {
 		}
 	}
 	//Spatula//////////////////////////////////////////////////////////////
-
+*/
 	// TODO: Codigo para controle da Pisseta, se for decidido modularizar, deve ser refatorado isso.
 	//Water//////////////////////////////////////////////////////////////
 	//! Define the approximate amount of water that will be used.
 	/*! The Wash Bottle cant give any precise quantity of water so an approximate value is calculated and added. */
-	public void DefineAmountWater(){
+/*	public void DefineAmountWater(){
 		
 		float currentError = amountSelectedWater*porcentErrorWater/100;
 		if((int)(Time.time) % 2 == 0)
@@ -456,20 +457,20 @@ public class WorkBench : MonoBehaviour {
 	public void SetAmountWater(){
 		amountSelectedWater = waterValue.value;
 		waterValueText.text = amountSelectedWater.ToString ();
-	}
+	}*/
 	//Water//////////////////////////////////////////////////////////////
 	
 	//TODO: Pipeta, caso seja realizada a modularizacao dos componentes, aqui comeca o codigo da pisseta.
 	//Pipeta//////////////////////////////////////////////////////////////
 	//! Define the precise amount of water.
-	public void DefineAmountPipeta(){
+/*	public void DefineAmountPipeta(){
 		CloseOptionDialogPipeta ();
 
 		if (amountSelectedPipeta > 0) {
 			pipetaReagentCursor.CursorEnter ();
 			selectPipeta = true;
-			if(!(lastItemSelected.GetComponent<ReagentsLiquidClass>() == null))
-				heldInPipette = lastItemSelected.GetComponent<ReagentsLiquidClass>();
+			if(!(lastItemSelected.GetComponent<Compound>() == null))
+				heldInPipette = lastItemSelected.GetComponent<Compound>();
 			if (!(lastItemSelected.GetComponent<Glassware> () == null)) //Only removes from the last selected object if it's a glassware
 				lastItemSelected.GetComponent<Glassware>().RemoveLiquid (amountSelectedPipeta);
 		}
@@ -480,8 +481,8 @@ public class WorkBench : MonoBehaviour {
 		pipetaValueText.text = amountSelectedPipeta.ToString ();
 	}
 	//Pipeta//////////////////////////////////////////////////////////////
-	
-	// TODO: mais uma vez codigo 'especializado' que poderia usar funcao generica, ou modularizado dentro dos respectivos objetos.
+	*/
+/*	// TODO: mais uma vez codigo 'especializado' que poderia usar funcao generica, ou modularizado dentro dos respectivos objetos.
 	public void SelectSpatula(){
 		UnselectAll ();
 		selectSpatula = true;
@@ -606,7 +607,7 @@ public class WorkBench : MonoBehaviour {
 	public void ClickSolidReagent(GameObject solidClick){
 
 		lastItemSelected = solidClick;
-		ReagentsBaseClass solid = solidClick.GetComponent<ReagentsBaseClass> ();
+		Compound solid = solidClick.GetComponent<Compound> ();
 
 		if(selectSpatula){
 			usePrecision = false;
@@ -621,7 +622,7 @@ public class WorkBench : MonoBehaviour {
 	public void ClickLiquidReagent (GameObject liquidClick) {
 
 		lastItemSelected = liquidClick;
-		ReagentsLiquidClass liquid = liquidClick.GetComponent<ReagentsLiquidClass> ();
+		Compound liquid = liquidClick.GetComponent<Compound> ();
 	
 		if (selectPipeta) {
 			
@@ -635,7 +636,7 @@ public class WorkBench : MonoBehaviour {
 		} else
 			OpenOptionDialogReagent ();
 	}
-
+*/
 	public Transform returnPosition(){
 		for (int z=0; z<positionGlass.Length; z++) {
 			if(positionGlass[z].childCount==0)
@@ -680,8 +681,8 @@ public class WorkBench : MonoBehaviour {
 			
 		}
 		
-		CloseOptionDialogGlass();
-		CloseOptionDialogGlassTable ();
+//		CloseOptionDialogGlass();
+//		CloseOptionDialogGlassTable ();
 		RefreshInteractiveItens ();
 	}
 
@@ -703,16 +704,16 @@ public class WorkBench : MonoBehaviour {
 				GameObject tempItem = Instantiate(item.gameObject/*, position.position/*, gameController.selectedGlassWare.transform.rotation*/) as GameObject;
 				tempItem.transform.SetParent (position, /*true*/false);
 				tempItem.transform.localPosition = Vector3.zero;
-				if(tempItem.GetComponent<ReagentsBaseClass>()!=null){
-					ReagentsBaseClass reagent;
-					Dictionary<string, ReagentsBaseClass> reagentDictionary = ComponentsSaver.LoadReagents ();
+				if(tempItem.GetComponent<ReagentPot>()!=null){
+					Compound reagent;
+					Dictionary<string, Compound> reagentDictionary = ComponentsSaver.LoadReagents ();
 					reagentDictionary.TryGetValue (key, out reagent);
 					Debug.Log(key);
 
-					if(tempItem.GetComponent<ReagentsBaseClass>().isSolid)
-						tempItem.GetComponent<ReagentsBaseClass>().receiveValues(reagent as ReagentsBaseClass);
+					if(tempItem.GetComponent<ReagentPot>().isSolid)
+						tempItem.GetComponent<ReagentPot>().reagent.setValues(reagent as Compound);
 					else
-						tempItem.GetComponent<ReagentsBaseClass>().receiveValues(reagent as ReagentsLiquidClass);
+						tempItem.GetComponent<ReagentPot>().reagent.setValues(reagent as Compound);
 				}
 				return;
 			}

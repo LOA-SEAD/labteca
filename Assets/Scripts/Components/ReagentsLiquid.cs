@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 //! Enable and Disable ReagentsLiquid.
@@ -15,7 +15,7 @@ public class ReagentsLiquid : MonoBehaviour
 	private InventoryController inventory;
 	private Vector3 originalPosition;
 
-	public ReagentsLiquidClass info;
+	public Compound info;
 
 	private bool _inInventory = false;
 
@@ -113,6 +113,6 @@ public class ReagentsLiquid : MonoBehaviour
 	//! Loads reagentsLiquid
 	public void GetInfo(string reagent)
 	{
-		info = ComponentsSaver.LoadReagents()[reagent] as ReagentsLiquidClass;
+		info = ComponentsSaver.LoadReagents()[reagent] as Compound;
 	}
 }

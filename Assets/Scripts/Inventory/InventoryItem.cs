@@ -9,7 +9,7 @@ public class InventoryItem : MonoBehaviour {
 	public Button actionButton, infoButton; 
 
 	//Item being held by the button
-	public ReagentsBaseClass reagent;
+	public Compound reagent;
 	public ItemToInventory itemBeingHeld;
 	public GameObject physicalObject; 
 

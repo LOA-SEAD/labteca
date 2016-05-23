@@ -8,7 +8,7 @@ public class DeleteComponent : EditorWindow
 	private string selectedComponent = "";
 	private string selectedComponentLastInteraction = "";
 	private bool selected = false;
-	private ReagentsBaseClass reagent;
+	private Compound reagent;
 
 	private bool deleteSelected = false;
 
@@ -29,7 +29,7 @@ public class DeleteComponent : EditorWindow
 
 		EditorGUILayout.LabelField("Deletar Reagente:");
 
-		Dictionary<string, ReagentsBaseClass> reagents = ComponentsSaver.LoadReagents();
+		Dictionary<string, Compound> reagents = ComponentsSaver.LoadReagents();
 
 		string[] names = new string[reagents.Count];
 
@@ -57,7 +57,7 @@ public class DeleteComponent : EditorWindow
 			{
 				selected = true;
 				deleteSelected = false;
-				reagent = reagents[names[indexOfComponent]] as ReagentsLiquidClass;
+				reagent = reagents[names[indexOfComponent]] as Compound;
 			}
 		}
 
@@ -71,12 +71,12 @@ public class DeleteComponent : EditorWindow
 			EditorGUILayout.LabelField("Solubilidade: " + reagent.solubility.ToString());
 
 			if(!reagent.isSolid) {
-				EditorGUILayout.LabelField("Ph : " + (reagent as ReagentsLiquidClass).ph.ToString());
-				EditorGUILayout.LabelField("Turbilidade: " + (reagent as ReagentsLiquidClass).turbidity.ToString());
-				EditorGUILayout.LabelField("Refratometro: " + (reagent as ReagentsLiquidClass).refratometer.ToString());
+				EditorGUILayout.LabelField("Ph : " + (reagent as Compound).pH.ToString());
+				EditorGUILayout.LabelField("Turbilidade: " + (reagent as Compound).turbidity.ToString());
+				EditorGUILayout.LabelField("Refratometro: " + (reagent as Compound).refratometer.ToString());
 
-				if((reagent as ReagentsLiquidClass).hplc != null) {
-					EditorGUILayout.LabelField("HPLC = " + (reagent as ReagentsLiquidClass).hplc.ToString());
+				if((reagent as Compound).hplc != null) {
+					EditorGUILayout.LabelField("HPLC = " + (reagent as Compound).hplc.ToString());
 				} else {
 					EditorGUILayout.LabelField ("HPLC = ");
 				}
@@ -100,15 +100,15 @@ public class DeleteComponent : EditorWindow
 				EditorGUILayout.LabelField("Espectro UV : ");
 			}
 
-			if(reagent.texture != null)
+		/*	if(reagent.texture != null)
 			{
 				EditorGUILayout.LabelField("Textura: " + reagent.texture.name);
 			}
 			else
 			{
 				EditorGUILayout.LabelField("Textura: ");
-			}
-			EditorGUILayout.ColorField("Cor: ", reagent.color);
+			}*/
+			//EditorGUILayout.ColorField("Cor: ", reagent.color);
 
 			if(!deleteSelected)
 			{
@@ -122,7 +122,7 @@ public class DeleteComponent : EditorWindow
 				EditorGUILayout.LabelField("Deletar?");
 				if(GUILayout.Button("Sim"))
 				{
-					Dictionary<string, ReagentsBaseClass> allReagents = ComponentsSaver.LoadReagents();
+					Dictionary<string, Compound> allReagents = ComponentsSaver.LoadReagents();
 
 					allReagents.Remove(names[indexOfComponent]);
 					ComponentsSaver.SaveReagents(allReagents);

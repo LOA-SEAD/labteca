@@ -10,7 +10,7 @@ public class ReagentUiItemBehaviour : MonoBehaviour {
 
 	public Text nameReagent;
 	public List<Sprite> bg;
-	public ReagentsBaseClass prefabReagent;
+	public ReagentPot prefabReagentPot;
 	private InventoryManager inventoryManager;
 
 	void Start () {
@@ -23,13 +23,13 @@ public class ReagentUiItemBehaviour : MonoBehaviour {
 	}*/
 
 
-	public void SetReagent(string name, ReagentsBaseClass r){
+	public void SetReagent(string name, GameObject r){
 
 		nameReagent.text = name;
 
-		prefabReagent = r;
+		prefabReagentPot = r.GetComponent<ReagentPot>();
 
-		if (r.isSolid)
+		if (r.GetComponent<ReagentPot> ().isSolid)
 			gameObject.GetComponent<Image>().sprite = bg[0];
 		else
 			gameObject.GetComponent<Image>().sprite = bg[1];
@@ -53,11 +53,11 @@ public class ReagentUiItemBehaviour : MonoBehaviour {
 	public void AddToInventory(){
 		//Debug.Log ("Add " + nameReagent.text);
 		//inventoryManager.AddItemToInventory (GameObject.Find ("GetReagents").GetComponent<GetReagentState>().ReagentInstantiation(nameReagent.text));
-		ReagentsBaseClass reagent;
-		Dictionary<string, ReagentsBaseClass> reagentDictionary = ComponentsSaver.LoadReagents ();
+		Compound reagent;
+		Dictionary<string, Compound> reagentDictionary = ComponentsSaver.LoadReagents ();
 		reagentDictionary.TryGetValue (nameReagent.text, out reagent);
 		Debug.Log (reagent.name);
-		inventoryManager.AddReagentToInventory (prefabReagent,reagent);
+		inventoryManager.AddReagentToInventory (prefabReagentPot,reagent);
 	}
 
 }

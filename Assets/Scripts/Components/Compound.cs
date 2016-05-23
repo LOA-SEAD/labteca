@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 //! The basis for all the  chemical compounds.
 /*	Compounds include reagents and the results of reactions (solutions).
@@ -57,6 +58,42 @@ public class Compound : IPhysicochemical {
 	public Compound () {
 	}
 
+	public Compound (Compound r) {
+		this.name = r.name;
+		this.isSolid = r.isSolid;
+		this.molarMass = r.molarMass;
+		this.density = r.density;
+		this.polarizability = r.polarizability;
+		this.conductibility = r.conductibility;
+		this.solubility = r.solubility;
+		this.irSpecter = r.irSpecter;
+		this.flameSpecter = r.flameSpecter;
+		this.uvSpecter = r.uvSpecter;
+		if (!this.isSolid) {
+			this.pH = r.pH;
+			this.turbidity = r.turbidity;
+			this.refratometer = r.refratometer;
+		}
+	}
+
+	public void setValues(Compound r){
+		this.name = r.name;
+		this.isSolid = r.isSolid;
+		this.molarMass = r.molarMass;
+		this.density = r.density;
+		this.polarizability = r.polarizability;
+		this.conductibility = r.conductibility;
+		this.solubility = r.solubility;
+		this.irSpecter = r.irSpecter;
+		this.flameSpecter = r.flameSpecter;
+		this.uvSpecter = r.uvSpecter;
+		if (!this.isSolid) {
+			this.pH = r.pH;
+			this.turbidity = r.turbidity;
+			this.refratometer = r.refratometer;
+		}
+	}
+
 	public void CopyCompound(Compound baseCompound) {
 
 		System.Reflection.FieldInfo[] fields = baseCompound.GetType().GetFields(); 
@@ -79,6 +116,10 @@ public class Compound : IPhysicochemical {
 		refratometer = baseCompound.refratometer;
 		flameSpecter = baseCompound.flameSpecter;
 		hplc = baseCompound.hplc;*/
+	}
+
+	public Compound Clone() {
+		return new Compound (this);
 	}
 
 	public void SetName(string _name) { name = _name; }

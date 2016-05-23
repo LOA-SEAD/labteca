@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class Spatula : MonoBehaviour {
 
 	private float volumeHeld;					//Total volume being held in that number of spatulas
-	public ReagentsBaseClass reagentInSpatula;	//Reagent being held by the pipette
+	public Compound reagentInSpatula;	//Reagent being held by the pipette
 	//private const float pinchVolume = 0.25f; //Volume of one spatula [ml or cm3]
 
 	//Interaction boxes
@@ -217,7 +217,7 @@ public class Spatula : MonoBehaviour {
 	}*/
 
 	//! Uses the spatula to hold a volume of a solid reagent
-	public void FillSpatula (ReagentsBaseClass reagent) {
+	public void FillSpatula (Compound reagent) {
 		CloseInteractionBox();
 
 		/*if(realVolumeSelected > 0) {

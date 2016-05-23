@@ -11,7 +11,7 @@ public  class GetReagentState : GameStateBase, GetInterface {
     public GameObject interactBox;      /*!< Box Colider to allow interaction. */
     public DoorBehaviour leftDoor;      /*!< GameObject that contains the left door. */
     public DoorBehaviour rightDoor;     /*!< GameObject that contains the right door. */
-	public Dictionary<string, ReagentsBaseClass> reagents = new Dictionary<string, ReagentsBaseClass>(); /*!< Dictionary that stores all reagents>!*/
+	public Dictionary<string, Compound> reagents = new Dictionary<string, Compound>(); /*!< Dictionary that stores all reagents>!*/
 
     // UI
     public Canvas canvasUI;                         /*!< Canvas where the UI will be shown. */
@@ -26,8 +26,8 @@ public  class GetReagentState : GameStateBase, GetInterface {
 
 	//Prefabs to instantiate the reagents
 	//! Needs to be attached in the scene
-	public ReagentsBaseClass solidPrefab;
-	public ReagentsLiquidClass liquidPrefab;
+	public GameObject solidPrefab;
+	public GameObject liquidPrefab;
 
 	public bool isGlassware(){
 		return false;
@@ -35,7 +35,7 @@ public  class GetReagentState : GameStateBase, GetInterface {
 
 	public void Start () {
         cameraState.gameObject.SetActive(false);
-		ReagentsBaseClass actualReagent;
+		Compound actualReagent;
 		reagents = ComponentsSaver.LoadReagents();
 
         // Set-up components
@@ -75,7 +75,7 @@ public  class GetReagentState : GameStateBase, GetInterface {
 
             // set reagent's name
 			if(actualReagent.isSolid)
-            	tempItem.GetComponent<ReagentUiItemBehaviour>().SetReagent(actualReagent.name, solidPrefab);
+				tempItem.GetComponent<ReagentUiItemBehaviour>().SetReagent(actualReagent.name, solidPrefab);
 			else
 				tempItem.GetComponent<ReagentUiItemBehaviour>().SetReagent(actualReagent.name, liquidPrefab);
             // next position on inventory grid
@@ -167,7 +167,7 @@ public  class GetReagentState : GameStateBase, GetInterface {
 	/*! Uses the name of the reagent clicked to instantiate a game object (AnyObjectInstantiation) that will be
 	 *!	added to the inventory */
 	public AnyObjectInstantiation ReagentInstantiation (string reagentName) {
-		ReagentsBaseClass instantiatingReagent;
+		Compound instantiatingReagent;
 		reagents.TryGetValue (reagentName, out instantiatingReagent);
 
 		if(instantiatingReagent.isSolid == true) {

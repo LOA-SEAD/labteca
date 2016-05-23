@@ -75,7 +75,7 @@ public class InventoryContent : MonoBehaviour {
         tempItem.GetComponent<ItemStackableBehavior>().setObject(item);
     }
 
-	//-----------------LeMigue para Glassware-----------------------
+	/*//-----------------LeMigue para Glassware-----------------------
 	public void addNewGlasswareUI(Glassware item)
 	{  
 		// if there is freedPosition, use it. If NOT, use the last item position.
@@ -117,7 +117,7 @@ public class InventoryContent : MonoBehaviour {
 	//-----------------END OF LeMigue para Glassware-----------------------
 
 	//-----------------LeMigue para Reagents-----------------------
-	public void addNewReagentsUI(ReagentsBaseClass item, ReagentsBaseClass data)
+	public void addNewReagentsUI(Compound item, Compound data)
 	{  
 		// if there is freedPosition, use it. If NOT, use the last item position.
 		//prefabItem.GetComponent<AnyObjectInstantiation>().copyItemBase(item);
@@ -153,14 +153,14 @@ public class InventoryContent : MonoBehaviour {
 		tempItem.name = data.name + "_" +1;
 		tempItem.GetComponent<InventoryItem> ().nameText.text = data.name;
 		if (data.isSolid)
-			tempItem.AddComponent<ReagentsBaseClass> ();
+			tempItem.AddComponent<Compound> ();
 		else
-			tempItem.AddComponent<ReagentsLiquidClass> ();
-		tempItem.GetComponent<ReagentsBaseClass> ().receiveValues (data);
+			tempItem.AddComponent<Compound> ();
+		tempItem.GetComponent<Compound> ().setValues (data);
 		tempItem.GetComponent<InventoryItem> ().HoldItem(item);
 		//tempItem.GetComponent<ItemStackableBehavior>().setObject(item);
 	}
-	//-----------------END OF LeMigue para Reagents-----------------------
+	//-----------------END OF LeMigue para Reagents-----------------------*/
 	
 	//! Remove Item from Inventory UI
 	/*! Using the selected itemUI as reference, delete it from the UI and add it's position into the freedPos queue.*/

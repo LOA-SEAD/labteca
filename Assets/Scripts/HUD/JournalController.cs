@@ -26,8 +26,8 @@ public class JournalController : MonoBehaviour {
 
 	public void writeReagentInfo(string name){
 		deleteContent ();
-		ReagentsBaseClass reagent;
-		Dictionary<string, ReagentsBaseClass> reagents = ComponentsSaver.LoadReagents ();
+		Compound reagent;
+		Dictionary<string, Compound> reagents = ComponentsSaver.LoadReagents ();
 
 		reagents.TryGetValue (name, out reagent);
 		//adds the infoUI to content

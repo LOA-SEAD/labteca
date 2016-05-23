@@ -307,7 +307,7 @@ public class InventoryManager : MonoBehaviour {
 		addItem(item);
 	}
 
-	public void AddReagentToInventory(ReagentsBaseClass reagent, ReagentsBaseClass r ) {
+	public void AddReagentToInventory(ReagentPot reagent, Compound r ) {
 		ItemInventoryBase item = new ItemInventoryBase();
 		item.HoldItem (reagent);
 		item.addReagent(r);

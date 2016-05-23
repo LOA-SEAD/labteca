@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -40,10 +40,10 @@ public class Pipette : MonoBehaviour {
 	public Texture2D filledPipette_CursorTexture;
 	public Vector2 hotSpot = Vector2.zero;
 	
-	public ReagentsLiquidClass reagentInPipette; //Reagent being held by the pipette
+	public Compound reagentInPipette; //Reagent being held by the pipette
 
 	public Glassware interactingGlassware;		 //Glassware which the pipette is interacting with
-	public ReagentsLiquidClass interactingReagent; //Reagent which the pipette is interacting with
+	public Compound interactingReagent; //Reagent which the pipette is interacting with
 
 	//! Use this for initialization
 	void Start () {
@@ -156,13 +156,13 @@ public class Pipette : MonoBehaviour {
 	//! Open the interaction box to fill the pipette
 	//	Also defines the maximum value for the slider
 	//	This case is to get liquid from a reagent
-	public void OpenGraduatedFillingBox(ReagentsLiquidClass reagent) {
+	public void OpenGraduatedFillingBox(Compound reagent) {
 
 		boxGraduatedFilling.SetActive (true);
 		boxGraduatedFilling.GetComponentInChildren<Slider> ().maxValue = maxVolume;
 
 		volumeSelected = 0.0f;
-		interactingReagent = reagent;
+		interactingReagent = reagent.Clone ();
 
 	
 		//CursorManager.SetDefaultCursor ();
@@ -219,7 +219,7 @@ public class Pipette : MonoBehaviour {
 				
 				GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().CannotEndState = true;
 				
-				reagentInPipette = interactingGlassware.reagents[0].reagent as ReagentsLiquidClass;
+				reagentInPipette = interactingGlassware.reagents[0].reagent as Compound;
 
 				interactingGlassware.RemoveLiquid(volumeSelected);
 			}
@@ -249,7 +249,7 @@ public class Pipette : MonoBehaviour {
 	//! Open the interaction box to unfill the pipette
 	//	Also defines the maximum value for the slider
 	//	Case to unfill pipette into a reagent pot
-	public void OpenGraduatedUnfillingBox(ReagentsLiquidClass reagentPot) {
+	public void OpenGraduatedUnfillingBox(Compound reagentPot) {
 		boxGraduatedUnfilling.SetActive(true);
 		u_volumeSelected = 0.0f;
 
@@ -329,7 +329,7 @@ public class Pipette : MonoBehaviour {
 			GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().CannotEndState = true;
 		}
 	}
-	public void FillVolumetricPipette(ReagentsLiquidClass reagent) {
+	public void FillVolumetricPipette(Compound reagent) {
 		volumeHeld = maxVolume;
 
 		reagentInPipette = reagent;

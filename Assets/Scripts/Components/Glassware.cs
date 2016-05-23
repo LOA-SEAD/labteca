@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -40,10 +40,10 @@ public class Glassware : ItemToInventory
 
 	[System.Serializable] /*!< Lets you embed a class with sub properties in the inspector. */
 	public class ReagentsInGlass{
-		public ReagentsBaseClass reagent;
+		public Compound reagent;
 		public float howMuch; //[g]
 
-		public ReagentsInGlass(ReagentsBaseClass re, float qu) {
+		public ReagentsInGlass(Compound re, float qu) {
 			reagent = re;
 			howMuch = qu;
 		}
@@ -188,14 +188,14 @@ public class Glassware : ItemToInventory
 
 	//! Pours a liquid into the glassware
 	//	The liquid might come from pipettes or wash bottles (H2O)
-	public void PourLiquid(float volumeFromTool, float liquidMass, ReagentsLiquidClass reagentFromTool) {
+	/*public void PourLiquid(float volumeFromTool, float liquidMass, Compound reagentFromTool) {
 		currentVolume += volumeFromTool;
 		totalMass += liquidMass;
 
-		reagents.Add (new ReagentsInGlass(reagentFromTool as ReagentsBaseClass, liquidMass));
+		reagents.Add (new ReagentsInGlass(reagentFromTool as Compound, liquidMass));
 
 		RefreshContents ();
-	}
+	}*/
 	public void PourLiquid(float volumeFromTool, float liquidMass, Compound reagentFromTool) {
 		currentVolume += volumeFromTool;
 		totalMass += liquidMass;
@@ -226,7 +226,7 @@ public class Glassware : ItemToInventory
 
 	//!	Inserts a solid into the glassware
 	//	The solid only comes from spatulas
-	public void InsertSolid(float volumeFromTool, float solidMass, ReagentsBaseClass reagentFromTool) {
+	public void InsertSolid(float volumeFromTool, float solidMass, Compound reagentFromTool) {
 		currentVolume += volumeFromTool;
 		totalMass += solidMass;
 
@@ -336,8 +336,8 @@ public class Glassware : ItemToInventory
 	}
 
 	//!Message when the player clicks in glass.
-	public void CLickInGlass(){
+/*	public void CLickInGlass(){
 		Debug.Log ("CLick");
 		gameController.GetCurrentState().GetComponent<WorkBench> ().ClickGlass (this.gameObject);
-	}
+	}*/
 }

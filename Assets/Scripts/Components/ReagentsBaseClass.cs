@@ -3,8 +3,8 @@ using System.Collections;
 
 //! Declaration of information for liquid reagents
 /*! The liquid class inherits this one, because it has all the same attributes */
-
-public class ReagentsBaseClass : ItemToInventory {
+/*
+public class Compound : ItemToInventory {
 
 	public string name;
 	public bool isSolid;
@@ -20,7 +20,7 @@ public class ReagentsBaseClass : ItemToInventory {
 	public Texture2D texture;
 	public Color color;
 
-	public void receiveValues(ReagentsBaseClass r){
+	public void setValues(Compound r){
 		this.name = r.name;
 		this.isSolid = r.isSolid;
 		this.molarMass = r.molarMass;
@@ -33,14 +33,14 @@ public class ReagentsBaseClass : ItemToInventory {
 		this.uvSpecter = r.uvSpecter;
 		this.texture = r.texture;
 		if (!this.isSolid) {
-			(this as ReagentsLiquidClass).ph = (r as ReagentsLiquidClass).ph;
-			(this as ReagentsLiquidClass).turbidity = (r as ReagentsLiquidClass).turbidity;
-			(this as ReagentsLiquidClass).refratometer = (r as ReagentsLiquidClass).refratometer;
+			(this as Compound).ph = (r as Compound).ph;
+			(this as Compound).turbidity = (r as Compound).turbidity;
+			(this as Compound).refratometer = (r as Compound).refratometer;
 		}
 	}
 
-	public ReagentsBaseClass getValues(){
-		ReagentsBaseClass reg = new ReagentsBaseClass ();
+	public Compound getValues(){
+		Compound reg = new Compound ();
 		reg.name = this.name;
 		reg.isSolid = this.isSolid;
 		reg.molarMass = this.molarMass;
@@ -53,9 +53,9 @@ public class ReagentsBaseClass : ItemToInventory {
 		reg.uvSpecter = this.uvSpecter;
 		reg.texture = this.texture;
 		if (!reg.isSolid) {
-			(reg as ReagentsLiquidClass).ph = (this as ReagentsLiquidClass).ph;
-			(reg as ReagentsLiquidClass).turbidity = (this as ReagentsLiquidClass).turbidity;
-			(reg as ReagentsLiquidClass).refratometer = (this as ReagentsLiquidClass).refratometer;
+			(reg as Compound).ph = (this as Compound).ph;
+			(reg as Compound).turbidity = (this as Compound).turbidity;
+			(reg as Compound).refratometer = (this as Compound).refratometer;
 		}
 
 		return reg;
@@ -68,7 +68,7 @@ public class ReagentsBaseClass : ItemToInventory {
 		else
 			GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench> ().ClickLiquidReagent (this.gameObject);*/
 
-		MouseState currentState = CursorManager.GetCurrentState ();
+	/*	MouseState currentState = CursorManager.GetCurrentState ();
 		Spatula spatula = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().spatula;
 
 
@@ -103,6 +103,6 @@ public class ReagentsBaseClass : ItemToInventory {
 	public void ReagentToInventory() {
 		/*
 		 * REAGENT TO INVENTORY();
-		 */
+		 *//*
 	}
-}
+}*/

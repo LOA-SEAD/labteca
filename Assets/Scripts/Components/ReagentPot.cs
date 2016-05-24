@@ -3,7 +3,7 @@ using System.Collections;
 
 public class ReagentPot : ItemToInventory {
 	
-	public Compound reagent;
+	public Reagent reagent;
 	public bool isSolid;
 
 	// Use this for initialization
@@ -45,7 +45,7 @@ public class ReagentPot : ItemToInventory {
 				break;
 			case MouseState.ms_glassStick:		// Glass Stick -> Solid Reagent: nothing
 				break;
-			case MouseState.ms_usingTool:  		// Unable to click somewhere else TODO:is it necessary?
+			case MouseState.ms_usingTool:  		// Unable to click somewhere else TODO:is this necessary?
 				break;
 			}
 		}

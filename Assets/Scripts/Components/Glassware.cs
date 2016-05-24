@@ -19,7 +19,8 @@ public class Glassware : ItemToInventory
 
 	//! The compounds inside
 	//Water is a valid reagent, but it is only seem when it's the only thing inside, otherwise it's associated with the reagent's concentration.
-	public List<Compound> compounds = new List<Compound> ();
+	//public Compound[] compounds = new Compound[2];
+	public List<Compound> compounds = new List<Compound>();
 
 	//Mesh of liquids and solids
 	public GameObject liquid;
@@ -31,7 +32,7 @@ public class Glassware : ItemToInventory
 
 	public GameController gameController;
 
-	public List<ReagentsInGlass> reagents = new List<ReagentsInGlass>();
+	//public List<ReagentsInGlass> reagents = new List<ReagentsInGlass>();
 	private int numberOfReagents = 0;
 
 	private GameObject interactionBoxGlassware; //Interaction box when the object is clicked while on a Workbench
@@ -140,11 +141,14 @@ public class Glassware : ItemToInventory
 	//! Refreshes the contents
 	/*! The method set the correct values and visual states for the glassware */
 	public void RefreshContents() {
-		foreach (ReagentsInGlass re in reagents) {
-			if(re.reagent.isSolid)
-				hasSolid = true;
-			else
-				hasLiquid = true;
+		Debug.Log ("Refreshing contents");
+		foreach (Compound re in compounds) {
+			if (re != null) {
+				if (re.isSolid)
+					hasSolid = true;
+				else
+					hasLiquid = true;
+			}
 		}
 
 		if (hasLiquid) {
@@ -201,9 +205,12 @@ public class Glassware : ItemToInventory
 		totalMass += liquidMass;
 
 		Reagent liquid = new Reagent(reagentFromTool, volumeFromTool, 1.0f);
-		liquid.CopyCompound(reagentFromTool);
+	//	Reagent liquid = (Reagent)reagentFromTool.Clone ();
+	//	liquid.realMass = liquidMass;
+	//	liquid.volume = volumeFromTool;
+		//liquid.CopyCompound(liquid);
 
-		compounds.Add (liquid);
+		compounds.Insert (0, liquid as Compound);
 		
 		RefreshContents ();
 	}
@@ -212,13 +219,13 @@ public class Glassware : ItemToInventory
 	//  The liquid is removed into a pipette
 	public void RemoveLiquid(float volumeChosen) {
 		currentVolume -= volumeChosen;
-		totalMass -= volumeChosen * reagents [0].reagent.density;
-		reagents [0].howMuch -= volumeChosen * reagents [0].reagent.density;
+		totalMass -= volumeChosen * compounds[0].density;
+		(compounds [0] as Reagent).realMass -= volumeChosen * compounds [0].density;
 
-		if (reagents [0].howMuch <= 0.0f)
-			reagents [0] = null;
-
-
+		if (compounds [0].realMass <= 0.0f) {
+			compounds [0] = null;
+			hasLiquid = false;
+		}
 
 
 		RefreshContents();
@@ -230,7 +237,7 @@ public class Glassware : ItemToInventory
 		currentVolume += volumeFromTool;
 		totalMass += solidMass;
 
-		reagents.Add(new ReagentsInGlass(reagentFromTool, solidMass));
+		compounds[0]=reagentFromTool;
 		/*
 		 * ADD THE REAGENT INTO THE REAGENTS LISTS
 		 */
@@ -242,12 +249,13 @@ public class Glassware : ItemToInventory
 	//  The solid is only taken by spatulas
 	public void RemoveSolid(float spatulaVolume) {
 		currentVolume -= spatulaVolume;
-		totalMass -= spatulaVolume * reagents [0].reagent.density;
-		reagents [0].howMuch -= spatulaVolume * reagents [0].reagent.density;
+		totalMass -= spatulaVolume * compounds [0].density;
+		compounds [0].realMass -= spatulaVolume * compounds [0].density;
 		
-		if (reagents [0].howMuch <= 0.0f)
-			reagents [0] = null;
-
+		if (compounds [0].realMass <= 0.0f) {
+			compounds [0] = null;
+			hasLiquid = false;
+		}
 
 		RefreshContents();
 	}

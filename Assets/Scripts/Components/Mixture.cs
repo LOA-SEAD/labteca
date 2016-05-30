@@ -10,18 +10,31 @@ using System.Collections.Generic;
 
 public class Mixture : IPhysicochemical {
 
-	public string name;
-	private float volume = 0.0f; //Volume of mixture inside
-	private float waterVolume = 0.0f;
-	private float realMass;
+	private string name;
+	public string Name { get{ return name; } set{ name = value; }}
+	private float realMass;		//The mass instantiated in the world [g]
+	public float RealMass { get { return realMass; } set { realMass = value; } }
 	private float density;
+	public float Density { get { return density; } set { density = value; } }
 	private float solubility;
+	public float Solubility { get { return solubility; } set { solubility = value; } }
+
+	private float volume = 0.0f;		//volume instantiated in the world [mL]
+	public float Volume { get { return volume; } set { volume = value; } }
+	private float waterVolume = 0.0f;
+	public float WaterVolume { get { return waterVolume; } set { waterVolume = value; } }
+
 
 	private float pH;
+	public float PH { get { return pH; } set { pH = value; } }
 	private float conductibility;
+	public float Conductibility { get { return conductibility; } set { conductibility = value; } }
 	private float turbidity;
+	public float Turbidity { get { return turbidity; } set { turbidity = value; } }
 	private float polarizability;
+	public float Polarizability { get { return polarizability; } set { polarizability = value; } }
 	private float refratometer;
+	public float Refratometer { get { return refratometer; } set { refratometer = value; } }
 
 
 	//The reagents that resulted on this mixture.
@@ -52,41 +65,12 @@ public class Mixture : IPhysicochemical {
 		float resultingMass = 0.0f;
 
 		if (reagents [0] != null)
-			resultingMass += reagents [0].GetRealMass ();
+			resultingMass += reagents [0].RealMass;
 		if(reagents[1] != null)
-			resultingMass += reagents [1].GetRealMass ();
+			resultingMass += reagents [1].RealMass;
 		if(product != null)
-			resultingMass += product.GetRealMass ();
+			resultingMass += product.RealMass;
 
 		return resultingMass;
 	}
-
-	public void SetName(string _name) { name = _name; }
-	public string GetName() { return name; }
-	//realMass
-	public void SetRealMass(float _mass) { realMass = _mass; }
-	public float GetRealMass() { return realMass; }
-	//density
-	public void SetDensity(float _density) { density = _density; }
-	public float GetDensity() { return density; }
-	//solubility
-	public void SetSolubilitye(float _solubility) { solubility = _solubility; }
-	public float GetSolubility() { return solubility; }
-	
-	
-	//pH
-	public void SetPh (float _pH) { pH = _pH; }
-	public float GetPh() { return pH;}
-	//conductibility
-	public void SetConductibility (float _conductibility) { conductibility = _conductibility;}
-	public float GetConductibility() { return conductibility; }
-	//turbidity
-	public void SetTurbidity (float _turbidity) { turbidity = _turbidity;}
-	public float GetTurbidity() { return turbidity; }
-	//polarizability
-	public void SetPolarizability (float _polarizability) { polarizability = _polarizability; }
-	public float GetPolarizability() { return polarizability; }
-	//refratometer
-	public void SetRefratometer (float _refratometer) { refratometer = _refratometer; }
-	public float GetRefratometer() { return refratometer; } 
 }

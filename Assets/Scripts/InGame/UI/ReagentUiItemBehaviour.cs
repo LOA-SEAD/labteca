@@ -56,7 +56,7 @@ public class ReagentUiItemBehaviour : MonoBehaviour {
 		Compound reagent;
 		Dictionary<string, Compound> reagentDictionary = ComponentsSaver.LoadReagents ();
 		reagentDictionary.TryGetValue (nameReagent.text, out reagent);
-		Debug.Log (reagent.name);
+		Debug.Log (reagent.Name);
 		inventoryManager.AddReagentToInventory (prefabReagentPot,reagent);
 	}
 

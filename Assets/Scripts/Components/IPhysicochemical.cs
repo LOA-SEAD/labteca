@@ -1,35 +1,52 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public interface IPhysicochemical {
 
 	//name
-	void SetName(string name);
-	string GetName();
+	string Name {
+		get;
+		set;
+	}
 	//realMass
-	void SetRealMass(float mass);
-	float GetRealMass();
+	float RealMass {
+		get;
+		set;
+	}
 	//density
-	void SetDensity(float density);
-	float GetDensity();
+	float Density {
+		get;
+		set;
+	}
 	//solubility
-	void SetSolubilitye(float solubility);
-	float GetSolubility();
-
+	float Solubility {
+		get;
+		set;
+	}
 	
 	//pH
-	void SetPh (float pH);
-	float GetPh();
+	float PH {
+		get;
+		set;
+	}
 	//conductibility
-	void SetConductibility (float conductibility);
-	float GetConductibility();
+	float Conductibility {
+		get;
+		set;
+	}
 	//turbidity
-	void SetTurbidity (float turbidity);
-	float GetTurbidity();
+	float Turbidity {
+		get;
+		set;
+	}
 	//polarizability
-	void SetPolarizability (float polarizability);
-	float GetPolarizability();
+	float Polarizability {
+		get;
+		set;
+	}
 	//refratometer
-	void SetRefratometer (float refratometer);
-	float GetRefratometer(); 
+	float Refratometer {
+		get;
+		set;
+	}
 }

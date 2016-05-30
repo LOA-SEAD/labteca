@@ -73,6 +73,9 @@ public class Glassware : ItemToInventory
 		onScale = false;
 		hasLiquid = false;
 		hasSolid = false;
+
+		compounds.Insert (0, null);
+		compounds.Insert (1, null);
 	}
 	
 	// Update is called once per frame
@@ -144,7 +147,7 @@ public class Glassware : ItemToInventory
 		Debug.Log ("Refreshing contents");
 		foreach (Compound re in compounds) {
 			if (re != null) {
-				if (re.isSolid)
+				if (re.IsSolid)
 					hasSolid = true;
 				else
 					hasLiquid = true;
@@ -168,7 +171,19 @@ public class Glassware : ItemToInventory
 			 */
 		} else
 			solid.SetActive (false);
-			                
+	
+		totalMass = this.GetMass ();
+	}
+
+	//! Return the real mass of the glassware
+	public float GetMass() {
+		float actualMass = this.mass;
+		if(compounds[0] != null)
+			actualMass += compounds[0].RealMass;
+		if (compounds [1] != null)
+			actualMass += compounds [1].RealMass;
+
+		return actualMass;
 	}
 
 	//! Close the interaction box
@@ -185,9 +200,33 @@ public class Glassware : ItemToInventory
 	}
 
 	//! 
-	public void IncomingReagent(Compound incomingCompound) {
-
-	
+	public void IncomingReagent(Compound incomingCompound, float volumeFromTool) {
+		if (compounds [0] != null) { //Case not empty
+			if(compounds[0] is Mixture) { // Case: there's Mixture
+				if(incomingCompound.Name == "H2O") {
+					//compounds[0].Dilute(incomingCompound);
+				}
+				else {
+					//ERROR MESSAGE
+				}
+			} else { // Case: Not Mixture
+				if(incomingCompound.Name == "H2O") { // SubCase: Water is coming
+					if(compounds[0].Name  == "H2O") {
+						compounds[0].RealMass = compounds[0].RealMass + volumeFromTool * incomingCompound.Density;
+					}
+					else {
+						(compounds[0] as Reagent).Dilute(volumeFromTool);
+					}
+				}
+				else {
+					if(incomingCompound.Name == compounds[0].Name) {
+						compounds[0].Volume = compounds[0].Volume + incomingCompound.Volume;
+						compounds[0].RealMass = compounds[0].RealMass + incomingCompound.RealMass;
+						(compounds[0] as Reagent).Concentration = compounds[0].RealMass + incomingCompound.RealMass;
+					}
+				}	
+			}
+		}
 	}
 
 	//! Pours a liquid into the glassware
@@ -202,16 +241,18 @@ public class Glassware : ItemToInventory
 	}*/
 	public void PourLiquid(float volumeFromTool, float liquidMass, Compound reagentFromTool) {
 		currentVolume += volumeFromTool;
-		totalMass += liquidMass;
+		//totalMass += liquidMass;
 
-		Reagent liquid = new Reagent(reagentFromTool, volumeFromTool, 1.0f);
+		Compound liquidCompound = (Compound)reagentFromTool.Clone (volumeFromTool); //new Reagent(reagentFromTool, volumeFromTool, 1.0f);
+		//liquid.realMass = volumeFromTool * liquid.
 	//	Reagent liquid = (Reagent)reagentFromTool.Clone ();
 	//	liquid.realMass = liquidMass;
 	//	liquid.volume = volumeFromTool;
 		//liquid.CopyCompound(liquid);
 
-		compounds.Insert (0, liquid as Compound);
-		
+		compounds.Insert (0, liquidCompound as Compound);
+		//compounds.Insert (0, (Compound)reagentFromTool.Clone (volumeFromTool));
+
 		RefreshContents ();
 	}
 
@@ -219,10 +260,10 @@ public class Glassware : ItemToInventory
 	//  The liquid is removed into a pipette
 	public void RemoveLiquid(float volumeChosen) {
 		currentVolume -= volumeChosen;
-		totalMass -= volumeChosen * compounds[0].density;
-		(compounds [0] as Reagent).realMass -= volumeChosen * compounds [0].density;
+		totalMass -= volumeChosen * compounds[0].Density;
+		compounds [0].RealMass = compounds [0].Density - volumeChosen * compounds [0].Density;
 
-		if (compounds [0].realMass <= 0.0f) {
+		if (compounds [0].RealMass <= 0.0f) {
 			compounds [0] = null;
 			hasLiquid = false;
 		}
@@ -249,10 +290,10 @@ public class Glassware : ItemToInventory
 	//  The solid is only taken by spatulas
 	public void RemoveSolid(float spatulaVolume) {
 		currentVolume -= spatulaVolume;
-		totalMass -= spatulaVolume * compounds [0].density;
-		compounds [0].realMass -= spatulaVolume * compounds [0].density;
+		totalMass -= spatulaVolume * compounds [0].Density;
+		compounds [0].RealMass = compounds [0].RealMass - spatulaVolume * compounds [0].Density;
 		
-		if (compounds [0].realMass <= 0.0f) {
+		if (compounds [0].RealMass <= 0.0f) {
 			compounds [0] = null;
 			hasLiquid = false;
 		}

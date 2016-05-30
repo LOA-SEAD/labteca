@@ -52,7 +52,7 @@ public class JournalController : MonoBehaviour {
 		                                   prefabRect.transform.rotation) as GameObject;
 		//add info to prefab
 		tempItem.name = "Reagent Info";
-		tempItem.GetComponent<JournalUIInfo> ().setReagent (reagent.name, reagent.molarMass, reagent.isSolid, reagent.density, reagent.polarizability, reagent.conductibility, reagent.solubility, 0, 0, 0);
+		tempItem.GetComponent<JournalUIInfo> ().setReagent (reagent.Name, reagent.MolarMass, reagent.IsSolid, reagent.Density, reagent.Polarizability, reagent.Conductibility, reagent.Solubility, 0, 0, 0);
 		// set new item parent to scroll rect content
 		tempItem.transform.SetParent (contentRect.transform, false);
 	}

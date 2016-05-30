@@ -28,20 +28,21 @@ public class WashBottle : MonoBehaviour {
 	void Start () {
 		interactionBoxWashBottle.SetActive (false);
 
-		Water.name = "H2O";
-		Water.isSolid = false;
-		Water.molarMass = 18.01f;
-		Water.density = 1;
-		Water.polarizability = 1;
-		Water.conductibility = 1;
-		Water.solubility = 1;
+		Water.Name = "H2O";
+		Water.IsSolid = false;
+		Water.MolarMass = 18.01f;
+		Water.Density = 1.0f;
+		Water.Polarizability = 1.0f;
+		Water.Conductibility = 1.0f;
+		Water.Solubility = 1.0f;
 		Water.irSpecter = null;
 		Water.flameSpecter = null;
 		Water.uvSpecter = null;
+		Water.color = Color.blue;
 		//Water.texture = null;
-		Water.pH = 7.0f;
-		Water.turbidity = 1;
-		Water.refratometer = 1;
+		Water.PH = 7.0f;
+		Water.Turbidity = 1.0f;
+		Water.Refratometer = 1.0f;
 		Water.hplc = null;
 	}
 	
@@ -125,7 +126,7 @@ public class WashBottle : MonoBehaviour {
 	//! Pours the water into the vessel (mostly glasswares).
 	public void PourWater() { //BasicallyDone
 		if (volumeSelected > 0.0f) {
-			interactingGlassware.PourLiquid(volumeSelected, volumeSelected * Water.density, Water);
+			interactingGlassware.PourLiquid(volumeSelected, volumeSelected * Water.Density, Water);
 		}
 		CloseInteractionBox ();
 	}

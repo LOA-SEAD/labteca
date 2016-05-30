@@ -9,37 +9,54 @@ using System.Collections.Generic;
 public class Compound : IPhysicochemical {
 
 	//Water mass;
-	private const float waterMolarMass = 18.015f;
+	public const float waterMolarMass = 18.015f;
 	
-	public string name;
-	public bool isSolid;
-	public float molarMass;
-	public float purity; 	//As pure as the compound may be. [0, 1]
-	public float realMass;	//The real mass, considering purity
-	public float density;
-	public float solubility;
+	private string name;
+	public string Name { get{ return name; } set{ name = value; }}
+	private bool isSolid;
+	public bool IsSolid { get { return isSolid; } set { isSolid = value; } }
+	private float molarMass;
+	public float MolarMass { get { return molarMass; } set { molarMass = value; } }
+	private float molarity;		//Number of mols in the solution [mol/L]
+	public float Molarity { get { return molarity; } set { molarity = value; } }
+	private float concentration; //The compound's "purity". [0, 1][g/g]
+	public float Concentration { get { return concentration; } set { concentration = value; } }
+	private float realMass;		//The mass instantiated in the world [g]
+	public float RealMass { get { return realMass; } set { realMass = value; } }
+	private float volume;		//volume instantiated in the world [mL]
+	public float Volume { get { return volume; } set { volume = value; } }
+	private float density;
+	public float Density { get { return density; } set { density = value; } }
+	private float solubility;
+	public float Solubility { get { return solubility; } set { solubility = value; } }
 	public Texture2D irSpecter;
 	public Texture2D uvSpecter;
+	public Color color;
 
 	//For liquid compounds
-	public float pH;
-	public float conductibility;
-	public float turbidity;
-	public float polarizability;
-	public float refratometer;
+	private float pH;
+	public float PH { get { return pH; } set { pH = value; } }
+	private float conductibility;
+	public float Conductibility { get { return conductibility; } set { conductibility = value; } }
+	private float turbidity;
+	public float Turbidity { get { return turbidity; } set { turbidity = value; } }
+	private float polarizability;
+	public float Polarizability { get { return polarizability; } set { polarizability = value; } }
+	private float refratometer;
+	public float Refratometer { get { return refratometer; } set { refratometer = value; } }
 	public Texture2D flameSpecter;
 	public Texture2D hplc;  //High-Performance liquid chromatography
 	/*
 	public Texture2D texture;
-	public Color color; //TODO: are those needed?
+	 //TODO: are those needed?
 	*/
 	public Compound(string _name, bool _isSolid, float _molarMass, float _purity, float _density, float _solubility, Texture2D _irSpecter, Texture2D _uvSpecter,
 	                float _pH, float _conducdibility, float _turbidity, float _polarizability, float _refratometer, Texture2D _flameSpecter, Texture2D _hplc) {
 
-		name = _name;
+		Name = _name;
 		isSolid = _isSolid;
 		molarMass = _molarMass;
-		purity = _purity;
+		concentration = _purity;
 		density = _density;
 		solubility = _solubility;
 		irSpecter = _irSpecter;
@@ -52,14 +69,14 @@ public class Compound : IPhysicochemical {
 		flameSpecter = _flameSpecter;
 		hplc = _hplc;
 
-		realMass = purity * molarMass + (1 - purity)*waterMolarMass;
+		//realMass = purity * molarMass + (1 - purity)*watermolarMass;
 	}
 
 	public Compound () {
 	}
 
 	public Compound (Compound r) {
-		this.name = r.name;
+		this.Name = r.Name;
 		this.isSolid = r.isSolid;
 		this.molarMass = r.molarMass;
 		this.density = r.density;
@@ -74,10 +91,12 @@ public class Compound : IPhysicochemical {
 			this.turbidity = r.turbidity;
 			this.refratometer = r.refratometer;
 		}
+
+		this.volume = r.volume;
 	}
 
 	public void setValues(Compound r){
-		this.name = r.name;
+		this.Name = r.Name;
 		this.isSolid = r.isSolid;
 		this.molarMass = r.molarMass;
 		this.density = r.density;
@@ -87,6 +106,7 @@ public class Compound : IPhysicochemical {
 		this.irSpecter = r.irSpecter;
 		this.flameSpecter = r.flameSpecter;
 		this.uvSpecter = r.uvSpecter;
+		//this.color = r.color;
 		if (!this.isSolid) {
 			this.pH = r.pH;
 			this.turbidity = r.turbidity;
@@ -118,39 +138,15 @@ public class Compound : IPhysicochemical {
 		hplc = baseCompound.hplc;*/
 	}
 
-	public Compound Clone() {
+	public virtual object Clone() {
 		return new Compound (this);
 	}
+	public virtual object Clone(float compoundvolume) {
+		Compound newCompound = new Compound(this);
+		newCompound.realMass = this.molarMass / this.density;
+		return newCompound;
+	}
 
-	public void SetName(string _name) { name = _name; }
-	public string GetName() { return name; }
-	//isSolid
-	public void SetSolidFlag(bool _flag){ isSolid = _flag; }
-	public bool GetSolidFlag() { return isSolid; }
-	//realMass
-	public void SetRealMass(float _mass) { realMass = _mass; }
-	public float GetRealMass() { return purity * molarMass + (1 - purity)*waterMolarMass; }
-	//density
-	public void SetDensity(float _density) { density = _density; }
-	public float GetDensity() { return density; }
-	//solubility
-	public void SetSolubilitye(float _solubility) { solubility = _solubility; }
-	public float GetSolubility() { return solubility; }
-	
-	
-	//pH
-	public void SetPh (float _pH) { pH = _pH; }
-	public float GetPh() { return pH;}
-	//conductibility
-	public void SetConductibility (float _conductibility) { conductibility = _conductibility;}
-	public float GetConductibility() { return conductibility; }
-	//turbidity
-	public void SetTurbidity (float _turbidity) { turbidity = _turbidity;}
-	public float GetTurbidity() { return turbidity; }
-	//polarizability
-	public void SetPolarizability (float _polarizability) { polarizability = _polarizability; }
-	public float GetPolarizability() { return polarizability; }
-	//refratometer
-	public void SetRefratometer (float _refratometer) { refratometer = _refratometer; }
-	public float GetRefratometer() { return refratometer; } 
+
+
 }

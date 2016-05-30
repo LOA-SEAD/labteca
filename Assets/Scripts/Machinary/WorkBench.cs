@@ -699,8 +699,8 @@ public class WorkBench : MonoBehaviour {
 		uiManager.alertDialog.ShowAlert ("A Bancada esta cheia!");
 	}*/
 	public void PutItemFromInventory(ItemToInventory item,string key) {
-		foreach(Transform position in positionGlass) {	//The first position available
-			if(position.childCount == 0){
+		foreach(Transform position in positionGlass) {	
+			if(position.childCount == 0){ //The first position available
 				GameObject tempItem = Instantiate(item.gameObject/*, position.position/*, gameController.selectedGlassWare.transform.rotation*/) as GameObject;
 				tempItem.transform.SetParent (position, /*true*/false);
 				tempItem.transform.localPosition = Vector3.zero;

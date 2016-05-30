@@ -20,34 +20,34 @@ public class ComponentsSaver
 
 
 		Compound reagent = new Compound();
-		reagent.isSolid = isSolid;
-		reagent.name = name;
-		reagent.molarMass = molarMass;
-		reagent.density = density;
-		reagent.polarizability = polarizability;
+		reagent.IsSolid = isSolid ;
+		reagent.Name = name;
+		reagent.MolarMass = molarMass;
+		reagent.Density = density;
+		reagent.Polarizability  = polarizability;
 		reagent.irSpecter = irSpecter;
-		reagent.conductibility = conductibility;
-		reagent.solubility = solubility;
+		reagent.Conductibility = conductibility;
+		reagent.Solubility = solubility;
 
 		if(!isSolid) {
-			reagent.pH = pH;
+			reagent.PH = pH;
 			reagent.uvSpecter = uvSpecter;
 			reagent.flameSpecter = flameSpecter;
-			reagent.turbidity = turbidity;
+			reagent.Turbidity = turbidity;
 			reagent.hplc = hplc;
-			reagent.refratometer = refratometer;
+			reagent.Refratometer = refratometer;
 		}
 
-		if (!reagents.ContainsKey(reagent.name)) 
+		if (!reagents.ContainsKey(reagent.Name)) 
 		{
-			reagents.Add(reagent.name, reagent);
+			reagents.Add(reagent.Name, reagent);
 			SaveReagents(reagents);
 			Debug.Log ("Reagente Salvo Com Sucesso!");
 		} 
 		else 
 		{
-			reagent.name += "(2)";
-			reagents.Add(reagent.name, reagent);
+			reagent.Name += "(2)";
+			reagents.Add(reagent.Name, reagent);
 			SaveReagents(reagents);
 			Debug.Log ("Reagente Salvo Com Sucesso!");
 
@@ -66,11 +66,11 @@ public class ComponentsSaver
 		int counter = 0;
 		foreach (Compound reagent in reagents.Values)
 		{
-			text.SetString("name" + counter.ToString(), reagent.name);
-			text.SetBool("isSolid" + counter.ToString(), reagent.isSolid);
-			text.SetFloat("molarMass" + counter.ToString(), reagent.molarMass);
-			text.SetFloat("density" + counter.ToString(), reagent.density);
-			text.SetFloat("polarizability" + counter.ToString(), reagent.polarizability);
+			text.SetString("name" + counter.ToString(), reagent.Name);
+			text.SetBool("isSolid" + counter.ToString(), reagent.IsSolid);
+			text.SetFloat("molarMass" + counter.ToString(), reagent.MolarMass);
+			text.SetFloat("density" + counter.ToString(), reagent.Density);
+			text.SetFloat("polarizability" + counter.ToString(), reagent.Polarizability);
 
 
 			if(reagent.irSpecter != null)
@@ -82,8 +82,8 @@ public class ComponentsSaver
 				text.SetString("irSpecter" + counter.ToString(), "");
 			}
 
-			text.SetFloat("conductibility" + counter.ToString(), reagent.conductibility);
-			text.SetFloat("solubility" + counter.ToString(), reagent.solubility);
+			text.SetFloat("conductibility" + counter.ToString(), reagent.Conductibility);
+			text.SetFloat("solubility" + counter.ToString(), reagent.Solubility);
 			/*
 			text.SetFloat("colorR" + counter.ToString(), reagent.color.r);
 			text.SetFloat("colorG" + counter.ToString(), reagent.color.g);
@@ -91,10 +91,10 @@ public class ComponentsSaver
 			text.SetFloat("colorA" + counter.ToString(), reagent.color.a);
 			*/
 			//!This saves only what is related to liquids
-			if (!reagent.isSolid) {  
-				text.SetFloat("pH" + counter.ToString(), reagent.pH);
-				text.SetFloat("turbidity" + counter.ToString(), reagent.turbidity);
-				text.SetFloat("refratometer" + counter.ToString(), reagent.refratometer);
+			if (!reagent.IsSolid) {  
+				text.SetFloat("pH" + counter.ToString(), reagent.PH);
+				text.SetFloat("turbidity" + counter.ToString(), reagent.Turbidity);
+				text.SetFloat("refratometer" + counter.ToString(), reagent.Refratometer);
 
 				if(reagent.flameSpecter != null) {
 					text.SetString("flameSpecter" + counter.ToString(), reagent.flameSpecter.name);
@@ -137,11 +137,11 @@ public class ComponentsSaver
 
 				Compound reagentAcc = new Compound();
 
-				reagentAcc.name = textLoad.GetString ("name" + i.ToString ());
-				reagentAcc.isSolid = textLoad.GetBool("isSolid" + i.ToString());
-				reagentAcc.molarMass = textLoad.GetInt ("molarMass" + i.ToString ());
-				reagentAcc.density = textLoad.GetFloat ("density" + i.ToString ());
-				reagentAcc.polarizability = textLoad.GetFloat ("polarizability" + i.ToString ());
+				reagentAcc.Name = textLoad.GetString ("name" + i.ToString ());
+				reagentAcc.IsSolid = textLoad.GetBool("isSolid" + i.ToString());
+				reagentAcc.MolarMass = textLoad.GetInt ("molarMass" + i.ToString ());
+				reagentAcc.Density = textLoad.GetFloat ("density" + i.ToString ());
+				reagentAcc.Polarizability = textLoad.GetFloat ("polarizability" + i.ToString ());
 
 				if (!string.IsNullOrEmpty (textLoad.GetString ("irSpecter" + i.ToString ()))) 
 				{
@@ -152,8 +152,8 @@ public class ComponentsSaver
 						reagentAcc.irSpecter = null;
 				}
 
-				reagentAcc.conductibility = textLoad.GetFloat ("conductibility" + i.ToString ());
-				reagentAcc.solubility = textLoad.GetFloat ("solubility" + i.ToString ());
+				reagentAcc.Conductibility = textLoad.GetFloat ("conductibility" + i.ToString ());
+				reagentAcc.Solubility = textLoad.GetFloat ("solubility" + i.ToString ());
 			
 
 				//reagentAcc.color = new Color (textLoad.GetFloat ("colorR"+ i.ToString ()), textLoad.GetFloat ("colorG"+ i.ToString ()), textLoad.GetFloat ("colorB"+ i.ToString ()), textLoad.GetFloat ("colorA"+ i.ToString ()));
@@ -161,9 +161,9 @@ public class ComponentsSaver
 				//!Gets the liquid-related variables
 				if(!textLoad.GetBool("isSolid" + i.ToString())) {
 
-					reagentAcc.pH = textLoad.GetFloat ("ph" + i.ToString ());
-					reagentAcc.turbidity = textLoad.GetFloat ("turbidity" + i.ToString ());
-					reagentAcc.refratometer = textLoad.GetFloat ("refratometer" + i.ToString ());
+					reagentAcc.PH = textLoad.GetFloat ("ph" + i.ToString ());
+					reagentAcc.Turbidity = textLoad.GetFloat ("turbidity" + i.ToString ());
+					reagentAcc.Refratometer = textLoad.GetFloat ("refratometer" + i.ToString ());
 					if (!string.IsNullOrEmpty (textLoad.GetString ("uvSpecter" + i.ToString ()))) {
 						reagentAcc.uvSpecter = Resources.Load<Texture2D> ("specter/" + textLoad.GetString ("uvSpecter" + i.ToString ()));
 					} else {
@@ -183,7 +183,7 @@ public class ComponentsSaver
 					}
 				}
 
-				reagents.Add(reagentAcc.name, reagentAcc);
+				reagents.Add(reagentAcc.Name, reagentAcc);
 			}
 		}
 		return reagents;

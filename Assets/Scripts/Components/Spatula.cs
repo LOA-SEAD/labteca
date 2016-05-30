@@ -247,7 +247,7 @@ public class Spatula : MonoBehaviour {
 		CloseInteractionBox ();
 
 		if (volumeAvailable > volumeHeld) {
-			glassware.InsertSolid (volumeHeld, volumeHeld * reagentInSpatula.density, reagentInSpatula);
+			glassware.InsertSolid (volumeHeld, volumeHeld * reagentInSpatula.Density, reagentInSpatula);
 
 			CursorManager.SetMouseState (MouseState.ms_default);
 			CursorManager.SetCursorToDefault ();
@@ -256,7 +256,7 @@ public class Spatula : MonoBehaviour {
 			reagentInSpatula = null;
 		}
 		else {
-			glassware.InsertSolid (volumeAvailable, volumeAvailable * reagentInSpatula.density, reagentInSpatula);
+			glassware.InsertSolid (volumeAvailable, volumeAvailable * reagentInSpatula.Density, reagentInSpatula);
 			//TODO: Show something to the player?
 
 			volumeHeld -= volumeAvailable;

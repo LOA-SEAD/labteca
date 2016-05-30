@@ -116,7 +116,7 @@ public class MachineBehaviour : MonoBehaviour
 
 			case MACHINES.CONDUTIVIMETER:
 			{
-				setupFloat = realReagent.conductibility;
+				setupFloat = realReagent.Conductibility;
 				showFloat = true;
 
 				InventoryController	inventory = FindObjectOfType (typeof(InventoryController)) as InventoryController;
@@ -145,7 +145,7 @@ public class MachineBehaviour : MonoBehaviour
 
 			case MACHINES.TURBIDOMETER:
 			{
-				setupFloat = realReagent.turbidity;
+				setupFloat = realReagent.Turbidity;
 				showFloat = true;
 
 				InventoryController	inventory = FindObjectOfType (typeof(InventoryController)) as InventoryController;
@@ -197,7 +197,7 @@ public class MachineBehaviour : MonoBehaviour
 		{
 			case MACHINES.PHMETER:
 			{
-				resultFloat = realReagent.pH;
+				resultFloat = realReagent.PH;
 				allowShowFloat = true;
 				allowShowTexture = false;
 			}
@@ -205,7 +205,7 @@ public class MachineBehaviour : MonoBehaviour
 			
 			case MACHINES.CONDUTIVIMETER:
 			{
-				resultFloat = realReagent.conductibility - setupFloat;
+				resultFloat = realReagent.Conductibility - setupFloat;
 				allowShowFloat = true;
 				allowShowTexture = false;
 			}
@@ -238,7 +238,7 @@ public class MachineBehaviour : MonoBehaviour
 			
 			case MACHINES.POLARIMETER:
 			{
-				resultFloat = realReagent.polarizability;
+				resultFloat = realReagent.Polarizability;
 				allowShowFloat = true;
 				allowShowTexture = false;
 			}
@@ -254,7 +254,7 @@ public class MachineBehaviour : MonoBehaviour
 			
 			case MACHINES.REFRATOMETER:
 			{
-				resultFloat = realReagent.refratometer;
+				resultFloat = realReagent.Refratometer;
 				allowShowFloat = true;
 				allowShowTexture = false;
 			}
@@ -262,7 +262,7 @@ public class MachineBehaviour : MonoBehaviour
 
 			case MACHINES.TURBIDOMETER:
 			{
-				resultFloat = realReagent.turbidity - setupFloat;
+				resultFloat = realReagent.Turbidity - setupFloat;
 				allowShowFloat = true;
 				allowShowTexture = false;
 			}

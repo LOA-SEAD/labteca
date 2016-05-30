@@ -53,19 +53,19 @@ public class ReactionsController : MonoBehaviour
 
 		Dictionary<string, Compound> reagents = ComponentsSaver.LoadReagents();
 
-		if (!reagents [reaction.cName].isSolid) {
-			phC = reagents [reaction.cName].pH;
-			turbidityC = reagents [reaction.cName].turbidity;
+		if (!reagents [reaction.cName].IsSolid) {
+			phC = reagents [reaction.cName].PH;
+			turbidityC = reagents [reaction.cName].Turbidity;
 		}
 
-		if (!reagents [reaction.dName].isSolid) {
-			phD = reagents [reaction.cName].pH;
-			turbidityD = reagents [reaction.cName].turbidity;
+		if (!reagents [reaction.dName].IsSolid) {
+			phD = reagents [reaction.cName].PH;
+			turbidityD = reagents [reaction.cName].Turbidity;
 		}
-		
-		polarizability = (reagents [reaction.cName].polarizability * realConcentrationC + reagents [reaction.dName].polarizability * realConcentrationD) / (realConcentrationC + realConcentrationD);
-		conductibility = (reagents [reaction.cName].conductibility * realConcentrationC + reagents [reaction.dName].conductibility * realConcentrationD) / (realConcentrationC + realConcentrationD);
-		solubility = (reagents [reaction.cName].solubility * realConcentrationC + reagents [reaction.dName].solubility * realConcentrationD) / (realConcentrationC + realConcentrationD);
+
+		polarizability = (reagents [reaction.cName].Polarizability * realConcentrationC + reagents [reaction.dName].Polarizability * realConcentrationD) / (realConcentrationC + realConcentrationD);
+		conductibility = (reagents [reaction.cName].Conductibility * realConcentrationC + reagents [reaction.dName].Conductibility * realConcentrationD) / (realConcentrationC + realConcentrationD);
+		solubility = (reagents [reaction.cName].Solubility * realConcentrationC + reagents [reaction.dName].Solubility * realConcentrationD) / (realConcentrationC + realConcentrationD);
 
 		ph = (phC * realConcentrationC + phD * realConcentrationD) / (realConcentrationC + realConcentrationD);
 		turbidity = (turbidityC * realConcentrationC + turbidityD * realConcentrationD) / (realConcentrationC + realConcentrationD);

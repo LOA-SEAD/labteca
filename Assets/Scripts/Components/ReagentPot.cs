@@ -3,12 +3,11 @@ using System.Collections;
 
 public class ReagentPot : ItemToInventory {
 	
-	public Reagent reagent;
+	public Reagent reagent = new Reagent();
 	public bool isSolid;
 
 	// Use this for initialization
 	void Start () {
-	
 	}
 	
 	// Update is called once per frame
@@ -33,10 +32,10 @@ public class ReagentPot : ItemToInventory {
 				break;
 			case MouseState.ms_spatula: 		// Spatula -> Solid Reagent: fill the spatula with the reagent clicked
 				//spatula.OpenInteractionBox(true);
-				spatula.FillSpatula (this.reagent.Clone ());
+				spatula.FillSpatula ((Compound)this.reagent.Clone ());
 				break;
 			case MouseState.ms_filledSpatula: 	// Filled Spatula -> Solid Reagent: put back the content if it is the same reagent
-				if (spatula.reagentInSpatula.name == this.reagent.GetName())
+				if (spatula.reagentInSpatula.Name == this.reagent.Name)
 					spatula.UnfillSpatula ();
 				//else
 				//	GameObject.Find("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().differentReagentErrorBox.SetActive(true);
@@ -58,10 +57,10 @@ public class ReagentPot : ItemToInventory {
 				if(pipette.graduated)
 					pipette.OpenGraduatedFillingBox(this.reagent);
 				else
-					pipette.FillVolumetricPipette(this.reagent.Clone ());
+					pipette.FillVolumetricPipette((Compound)this.reagent.Clone ());
 				break;
 			case MouseState.ms_filledPipette: 	// Filled Spatula -> Liquid Reagent: put back the content if it is the same reagent
-				if(pipette.reagentInPipette.name == this.reagent.name) {
+				if(pipette.reagentInPipette.Name == this.reagent.Name) {
 					if(pipette.graduated)
 						pipette.OpenGraduatedUnfillingBox(this.reagent);
 					else

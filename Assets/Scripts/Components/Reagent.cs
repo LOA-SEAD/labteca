@@ -7,44 +7,91 @@ using System.Collections;
 
 public class Reagent : Compound {
 
-	private float concentration; //[TODO:mol/L?] -> How pure the reagent is, in terms of amounts of water it was diluted with.
+	//[TODO:mol/L?] -> How pure the reagent is, in terms of amounts of water it was diluted with.
 	//private float realMass = purity * molarMass + (1 - purity)*waterMolarMass
-	public float volume;		 //[mL]
  
 
 	public Reagent (Compound compound, float _volume, float _concentration) {
-		name = compound.name;
-		isSolid = compound.isSolid;
-		molarMass = compound.molarMass;
-		purity = compound.purity;
-		density = compound.density;
-		solubility = compound.solubility;
+		Name = compound.Name;
+		this.IsSolid = compound.IsSolid;
+		this.MolarMass = compound.MolarMass;
+		this.Concentration = compound.Concentration;
+		this.Density = compound.Density;
+		this.Solubility = compound.Solubility;
 		irSpecter = compound.irSpecter;
 		uvSpecter = compound.uvSpecter;
-		pH = compound.pH;
-		conductibility = compound.conductibility;
-		turbidity = compound.turbidity;
-		polarizability = compound.polarizability;
-		refratometer = compound.refratometer;
+		this.PH = compound.PH;
+		this.Conductibility = compound.Conductibility;
+		this.Turbidity = compound.Turbidity;
+		this.Polarizability = compound.Polarizability;
+		this.Refratometer = compound.Refratometer;
 		flameSpecter = compound.flameSpecter;
 		hplc = compound.hplc;
 	
-		volume = _volume;
-		concentration = _concentration;
+		this.Volume = _volume;
+		//concentration = _concentration;
 	}
+	public Reagent (Reagent r) {
+		Name = r.Name;
+		this.IsSolid = r.IsSolid;
+		this.MolarMass = r.MolarMass;
+		this.Concentration = r.Concentration;
+		this.Density = r.Density;
+		this.Solubility = r.Solubility;
+		irSpecter = r.irSpecter;
+		uvSpecter = r.uvSpecter;
+		this.PH = r.PH;
+		this.Conductibility = r.Conductibility;
+		this.Turbidity = r.Turbidity;
+		this.Polarizability = r.Polarizability;
+		this.Refratometer = r.Refratometer;
+		flameSpecter = r.flameSpecter;
+		hplc = r.hplc;
+		
+		this.Volume = r.Volume;
+	}
+
 	public Reagent() {
 	
 	}
 
+	public override object Clone() {
+		Reagent newCompound = new Reagent(this);
+		return newCompound;
+	}
+	public override object Clone(float reagentVolume) {
+		Reagent newCompound = new Reagent(this);
+		newCompound.RealMass = this.MolarMass / this.Density;
+		return newCompound;
+	}
+
 	//! Dilutes the reagent into water
 	// 	Takes the reagent Water as a parapeter in order to destroy the component afterwards.
-	public void Dilute (Reagent water) {
-		/*
-		 * CHANGE CONCENTRATION
-		 */
+	public void Dilute (Compound water) {
+		if (!IsSolid) {
+			this.Volume = this.Volume + water.Volume;
+			this.RealMass = this.RealMass + water.RealMass;
+			this.Concentration = (this.Concentration *  this.Volume) / (this.Volume + water.Volume);
 
+		} else {
+			this.Volume = water.Volume; //TODO:CHECK WITH TECA.
+			this.RealMass = this.RealMass + water.RealMass;
+			this.Concentration = (this.Concentration *  this.Volume) / (this.Volume + water.Volume);
+		}
 
 		water = null;
+	}
+	public void Dilute (float waterVolume) {
+		if (!IsSolid) {
+			this.Volume = this.Volume + waterVolume;
+			this.RealMass = this.RealMass + waterVolume * waterVolume;
+			this.Concentration = (this.Concentration  *  this.Volume) / (this.Volume + waterVolume);
+			
+		} else {
+			this.Volume = waterVolume; //TODO:CHECK WITH TECA.
+			this.RealMass = this.RealMass + waterVolume * waterMolarMass;
+			this.Concentration = (this.Concentration *  this.Volume) / (this.Volume + waterVolume);
+		}
 	}
 
 	public void React (Reagent reagent) {

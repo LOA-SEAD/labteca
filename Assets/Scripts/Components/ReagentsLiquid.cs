@@ -44,12 +44,12 @@ public class ReagentsLiquid : MonoBehaviour
 		{
 			if (mass != 0f)
 			{
-				mass = info.density * volume;		
+				mass = info.Density * volume;		
 			}
 
 			if (volume != 0f) 
 			{
-				volume = mass / info.density;		
+				volume = mass / info.Density;
 			}
 		}
 	}
@@ -103,7 +103,7 @@ public class ReagentsLiquid : MonoBehaviour
 				{
 					machine.textResult.text = "waiting";
 				}
-				machine.actualReagent = info.name;
+				machine.actualReagent = info.Name;
 				machine.actualConcentration = concentration;
 
 			}

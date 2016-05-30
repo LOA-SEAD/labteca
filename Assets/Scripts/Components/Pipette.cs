@@ -28,6 +28,7 @@ public class Pipette : MonoBehaviour {
 	public Slider u_boxSlider;  				//Unfilling box's slider
 	public Text u_pipetteValueText; 			//Text showing the slider's value
 	public float u_volumeSelected;				//Amount selected in the slider
+	
 
 	//Interaction box for volumetric pipette
 	//public GameObject boxVolumetricPipette;		//Interaction box for the volumetric pipette
@@ -162,7 +163,7 @@ public class Pipette : MonoBehaviour {
 		boxGraduatedFilling.GetComponentInChildren<Slider> ().maxValue = maxVolume;
 
 		volumeSelected = 0.0f;
-		interactingReagent = reagent.Clone ();
+		interactingReagent = (Compound)reagent.Clone ();
 
 	
 		//CursorManager.SetDefaultCursor ();
@@ -280,10 +281,10 @@ public class Pipette : MonoBehaviour {
 		if (u_volumeSelected > 0.0f) { //If some liquid is selected, the amount is poured into the glassware
 			if (interactingGlassware != null) {
 				if(volumeSelected <= (interactingGlassware.maxVolume - interactingGlassware.currentVolume))
-					interactingGlassware.PourLiquid (volumeHeld, volumeHeld * reagentInPipette.density, reagentInPipette);
+					interactingGlassware.PourLiquid (volumeHeld, volumeHeld * reagentInPipette.Density, reagentInPipette);
 				else
 					interactingGlassware.PourLiquid ((interactingGlassware.maxVolume - interactingGlassware.currentVolume),
-					                                 (interactingGlassware.maxVolume - interactingGlassware.currentVolume) * reagentInPipette.density, reagentInPipette);
+					                                 (interactingGlassware.maxVolume - interactingGlassware.currentVolume) * reagentInPipette.Density, reagentInPipette);
 			}
 
 			volumeHeld -= u_volumeSelected;
@@ -342,10 +343,10 @@ public class Pipette : MonoBehaviour {
 	public void UnfillVolumetricPipette(Glassware glassware) {
 		float volumeToGlass;
 		if ((glassware.maxVolume - glassware.currentVolume) < maxVolume) { //Case volume on pipette > volume available
-			glassware.PourLiquid (glassware.maxVolume - glassware.currentVolume, (glassware.maxVolume - glassware.currentVolume) * reagentInPipette.density, reagentInPipette);
+			glassware.PourLiquid (glassware.maxVolume - glassware.currentVolume, (glassware.maxVolume - glassware.currentVolume) * reagentInPipette.Density, reagentInPipette);
 			volumeHeld -= (glassware.maxVolume - glassware.currentVolume);
 		} else { //Case volume available in glass > volume on pipette
-			glassware.PourLiquid (volumeHeld, volumeHeld * reagentInPipette.density, reagentInPipette);
+			glassware.PourLiquid (volumeHeld, volumeHeld * reagentInPipette.Density, reagentInPipette);
 			volumeHeld = 0.0f;
 		}
 

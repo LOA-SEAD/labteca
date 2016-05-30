@@ -63,17 +63,17 @@ public class DeleteComponent : EditorWindow
 
 		if(selected)
 		{
-			EditorGUILayout.LabelField("Nome: " + reagent.name);
-			EditorGUILayout.LabelField("Massa Molar : " + reagent.molarMass.ToString());
-			EditorGUILayout.LabelField("Densidade : " + reagent.density.ToString());
-			EditorGUILayout.LabelField("Polaridade: " + reagent.polarizability.ToString());
-			EditorGUILayout.LabelField("Condutividade: " + reagent.conductibility.ToString());
-			EditorGUILayout.LabelField("Solubilidade: " + reagent.solubility.ToString());
+			EditorGUILayout.LabelField("Nome: " + reagent.Name);
+			EditorGUILayout.LabelField("Massa Molar : " + reagent.MolarMass.ToString());
+			EditorGUILayout.LabelField("Densidade : " + reagent.Density.ToString());
+			EditorGUILayout.LabelField("Polaridade: " + reagent.Polarizability.ToString());
+			EditorGUILayout.LabelField("Condutividade: " + reagent.Conductibility.ToString());
+			EditorGUILayout.LabelField("Solubilidade: " + reagent.Solubility.ToString());
 
-			if(!reagent.isSolid) {
-				EditorGUILayout.LabelField("Ph : " + (reagent as Compound).pH.ToString());
-				EditorGUILayout.LabelField("Turbilidade: " + (reagent as Compound).turbidity.ToString());
-				EditorGUILayout.LabelField("Refratometro: " + (reagent as Compound).refratometer.ToString());
+			if(!reagent.IsSolid) {
+				EditorGUILayout.LabelField("Ph : " + (reagent as Compound).PH.ToString());
+				EditorGUILayout.LabelField("Turbilidade: " + (reagent as Compound).Turbidity.ToString());
+				EditorGUILayout.LabelField("Refratometro: " + (reagent as Compound).Refratometer.ToString());
 
 				if((reagent as Compound).hplc != null) {
 					EditorGUILayout.LabelField("HPLC = " + (reagent as Compound).hplc.ToString());
@@ -108,7 +108,8 @@ public class DeleteComponent : EditorWindow
 			{
 				EditorGUILayout.LabelField("Textura: ");
 			}*/
-			//EditorGUILayout.ColorField("Cor: ", reagent.color);
+
+			EditorGUILayout.ColorField("Cor: ", reagent.color);
 
 			if(!deleteSelected)
 			{

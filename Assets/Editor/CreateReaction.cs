@@ -75,12 +75,11 @@ public class CreateReaction : EditorWindow
 			{
 				EditorGUILayout.BeginVertical ();
 
-				EditorGUILayout.LabelField ("Nome: " + reagents [aName].name);
-				EditorGUILayout.LabelField ("MassaMolar: " + reagents [aName].molarMass);
-				EditorGUILayout.LabelField ("Densidade: " + reagents [aName].density);
-				if(reagents is Compound)
-					EditorGUILayout.LabelField ("pH: " + (reagents [aName] as Compound).pH);
-				//EditorGUILayout.ColorField ("Cor: ", reagents [aName].color);
+				EditorGUILayout.LabelField ("Nome: " + reagents [aName].Name);
+				EditorGUILayout.LabelField ("MassaMolar: " + reagents [aName].MolarMass);
+				EditorGUILayout.LabelField ("Densidade: " + reagents [aName].Density);
+				EditorGUILayout.LabelField ("pH: " + reagents [aName].PH);
+				EditorGUILayout.ColorField ("Cor: ", reagents [aName].color);
 
 				EditorGUILayout.EndVertical ();
 			} 
@@ -92,7 +91,7 @@ public class CreateReaction : EditorWindow
 				EditorGUILayout.LabelField ("MassaMolar: ");
 				EditorGUILayout.LabelField ("Densidade: ");
 				EditorGUILayout.LabelField ("pH: ");
-				//EditorGUILayout.ColorField ("Cor: ", Color.black);
+				EditorGUILayout.ColorField ("Cor: ", Color.black);
 				
 				EditorGUILayout.EndVertical ();	
 			}
@@ -105,7 +104,7 @@ public class CreateReaction : EditorWindow
 			EditorGUILayout.LabelField ("MassaMolar: ");
 			EditorGUILayout.LabelField ("Densidade: ");
 			EditorGUILayout.LabelField ("pH: ");
-			//EditorGUILayout.ColorField ("Cor: ", Color.black);
+			EditorGUILayout.ColorField ("Cor: ", Color.black);
 			
 			EditorGUILayout.EndVertical ();	
 		}
@@ -116,11 +115,11 @@ public class CreateReaction : EditorWindow
 			{
 				EditorGUILayout.BeginVertical ();
 				
-				EditorGUILayout.LabelField ("Nome: " + reagents [bName].name);
-				EditorGUILayout.LabelField ("MassaMolar: " + reagents [bName].molarMass);
-				EditorGUILayout.LabelField ("Densidade: " + reagents [bName].density);
-				EditorGUILayout.LabelField ("pH: " + (reagents [bName] as Compound).pH);
-				//EditorGUILayout.ColorField ("Cor: ", reagents [bName].color);
+				EditorGUILayout.LabelField ("Nome: " + reagents [bName].Name);
+				EditorGUILayout.LabelField ("MassaMolar: " + reagents [bName].MolarMass);
+				EditorGUILayout.LabelField ("Densidade: " + reagents [bName].Density);
+				EditorGUILayout.LabelField ("pH: " + (reagents [bName] as Compound).PH);
+				EditorGUILayout.ColorField ("Cor: ", reagents [bName].color);
 				
 				EditorGUILayout.EndVertical ();
 			} 
@@ -132,7 +131,7 @@ public class CreateReaction : EditorWindow
 				EditorGUILayout.LabelField ("MassaMolar: ");
 				EditorGUILayout.LabelField ("Densidade: ");
 				EditorGUILayout.LabelField ("pH: ");
-				//EditorGUILayout.ColorField ("Cor: ", Color.black);
+				EditorGUILayout.ColorField ("Cor: ", Color.black);
 				
 				EditorGUILayout.EndVertical ();	
 			}
@@ -145,7 +144,7 @@ public class CreateReaction : EditorWindow
 			EditorGUILayout.LabelField ("MassaMolar: ");
 			EditorGUILayout.LabelField ("Densidade: ");
 			EditorGUILayout.LabelField ("pH: ");
-			//EditorGUILayout.ColorField ("Cor: ", Color.black);
+			EditorGUILayout.ColorField ("Cor: ", Color.black);
 			
 			EditorGUILayout.EndVertical ();	
 		}
@@ -157,11 +156,11 @@ public class CreateReaction : EditorWindow
 			{
 				EditorGUILayout.BeginVertical ();
 				
-				EditorGUILayout.LabelField ("Nome: " + reagents [cName].name);
-				EditorGUILayout.LabelField ("MassaMolar: " + reagents [cName].molarMass);
-				EditorGUILayout.LabelField ("Densidade: " + reagents [cName].density);
-				EditorGUILayout.LabelField ("pH: " + (reagents [cName] as Compound).pH);
-			//	EditorGUILayout.ColorField ("Cor: ", reagents [cName].color);
+				EditorGUILayout.LabelField ("Nome: " + reagents [cName].Name);
+				EditorGUILayout.LabelField ("MassaMolar: " + reagents [cName].MolarMass);
+				EditorGUILayout.LabelField ("Densidade: " + reagents [cName].Density);
+				EditorGUILayout.LabelField ("pH: " + (reagents [cName] as Compound).PH);
+				EditorGUILayout.ColorField ("Cor: ", reagents [cName].color);
 				
 				EditorGUILayout.EndVertical ();
 			} 
@@ -186,7 +185,7 @@ public class CreateReaction : EditorWindow
 			EditorGUILayout.LabelField ("MassaMolar: ");
 			EditorGUILayout.LabelField ("Densidade: ");
 			EditorGUILayout.LabelField ("pH: ");
-		//	EditorGUILayout.ColorField ("Cor: ", Color.black);
+			EditorGUILayout.ColorField ("Cor: ", Color.black);
 			
 			EditorGUILayout.EndVertical ();	
 		}
@@ -198,11 +197,11 @@ public class CreateReaction : EditorWindow
 			{
 				EditorGUILayout.BeginVertical ();
 				
-				EditorGUILayout.LabelField ("Nome: " + reagents [dName].name);
-				EditorGUILayout.LabelField ("MassaMolar: " + reagents [dName].molarMass);
-				EditorGUILayout.LabelField ("Densidade: " + reagents [dName].density);
-				EditorGUILayout.LabelField ("pH: " + (reagents [dName] as Compound).pH);
-				//EditorGUILayout.ColorField ("Cor: ", reagents [dName].color);
+				EditorGUILayout.LabelField ("Nome: " + reagents [dName].Name);
+				EditorGUILayout.LabelField ("MassaMolar: " + reagents [dName].MolarMass);
+				EditorGUILayout.LabelField ("Densidade: " + reagents [dName].Density);
+				EditorGUILayout.LabelField ("pH: " + (reagents [dName] as Compound).PH);
+				EditorGUILayout.ColorField ("Cor: ", reagents [dName].color);
 				
 				EditorGUILayout.EndVertical ();
 			} 
@@ -214,7 +213,7 @@ public class CreateReaction : EditorWindow
 				EditorGUILayout.LabelField ("MassaMolar: ");
 				EditorGUILayout.LabelField ("Densidade: ");
 				EditorGUILayout.LabelField ("pH: ");
-				//EditorGUILayout.ColorField ("Cor: ", Color.black);
+				EditorGUILayout.ColorField ("Cor: ", Color.black);
 				
 				EditorGUILayout.EndVertical ();	
 			}

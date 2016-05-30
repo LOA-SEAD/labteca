@@ -74,10 +74,10 @@ public  class GetReagentState : GameStateBase, GetInterface {
                                               prefabRect.transform.rotation) as GameObject;
 
             // set reagent's name
-			if(actualReagent.isSolid)
-				tempItem.GetComponent<ReagentUiItemBehaviour>().SetReagent(actualReagent.name, solidPrefab);
+			if(actualReagent.IsSolid)
+				tempItem.GetComponent<ReagentUiItemBehaviour>().SetReagent(actualReagent.Name, solidPrefab);
 			else
-				tempItem.GetComponent<ReagentUiItemBehaviour>().SetReagent(actualReagent.name, liquidPrefab);
+				tempItem.GetComponent<ReagentUiItemBehaviour>().SetReagent(actualReagent.Name, liquidPrefab);
             // next position on inventory grid
             lastItemPos++;
 
@@ -170,7 +170,7 @@ public  class GetReagentState : GameStateBase, GetInterface {
 		Compound instantiatingReagent;
 		reagents.TryGetValue (reagentName, out instantiatingReagent);
 
-		if(instantiatingReagent.isSolid == true) {
+		if(instantiatingReagent.IsSolid == true) {
 			AnyObjectInstantiation solidReagent = Instantiate(solidPrefab) as AnyObjectInstantiation;
 			solidReagent.name = reagentName;
 			return solidReagent;

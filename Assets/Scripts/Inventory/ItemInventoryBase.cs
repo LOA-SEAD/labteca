@@ -70,8 +70,8 @@ public class ItemInventoryBase : MonoBehaviour {
 	}
 
 	public void addReagent(Compound r){
-		reagent = r.name;
-		if(r.isSolid)
+		reagent = r.Name;
+		if(r.IsSolid)
 			itemType=ItemType.Solids;
 		else
 			itemType=ItemType.Liquids;

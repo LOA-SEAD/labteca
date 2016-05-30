@@ -131,7 +131,7 @@ public class InventoryController : MonoBehaviour {
 
     public void AddReagentLiquid(ReagentsLiquid reagent)
     {
-        Debug.Log("added " + reagent.info.name + " in inventory!");
+        Debug.Log("added " + reagent.info.Name + " in inventory!");
         reagent.gameObject.layer = 10;
         foreach (Transform child in reagent.transform)
         {

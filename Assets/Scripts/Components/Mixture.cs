@@ -13,7 +13,7 @@ public class Mixture : IPhysicochemical {
 	private string name;
 	public string Name { get{ return name; } set{ name = value; }}
 	private float realMass;		//The mass instantiated in the world [g]
-	public float RealMass { get { return realMass; } set { realMass = value; } }
+	public float RealMass { get { return this.GetMass(); } }
 	private float density;
 	public float Density { get { return density; } set { density = value; } }
 	private float solubility;
@@ -37,40 +37,35 @@ public class Mixture : IPhysicochemical {
 	public float Refratometer { get { return refratometer; } set { refratometer = value; } }
 
 
-	//The reagents that resulted on this mixture.
-	/* It may also indicate reagent leftovers after the reaction.
-	 * The howMuch attribute indicates the amount of leftover compounds, where (howMuch = 0.0f) means there's no leftover of that compound.
-	 */
-	public List<Reagent> reagents = new List<Reagent>(); //List of reagents inside
-	public Compound product = null; //Product of the reaction
+	//! The reagents that resulted on this mixture.
+	// It may also indicate reagent leftovers after the reaction.
+	// The concentration of them is always 1, as the the values will be only available via Get methods
+	private Reagent[] leftovers; //List of reagents inside
 
-	//[System.Serializable] /*!< Lets you embed a class with sub properties in the inspector. */
-	//Listing the compounds inside, together with the respective masses.
-/*	public class CompoundsInMixture{ //TODO:having another class is really necessary?
-		public Compound reagent;
-		public float howMuch; //[g]
-		
-		public CompoundsInMixture(Compound re, float qu) {
-			reagent.CopyCompound(re);
-			howMuch = qu;
-		}
-	}
-*/
-	/*
+	//! The product of the reaction
+	// The volume of water is taken in consideration only in this Compound, via the concentration value
+	private Compound product = null; //Product of the reaction
+
+
 	public Mixture() {
-
 	}
-	*/
+	public Mixture(Compound _product, Reagent[] _leftovers) {
+		this.product = _product;
+		this.leftovers = _leftovers;
+	}
+
+	//! Return the value of mass
 	public float GetMass() {
 		float resultingMass = 0.0f;
 
-		if (reagents [0] != null)
-			resultingMass += reagents [0].RealMass;
-		if(reagents[1] != null)
-			resultingMass += reagents [1].RealMass;
 		if(product != null)
 			resultingMass += product.RealMass;
-
+		if (leftovers != null) {
+			if (leftovers [0] != null)
+				resultingMass += leftovers [0].RealMass;
+			if (leftovers [1] != null)
+				resultingMass += leftovers [1].RealMass;
+		}
 		return resultingMass;
 	}
 }

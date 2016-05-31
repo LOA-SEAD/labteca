@@ -11,7 +11,7 @@ public class Reagent : Compound {
 	//private float realMass = purity * molarMass + (1 - purity)*waterMolarMass
  
 
-	public Reagent (Compound compound, float _volume, float _concentration) {
+	/*public Reagent (Compound compound, float _volume, float _concentration) {
 		Name = compound.Name;
 		this.IsSolid = compound.IsSolid;
 		this.MolarMass = compound.MolarMass;
@@ -30,8 +30,8 @@ public class Reagent : Compound {
 	
 		this.Volume = _volume;
 		//concentration = _concentration;
-	}
-	public Reagent (Reagent r) {
+	}*/
+	public Reagent (Compound r) {
 		Name = r.Name;
 		this.IsSolid = r.IsSolid;
 		this.MolarMass = r.MolarMass;
@@ -56,11 +56,11 @@ public class Reagent : Compound {
 	}
 
 	public override object Clone() {
-		Reagent newCompound = new Reagent(this);
+		Reagent newCompound = new Reagent(this as Compound);
 		return newCompound;
 	}
 	public override object Clone(float reagentVolume) {
-		Reagent newCompound = new Reagent(this);
+		Reagent newCompound = new Reagent(this as Compound);
 		newCompound.RealMass = this.MolarMass / this.Density;
 		return newCompound;
 	}
@@ -94,8 +94,14 @@ public class Reagent : Compound {
 		}
 	}
 
-	public void React (Reagent reagent) {
+	public Mixture React (Reagent reagent) {
+
+		Compound product = null;
 
 
+		/*
+		 * 
+		 */
+		return null;
 	}
 }

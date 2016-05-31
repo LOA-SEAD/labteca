@@ -48,8 +48,10 @@ public class Compound : IPhysicochemical {
 	public Texture2D hplc;  //High-Performance liquid chromatography
 	/*
 	public Texture2D texture;
-	 //TODO: are those needed?
+	 //TODO: is this needed?
 	*/
+
+	//! Constructor for generating a Compound that is yet not used in the real World
 	public Compound(string _name, bool _isSolid, float _molarMass, float _purity, float _density, float _solubility, Texture2D _irSpecter, Texture2D _uvSpecter,
 	                float _pH, float _conducdibility, float _turbidity, float _polarizability, float _refratometer, Texture2D _flameSpecter, Texture2D _hplc) {
 
@@ -72,9 +74,12 @@ public class Compound : IPhysicochemical {
 		//realMass = purity * molarMass + (1 - purity)*watermolarMass;
 	}
 
+	//! Empty constructor
 	public Compound () {
 	}
 
+	//! Constructor that copies all the attributes of a previous compound
+	// Does not copy 
 	public Compound (Compound r) {
 		this.Name = r.Name;
 		this.isSolid = r.isSolid;
@@ -91,10 +96,11 @@ public class Compound : IPhysicochemical {
 			this.turbidity = r.turbidity;
 			this.refratometer = r.refratometer;
 		}
-
+		this.realMass = r.realMass;
 		this.volume = r.volume;
 	}
 
+	//! Set all the values to the ones of an existing compound
 	public void setValues(Compound r){
 		this.Name = r.Name;
 		this.isSolid = r.isSolid;
@@ -113,7 +119,8 @@ public class Compound : IPhysicochemical {
 			this.refratometer = r.refratometer;
 		}
 	}
-
+	
+	//! Set all the values to the ones of an existing compound
 	public void CopyCompound(Compound baseCompound) {
 
 		System.Reflection.FieldInfo[] fields = baseCompound.GetType().GetFields(); 

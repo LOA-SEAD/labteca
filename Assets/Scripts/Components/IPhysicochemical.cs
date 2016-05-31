@@ -11,7 +11,6 @@ public interface IPhysicochemical {
 	//realMass
 	float RealMass {
 		get;
-		set;
 	}
 	//density
 	float Density {

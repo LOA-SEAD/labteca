@@ -57,7 +57,7 @@ public class ReagentPot : ItemToInventory {
 				if(pipette.graduated)
 					pipette.OpenGraduatedFillingBox(this.reagent);
 				else
-					pipette.FillVolumetricPipette((Compound)this.reagent.Clone ());
+					pipette.FillVolumetricPipette(this.reagent);
 				break;
 			case MouseState.ms_filledPipette: 	// Filled Spatula -> Liquid Reagent: put back the content if it is the same reagent
 				if(pipette.reagentInPipette.Name == this.reagent.Name) {

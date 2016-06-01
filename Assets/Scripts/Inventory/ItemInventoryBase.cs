@@ -17,6 +17,8 @@ public class ItemInventoryBase : MonoBehaviour {
     public bool stackable;                      /*!< If can be stacked. */
     public ItemType itemType;                   /*!< Enum to set this item type: 'solids', 'liquids', 'glassware' and 'others'. */
 	public Text underText;
+
+	public Transform posTab;
 	
 	public ItemToInventory itemBeingHeld;
 	public GameObject physicalObject;
@@ -176,5 +178,6 @@ public enum ItemType {
     Solids,         /*!< Enum Solids type. */	
     Liquids,        /*!< Enum Liquids type. */
     Glassware,      /*!< Enum Glassware type. */
-    Others          /*!< Enum Others type. */
+    Others,          /*!< Enum Others type. */
+	Null			/*!< Enum Null type. */
 }

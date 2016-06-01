@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 //! Manages all 'types' of Inventory Controller.
 /*! It has information of all of the four types of InventoryController ( Solid, Liquid, Glassware and Others ). */
+using UnityEngine.EventSystems;
+
+
 public class InventoryManager : MonoBehaviour {
 
 	private int count = 0;
@@ -19,8 +22,7 @@ public class InventoryManager : MonoBehaviour {
 	public List<Button> listButton;
 	public ArrayList ObjectList     = new ArrayList();
     // need to be set on the inspector with the correct game object containing each InventoryController
-	public ArrayList SolidReagents  = new ArrayList();       /*!< InventoryController for Solid Reagents. */
-	public ArrayList LiquidReagents = new ArrayList();      /*!< InventoryController for Liquid Reagents. */
+	public ArrayList Reagents  = new ArrayList();       /*!< InventoryController for Liquid and Solid Reagents. */
 	public ArrayList Glassware      = new ArrayList();           /*!< InventoryController for Glassware. */
 	public ArrayList Others         = new ArrayList();              /*!< InventoryController for Others. */
 
@@ -37,16 +39,19 @@ public class InventoryManager : MonoBehaviour {
 
 	//private ArrayList SelectedList   = new ArrayList();
 
-	private ItemType itemType;
+	private ItemType[] itemType = new ItemType[2];
 	public RectTransform content;
 
     public ItemInventoryBase selectedItem = null;     /*!< Current selected item (game object). */
     private ItemStackableBehavior selectedUIItem = null;    /*!< Current selected item from inventory UI. */
 	///-----------REFACTOR-------------------
 	void Start(){
-		listIndex = 0;
+		refreshTab (false);
+		itemType [0] = ItemType.Liquids;
+		itemType [1] = ItemType.Solids;
+		listIndex = 1;
 		changeList(listIndex);
-		selectedIcon = backgroundIcons [0];
+		selectedIcon = backgroundIcons [1];
 		refreshGrid ();
 	}
 
@@ -62,7 +67,7 @@ public class InventoryManager : MonoBehaviour {
 			}
 			auxItem.index=sb.ToString();
 		}
-		if (item.getItemType () == itemType) {
+		if (item.getItemType () == itemType[0]||item.getItemType () == itemType[1]) {
 			GameObject aux = instantiateObject (auxItem);
 
 			switch (item.getItemType ()) {
@@ -70,13 +75,11 @@ public class InventoryManager : MonoBehaviour {
 				Glassware.Add (auxItem);
 				break;
 			case ItemType.Liquids:
-				LiquidReagents.Add (auxItem);
+			case ItemType.Solids:
+				Reagents.Add (auxItem);
 				break;
 			case ItemType.Others:
 				Others.Add (auxItem);
-				break;
-			case ItemType.Solids:
-				SolidReagents.Add (auxItem);
 				break;
 			}
 			refreshGrid ();
@@ -90,14 +93,12 @@ public class InventoryManager : MonoBehaviour {
 				changeList(2);
 				break;
 			case ItemType.Liquids:
-				LiquidReagents.Add(auxItem);
+			case ItemType.Solids:
+				Reagents.Add(auxItem);
 				changeList(1);
 				break;
 			case ItemType.Others:
 				Others.Add(auxItem);
-				break;
-			case ItemType.Solids:
-				SolidReagents.Add(auxItem);
 				changeList(0);
 				break;
 			}
@@ -115,7 +116,7 @@ public class InventoryManager : MonoBehaviour {
 		}
 
 		selectedObject = null;
-		refreshTab ();
+		refreshActionButton ();
 		count = 0;
 
 		selectList (index);
@@ -182,6 +183,24 @@ public class InventoryManager : MonoBehaviour {
 		changeImage (tempItem);
 		tempItem.gameObject.GetComponent<Button> ().onClick.AddListener (() => this.setSelectedItem(tempItem.GetComponent<ItemInventoryBase>()));
 
+		if (item.getItemType() != ItemType.Glassware) {
+			EventTrigger trigger = tempItem.gameObject.GetComponent<EventTrigger> ();
+			EventTrigger.Entry enter = new EventTrigger.Entry ();
+			enter.eventID = EventTriggerType.PointerEnter;
+			enter.callback.AddListener ((eventData) => { 
+				refreshSelectedName (item); 
+				refreshTab (true); 
+				actionTab.transform.position = tempItem.GetComponent<ItemInventoryBase> ().posTab.position;
+			});
+			trigger.delegates.Add (enter);
+
+			EventTrigger.Entry exit = new EventTrigger.Entry ();
+			exit.eventID = EventTriggerType.PointerExit;
+			exit.callback.AddListener ((eventData) => { 
+				refreshTab (false); 
+			});
+			trigger.delegates.Add (exit);
+		}
 		return tempItem;
 	}
 
@@ -189,20 +208,16 @@ public class InventoryManager : MonoBehaviour {
 		listIndex = index;
 		switch (index) {
 		case 0:
-			//SelectedList=SolidReagents;
-			itemType=ItemType.Solids;
+			itemType[0]=ItemType.Others;
+			itemType[1]=ItemType.Others;
 			break;
 		case 1:
-			//SelectedList=LiquidReagents;
-			itemType=ItemType.Liquids;
+			itemType[0]=ItemType.Liquids;
+			itemType[1]=ItemType.Solids;
 			break;
 		case 2:
-			//SelectedList=Glassware;
-			itemType=ItemType.Glassware;
-			break;
-		case 3:
-			//SelectedList=Others;
-			itemType=ItemType.Others;
+			itemType[0]=ItemType.Glassware;
+			itemType[1]=ItemType.Glassware;
 			break;
 		}
 		inventoryImage.sprite = backgroundInventory [index];
@@ -222,11 +237,8 @@ public class InventoryManager : MonoBehaviour {
 		refreshActionButton ();
 	}
 
-	public void refreshTab(){
-		if (selectedObject != null)
-			actionTab.SetActive (true);
-		else
-			actionTab.SetActive (false);
+	public void refreshTab(bool val){
+		actionTab.SetActive (val);
 	}
 
 	public void auxSideButton(int i){
@@ -254,6 +266,11 @@ public class InventoryManager : MonoBehaviour {
 				listButton [2].GetComponent<Image> ().sprite = backgroundAction [0];
 			}
 		} else {
+			listButton[2].interactable = false;
+			listButton [2].GetComponent<Image> ().sprite = backgroundAction [0];
+		}
+
+		if (selectedObject == null) {
 			listButton[2].interactable = false;
 			listButton [2].GetComponent<Image> ().sprite = backgroundAction [0];
 		}
@@ -297,6 +314,7 @@ public class InventoryManager : MonoBehaviour {
 		if (item == selectedObject)
 			selectedObject = null;
 		Destroy (item);
+		refreshButtons ();
 		refreshGrid ();
 	}
 
@@ -317,13 +335,11 @@ public class InventoryManager : MonoBehaviour {
 	public ArrayList getCurrentList(){
 		switch (listIndex) {
 		case 0:
-			return SolidReagents;
+			return Others;
 		case 1:
-			return LiquidReagents;
+			return Reagents;
 		case 2:
 			return Glassware;;
-		case 3:
-			return Others;
 		}
 		return null;
 	}
@@ -336,19 +352,23 @@ public class InventoryManager : MonoBehaviour {
 		this.selectedItem = i;
 		selectedObject = GameObject.Find (selectedItem.gameObject.name);
 		selectedObject.GetComponentInChildren<Image>().sprite = selectedIcon;
-		switch (i.getItemType ()) {
-			case ItemType.Glassware:
-				selectedName.text = i.gl.name;
-				break;
-			case ItemType.Liquids:
-			case ItemType.Solids:
-				selectedName.text = i.reagent;
-				break;
-		}
 
-		refreshTab ();
+		refreshButtons ();
+
+		refreshSelectedName (i);
 	}
 
+	public void refreshSelectedName (ItemInventoryBase i){
+		switch (i.getItemType ()) {
+		case ItemType.Glassware:
+			selectedName.text = i.gl.name;
+			break;
+		case ItemType.Liquids:
+		case ItemType.Solids:
+			selectedName.text = i.reagent;
+			break;
+		}
+	}
 	public void actionButtonClick(){
 		if (selectedItem != null) {
 			ItemInventoryBase item = new ItemInventoryBase();
@@ -361,8 +381,6 @@ public class InventoryManager : MonoBehaviour {
 				removeItem (GameObject.Find (selectedItem.gameObject.name));
 			}
 		}
-
-		refreshTab ();
 	}
 
 	public void CallWorkbenchToTable(ItemInventoryBase item) {

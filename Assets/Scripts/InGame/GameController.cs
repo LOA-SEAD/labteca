@@ -86,7 +86,7 @@ public class GameController : MonoBehaviour {
 				GameObject.FindObjectOfType<InventoryManager> ().refreshActionButton();
 				break;
 			case 2:
-				GameObject.FindObjectOfType<InventoryManager> ().changeList(0);
+				GameObject.FindObjectOfType<InventoryManager> ().changeList(1);
 				break;
 			case 3:
 				GameObject.FindObjectOfType<InventoryManager> ().changeList(2);

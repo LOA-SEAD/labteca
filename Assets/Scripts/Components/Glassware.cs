@@ -39,17 +39,6 @@ public class Glassware : ItemToInventory
 	private bool onScale;	//The glassware is currently on a scale
 
 
-	[System.Serializable] /*!< Lets you embed a class with sub properties in the inspector. */
-	public class ReagentsInGlass{
-		public Compound reagent;
-		public float howMuch; //[g]
-
-		public ReagentsInGlass(Compound re, float qu) {
-			reagent = re;
-			howMuch = qu;
-		}
-	}
-
 	//!  Is called when the script instance is being loaded.
 	void Awake()
 	{
@@ -192,7 +181,7 @@ public class Glassware : ItemToInventory
 	}
 	//! Open the interaction box
 	public void OpenInteractionBox() {
-		interactionBoxGlassware.SetActive (true);
+		//interactionBoxGlassware.SetActive (true);
 		//CursorManager.SetDefaultCursor ();
 		/*
 		 * DEFINE HOW TO BLOCK CLICKS OUTSIDE 
@@ -204,7 +193,7 @@ public class Glassware : ItemToInventory
 		if (compounds [0] != null) { //Case not empty
 			if(compounds[0] is Mixture) { // Case: there's Mixture
 				if(incomingCompound.Name == "H2O") {
-					//compounds[0].Dilute(incomingCompound);
+					(compounds[0] as Reagent).Dilute(incomingCompound);
 				}
 				else {
 					//ERROR MESSAGE

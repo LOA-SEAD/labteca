@@ -47,7 +47,8 @@ public class Reagent : Compound {
 		this.Refratometer = r.Refratometer;
 		flameSpecter = r.flameSpecter;
 		hplc = r.hplc;
-		
+
+		this.RealMass = r.RealMass;
 		this.Volume = r.Volume;
 	}
 
@@ -61,7 +62,8 @@ public class Reagent : Compound {
 	}
 	public override object Clone(float reagentVolume) {
 		Reagent newCompound = new Reagent(this as Compound);
-		newCompound.RealMass = this.MolarMass / this.Density;
+		newCompound.Volume = reagentVolume;
+		newCompound.RealMass = this.RealMass * this.Volume / reagentVolume;
 		return newCompound;
 	}
 
@@ -84,7 +86,7 @@ public class Reagent : Compound {
 	public void Dilute (float waterVolume) {
 		if (!IsSolid) {
 			this.Volume = this.Volume + waterVolume;
-			this.RealMass = this.RealMass + waterVolume * waterVolume;
+			this.RealMass = this.RealMass + waterVolume * waterMolarMass;
 			this.Concentration = (this.Concentration  *  this.Volume) / (this.Volume + waterVolume);
 			
 		} else {

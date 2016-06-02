@@ -10,7 +10,7 @@ public class Compound : IPhysicochemical {
 
 	//Water mass;
 	public const float waterMolarMass = 18.015f;
-	
+	[SerializeField]
 	private string name;
 	public string Name { get{ return name; } set{ name = value; }}
 	private bool isSolid;
@@ -21,8 +21,10 @@ public class Compound : IPhysicochemical {
 	public float Molarity { get { return molarity; } set { molarity = value; } }
 	private float concentration; //The compound's "purity". [0, 1][g/g]
 	public float Concentration { get { return concentration; } set { concentration = value; } }
+	[SerializeField]
 	private float realMass;		//The mass instantiated in the world [g]
 	public float RealMass { get { return realMass; } set { realMass = value; } }
+	[SerializeField]
 	private float volume;		//volume instantiated in the world [mL]
 	public float Volume { get { return volume; } set { volume = value; } }
 	private float density;
@@ -71,7 +73,10 @@ public class Compound : IPhysicochemical {
 		flameSpecter = _flameSpecter;
 		hplc = _hplc;
 
-		//realMass = purity * molarMass + (1 - purity)*watermolarMass;
+
+
+		realMass = concentration * molarMass + (1 - concentration)*waterMolarMass;
+		//volume = realMass / density;
 	}
 
 	//! Empty constructor
@@ -153,7 +158,4 @@ public class Compound : IPhysicochemical {
 		newCompound.realMass = this.molarMass / this.density;
 		return newCompound;
 	}
-
-
-
 }

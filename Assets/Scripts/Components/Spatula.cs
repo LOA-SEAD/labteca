@@ -217,8 +217,7 @@ public class Spatula : MonoBehaviour {
 	}*/
 
 	//! Uses the spatula to hold a volume of a solid reagent
-	public void FillSpatula (Compound reagent) {
-		CloseInteractionBox();
+	public void FillSpatula (Compound reagent) { //Ok
 
 		/*if(realVolumeSelected > 0) {
 			CursorManager.SetMouseState (MouseState.ms_filledSpatula);
@@ -236,7 +235,9 @@ public class Spatula : MonoBehaviour {
 
 
 		volumeHeld = Random.Range (spatulaCapacity - capacityError, spatulaCapacity + capacityError);
-		reagentInSpatula = reagent;
+		reagentInSpatula = (Compound)(reagent as Reagent).Clone(volumeHeld);
+
+		CloseInteractionBox();
 	}
 
 	//! Unloads the spatula into a proper vessel
@@ -275,12 +276,13 @@ public class Spatula : MonoBehaviour {
 
 		realVolumeSelected = 0.0f;
 		interactingGlassware = null;*/
+
 	}
 
 	//! Unloads the spatula into a proper vessel
 	//  Called when the filled spatula clicks on a valid vessel for the reagent.
 	// 	In this overload, the vessel is the reagent pot or a proper discard place
-	public void UnfillSpatula() {
+	public void UnfillSpatula() { //Ok
 	
 		CloseInteractionBox ();
 
@@ -289,6 +291,8 @@ public class Spatula : MonoBehaviour {
 		GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().CannotEndState = false;
 
 		volumeHeld = 0.0f;
+		spatulaCapacity = 0.0f;
+		capacityError = 0.0f;
 		reagentInSpatula = null;
 	}
 }

@@ -88,15 +88,14 @@ public class MachineBehaviour : MonoBehaviour
 	//! Setup of reagent liquid in all machines.
 	public void Setup(string reagent, float concentration)
 	{
-		Dictionary<string, Compound> allReagents = ComponentsSaver.LoadReagents ();
+		Compound realReagent = CompoundFactory.GetInstance ().GetCompound (reagent) as Compound;
 
-		if (!allReagents.ContainsKey(reagent))
+		if (realReagent==null)
 		{
 			Debug.LogWarning("Reagent not seted in database");
 			return;
 		}
 
-		Compound realReagent = allReagents [reagent] as Compound;
 
 		allowShowFloat = false;
 		allowShowTexture = false;
@@ -183,15 +182,13 @@ public class MachineBehaviour : MonoBehaviour
 	//! Uses of reagent liquid in all machines.
 	public void Use(string reagent, float concentration)
 	{
-		Dictionary<string, Compound> allReagents = ComponentsSaver.LoadReagents ();
+		Compound realReagent = CompoundFactory.GetInstance ().GetCompound (reagent) as Compound;
 		
-		if (!allReagents.ContainsKey(reagent))
+		if (realReagent==null)
 		{
 			Debug.LogWarning("Reagent not seted in database");
 			return;
 		}
-		
-		Compound realReagent = allReagents [reagent] as Compound;
 
 		switch (myType) 
 		{

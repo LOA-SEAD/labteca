@@ -29,7 +29,7 @@ public class DeleteComponent : EditorWindow
 
 		EditorGUILayout.LabelField("Deletar Reagente:");
 
-		Dictionary<string, Compound> reagents = ComponentsSaver.LoadReagents();
+		Dictionary<string, Compound> reagents = ComponentsSaver.LoadReagents();//ok
 
 		string[] names = new string[reagents.Count];
 
@@ -123,7 +123,7 @@ public class DeleteComponent : EditorWindow
 				EditorGUILayout.LabelField("Deletar?");
 				if(GUILayout.Button("Sim"))
 				{
-					Dictionary<string, Compound> allReagents = ComponentsSaver.LoadReagents();
+					Dictionary<string, Compound> allReagents = ComponentsSaver.LoadReagents();//ok
 
 					allReagents.Remove(names[indexOfComponent]);
 					ComponentsSaver.SaveReagents(allReagents);

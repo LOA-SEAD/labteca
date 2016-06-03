@@ -705,9 +705,7 @@ public class WorkBench : MonoBehaviour {
 				tempItem.transform.SetParent (position, /*true*/false);
 				tempItem.transform.localPosition = Vector3.zero;
 				if(tempItem.GetComponent<ReagentPot>()!=null){
-					Compound reagent;
-					Dictionary<string, Compound> reagentDictionary = ComponentsSaver.LoadReagents ();
-					reagentDictionary.TryGetValue (key, out reagent);
+					Compound reagent = CompoundFactory.GetInstance ().GetCompound (key);
 					Debug.Log(key);
 
 					if(tempItem.GetComponent<ReagentPot>().isSolid)

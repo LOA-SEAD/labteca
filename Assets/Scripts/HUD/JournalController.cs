@@ -27,9 +27,9 @@ public class JournalController : MonoBehaviour {
 	public void writeReagentInfo(string name){
 		deleteContent ();
 		Compound reagent;
-		Dictionary<string, Compound> reagents = ComponentsSaver.LoadReagents ();
 
-		reagents.TryGetValue (name, out reagent);
+		reagent=CompoundFactory.GetInstance ().GetCompound (name);
+
 		//adds the infoUI to content
 		UIScrollList = canvasObject.GetComponentInChildren<ScrollRect> ();
 		prefabRect = infoPrefab.GetComponent<RectTransform> ();	

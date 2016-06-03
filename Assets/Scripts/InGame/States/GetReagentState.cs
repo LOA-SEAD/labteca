@@ -36,7 +36,7 @@ public  class GetReagentState : GameStateBase, GetInterface {
 	public void Start () {
         cameraState.gameObject.SetActive(false);
 		Compound actualReagent;
-		reagents = ComponentsSaver.LoadReagents();
+		reagents = ComponentsSaver.LoadReagents(); //ok
 
         // Set-up components
         if (canvasUI == null)   

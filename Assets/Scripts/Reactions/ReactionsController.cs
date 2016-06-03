@@ -51,7 +51,7 @@ public class ReactionsController : MonoBehaviour
 		float phC = 0, phD = 0;
 		float turbidityC = 0, turbidityD = 0;
 
-		Dictionary<string, Compound> reagents = ComponentsSaver.LoadReagents();
+		Dictionary<string, Compound> reagents = ComponentsSaver.LoadReagents(); //ok
 
 		if (!reagents [reaction.cName].IsSolid) {
 			phC = reagents [reaction.cName].PH;

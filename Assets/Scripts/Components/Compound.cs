@@ -13,6 +13,8 @@ public class Compound : IPhysicochemical {
 	[SerializeField]
 	private string name;
 	public string Name { get{ return name; } set{ name = value; }}
+	private string formula;
+	public string Formula { get{ return formula; } set{ formula = value; }}
 	private bool isSolid;
 	public bool IsSolid { get { return isSolid; } set { isSolid = value; } }
 	private float molarMass;
@@ -54,10 +56,11 @@ public class Compound : IPhysicochemical {
 	*/
 
 	//! Constructor for generating a Compound that is yet not used in the real World
-	public Compound(string _name, bool _isSolid, float _molarMass, float _purity, float _density, float _solubility, Texture2D _irSpecter, Texture2D _uvSpecter,
+	public Compound(string _name,string _formula, bool _isSolid, float _molarMass, float _purity, float _density, float _solubility, Texture2D _irSpecter, Texture2D _uvSpecter,
 	                float _pH, float _conducdibility, float _turbidity, float _polarizability, float _refratometer, Texture2D _flameSpecter, Texture2D _hplc) {
 
 		Name = _name;
+		Formula = _formula;
 		isSolid = _isSolid;
 		molarMass = _molarMass;
 		concentration = _purity;
@@ -87,6 +90,7 @@ public class Compound : IPhysicochemical {
 	// Does not copy 
 	public Compound (Compound r) {
 		this.Name = r.Name;
+		this.Formula = r.Formula;
 		this.isSolid = r.isSolid;
 		this.molarMass = r.molarMass;
 		this.density = r.density;
@@ -108,6 +112,7 @@ public class Compound : IPhysicochemical {
 	//! Set all the values to the ones of an existing compound
 	public void setValues(Compound r){
 		this.Name = r.Name;
+		this.Formula = r.Formula;
 		this.isSolid = r.isSolid;
 		this.molarMass = r.molarMass;
 		this.density = r.density;

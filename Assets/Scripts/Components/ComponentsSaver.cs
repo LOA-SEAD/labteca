@@ -11,7 +11,7 @@ using System.Collections.Generic;
 public class ComponentsSaver
 {
 	//! Saves the component information in a Dictionary. 
-	public static void SaveReagentFromEditor(string name, bool isSolid, int molarMass, float density, float pH, float polarizability, 
+	public static void SaveReagentFromEditor(string name,string formula ,bool isSolid, int molarMass, float density, float pH, float polarizability, 
 	                                         Texture2D uvSpecter, Texture2D irSpecter, Texture2D flameSpecter, float conductibility, 
 	                                         float solubility, float turbidity, Texture2D hplc, float refratometer, Texture2D texture, Color color)
 	{
@@ -22,6 +22,7 @@ public class ComponentsSaver
 		Compound reagent = new Compound();
 		reagent.IsSolid = isSolid ;
 		reagent.Name = name;
+		reagent.Formula = formula;
 		reagent.MolarMass = molarMass;
 		reagent.Density = density;
 		reagent.Polarizability  = polarizability;
@@ -67,6 +68,7 @@ public class ComponentsSaver
 		foreach (Compound reagent in reagents.Values)
 		{
 			text.SetString("name" + counter.ToString(), reagent.Name);
+			text.SetString("formula" + counter.ToString(), reagent.Formula);
 			text.SetBool("isSolid" + counter.ToString(), reagent.IsSolid);
 			text.SetFloat("molarMass" + counter.ToString(), reagent.MolarMass);
 			text.SetFloat("density" + counter.ToString(), reagent.Density);
@@ -138,6 +140,7 @@ public class ComponentsSaver
 				Compound reagentAcc = new Compound();
 
 				reagentAcc.Name = textLoad.GetString ("name" + i.ToString ());
+				reagentAcc.Formula = textLoad.GetString ("formula" + i.ToString ());
 				reagentAcc.IsSolid = textLoad.GetBool("isSolid" + i.ToString());
 				reagentAcc.MolarMass = textLoad.GetInt ("molarMass" + i.ToString ());
 				reagentAcc.Density = textLoad.GetFloat ("density" + i.ToString ());

@@ -4,6 +4,7 @@ using UnityEditor;
 public class CreateComponent : EditorWindow  
 {
 	private string name;
+	private string formula;
 	private bool isSolid = false;
 	private float density;
 	private int molarMass;
@@ -44,6 +45,9 @@ public class CreateComponent : EditorWindow
 		EditorGUILayout.Space();
 
 		name = EditorGUILayout.TextField("Nome:",name);
+		EditorGUILayout.Space();
+
+		formula = EditorGUILayout.TextField("Formula:",formula);
 		EditorGUILayout.Space();
 
 		isSolid = GUILayout.Toggle(isSolid, "Solid?");
@@ -107,7 +111,7 @@ public class CreateComponent : EditorWindow
 
 		if (GUILayout.Button ("SALVAR")) 
 		{
-			ComponentsSaver.SaveReagentFromEditor(name, isSolid, molarMass, density, ph, polarizability, uvSpecter, irSpecter, flameSpecter, conductibility, solubility, turbidity, hplc, refratometer, texture, color);
+			ComponentsSaver.SaveReagentFromEditor(name, formula, isSolid, molarMass, density, ph, polarizability, uvSpecter, irSpecter, flameSpecter, conductibility, solubility, turbidity, hplc, refratometer, texture, color);
 			this.Close();
 		}
 

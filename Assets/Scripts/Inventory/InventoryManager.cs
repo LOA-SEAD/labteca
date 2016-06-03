@@ -139,11 +139,11 @@ public class InventoryManager : MonoBehaviour {
 		switch (item.getItemType ()) {
 		case ItemType.Liquids:
 			icon.sprite = icons[0];
-			txt.text = item.reagent;
+			txt.text = CompoundFactory.GetInstance().GetCompound(item.reagent).Formula;
 			break;
 		case ItemType.Solids:
 			icon.sprite = icons[1];
-			txt.text = item.reagent;
+			txt.text = CompoundFactory.GetInstance().GetCompound(item.reagent).Formula;
 			break;
 		case ItemType.Glassware:
 			txt.text = "";

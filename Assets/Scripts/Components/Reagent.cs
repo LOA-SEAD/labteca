@@ -9,6 +9,7 @@ public class Reagent : Compound {
 
 	//[TODO:mol/L?] -> How pure the reagent is, in terms of amounts of water it was diluted with.
 	//private float realMass = purity * molarMass + (1 - purity)*waterMolarMass
+
  
 
 	/*public Reagent (Compound compound, float _volume, float _concentration) {
@@ -33,6 +34,7 @@ public class Reagent : Compound {
 	}*/
 	public Reagent (Compound r) {
 		Name = r.Name;
+		Formula = r.Formula;
 		this.IsSolid = r.IsSolid;
 		this.MolarMass = r.MolarMass;
 		this.Concentration = r.Concentration;

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class CompoundFactory {
 	
 	private Dictionary<string, Compound> collection; //Collection of reagents
+	public Dictionary<string, Compound> Collection{ get{ return collection; }}
 	
 	// Singleton
 	private static CompoundFactory instance;

@@ -28,8 +28,7 @@ public class CheckComponent : EditorWindow
 
 		EditorGUILayout.LabelField("Checar Reagente:");
 
-		Dictionary<string, Compound> reagents = ComponentsSaver.LoadReagents(); //ok?
-
+		Dictionary<string, Compound> reagents = CompoundFactory.GetInstance().Collection;
 		string[] names = new string[reagents.Count];
 
 		int counter = 0;

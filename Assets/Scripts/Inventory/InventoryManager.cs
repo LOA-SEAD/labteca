@@ -12,7 +12,7 @@ using UnityEngine.EventSystems;
 public class InventoryManager : MonoBehaviour {
 
 	private int count = 0;
-	public Text selectedName;
+	public List<Text> tabValues;
 	public int[] indexButtons = new int[]{1,2};
 	public int listIndex;
 	public GameController gameController;
@@ -46,7 +46,7 @@ public class InventoryManager : MonoBehaviour {
     private ItemStackableBehavior selectedUIItem = null;    /*!< Current selected item from inventory UI. */
 	///-----------REFACTOR-------------------
 	void Start(){
-		refreshTab (false);
+		refreshTab (null,false);
 		itemType [0] = ItemType.Liquids;
 		itemType [1] = ItemType.Solids;
 		listIndex = 1;
@@ -188,8 +188,7 @@ public class InventoryManager : MonoBehaviour {
 			EventTrigger.Entry enter = new EventTrigger.Entry ();
 			enter.eventID = EventTriggerType.PointerEnter;
 			enter.callback.AddListener ((eventData) => { 
-				refreshSelectedName (item); 
-				refreshTab (true); 
+				refreshTab (item,true); 
 				actionTab.transform.position = tempItem.GetComponent<ItemInventoryBase> ().posTab.position;
 			});
 			trigger.delegates.Add (enter);
@@ -197,7 +196,7 @@ public class InventoryManager : MonoBehaviour {
 			EventTrigger.Entry exit = new EventTrigger.Entry ();
 			exit.eventID = EventTriggerType.PointerExit;
 			exit.callback.AddListener ((eventData) => { 
-				refreshTab (false); 
+				refreshTab (null,false); 
 			});
 			trigger.delegates.Add (exit);
 		}
@@ -237,8 +236,28 @@ public class InventoryManager : MonoBehaviour {
 		refreshActionButton ();
 	}
 
-	public void refreshTab(bool val){
-		actionTab.SetActive (val);
+	public void refreshTab(ItemInventoryBase i,bool val){
+		if (!val) {
+			actionTab.SetActive (false);
+			return;
+		}
+
+		switch (i.getItemType ()) {
+		case ItemType.Glassware:
+			tabValues[0].text = i.gl.name;
+			break;
+		case ItemType.Liquids:
+		case ItemType.Solids:
+			tabValues[0].text = i.reagent;
+			tabValues[1].text = CompoundFactory.GetInstance().GetCompound(i.reagent).MolarMass + " g/mol";
+			tabValues[2].text = CompoundFactory.GetInstance().GetCompound(i.reagent).Density+ " g/ml";
+			//tabValues[3].text = CompoundFactory.GetInstance().GetCompound(i.reagent).; TODO: add purity to componentSaver
+			tabValues[4].text = CompoundFactory.GetInstance().GetCompound(i.reagent).Solubility+ " g/100g";
+			break;
+		}
+
+		actionTab.SetActive (true);
+
 	}
 
 	public void auxSideButton(int i){
@@ -354,21 +373,8 @@ public class InventoryManager : MonoBehaviour {
 		selectedObject.GetComponentInChildren<Image>().sprite = selectedIcon;
 
 		refreshButtons ();
-
-		refreshSelectedName (i);
 	}
-
-	public void refreshSelectedName (ItemInventoryBase i){
-		switch (i.getItemType ()) {
-		case ItemType.Glassware:
-			selectedName.text = i.gl.name;
-			break;
-		case ItemType.Liquids:
-		case ItemType.Solids:
-			selectedName.text = i.reagent;
-			break;
-		}
-	}
+	
 	public void actionButtonClick(){
 		if (selectedItem != null) {
 			ItemInventoryBase item = new ItemInventoryBase();

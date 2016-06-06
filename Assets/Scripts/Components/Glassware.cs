@@ -21,6 +21,7 @@ public class Glassware : ItemToInventory
 	//Water is a valid reagent, but it is only seem when it's the only thing inside, otherwise it's associated with the reagent's concentration.
 	//public Compound[] compounds = new Compound[2];
 	public List<Compound> compounds = new List<Compound>();
+	public Mixture mixture = null;
 
 	//Mesh of liquids and solids
 	public GameObject liquid;
@@ -200,18 +201,22 @@ public class Glassware : ItemToInventory
 				}
 			} else { // Case: Not Mixture
 				if(incomingCompound.Name == "H2O") { // SubCase: Water is coming
-					if(compounds[0].Name  == "H2O") {
+					if(compounds[0].Name  == "H2O") { // There's water already
 						compounds[0].RealMass = compounds[0].RealMass + volumeFromTool * incomingCompound.Density;
 					}
-					else {
+					else {	// There's a reagent
 						(compounds[0] as Reagent).Dilute(volumeFromTool);
 					}
 				}
-				else {
-					if(incomingCompound.Name == compounds[0].Name) {
+				else {	// SubCase: A reagent is coming
+					if(incomingCompound.Name == compounds[0].Name) { // There's the same reagent inside
 						compounds[0].Volume = compounds[0].Volume + incomingCompound.Volume;
 						compounds[0].RealMass = compounds[0].RealMass + incomingCompound.RealMass;
-						(compounds[0] as Reagent).Concentration = compounds[0].RealMass + incomingCompound.RealMass;
+						//(compounds[0] as Reagent).Concentration = compounds[0].RealMass + incomingCompound.RealMass;TODO
+					}
+					else {
+						(compounds[0] as Reagent).React (incomingCompound as Reagent);
+
 					}
 				}	
 			}

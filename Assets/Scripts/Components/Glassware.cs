@@ -110,7 +110,13 @@ public class Glassware : ItemToInventory
 			break;
 		case MouseState.ms_spatula: 		// Spatula -> Glassware: gets the solids, if there's only solid inside. So, opens the spatula's interaction box
 			Spatula spatula = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().spatula;
-			//TODO:NEEDS TO CHECK THE REAGENT INSIDE, AND IF IT'S THE ONLY ONE
+			if(compounds[0] != null) {
+				if(compounds[0] is Compound && (compounds[0] as Compound).IsSolid) {
+					if(compounds[1] == null) {
+						spatula.FillSpatula(this);
+					}
+				}
+			}
 			//!!!spatula.FillSpatula();
 			break;
 		case MouseState.ms_filledSpatula: 	// Filled Spatula -> Glassware: unloads the spatula into the glassare
@@ -169,11 +175,23 @@ public class Glassware : ItemToInventory
 
 	//! Return the real mass of the glassware
 	public float GetMass() {
+		Debug.Log ("Resetting mass");
 		float actualMass = this.mass;
-		if(compounds[0] != null)
-			actualMass += (compounds[0] as IPhysicochemical).RealMass;
-		if (compounds [1] != null)
-			actualMass += (compounds [1]  as IPhysicochemical).RealMass;
+		Debug.Log (this.mass);
+		if (compounds [0] != null) {
+			if(compounds[0] is Mixture)
+				actualMass += (compounds [0] as Mixture).RealMass;
+			else {
+				actualMass += (compounds[0] as Compound).RealMass;
+				Debug.Log((compounds[0] as Compound).RealMass);
+			}
+		}
+		if (compounds [1] != null) {
+			if(compounds[0] is Mixture)
+				actualMass += (compounds [0] as Mixture).RealMass;
+			else
+				actualMass += (compounds[0] as Compound).RealMass;
+		}
 
 		return actualMass;
 	}
@@ -195,21 +213,21 @@ public class Glassware : ItemToInventory
 	public bool IncomingReagent(Compound incomingCompound, float volumeFromTool) {
 		if (compounds [0] != null) { //Case not empty
 			if (compounds [0] is Mixture) { // Case: there's Mixture
-				if (incomingCompound.Name == "H2O") {
-					(compounds [0] as Reagent).Dilute (incomingCompound);
+				if (incomingCompound.Formula == "H2O") {
+					(compounds [0] as Mixture).Dilute (incomingCompound);
 				} else {
 					//ERROR MESSAGE
 					return false;
 				}
 			} else { // Case: Not Mixture
-				if (incomingCompound.Name == "H2O") { // SubCase: Water is coming
-					if ((compounds [0] as IPhysicochemical).Name == "H2O") { // There's water already
-						(compounds [0] as Compound).RealMass = (compounds [0] as IPhysicochemical).RealMass + volumeFromTool * incomingCompound.Density;
+				if (incomingCompound.Formula == "H2O") { // SubCase: Water is coming
+					if ((compounds [0] as Compound).Formula == "H2O") { // There's water already
+						(compounds [0] as Compound).RealMass = (compounds [0] as Compound).RealMass + volumeFromTool * incomingCompound.Density;
 					} else {	// There's a reagent
 						(compounds [0] as Reagent).Dilute (volumeFromTool);
 					}
 				} else {	// SubCase: A reagent is coming
-					if (incomingCompound.Name == (compounds [0] as IPhysicochemical).Name) { // There's the same reagent inside
+					if (incomingCompound.Formula == (compounds [0] as Compound).Formula) { // There's the same reagent inside
 						(compounds [0] as Reagent).Volume = (compounds [0] as Reagent).Volume + incomingCompound.Volume;
 						(compounds [0] as Reagent).RealMass = (compounds [0] as Reagent).RealMass + incomingCompound.RealMass;
 						//(compounds[0] as Reagent).Concentration = compounds[0].RealMass + incomingCompound.RealMass;TODO
@@ -265,10 +283,14 @@ public class Glassware : ItemToInventory
 		currentVolume -= volumeChosen;
 		totalMass -= volumeChosen * (compounds[0] as IPhysicochemical).Density;
 		(compounds [0] as IPhysicochemical).RealMass = (compounds [0] as IPhysicochemical).Density - volumeChosen * (compounds [0] as IPhysicochemical).Density;
-		if ((compounds [0] as IPhysicochemical).RealMass <= 0.0f) {
-			compounds [0] = null;
+		if(currentVolume <= 0.0f) {
+			compounds[0] = null;
 			hasLiquid = false;
 		}
+		/*if ((compounds [0] as IPhysicochemical).RealMass <= 0.0f) {
+			compounds [0] = null;
+			hasLiquid = false;
+		}*/
 
 
 		RefreshContents();
@@ -294,11 +316,15 @@ public class Glassware : ItemToInventory
 		currentVolume -= spatulaVolume;
 		totalMass -= spatulaVolume * (compounds [0] as IPhysicochemical).Density;
 		(compounds [0] as IPhysicochemical).RealMass = (compounds [0] as IPhysicochemical).RealMass - spatulaVolume * (compounds [0] as IPhysicochemical).Density;
-		
-		if ((compounds [0]  as IPhysicochemical).RealMass <= 0.0f) {
-			compounds [0] = null;
-			hasLiquid = false;
+
+		if (currentVolume <= 0.0f) {
+			compounds[0] = null;
+			hasSolid = false;
 		}
+		/*if ((compounds [0]  as IPhysicochemical).Volume <= 0.0f) {
+			compounds [0] = null;
+			hasSolid = false;
+		}*/
 
 		RefreshContents();
 	}

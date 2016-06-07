@@ -71,4 +71,8 @@ public class Mixture : IPhysicochemical {
 		}
 		return resultingMass;
 	}
+
+	public void Dilute(Compound water) {
+
+	}
 }

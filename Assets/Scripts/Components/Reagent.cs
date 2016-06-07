@@ -65,7 +65,7 @@ public class Reagent : Compound {
 	public override object Clone(float reagentVolume) {
 		Reagent newCompound = new Reagent(this as Compound);
 		newCompound.Volume = reagentVolume;
-		newCompound.RealMass = this.RealMass * this.Volume / reagentVolume;
+		newCompound.RealMass = this.Density * this.Volume;
 		return newCompound;
 	}
 
@@ -76,11 +76,12 @@ public class Reagent : Compound {
 			this.Volume = this.Volume + water.Volume;
 			this.RealMass = this.RealMass + water.RealMass;
 			this.Concentration = (this.Concentration *  this.Volume) / (this.Volume + water.Volume);
-
+			this.Density = this.RealMass / this.Volume;
 		} else {
 			this.Volume = water.Volume; //TODO:CHECK WITH TECA.
 			this.RealMass = this.RealMass + water.RealMass;
 			this.Concentration = (this.Concentration *  this.Volume) / (this.Volume + water.Volume);
+			this.Density = this.RealMass / this.Volume;
 		}
 
 		water = null;
@@ -90,11 +91,12 @@ public class Reagent : Compound {
 			this.Volume = this.Volume + waterVolume;
 			this.RealMass = this.RealMass + waterVolume * waterMolarMass;
 			this.Concentration = (this.Concentration  *  this.Volume) / (this.Volume + waterVolume);
-			
+			this.Density = this.RealMass / this.Volume;
 		} else {
 			this.Volume = waterVolume; //TODO:CHECK WITH TECA.
 			this.RealMass = this.RealMass + waterVolume * waterMolarMass;
 			this.Concentration = (this.Concentration *  this.Volume) / (this.Volume + waterVolume);
+			this.Density = this.RealMass / this.Volume;
 		}
 	}
 

@@ -20,7 +20,7 @@ public class WashBottle : MonoBehaviour {
 	public Texture2D washBottle_CursorTexture;
 	public Vector2 hotSpot = Vector2.zero;
 
-	public Compound Water = new Compound();			//Defining H2O reagent
+	public Compound Water = new Compound ("Water", "H2O", false, 18.01f, 1.0f, 1.0f, 1.0f, null, null, 7.0f, 1.0f, 1.0f, 1.0f, 1.0f, null, null); // = new Compound();			//Defining H2O reagent
 
 	public Glassware interactingGlassware; 		//Glassware which the wash bottle is interacting with
 
@@ -28,7 +28,7 @@ public class WashBottle : MonoBehaviour {
 	void Start () {
 		interactionBoxWashBottle.SetActive (false);
 
-		Water.Name = "H2O";
+	/*	Water.Name = "H2O";
 		Water.IsSolid = false;
 		Water.MolarMass = 18.01f;
 		Water.Density = 1.0f;
@@ -43,7 +43,7 @@ public class WashBottle : MonoBehaviour {
 		Water.PH = 7.0f;
 		Water.Turbidity = 1.0f;
 		Water.Refratometer = 1.0f;
-		Water.hplc = null;
+		Water.hplc = null;*/
 	}
 	
 	// Update is called once per frame

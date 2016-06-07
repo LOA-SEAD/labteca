@@ -13,10 +13,12 @@ public class Compound : IPhysicochemical {
 	[SerializeField]
 	private string name;
 	public string Name { get{ return name; } set{ name = value; }}
+	[SerializeField]
 	private string formula;
 	public string Formula { get{ return formula; } set{ formula = value; }}
 	private bool isSolid;
 	public bool IsSolid { get { return isSolid; } set { isSolid = value; } }
+	[SerializeField]
 	private float molarMass;
 	public float MolarMass { get { return molarMass; } set { molarMass = value; } }
 	private float molarity;		//Number of mols in the solution [mol/L]
@@ -160,7 +162,8 @@ public class Compound : IPhysicochemical {
 	}
 	public virtual object Clone(float compoundvolume) {
 		Compound newCompound = new Compound(this);
-		newCompound.realMass = this.molarMass / this.density;
+		newCompound.volume = compoundvolume;
+		newCompound.realMass = this.density * this.volume;
 		return newCompound;
 	}
 }

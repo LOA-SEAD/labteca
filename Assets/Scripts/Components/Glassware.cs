@@ -20,6 +20,7 @@ public class Glassware : ItemToInventory
 	//! The compounds inside
 	//Water is a valid reagent, but it is only seem when it's the only thing inside, otherwise it's associated with the reagent's concentration.
 	//public Compound[] compounds = new Compound[2];
+	[SerializeField]
 	public List<object> compounds = new List<object>();
 //	public Mixture mixture = null;
 
@@ -101,7 +102,6 @@ public class Glassware : ItemToInventory
 			//filledPipette.UnfillPipette(this);
 			if(filledPipette.graduated) {
 				filledPipette.OpenGraduatedUnfillingBox(maxVolume - currentVolume, this);
-				RefreshContents();
 			}
 			else {
 				filledPipette.UnfillVolumetricPipette(this);

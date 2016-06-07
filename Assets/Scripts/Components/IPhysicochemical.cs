@@ -11,6 +11,7 @@ public interface IPhysicochemical {
 	//realMass
 	float RealMass {
 		get;
+		set;
 	}
 	//density
 	float Density {
@@ -22,7 +23,16 @@ public interface IPhysicochemical {
 		get;
 		set;
 	}
-	
+	//is solid?
+	bool IsSolid {
+		get;
+		set;
+	}
+	//volume
+	float Volume {
+		get;
+		set;
+	}
 	//pH
 	float PH {
 		get;

@@ -126,7 +126,8 @@ public class WashBottle : MonoBehaviour {
 	//! Pours the water into the vessel (mostly glasswares).
 	public void PourWater() { //BasicallyDone
 		if (volumeSelected > 0.0f) {
-			interactingGlassware.PourLiquid(volumeSelected, volumeSelected * Water.Density, Water);
+			//interactingGlassware.PourLiquid(volumeSelected, volumeSelected * Water.Density, Water);
+			interactingGlassware.IncomingReagent(Water, volumeSelected);
 		}
 		CloseInteractionBox ();
 	}

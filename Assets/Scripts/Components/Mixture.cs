@@ -13,12 +13,15 @@ public class Mixture : IPhysicochemical {
 	private string name;
 	public string Name { get{ return name; } set{ name = value; }}
 	private float realMass;		//The mass instantiated in the world [g]
-	public float RealMass { get { return this.GetMass(); } }
+	public float RealMass { get { return this.GetMass (); } set { } }
 	private float density;
 	public float Density { get { return density; } set { density = value; } }
 	private float solubility;
 	public float Solubility { get { return solubility; } set { solubility = value; } }
 
+
+	private bool isSolid;
+	public bool IsSolid { get { return this.isSolid; } set { isSolid = value; } }
 	private float volume = 0.0f;		//volume instantiated in the world [mL]
 	public float Volume { get { return volume; } set { volume = value; } }
 	private float waterVolume = 0.0f;

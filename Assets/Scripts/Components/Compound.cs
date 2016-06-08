@@ -163,7 +163,7 @@ public class Compound : IPhysicochemical {
 	public virtual object Clone(float compoundvolume) {
 		Compound newCompound = new Compound(this);
 		newCompound.volume = compoundvolume;
-		Debug.Log ("Densidade do composto = ", newCompound.Density);
+		Debug.Log ("Densidade do composto = "+ newCompound.Density);
 		newCompound.realMass = this.density * this.volume;
 		return newCompound;
 	}

@@ -210,7 +210,7 @@ public class Pipette : MonoBehaviour {
 				CursorManager.SetNewCursor (filledPipette_CursorTexture, hotSpot);
 
 				GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().CannotEndState = true;
-				Debug.Log ("Densidade do reagent = ", newCompound.Density);
+				//Debug.Log ("Densidade do reagent = "+ newCompound.Density);
 				reagentInPipette = (Compound)CompoundFactory.GetInstance().GetCompound((interactingReagent.Name)).Clone(volumeSelected);
 			}
 		} else if (interactingGlassware != null) {

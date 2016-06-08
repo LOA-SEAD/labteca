@@ -230,7 +230,8 @@ public class Glassware : ItemToInventory
 					if (incomingCompound.Formula == (compounds [0] as Compound).Formula) { // There's the same reagent inside
 						(compounds [0] as Reagent).Volume = (compounds [0] as Reagent).Volume + incomingCompound.Volume;
 						(compounds [0] as Reagent).RealMass = (compounds [0] as Reagent).RealMass + incomingCompound.RealMass;
-						//(compounds[0] as Reagent).Concentration = compounds[0].RealMass + incomingCompound.RealMass;TODO
+						/*(compounds[0] as Reagent).Concentration = ((compounds[0] as Reagent).Volume*(compounds[0] as Reagent).Concentration + incomingCompound.Concentration*volumeFromTool) /
+																	compounds;*/
 					} else {
 						//(compounds [0] as Reagent).React (incomingCompound as Reagent);
 						/*

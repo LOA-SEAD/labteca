@@ -140,7 +140,6 @@ public class Glassware : ItemToInventory
 	//! Refreshes the contents
 	/*! The method set the correct values and visual states for the glassware */
 	public void RefreshContents() {
-		Debug.Log ("Refreshing contents");
 		foreach (object re in compounds) {
 			if (re != null) {
 				if(re is IPhysicochemical) {
@@ -175,7 +174,6 @@ public class Glassware : ItemToInventory
 
 	//! Return the real mass of the glassware
 	public float GetMass() {
-		Debug.Log ("Resetting mass");
 		float actualMass = this.mass;
 		Debug.Log (this.mass);
 		if (compounds [0] != null) {
@@ -183,7 +181,6 @@ public class Glassware : ItemToInventory
 				actualMass += (compounds [0] as Mixture).RealMass;
 			else {
 				actualMass += (compounds[0] as Compound).RealMass;
-				Debug.Log((compounds[0] as Compound).RealMass);
 			}
 		}
 		if (compounds [1] != null) {
@@ -242,7 +239,7 @@ public class Glassware : ItemToInventory
 			}
 			return true;
 		} else {
-			if(incomingCompound.IsSolid) {
+			if(!incomingCompound.IsSolid) {
 				this.PourLiquid(volumeFromTool, volumeFromTool * incomingCompound.Density, incomingCompound);
 			}
 			else

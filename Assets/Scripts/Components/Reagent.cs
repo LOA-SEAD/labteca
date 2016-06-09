@@ -65,8 +65,7 @@ public class Reagent : Compound {
 	public override object Clone(float reagentVolume) {
 		Reagent newCompound = new Reagent(this as Compound);
 		newCompound.Volume = reagentVolume;
-		Debug.Log ("Densidade do reagent = "+ newCompound.Density);
-		newCompound.RealMass = this.Density * this.Volume;
+		newCompound.RealMass = newCompound.Density * newCompound.Volume;
 		return newCompound;
 	}
 

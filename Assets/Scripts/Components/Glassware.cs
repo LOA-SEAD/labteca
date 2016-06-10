@@ -41,6 +41,10 @@ public class Glassware : ItemToInventory
 	private bool onScale;	//The glassware is currently on a scale
 
 
+	public bool hasReagents(){
+			return false; //TODO ajeitar aqui
+	}
+
 	//!  Is called when the script instance is being loaded.
 	void Awake()
 	{

@@ -658,7 +658,7 @@ public class WorkBench : MonoBehaviour {
 		i--;
 		tempGlass.transform.SetParent(positionGlassEquipament,false);
 		tempGlass.transform.localPosition = Vector3.zero;
-		GetComponent<ScaleController>().AddObjectInEquipament(tempGlass);
+		GetComponent<EquipmentControllerBase>().AddObjectInEquipament(tempGlass);
 		tempGlass.GetComponent<Glassware>().SetStateInUse(currentState);
 
 		RefreshInteractiveItens ();
@@ -691,6 +691,20 @@ public class WorkBench : MonoBehaviour {
 					else
 						tempItem.GetComponent<ReagentPot>().reagent.setValues(reagent as Compound);
 				}
+				return true;
+			}
+		}
+		Debug.Log ("erro");
+		gameController.sendAlert("A Bancada esta cheia!");
+		return false;
+	}
+
+	public bool PutItemFromEquip(GameObject tempItem){
+		foreach(Transform position in positionGlass) {
+			if(position.childCount == 0){
+				tempItem.transform.SetParent (position, false);
+				tempItem.transform.localPosition = Vector3.zero;
+				GetComponent<EquipmentControllerBase>().RemoveObjectInEquipament(tempItem);
 				return true;
 			}
 		}

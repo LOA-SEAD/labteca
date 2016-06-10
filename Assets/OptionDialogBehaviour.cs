@@ -12,6 +12,12 @@ public class OptionDialogBehaviour : MonoBehaviour {
 
 	void Start(){
 		changeIDs (actualIDs);
+		if (gameObject.name == "OptionDialogGlass"){
+			Glassware[] glassList = GameObject.FindObjectOfType<GetGlasswareState> ().glasswareList;
+			foreach (Glassware g in glassList){
+				prefabs.Add(g.gameObject);
+			}
+		}
 	}
 
 	public void changeIDs(List<int> newIDs){
@@ -31,6 +37,22 @@ public class OptionDialogBehaviour : MonoBehaviour {
 		if(item is Glassware){
 			switch (actualIDs[index]) {
 			case 0:
+				if(!item.GetComponent<Glassware>().hasReagents()){
+					GameObject temp = null;
+					for(int i = 0; i < prefabs.Count; i ++){
+						Debug.Log(prefabs[i].GetComponent<Glassware>().name);
+						if(((item as Glassware).name.Contains(prefabs[i].GetComponent<Glassware>().name)))
+							temp = prefabs[i];
+					}
+					GameObject.Find("InventoryManager").GetComponent<InventoryManager>().AddGlasswareToInventory(temp.GetComponent<Glassware>());
+					Destroy(item.gameObject);
+				}else{}//TODO: fazer para quando tiver reagente
+				break;
+			case 1:
+				GetComponentInParent<WorkBench>().PutGlassInEquip(item.gameObject);
+				break;
+			case 2:
+				GetComponentInParent<WorkBench>().PutItemFromEquip(item.gameObject);
 				break;
 			}
 		}

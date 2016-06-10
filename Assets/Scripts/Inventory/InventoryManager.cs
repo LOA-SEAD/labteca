@@ -330,12 +330,12 @@ public class InventoryManager : MonoBehaviour {
 		int n = 0;
 
 		foreach (ItemInventoryBase it in getCurrentList()) {
-			Debug.Log (it.index);
+			//Debug.Log (it.index);
 			if (it.index == index) {
 				getCurrentList().RemoveAt(n);
-				foreach (ItemInventoryBase db in getCurrentList()){
+				/*foreach (ItemInventoryBase db in getCurrentList()){
 					Debug.Log("DEBUG: "+db.index);
-				}
+				}*/
 				break;
 			}
 			n++;
@@ -386,22 +386,22 @@ public class InventoryManager : MonoBehaviour {
 	}
 	
 	public void actionButtonClick(){
+		bool remove = true;
 		if (selectedItem != null) {
 			ItemInventoryBase item = new ItemInventoryBase();
 			item = selectedItem;
 			GameStateBase currentState = gameController.GetCurrentState ();
-			Debug.Log (currentState);
-			if (currentState.GetComponent<WorkBench> () != null)
-				CallWorkbenchToTable (item);
 
+			if (currentState.GetComponent<WorkBench> () != null)
+				remove = CallWorkbenchToTable (item);
+
+			if(remove)
 			removeItem (GameObject.Find (selectedItem.gameObject.name));
 
 		}
 	}
 
-	public void CallWorkbenchToTable(ItemInventoryBase item) {
-		//GameObject tempItem = Instantiate (itemBeingHeld.gameObject) as GameObject;
-		//gameController.GetCurrentState ().GetComponent<WorkBench> ().PutItemFromInventory (tempItem);
-		gameController.GetCurrentState ().GetComponent<WorkBench> ().PutItemFromInventory (item.itemBeingHeld,item.reagent);
+	public bool CallWorkbenchToTable(ItemInventoryBase item) {
+		return gameController.GetCurrentState ().GetComponent<WorkBench> ().PutItemFromInventory (item.itemBeingHeld,item.reagent);
 	}
 }

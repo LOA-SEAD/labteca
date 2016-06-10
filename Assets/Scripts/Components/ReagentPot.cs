@@ -24,7 +24,7 @@ public class ReagentPot : ItemToInventory {
 		if (isSolid) {
 			switch (currentState) {
 			case MouseState.ms_default: 		//Default -> Solid Reagent: open interaction box to take the reagent to the inventory?
-				//
+				GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<StateUIManager>().OpenOptionDialog(this);
 				break;
 			case MouseState.ms_pipette: 		//Pipette -> Solid Reagent: nothing
 				break;
@@ -51,7 +51,7 @@ public class ReagentPot : ItemToInventory {
 		else {
 			switch (currentState) {
 			case MouseState.ms_default: 		//Default -> Liquid Reagent: open interaction box to take the reagent to the inventory?
-				//
+				GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<StateUIManager>().OpenOptionDialog(this);
 				break;
 			case MouseState.ms_pipette: 		//Pipette -> Liquid Reagent: fill the pipette with the reagent clicked
 				if(pipette.graduated)

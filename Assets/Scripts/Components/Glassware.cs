@@ -82,7 +82,7 @@ public class Glassware : ItemToInventory
 
 		switch (currentState) {
 		case MouseState.ms_default: 		//Default -> Glassware: show the interaction options
-			this.OpenInteractionBox ();
+			GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<StateUIManager>().OpenOptionDialog(this);
 			break;
 		case MouseState.ms_pipette: 		//Pipette -> Glassware: gets the liquid, if there's only liquid inside. So, opens the pipette's interaction box.
 			Pipette pipette = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().pipette;

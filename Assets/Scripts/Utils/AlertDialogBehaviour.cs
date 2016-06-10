@@ -11,19 +11,11 @@ public class AlertDialogBehaviour : MonoBehaviour {
 	//public static AlertDialogBehaviour instance;
 	public Text textAlert;
 
-	// Use this for initialization
-	void Start () 
-    {
-	    if(this.enabled)
-        {
-            this.gameObject.SetActive(false);
-        }
-    }
 
     public void ShowAlert(string text)
     {
         textAlert.text = text;
-        this.gameObject.SetActive(true);
+		this.gameObject.SetActive (true);
 
 	}
 

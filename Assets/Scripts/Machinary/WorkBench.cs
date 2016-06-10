@@ -25,13 +25,6 @@ public class WorkBench : MonoBehaviour {
 	public AudioSource soundBeaker;				/*!< Audio for the workbench. */
 
 	public UI_Manager uiManager;                /*!< The UI Manager Game Object. */
-	public GameObject optionDialogGlass;        /*!< Dialog. */
-	public GameObject optionDialogGlassTable;   /*!< Dialog. */
-	public GameObject optionDialogReagent;      /*!< Dialog. */
-	public GameObject optionDialogSpatula;      /*!< Dialog. */
-	public GameObject optionDialogWater;        /*!< Dialog. */
-	public GameObject optionDialogPipeta;       /*!< Dialog. */
-	public GameObject optionDialogEquipment;    /*!< Dialog. */ //Should only be linke when there's an equipment in the state
 
 	public GameController gameController;
 	public GameStateBase currentState;
@@ -128,7 +121,7 @@ public class WorkBench : MonoBehaviour {
 
 	void Update(){
 
-		if(uiManager.alertDialog.IsShowing() || !canClickTools){
+		if(gameController.alertDialog.IsShowing() || !canClickTools){
 			DeactivateInteractObjects();
 		}
 		else{
@@ -182,6 +175,8 @@ public class WorkBench : MonoBehaviour {
 		spatula.OnStopRun ();
 		pipette.OnStopRun ();
 		washBottle.OnStopRun ();
+
+		gameObject.GetComponent<StateUIManager> ().CloseAll ();
 
 	}
 
@@ -648,42 +643,26 @@ public class WorkBench : MonoBehaviour {
 
 	//! Put the Glassware on the equipment.
 	/*! Verifiy if glassware can be put on the equipment. */
-	public void PutGlassInEquip(bool realocate){
+	public bool PutGlassInEquip(GameObject lastItemSelected){
 		if(positionGlassEquipament.childCount > 0){
-			uiManager.alertDialog.ShowAlert("O equipamento ja tem um recipiente!");
+			gameController.sendAlert("O equipamento ja tem um recipiente!");
+			return false;
 		}
-		else{
-			if(!realocate){
-				//TODO: Temporariamente esta pegando do gamecontroller, mas tem que pegar do inventario esses dados
-				GameObject tempGlass = Instantiate(gameController.selectedGlassWare.gameObject, positionGlassEquipament.position, gameController.selectedGlassWare.transform.rotation) as GameObject;
-				tempGlass.transform.SetParent(positionGlassEquipament,false);
-				tempGlass.transform.localPosition = Vector3.zero;
-				gameController.totalBeakers--;
-				GetComponent<ScaleController>().AddObjectInEquipament(tempGlass);
-				tempGlass.GetComponent<Glassware>().SetStateInUse(currentState);
-			}
-			else{
-				
-				if(lastItemSelected.transform.parent == positionGlassEquipament){
-					uiManager.alertDialog.ShowAlert("O equipamento ja Esta na bancada");
-				}
-				else{
-					
-					GameObject tempGlass = lastItemSelected.gameObject;
-					i--;
-					tempGlass.transform.SetParent(positionGlassEquipament,false);
-					tempGlass.transform.localPosition = Vector3.zero;
-					GetComponent<ScaleController>().AddObjectInEquipament(tempGlass);
-					tempGlass.GetComponent<Glassware>().SetStateInUse(currentState);
-				}
-				
-			}
-			
+
+		if(lastItemSelected.transform.parent == positionGlassEquipament){
+			gameController.sendAlert("O equipamento ja esta na bancada");
+			return false;
 		}
-		
-//		CloseOptionDialogGlass();
-//		CloseOptionDialogGlassTable ();
+
+		GameObject tempGlass = lastItemSelected.gameObject;
+		i--;
+		tempGlass.transform.SetParent(positionGlassEquipament,false);
+		tempGlass.transform.localPosition = Vector3.zero;
+		GetComponent<ScaleController>().AddObjectInEquipament(tempGlass);
+		tempGlass.GetComponent<Glassware>().SetStateInUse(currentState);
+
 		RefreshInteractiveItens ();
+		return true;
 	}
 
 	//! Put an item on the table from the inventory
@@ -698,25 +677,26 @@ public class WorkBench : MonoBehaviour {
 		}
 		uiManager.alertDialog.ShowAlert ("A Bancada esta cheia!");
 	}*/
-	public void PutItemFromInventory(ItemToInventory item,string key) {
-		foreach(Transform position in positionGlass) {	
-			if(position.childCount == 0){ //The first position available
-				GameObject tempItem = Instantiate(item.gameObject/*, position.position/*, gameController.selectedGlassWare.transform.rotation*/) as GameObject;
-				tempItem.transform.SetParent (position, /*true*/false);
+	public bool PutItemFromInventory(ItemToInventory item,string key) {
+		foreach(Transform position in positionGlass) {
+			if(position.childCount == 0){
+				GameObject tempItem = Instantiate(item.gameObject) as GameObject;
+				tempItem.transform.SetParent (position, false);
 				tempItem.transform.localPosition = Vector3.zero;
 				if(tempItem.GetComponent<ReagentPot>()!=null){
 					Compound reagent = CompoundFactory.GetInstance ().GetCompound (key);
-					Debug.Log(key);
 
 					if(tempItem.GetComponent<ReagentPot>().isSolid)
 						tempItem.GetComponent<ReagentPot>().reagent.setValues(reagent as Compound);
 					else
 						tempItem.GetComponent<ReagentPot>().reagent.setValues(reagent as Compound);
 				}
-				return;
+				return true;
 			}
 		}
-		uiManager.alertDialog.ShowAlert ("A Bancada esta cheia!");
+		Debug.Log ("erro");
+		gameController.sendAlert("A Bancada esta cheia!");
+		return false;
 	}
 
 	//! Verify if there is any Glassware on the equipment.
@@ -726,17 +706,6 @@ public class WorkBench : MonoBehaviour {
 		}
 		return false;
 	}
-
-	public void OpenOptionDialogEquipment(){
-		optionDialogEquipment.SetActive(true);
-		canClickTools = false;
-	}
-	
-	public void CloseOptionDialogEquipment(){
-		optionDialogEquipment.SetActive(false);
-		canClickTools = true;
-	}
-
 
 }
 

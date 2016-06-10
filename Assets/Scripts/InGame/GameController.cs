@@ -24,6 +24,7 @@ public class GameController : MonoBehaviour {
 	public int totalBeakers;
 	public GameObject prefabBeaker;
 	public Glassware selectedGlassWare;
+	public AlertDialogBehaviour alertDialog;
 
 
 	//variaveis para suprir a falta de inventario.
@@ -104,5 +105,9 @@ public class GameController : MonoBehaviour {
 	public void CallJSaver(JournalUIItem journalUI){
 		int expo = GameObject.Find ("Journal").GetComponent<JournalController> ().experimentNumber;
 		JournalSaver.AddJournalUIItem (journalUI,expo);
+	}
+
+	public void sendAlert(string text){
+		alertDialog.ShowAlert (text);
 	}
 }

@@ -147,9 +147,19 @@ public class InventoryManager : MonoBehaviour {
 			break;
 		case ItemType.Glassware:
 			txt.text = "";
-			if(item.gl.name.Contains("Balão Volumétrico")){
-				icon.sprite = icons[2];
-				break;
+			if(item.gl.name.Contains("Balão Vol.")){
+				if(item.gl.name.Contains("25")){
+					icon.sprite = icons[2];
+					break;
+				}
+				if(item.gl.name.Contains("50")){
+					icon.sprite = icons[3];
+					break;
+				}
+				if(item.gl.name.Contains("100")){
+					icon.sprite = icons[4];
+					break;
+				}
 			}
 			if(item.gl.name.Contains("Bequer")){
 				icon.sprite = icons[5];
@@ -383,9 +393,9 @@ public class InventoryManager : MonoBehaviour {
 			Debug.Log (currentState);
 			if (currentState.GetComponent<WorkBench> () != null)
 				CallWorkbenchToTable (item);
-			else {
-				removeItem (GameObject.Find (selectedItem.gameObject.name));
-			}
+
+			removeItem (GameObject.Find (selectedItem.gameObject.name));
+
 		}
 	}
 

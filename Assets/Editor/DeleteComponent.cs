@@ -74,6 +74,7 @@ public class DeleteComponent : EditorWindow
 				EditorGUILayout.LabelField("Ph : " + (reagent as Compound).PH.ToString());
 				EditorGUILayout.LabelField("Turbilidade: " + (reagent as Compound).Turbidity.ToString());
 				EditorGUILayout.LabelField("Refratometro: " + (reagent as Compound).Refratometer.ToString());
+				EditorGUILayout.LabelField("Espectro de Chama: " + reagent.FlameSpecter);
 
 				if((reagent as Compound).hplc != null) {
 					EditorGUILayout.LabelField("HPLC = " + (reagent as Compound).hplc.ToString());
@@ -86,12 +87,6 @@ public class DeleteComponent : EditorWindow
 				EditorGUILayout.LabelField("Espectro IR : " + reagent.irSpecter.name);
 			} else {
 				EditorGUILayout.LabelField("Espectro IR : ");
-			}
-
-			if(reagent.flameSpecter != null) {
-				EditorGUILayout.LabelField("Espectro de Chama: " + reagent.flameSpecter.name);
-			} else {
-				EditorGUILayout.LabelField("Espectro de Chama: ");
 			}
 			
 			if(reagent.uvSpecter != null) {

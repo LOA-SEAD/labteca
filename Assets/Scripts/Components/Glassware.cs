@@ -254,14 +254,6 @@ public class Glassware : ItemToInventory
 
 	//! Pours a liquid into the glassware
 	//	The liquid might come from pipettes or wash bottles (H2O)
-	/*public void PourLiquid(float volumeFromTool, float liquidMass, Compound reagentFromTool) {
-		currentVolume += volumeFromTool;
-		totalMass += liquidMass;
-
-		reagents.Add (new ReagentsInGlass(reagentFromTool as Compound, liquidMass));
-
-		RefreshContents ();
-	}*/
 	public void PourLiquid(float volumeFromTool, float liquidMass, Compound reagentFromTool) {
 		currentVolume += volumeFromTool;
 		//totalMass += liquidMass;

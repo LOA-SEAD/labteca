@@ -11,8 +11,8 @@ using System.Collections.Generic;
 public class ComponentsSaver
 {
 	//! Saves the component information in a Dictionary. 
-	public static void SaveReagentFromEditor(string name,string formula ,bool isSolid, int molarMass, float density, float pH, float polarizability, 
-	                                         Texture2D uvSpecter, Texture2D irSpecter, Texture2D flameSpecter, float conductibility, 
+	public static void SaveReagentFromEditor(string name,string formula ,bool isSolid, int molarMass, float purity, float density, float pH, float polarizability, 
+	                                         Texture2D uvSpecter, Texture2D irSpecter, float flameSpecter, float conductibility, 
 	                                         float solubility, float turbidity, Texture2D hplc, float refratometer, Texture2D texture, Color color)
 	{
 
@@ -24,6 +24,7 @@ public class ComponentsSaver
 		reagent.Name = name;
 		reagent.Formula = formula;
 		reagent.MolarMass = molarMass;
+		reagent.Purity = purity;
 		reagent.Density = density;
 		reagent.Polarizability  = polarizability;
 		reagent.irSpecter = irSpecter;
@@ -33,7 +34,7 @@ public class ComponentsSaver
 		if(!isSolid) {
 			reagent.PH = pH;
 			reagent.uvSpecter = uvSpecter;
-			reagent.flameSpecter = flameSpecter;
+			reagent.FlameSpecter = flameSpecter;
 			reagent.Turbidity = turbidity;
 			reagent.hplc = hplc;
 			reagent.Refratometer = refratometer;
@@ -71,6 +72,7 @@ public class ComponentsSaver
 			text.SetString("formula" + counter.ToString(), reagent.Formula);
 			text.SetBool("isSolid" + counter.ToString(), reagent.IsSolid);
 			text.SetFloat("molarMass" + counter.ToString(), reagent.MolarMass);
+			text.SetFloat ("purity" + counter.ToString(), reagent.Purity);
 			text.SetFloat("density" + counter.ToString(), reagent.Density);
 			text.SetFloat("polarizability" + counter.ToString(), reagent.Polarizability);
 
@@ -97,12 +99,8 @@ public class ComponentsSaver
 				text.SetFloat("pH" + counter.ToString(), reagent.PH);
 				text.SetFloat("turbidity" + counter.ToString(), reagent.Turbidity);
 				text.SetFloat("refratometer" + counter.ToString(), reagent.Refratometer);
+				text.SetFloat("flameSpecter" + counter.ToString(), reagent.FlameSpecter);
 
-				if(reagent.flameSpecter != null) {
-					text.SetString("flameSpecter" + counter.ToString(), reagent.flameSpecter.name);
-				} else {
-					text.SetString("flameSpecter" + counter.ToString(), "");
-				}
 				if(reagent.uvSpecter != null) {
 					text.SetString("uvSpecter" + counter.ToString(), reagent.uvSpecter.name);
 				} else {
@@ -143,6 +141,7 @@ public class ComponentsSaver
 				reagentAcc.Formula = textLoad.GetString ("formula" + i.ToString ());
 				reagentAcc.IsSolid = textLoad.GetBool("isSolid" + i.ToString());
 				reagentAcc.MolarMass = textLoad.GetInt ("molarMass" + i.ToString ());
+				reagentAcc.Purity = textLoad.GetFloat ("purity" + i.ToString ());
 				reagentAcc.Density = textLoad.GetFloat ("density" + i.ToString ());
 				reagentAcc.Polarizability = textLoad.GetFloat ("polarizability" + i.ToString ());
 
@@ -167,16 +166,11 @@ public class ComponentsSaver
 					reagentAcc.PH = textLoad.GetFloat ("ph" + i.ToString ());
 					reagentAcc.Turbidity = textLoad.GetFloat ("turbidity" + i.ToString ());
 					reagentAcc.Refratometer = textLoad.GetFloat ("refratometer" + i.ToString ());
+					reagentAcc.FlameSpecter = textLoad.GetFloat ("flameSpecter" + i.ToString ());
 					if (!string.IsNullOrEmpty (textLoad.GetString ("uvSpecter" + i.ToString ()))) {
 						reagentAcc.uvSpecter = Resources.Load<Texture2D> ("specter/" + textLoad.GetString ("uvSpecter" + i.ToString ()));
 					} else {
 						reagentAcc.uvSpecter = null;
-					}
-
-					if (!string.IsNullOrEmpty (textLoad.GetString ("flameSpecter" + i.ToString ()))) {
-						reagentAcc.flameSpecter = Resources.Load<Texture2D> ("specter/" + textLoad.GetString ("flameSpecter" + i.ToString ()));
-					} else {
-						reagentAcc.flameSpecter = null;
 					}
 
 					if (!string.IsNullOrEmpty (textLoad.GetString ("hplc" + i.ToString ()))) {

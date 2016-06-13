@@ -21,10 +21,10 @@ public class Compound : IPhysicochemical {
 	[SerializeField]
 	private float molarMass;
 	public float MolarMass { get { return molarMass; } set { molarMass = value; } }
-	private float molarity;		//Number of mols in the solution [mol/L]
-	public float Molarity { get { return molarity; } set { molarity = value; } }
-	private float concentration; //The compound's "purity". [0, 1][g/g]
+	private float concentration; //The compound's concentration. [mol/L]
 	public float Concentration { get { return concentration; } set { concentration = value; } }
+	private float purity; //The compound's purity, how it comes from the pot. [0, 1][g/g]
+	public float Purity { get { return purity; } set { purity = value; } }
 	[SerializeField]
 	private float realMass;		//The mass instantiated in the world [g]
 	public float RealMass { get { return realMass; } set { realMass = value; } }
@@ -50,7 +50,8 @@ public class Compound : IPhysicochemical {
 	public float Polarizability { get { return polarizability; } set { polarizability = value; } }
 	private float refratometer;
 	public float Refratometer { get { return refratometer; } set { refratometer = value; } }
-	public Texture2D flameSpecter;
+	private float flameSpecter;
+	public float FlameSpecter { get { return flameSpecter; } set { flameSpecter = value; } }
 	public Texture2D hplc;  //High-Performance liquid chromatography
 	/*
 	public Texture2D texture;
@@ -59,13 +60,13 @@ public class Compound : IPhysicochemical {
 
 	//! Constructor for generating a Compound that is yet not used in the real World
 	public Compound(string _name,string _formula, bool _isSolid, float _molarMass, float _purity, float _density, float _solubility, Texture2D _irSpecter, Texture2D _uvSpecter,
-	                float _pH, float _conducdibility, float _turbidity, float _polarizability, float _refratometer, Texture2D _flameSpecter, Texture2D _hplc) {
+	                float _pH, float _conducdibility, float _turbidity, float _polarizability, float _refratometer, float _flameSpecter, Texture2D _hplc) {
 
 		Name = _name;
 		Formula = _formula;
 		isSolid = _isSolid;
 		molarMass = _molarMass;
-		concentration = _purity;
+		purity = _purity;
 		density = _density;
 		solubility = _solubility;
 		irSpecter = _irSpecter;
@@ -78,10 +79,9 @@ public class Compound : IPhysicochemical {
 		flameSpecter = _flameSpecter;
 		hplc = _hplc;
 
-
-
-		realMass = concentration * molarMass + (1 - concentration)*waterMolarMass;
-		//volume = realMass / density;
+		volume = 1.0f; //Supposing 1L as starting value to define the other values
+		//realMass = concentration * molarMass + (1 - concentration)*waterMolarMass;
+		concentration = ((purity * density) / molarMass) / volume; // number of mols / volume
 	}
 
 	//! Empty constructor
@@ -95,6 +95,8 @@ public class Compound : IPhysicochemical {
 		this.Formula = r.Formula;
 		this.isSolid = r.isSolid;
 		this.molarMass = r.molarMass;
+		this.concentration = r.concentration;
+		this.purity = r.purity;
 		this.density = r.density;
 		this.polarizability = r.polarizability;
 		this.conductibility = r.conductibility;

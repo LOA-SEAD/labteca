@@ -71,6 +71,7 @@ public class CheckComponent : EditorWindow
 				EditorGUILayout.LabelField("Ph : " + (reagent as Compound).PH.ToString());
 				EditorGUILayout.LabelField("Turbilidade: " + (reagent as Compound).Turbidity.ToString());
 				EditorGUILayout.LabelField("Refratometro: " + (reagent as Compound).Refratometer.ToString());
+				EditorGUILayout.LabelField("Espectro de Chama: " + reagent.FlameSpecter.ToString());
 
 				if((reagent as Compound).hplc != null) {
 					EditorGUILayout.LabelField("HPLC : " + (reagent as Compound).hplc);
@@ -80,12 +81,6 @@ public class CheckComponent : EditorWindow
 
 			}
 
-			if(reagent.flameSpecter != null) {
-				EditorGUILayout.LabelField("Espectro de Chama: " + reagent.flameSpecter.name);
-			} else {
-				EditorGUILayout.LabelField("Espectro de Chama: ");
-			}
-			
 			if(reagent.uvSpecter != null) {
 				EditorGUILayout.LabelField("Espectro UV : " + reagent.uvSpecter.name);
 			} else {

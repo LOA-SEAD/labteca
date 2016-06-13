@@ -47,7 +47,7 @@ public class Reagent : Compound {
 		this.Turbidity = r.Turbidity;
 		this.Polarizability = r.Polarizability;
 		this.Refratometer = r.Refratometer;
-		flameSpecter = r.flameSpecter;
+		this.FlameSpecter = r.FlameSpecter;
 		hplc = r.hplc;
 
 		this.RealMass = r.RealMass;

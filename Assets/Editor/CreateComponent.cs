@@ -7,12 +7,13 @@ public class CreateComponent : EditorWindow
 	private string formula;
 	private bool isSolid = false;
 	private float density;
+	private float purity;
 	private int molarMass;
 	private float ph;
 	private float polarizability;
 	private Texture2D uvSpecter;
 	private Texture2D irSpecter;
-	private Texture2D flameSpecter;
+	private float flameSpecter;
 	private float conductibility;
 	private float solubility;
 	private float turbidity;
@@ -56,6 +57,9 @@ public class CreateComponent : EditorWindow
 		density = EditorGUILayout.FloatField("Densidade:", density);
 		EditorGUILayout.Space();
 
+		purity = EditorGUILayout.FloatField("Pureza:", purity);
+		EditorGUILayout.Space();
+
 		molarMass = EditorGUILayout.IntField("Massa Molar:", molarMass);
 		EditorGUILayout.Space();
 
@@ -68,6 +72,8 @@ public class CreateComponent : EditorWindow
 		solubility = EditorGUILayout.FloatField("Solubilidade:", solubility);
 		EditorGUILayout.Space();
 
+		flameSpecter = EditorGUILayout.FloatField ("Espectro de Chama:", flameSpecter);
+		EditorGUILayout.Space ();
 
 		if (!isSolid) {
 
@@ -90,11 +96,6 @@ public class CreateComponent : EditorWindow
 		EditorGUILayout.Space();
 		EditorGUILayout.Space();
 		EditorGUILayout.Space();
-
-		flameSpecter = EditorGUILayout.ObjectField("Espectro de Chama:", flameSpecter, typeof(Texture2D)) as Texture2D;
-		EditorGUILayout.Space();
-		EditorGUILayout.Space();
-		EditorGUILayout.Space();
 		
 		uvSpecter = EditorGUILayout.ObjectField("Espectro UV:", uvSpecter, typeof(Texture2D)) as Texture2D;
 		EditorGUILayout.Space();
@@ -111,7 +112,7 @@ public class CreateComponent : EditorWindow
 
 		if (GUILayout.Button ("SALVAR")) 
 		{
-			ComponentsSaver.SaveReagentFromEditor(name, formula, isSolid, molarMass, density, ph, polarizability, uvSpecter, irSpecter, flameSpecter, conductibility, solubility, turbidity, hplc, refratometer, texture, color);
+			ComponentsSaver.SaveReagentFromEditor(name, formula, isSolid, molarMass, purity, density, ph, polarizability, uvSpecter, irSpecter, flameSpecter, conductibility, solubility, turbidity, hplc, refratometer, texture, color);
 			this.Close();
 		}
 

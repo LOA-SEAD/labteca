@@ -179,7 +179,6 @@ public class Glassware : ItemToInventory
 	//! Return the real mass of the glassware
 	public float GetMass() {
 		float actualMass = this.mass;
-		Debug.Log (this.mass);
 		if (compounds [0] != null) {
 			if(compounds[0] is Mixture)
 				actualMass += (compounds [0] as Mixture).RealMass;
@@ -224,15 +223,20 @@ public class Glassware : ItemToInventory
 				if (incomingCompound.Formula == "H2O") { // SubCase: Water is coming
 					if ((compounds [0] as Compound).Formula == "H2O") { // There's water already
 						(compounds [0] as Compound).RealMass = (compounds [0] as Compound).RealMass + volumeFromTool * incomingCompound.Density;
+						(compounds [0] as Compound).Volume = (compounds [0] as Compound).Volume + volumeFromTool;
+						currentVolume += volumeFromTool;
+						totalMass += incomingCompound.Density * volumeFromTool;
 					} else {	// There's a reagent
 						(compounds [0] as Reagent).Dilute (volumeFromTool);
 					}
 				} else {	// SubCase: A reagent is coming
 					if (incomingCompound.Formula == (compounds [0] as Compound).Formula) { // There's the same reagent inside
-						(compounds [0] as Reagent).Volume = (compounds [0] as Reagent).Volume + incomingCompound.Volume;
+						//(compounds [0] as Reagent).Volume = (compounds [0] as Reagent).Volume + incomingCompound.Volume;
+						(compounds [0] as Reagent).Volume = (compounds [0] as Reagent).Volume + volumeFromTool;
 						(compounds [0] as Reagent).RealMass = (compounds [0] as Reagent).RealMass + incomingCompound.RealMass;
-						/*(compounds[0] as Reagent).Concentration = ((compounds[0] as Reagent).Volume*(compounds[0] as Reagent).Concentration + incomingCompound.Concentration*volumeFromTool) /
-																	compounds;*/
+						currentVolume += volumeFromTool;
+						(compounds[0] as Reagent).Concentration = ((compounds[0] as Reagent).Volume*(compounds[0] as Reagent).Concentration + incomingCompound.Concentration*volumeFromTool) /
+																	(compounds[0] as Reagent).Volume;
 					} else {
 						//(compounds [0] as Reagent).React (incomingCompound as Reagent);
 						/*
@@ -276,7 +280,7 @@ public class Glassware : ItemToInventory
 	public void RemoveLiquid(float volumeChosen) {
 		currentVolume -= volumeChosen;
 		totalMass -= volumeChosen * (compounds[0] as IPhysicochemical).Density;
-		(compounds [0] as IPhysicochemical).RealMass = (compounds [0] as IPhysicochemical).Density - volumeChosen * (compounds [0] as IPhysicochemical).Density;
+		(compounds [0] as IPhysicochemical).RealMass = (compounds [0] as IPhysicochemical).RealMass - volumeChosen * (compounds [0] as IPhysicochemical).Density;
 		if(currentVolume <= 0.0f) {
 			compounds[0] = null;
 			hasLiquid = false;

@@ -8,7 +8,7 @@ public class CreateComponent : EditorWindow
 	private bool isSolid = false;
 	private float density;
 	private float purity;
-	private int molarMass;
+	private float molarMass;
 	private float ph;
 	private float polarizability;
 	private Texture2D uvSpecter;
@@ -60,7 +60,7 @@ public class CreateComponent : EditorWindow
 		purity = EditorGUILayout.FloatField("Pureza:", purity);
 		EditorGUILayout.Space();
 
-		molarMass = EditorGUILayout.IntField("Massa Molar:", molarMass);
+		molarMass = EditorGUILayout.FloatField("Massa Molar:", molarMass);
 		EditorGUILayout.Space();
 
 		polarizability = EditorGUILayout.FloatField("Polaridade:", polarizability);

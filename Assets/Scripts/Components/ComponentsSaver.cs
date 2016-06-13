@@ -11,7 +11,7 @@ using System.Collections.Generic;
 public class ComponentsSaver
 {
 	//! Saves the component information in a Dictionary. 
-	public static void SaveReagentFromEditor(string name,string formula ,bool isSolid, int molarMass, float purity, float density, float pH, float polarizability, 
+	public static void SaveReagentFromEditor(string name,string formula ,bool isSolid, float molarMass, float purity, float density, float pH, float polarizability, 
 	                                         Texture2D uvSpecter, Texture2D irSpecter, float flameSpecter, float conductibility, 
 	                                         float solubility, float turbidity, Texture2D hplc, float refratometer, Texture2D texture, Color color)
 	{
@@ -140,7 +140,7 @@ public class ComponentsSaver
 				reagentAcc.Name = textLoad.GetString ("name" + i.ToString ());
 				reagentAcc.Formula = textLoad.GetString ("formula" + i.ToString ());
 				reagentAcc.IsSolid = textLoad.GetBool("isSolid" + i.ToString());
-				reagentAcc.MolarMass = textLoad.GetInt ("molarMass" + i.ToString ());
+				reagentAcc.MolarMass = textLoad.GetFloat ("molarMass" + i.ToString ());
 				reagentAcc.Purity = textLoad.GetFloat ("purity" + i.ToString ());
 				reagentAcc.Density = textLoad.GetFloat ("density" + i.ToString ());
 				reagentAcc.Polarizability = textLoad.GetFloat ("polarizability" + i.ToString ());

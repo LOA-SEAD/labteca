@@ -222,7 +222,7 @@ public class Pipette : MonoBehaviour {
 				
 				GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().CannotEndState = true;
 				
-				reagentInPipette = (Compound)(interactingGlassware.compounds[0] as Compound).Clone();
+				reagentInPipette = (Compound)(interactingGlassware.compounds[0] as Compound).Clone(volumeSelected);
 
 				interactingGlassware.RemoveLiquid(volumeSelected);
 			}

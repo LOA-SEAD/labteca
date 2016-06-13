@@ -261,7 +261,7 @@ public class InventoryManager : MonoBehaviour {
 			tabValues[0].text = i.reagent;
 			tabValues[1].text = CompoundFactory.GetInstance().GetCompound(i.reagent).MolarMass + " g/mol";
 			tabValues[2].text = CompoundFactory.GetInstance().GetCompound(i.reagent).Density+ " g/ml";
-			//tabValues[3].text = CompoundFactory.GetInstance().GetCompound(i.reagent).; TODO: add purity to componentSaver
+			tabValues[3].text = CompoundFactory.GetInstance().GetCompound(i.reagent).Purity*100+ "%";
 			tabValues[4].text = CompoundFactory.GetInstance().GetCompound(i.reagent).Solubility+ " g/100g";
 			break;
 		}

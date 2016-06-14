@@ -284,7 +284,7 @@ public class Pipette : MonoBehaviour {
 			if (interactingGlassware != null) {
 				if(u_volumeSelected <= (interactingGlassware.maxVolume - interactingGlassware.currentVolume)){ //
 					//interactingGlassware.PourLiquid (volumeHeld, volumeHeld * reagentInPipette.Density, reagentInPipette);
-					ok = interactingGlassware.IncomingReagent(reagentInPipette, volumeHeld);
+					ok = interactingGlassware.IncomingReagent(reagentInPipette, u_volumeSelected);
 				}
 				else {
 					/*interactingGlassware.PourLiquid ((interactingGlassware.maxVolume - interactingGlassware.currentVolume),

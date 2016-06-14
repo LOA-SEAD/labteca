@@ -248,22 +248,13 @@ public class Glassware : ItemToInventory
 			} else { // Case: Not Mixture
 				if (incomingCompound.Formula == "H2O") { // SubCase: Water is coming
 					if ((compounds [0] as Compound).Formula == "H2O") { // There's water already
-						(compounds [0] as Compound).RealMass = (compounds [0] as Compound).RealMass + volumeFromTool * incomingCompound.Density;
-						(compounds [0] as Compound).Volume = (compounds [0] as Compound).Volume + volumeFromTool;
-						//currentVolume += volumeFromTool;
-						//totalMass += incomingCompound.Density * volumeFromTool;
+						AddSameReagent(volumeFromTool, incomingCompound);
 					} else {	// There's a reagent
 						(compounds [0] as Reagent).Dilute (volumeFromTool);
 					}
 				} else {	// SubCase: A reagent is coming
 					if (incomingCompound.Formula == (compounds [0] as Compound).Formula) { // There's the same reagent inside
-						//(compounds [0] as Reagent).Volume = (compounds [0] as Reagent).Volume + incomingCompound.Volume;
-						(compounds[0] as Reagent).Concentration = ((compounds[0] as Reagent).Volume*(compounds[0] as Reagent).Concentration + incomingCompound.Concentration*volumeFromTool) /
-																  ((compounds[0] as Reagent).Volume + volumeFromTool);
-						(compounds [0] as Reagent).Volume = (compounds [0] as Reagent).Volume + volumeFromTool;
-						(compounds [0] as Reagent).RealMass = (compounds [0] as Reagent).RealMass + incomingCompound.Density * volumeFromTool;
-						//currentVolume += volumeFromTool;
-
+						AddSameReagent(volumeFromTool, incomingCompound);
 					} else {
 						//(compounds [0] as Reagent).React (incomingCompound as Reagent);
 						/*
@@ -325,9 +316,12 @@ public class Glassware : ItemToInventory
 	}
 
 	//! Pours the same liquid
-	public bool PourSameLiquid(float volumeFromTool, Compound reagentFromTool) {
+	public void AddSameReagent(float volumeFromTool, Compound reagentFromTool) { //TODO:Verify all interactions! Volumetric OK / Graduated / Spatula / WashBottle
 	
-		return true;
+		(compounds[0] as Reagent).Concentration = ((compounds[0] as Reagent).Volume*(compounds[0] as Reagent).Concentration + reagentFromTool.Concentration*volumeFromTool) /
+												  ((compounds[0] as Reagent).Volume + volumeFromTool);
+		(compounds [0] as Reagent).Volume = (compounds [0] as Reagent).Volume + volumeFromTool;
+		(compounds [0] as Reagent).RealMass = (compounds [0] as Reagent).RealMass + reagentFromTool.Density * volumeFromTool;
 	}
 
 	//!	Inserts a solid into the glassware

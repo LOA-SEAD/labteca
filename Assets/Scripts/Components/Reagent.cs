@@ -87,6 +87,7 @@ public class Reagent : Compound {
 		water = null;
 	}
 	public void Dilute (float waterVolume) {
+		Debug.Log ("Dilute() called");
 		if (!IsSolid) {
 			this.Volume = this.Volume + waterVolume;
 			this.RealMass = this.RealMass + waterVolume * waterMolarMass;

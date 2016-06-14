@@ -12,6 +12,7 @@ public class Pipette : MonoBehaviour {
 	public float volumeHeld;			//Volume being held by the pipette [ml]
 	private float maxVolume;			//Max volume the pipette can hold [ml]
 	public bool graduated;				//Knows if the pipette being used is graduated or volumetric
+	private float graduatedError = 0.05f; //Error associated with the graduated pipette
 
 	public UI_Manager uiManager;		// The UI Manager Game Object.
 
@@ -203,7 +204,9 @@ public class Pipette : MonoBehaviour {
 
 	//! Use the pipette to hold the selected volume.
 	public void FillGraduatedPipette() { //ReagentPot OK | Glassware Ok
-
+		if (volumeSelected > 0.0f) {
+			volumeHeld = Random.Range (volumeSelected - graduatedError, volumeSelected + graduatedError);
+		}
 		if (interactingReagent != null) {
 			if (volumeSelected > 0.0f) {
 				CursorManager.SetMouseState (MouseState.ms_filledPipette);//pipetaReagentCursor.CursorEnter ();
@@ -211,7 +214,7 @@ public class Pipette : MonoBehaviour {
 
 				GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().CannotEndState = true;
 				//Debug.Log ("Densidade do reagent = "+ newCompound.Density);
-				reagentInPipette = (Compound)CompoundFactory.GetInstance().GetCompound((interactingReagent.Name)).Clone(volumeSelected);
+				reagentInPipette = (Compound)CompoundFactory.GetInstance().GetCompound((interactingReagent.Formula)).Clone(volumeHeld);
 			}
 		} else if (interactingGlassware != null) {
 			if (volumeSelected > 0.0f) {
@@ -222,13 +225,13 @@ public class Pipette : MonoBehaviour {
 				
 				GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().CannotEndState = true;
 				
-				reagentInPipette = (Compound)(interactingGlassware.compounds[0] as Compound).Clone(volumeSelected);
+				reagentInPipette = (Compound)(interactingGlassware.compounds[0] as Compound).Clone(volumeHeld);
 
-				interactingGlassware.RemoveLiquid(volumeSelected);
+				interactingGlassware.RemoveLiquid(volumeHeld);
 			}
 		}
 
-		volumeHeld = volumeSelected;
+		//volumeHeld = volumeSelected;
 		CloseInteractionBox ();
 	}
 	
@@ -287,6 +290,9 @@ public class Pipette : MonoBehaviour {
 				}
 				if(ok)
 					volumeHeld -= u_volumeSelected;
+			}
+			else if(interactingReagent != null) {
+				volumeHeld -= u_volumeSelected;
 			}
 		}
 

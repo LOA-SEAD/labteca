@@ -311,7 +311,7 @@ public class Glassware : ItemToInventory
 		//totalMass -= volumeChosen * (compounds[0] as IPhysicochemical).Density;
 		(compounds [0] as IPhysicochemical).RealMass = (compounds [0] as IPhysicochemical).RealMass - volumeChosen * (compounds [0] as IPhysicochemical).Density;
 		(compounds [0] as IPhysicochemical).Volume = (compounds [0] as IPhysicochemical).Volume - volumeChosen;
-		if((compounds[0] as IPhysicochemical).Volume <= 0.0f) {
+		if((compounds[0] as IPhysicochemical).Volume <= 0.05f) {
 			compounds[0] = null;
 			hasLiquid = false;
 		}
@@ -322,6 +322,12 @@ public class Glassware : ItemToInventory
 
 
 		RefreshContents();
+	}
+
+	//! Pours the same liquid
+	public bool PourSameLiquid(float volumeFromTool, Compound reagentFromTool) {
+	
+		return true;
 	}
 
 	//!	Inserts a solid into the glassware

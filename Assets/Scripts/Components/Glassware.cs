@@ -311,7 +311,7 @@ public class Glassware : ItemToInventory
 		//totalMass -= volumeChosen * (compounds[0] as IPhysicochemical).Density;
 		(compounds [0] as IPhysicochemical).RealMass = (compounds [0] as IPhysicochemical).RealMass - volumeChosen * (compounds [0] as IPhysicochemical).Density;
 		(compounds [0] as IPhysicochemical).Volume = (compounds [0] as IPhysicochemical).Volume - volumeChosen;
-		if((compounds[0] as IPhysicochemical).Volume <= 0.05f) {
+		if((compounds[0] as IPhysicochemical).Volume <= 0.07f) {
 			compounds[0] = null;
 			hasLiquid = false;
 		}

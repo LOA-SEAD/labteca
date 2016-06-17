@@ -16,8 +16,9 @@ public class InventoryControl : MonoBehaviour {
 	}
 
 	public void setJournalState(bool state){
-		if(journal.activeSelf!=state)
-			journal.SetActive(state);
+		journal.GetComponent<CanvasGroup> ().blocksRaycasts = state;
+		journal.GetComponent<CanvasGroup> ().interactable = state;
+		journal.GetComponent<CanvasGroup> ().alpha = state ? 1f : 0f;
 	}
 
 	public void setInventoryState(bool state){

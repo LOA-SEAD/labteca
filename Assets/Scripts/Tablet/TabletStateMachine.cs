@@ -20,13 +20,13 @@ public class TabletStateMachine : MonoBehaviour {
 
 		foreach (TabletState ts in states) {
 			if((int)ts.stateType!=index){
-				ts.canvasGroup.alpha = 0f;
-				ts.canvasGroup.blocksRaycasts = false;
-				ts.canvasGroup.interactable = false;
+				ts.GetCanvasGroup().alpha = 0f;
+				ts.GetCanvasGroup().blocksRaycasts = false;
+				ts.GetCanvasGroup().interactable = false;
 			}else{
-				ts.canvasGroup.alpha = 1f;
-				ts.canvasGroup.blocksRaycasts = true;
-				ts.canvasGroup.interactable = true;
+				ts.GetCanvasGroup().alpha = 1f;
+				ts.GetCanvasGroup().blocksRaycasts = true;
+				ts.GetCanvasGroup().interactable = true;
 			}
 		}
 	}

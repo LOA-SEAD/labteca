@@ -8,6 +8,8 @@ public class JournalSaver{
 
 	private static TextEdit text;
 
+	public static int numberOfJournals;
+
 	public static void AddJournalUIItem(JournalUIItem journalItem,int expo){
 		Dictionary<int, JournalUIItem> JournalItems = JournalSaver.LoadJournalUIItems (expo);
 		if(JournalItems.ContainsKey(journalItem.index))

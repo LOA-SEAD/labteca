@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class JournalController : MonoBehaviour {
+public class JournalController : TabletState {
 	public GameObject canvasObject;
 	public JournalUIInfo infoPrefab;
 	public JournalUIItem journalPrefab;    /*!< Prefab with reagent list layout. */
 	public float offSetItens;     /*!< Offset for each reagent on the list. */
 	public int experimentNumber;
+	public Text experimentText;
 	
 	private ScrollRect UIScrollList;
 	private Vector3 currentPosition;
@@ -22,6 +23,7 @@ public class JournalController : MonoBehaviour {
 		rewriteContent ();
 	}
 	public void changeExperiment(int expo){
+		experimentText.text = "Experimento " +(expo+1);
 		experimentNumber = expo;
 		rewriteContent ();
 	}
@@ -93,15 +95,16 @@ public class JournalController : MonoBehaviour {
 			journalUIItem.TryGetValue (k, out currentJournalUI);
 
 			GameObject tempItem = Instantiate (prefabRect.gameObject) as GameObject;
+			tempItem.name = "JournalUIItem" + currentJournalUI.index.ToString ();
 
 			tempItem.GetComponent<JournalUIItem> ().setText(currentJournalUI.name);
 
-			tempItem.name = "JournalUIItem" + currentJournalUI.index.ToString ();
+
 			tempItem.GetComponent<JournalUIItem> ().index = currentJournalUI.index;
 			tempItem.GetComponent<JournalUIItem> ().isDone = currentJournalUI.isDone;
 			tempItem.GetComponent<JournalUIItem> ().prerequisites = new JournalUIItem[currentJournalUI.prerequisites.Length];
 			for (int n = 0; n < currentJournalUI.prerequisites.Length; n++) {
-				tempItem.GetComponent<JournalUIItem> ().prerequisites [n] = GameObject.Find ("JournalUIItem" + currentJournalUI.prerequisites [n].index.ToString ()).GetComponent<JournalUIItem> ();
+				tempItem.GetComponent<JournalUIItem> ().prerequisites [n] = GameObject.Find ("JournalUIItem" + currentJournalUI.prerequisites [n].index.ToString ()).GetComponent<JournalUIItem>();
 			}
 			tempItem.GetComponent<JournalUIItem> ().checkPrerequisites ();
 			

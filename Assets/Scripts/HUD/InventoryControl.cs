@@ -3,10 +3,10 @@ using System.Collections;
 
 public class InventoryControl : MonoBehaviour {
 
-	public GameObject inventory,journal;
+	public GameObject inventory,tablet;
 	// Use this for initialization
 	void Start () {
-		setJournalState (false);
+		setTabletState (false);
 		setInventoryState (false);
 	}
 	
@@ -15,10 +15,10 @@ public class InventoryControl : MonoBehaviour {
 	
 	}
 
-	public void setJournalState(bool state){
-		journal.GetComponent<CanvasGroup> ().blocksRaycasts = state;
-		journal.GetComponent<CanvasGroup> ().interactable = state;
-		journal.GetComponent<CanvasGroup> ().alpha = state ? 1f : 0f;
+	public void setTabletState(bool state){
+		tablet.GetComponent<CanvasGroup> ().blocksRaycasts = state;
+		tablet.GetComponent<CanvasGroup> ().interactable = state;
+		tablet.GetComponent<CanvasGroup> ().alpha = state ? 1f : 0f;
 	}
 
 	public void setInventoryState(bool state){

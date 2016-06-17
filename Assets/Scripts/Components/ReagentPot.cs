@@ -32,7 +32,8 @@ public class ReagentPot : ItemToInventory {
 				break;
 			case MouseState.ms_spatula: 		// Spatula -> Solid Reagent: fill the spatula with the reagent clicked
 				//spatula.OpenInteractionBox(true);
-				spatula.FillSpatula ((Compound)this.reagent.Clone ());
+				//spatula.FillSpatula ((Compound)this.reagent.Clone ());
+				spatula.FillSpatula (reagent.Name);
 				break;
 			case MouseState.ms_filledSpatula: 	// Filled Spatula -> Solid Reagent: put back the content if it is the same reagent
 				if (spatula.reagentInSpatula.Name == this.reagent.Name)
@@ -57,7 +58,7 @@ public class ReagentPot : ItemToInventory {
 				if(pipette.graduated)
 					pipette.OpenGraduatedFillingBox(this.reagent);
 				else
-					pipette.FillVolumetricPipette(this.reagent);
+					pipette.FillVolumetricPipette(this.reagent.Name);
 				break;
 			case MouseState.ms_filledPipette: 	// Filled Spatula -> Liquid Reagent: put back the content if it is the same reagent
 				if(pipette.reagentInPipette.Name == this.reagent.Name) {

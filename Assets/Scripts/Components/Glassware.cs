@@ -318,13 +318,16 @@ public class Glassware : ItemToInventory
 	}
 
 	//! Pours the same liquid
-	public void AddSameReagent(float volumeFromTool, Compound reagentFromTool) { //TODO:Verify all interactions! Volumetric OK / Graduated / Spatula OK / WashBottle OK
+	public void AddSameReagent(float volumeFromTool, Compound reagentFromTool) { //TODO:Verify all interactions! Volumetric OK / Graduated OK / Spatula OK / WashBottle OK
 
 		Debug.Log ("Adding same reagent " + reagentFromTool.Formula + " to " + (compounds[0] as Compound).Formula );
-		Debug.Log (reagentFromTool.Formula + " molarity is " + reagentFromTool.Molarity );
 		(compounds[0] as Compound).Molarity = ((compounds[0] as Compound).Volume*(compounds[0] as Compound).Molarity + reagentFromTool.Molarity*volumeFromTool) / ((compounds[0] as Compound).Volume + volumeFromTool);
 		(compounds [0] as Compound).Volume = (compounds [0] as Compound).Volume + volumeFromTool;
 		(compounds [0] as Compound).RealMass = (compounds [0] as Compound).RealMass + reagentFromTool.Density * volumeFromTool;
+
+		Debug.Log ("Molarity = " + (compounds[0] as Compound).Molarity);
+		Debug.Log ("Volume = " + (compounds[0] as Compound).Volume);
+		Debug.Log ("RealMass = " + (compounds[0] as Compound).RealMass);
 	}
 
 	//!	Inserts a solid into the glassware

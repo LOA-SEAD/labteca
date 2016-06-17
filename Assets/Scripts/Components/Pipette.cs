@@ -226,7 +226,6 @@ public class Pipette : MonoBehaviour {
 				CursorManager.SetNewCursor (filledPipette_CursorTexture, hotSpot);
 
 				GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().CannotEndState = true;
-				Debug.Log ("Entrando no reagente");
 				reagentInPipette = (Compound)CompoundFactory.GetInstance ().GetCompound ((interactingReagent.Name)).Clone (volumeHeld);
 			}
 		} 
@@ -342,10 +341,10 @@ public class Pipette : MonoBehaviour {
 			GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().CannotEndState = true;
 		}
 	}
-	public void FillVolumetricPipette(Compound reagent) { //OK
+	public void FillVolumetricPipette(string reagent) { //OK
 		volumeHeld = maxVolume;
 
-		reagentInPipette = (Reagent)(reagent as Reagent).Clone(volumeHeld);
+		reagentInPipette = (Compound)CompoundFactory.GetInstance ().GetCompound ((reagent)).Clone (volumeHeld);
 		CursorManager.SetMouseState (MouseState.ms_filledPipette);
 		CursorManager.SetNewCursor (filledPipette_CursorTexture, hotSpot);
 	}

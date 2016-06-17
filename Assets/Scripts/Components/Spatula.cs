@@ -217,7 +217,7 @@ public class Spatula : MonoBehaviour {
 	}*/
 
 	//! Uses the spatula to hold a volume of a solid reagent
-	public void FillSpatula (Compound reagent) { //Ok
+	public void FillSpatula (string reagent) { //Ok
 
 		/*if(realVolumeSelected > 0) {
 			CursorManager.SetMouseState (MouseState.ms_filledSpatula);
@@ -235,7 +235,7 @@ public class Spatula : MonoBehaviour {
 
 
 		volumeHeld = Random.Range (spatulaCapacity - capacityError, spatulaCapacity + capacityError);
-		reagentInSpatula = (Compound)(reagent as Reagent).Clone(volumeHeld);
+		reagentInSpatula = (Compound)CompoundFactory.GetInstance ().GetCompound ((reagent)).Clone (volumeHeld);
 
 		CloseInteractionBox();
 	}

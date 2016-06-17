@@ -82,6 +82,8 @@ public class Compound : IPhysicochemical {
 		//volume = 1000.0f; //Supposing 1L as starting value to define the other values
 		//realMass = concentration * molarMass + (1 - concentration)*waterMolarMass;
 		molarity = ((purity * density) / molarMass); // number of mols / volume
+
+
 	}
 
 	//! Empty constructor
@@ -162,10 +164,10 @@ public class Compound : IPhysicochemical {
 	public virtual object Clone() {
 		return new Compound (this);
 	}
-	public virtual object Clone(float compoundvolume) {
+	public virtual object Clone(float compoundVolume) {
 		Compound newCompound = new Compound(this);
-		newCompound.volume = compoundvolume;
-		newCompound.realMass = newCompound.Density * newCompound.volume;
+		newCompound.volume = compoundVolume;
+		newCompound.realMass = newCompound.Density * newCompound.Volume;
 		return newCompound;
 	}
 }

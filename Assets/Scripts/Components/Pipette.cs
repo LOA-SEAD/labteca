@@ -6,7 +6,6 @@ using UnityEngine.UI;
 //! Controls the pipette
 /*! Defines if the pipettes are being used, how much they are holding
  *	and integrates the interaction boxes. */
-//TODO: Needs to add the volumetric pipette
 public class Pipette : MonoBehaviour {
 
 	public float volumeHeld;			//Volume being held by the pipette [ml]

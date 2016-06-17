@@ -37,7 +37,7 @@ public class Reagent : Compound {
 		Formula = r.Formula;
 		this.IsSolid = r.IsSolid;
 		this.MolarMass = r.MolarMass;
-		this.Concentration = r.Concentration;
+		this.Molarity = r.Molarity;
 		this.Density = r.Density;
 		this.Solubility = r.Solubility;
 		irSpecter = r.irSpecter;
@@ -75,12 +75,12 @@ public class Reagent : Compound {
 		if (!IsSolid) {
 			this.Volume = this.Volume + water.Volume;
 			this.RealMass = this.RealMass + water.RealMass;
-			this.Concentration = (this.Concentration *  this.Volume) / (this.Volume + water.Volume);
+			this.Molarity = (this.Molarity *  this.Volume) / (this.Volume + water.Volume);
 			this.Density = this.RealMass / this.Volume;
 		} else {
 			this.Volume = water.Volume; //TODO:CHECK WITH TECA.
 			this.RealMass = this.RealMass + water.RealMass;
-			this.Concentration = (this.Concentration *  this.Volume) / (this.Volume + water.Volume);
+			this.Molarity = (this.Molarity *  this.Volume) / (this.Volume + water.Volume);
 			this.Density = this.RealMass / this.Volume;
 		}
 
@@ -91,12 +91,12 @@ public class Reagent : Compound {
 		if (!IsSolid) {
 			this.Volume = this.Volume + waterVolume;
 			this.RealMass = this.RealMass + waterVolume * waterMolarMass;
-			this.Concentration = (this.Concentration  *  this.Volume) / (this.Volume + waterVolume);
+			this.Molarity = (this.Molarity  *  this.Volume) / (this.Volume + waterVolume);
 			this.Density = this.RealMass / this.Volume;
 		} else {
 			this.Volume = waterVolume; //TODO:CHECK WITH TECA.
 			this.RealMass = this.RealMass + waterVolume * waterMolarMass;
-			this.Concentration = (this.Concentration *  this.Volume) / (this.Volume + waterVolume);
+			this.Molarity = (this.Molarity *  this.Volume) / (this.Volume + waterVolume);
 			this.Density = this.RealMass / this.Volume;
 		}
 	}

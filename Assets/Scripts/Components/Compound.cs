@@ -21,8 +21,8 @@ public class Compound : IPhysicochemical {
 	[SerializeField]
 	private float molarMass;
 	public float MolarMass { get { return molarMass; } set { molarMass = value; } }
-	private float concentration; //The compound's concentration. [mol/L]
-	public float Concentration { get { return concentration; } set { concentration = value; } }
+	private float molarity; //The compound's concentration. [mol/L]
+	public float Molarity { get { return molarity; } set { molarity = value; } }
 	private float purity; //The compound's purity, how it comes from the pot. [0, 1][g/g]
 	public float Purity { get { return purity; } set { purity = value; } }
 	[SerializeField]
@@ -79,9 +79,9 @@ public class Compound : IPhysicochemical {
 		flameSpecter = _flameSpecter;
 		hplc = _hplc;
 
-		volume = 1.0f; //Supposing 1L as starting value to define the other values
+		//volume = 1000.0f; //Supposing 1L as starting value to define the other values
 		//realMass = concentration * molarMass + (1 - concentration)*waterMolarMass;
-		concentration = ((purity * density) / molarMass) / volume; // number of mols / volume
+		molarity = ((purity * density) / molarMass); // number of mols / volume
 	}
 
 	//! Empty constructor
@@ -95,7 +95,7 @@ public class Compound : IPhysicochemical {
 		this.Formula = r.Formula;
 		this.isSolid = r.isSolid;
 		this.molarMass = r.molarMass;
-		this.concentration = r.concentration;
+		this.molarity = r.molarity;
 		this.purity = r.purity;
 		this.density = r.density;
 		this.polarizability = r.polarizability;

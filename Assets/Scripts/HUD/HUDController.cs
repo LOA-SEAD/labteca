@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 //! Control of the player interaction interface.
@@ -49,7 +49,12 @@ public class HUDController : MonoBehaviour {
     }
 	public void callJournal(){
 		journalUp = (!journalUp);
-		invControl.setJournalState (journalUp);
+		invControl.setTabletState (journalUp);
+
+		if (player.GetComponent<MouseLook> ().enabled && journalUp)
+			changePlayerState ();
+		if (!player.GetComponent<MouseLook> ().enabled && !inventoryUp && !journalUp)
+			changePlayerState ();
 
 		if (map.activeSelf)
 			map.SetActive (false);	
@@ -61,7 +66,7 @@ public class HUDController : MonoBehaviour {
 			invControl.setInventoryState (inventoryUp);
 			if (player.GetComponent<MouseLook> ().enabled && inventoryUp)
 				changePlayerState ();
-			if (!player.GetComponent<MouseLook> ().enabled && !inventoryUp && !inventoryLocked)
+			if (!player.GetComponent<MouseLook> ().enabled && !inventoryUp && !inventoryLocked && !journalUp)
 				changePlayerState ();
 		}
 

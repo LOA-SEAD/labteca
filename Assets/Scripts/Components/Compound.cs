@@ -166,7 +166,9 @@ public class Compound : IPhysicochemical {
 	public virtual object Clone(float compoundVolume) {
 		Compound newCompound = new Compound(this);
 		newCompound.volume = compoundVolume;
+		Debug.Log ("Cloning the compound " + newCompound.RealMass);
 		newCompound.realMass = newCompound.Density * newCompound.Volume;
+		Debug.Log ("After resetting " + newCompound.RealMass);
 		return newCompound;
 	}
 
@@ -188,6 +190,9 @@ public class Compound : IPhysicochemical {
 			this.RealMass = this.RealMass + water.RealMass;
 			this.Molarity = (this.Molarity *  this.Volume) / (this.Volume + water.Volume);
 			this.Density = this.RealMass / this.Volume;
+			/*
+			 * Check if there will be any precipitate
+			 */
 			this.IsSolid = false;
 		}
 		

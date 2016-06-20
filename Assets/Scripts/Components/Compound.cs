@@ -173,22 +173,28 @@ public class Compound : IPhysicochemical {
 	//! Dilutes the reagent into water
 	// 	Takes the reagent Water as a parapeter in order to destroy the component afterwards.
 	public void Dilute (Compound water) {
-		if (!IsSolid) {
+		Debug.Log ("Dilute(Compound) called");
+		if (!this.IsSolid) {
+			Debug.Log ("Is not solid diluting");
 			this.Volume = this.Volume + water.Volume;
 			this.RealMass = this.RealMass + water.RealMass;
 			this.Molarity = (this.Molarity *  this.Volume) / (this.Volume + water.Volume);
 			this.Density = this.RealMass / this.Volume;
+			Debug.Log ("Water volume = " + water.Volume);
+			Debug.Log ("New volume = " + this.Volume);
 		} else {
+			Debug.Log ("solid diluting");
 			this.Volume = water.Volume; //TODO:CHECK WITH TECA.
 			this.RealMass = this.RealMass + water.RealMass;
 			this.Molarity = (this.Molarity *  this.Volume) / (this.Volume + water.Volume);
 			this.Density = this.RealMass / this.Volume;
+			this.IsSolid = false;
 		}
 		
 		water = null;
 	}
-	public void Dilute (float waterVolume) {
-		Debug.Log ("Dilute() called");
+	/*public void Dilute (float waterVolume) {
+		Debug.Log ("Dilute(float) called");
 		if (!IsSolid) {
 			this.Volume = this.Volume + waterVolume;
 			this.RealMass = this.RealMass + waterVolume * waterMolarMass;
@@ -200,5 +206,5 @@ public class Compound : IPhysicochemical {
 			this.Molarity = (this.Molarity *  this.Volume) / (this.Volume + waterVolume);
 			this.Density = this.RealMass / this.Volume;
 		}
-	}
+	}*/
 }

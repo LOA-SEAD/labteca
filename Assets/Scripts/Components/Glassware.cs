@@ -250,18 +250,18 @@ public class Glassware : ItemToInventory
 			} else { // Case: Not Mixture
 				if (incomingCompound.Formula == "H2O") { // SubCase: Water is coming
 					if ((compounds [0] as Compound).Formula == "H2O") { // There's water already
-						AddSameReagent(volumeFromTool, incomingCompound);
+						AddSameReagent(volumeFromTool, (Compound)incomingCompound.Clone(volumeFromTool));
 					} else {	// There's a reagent
-						Debug.Log ("Dilute will be called!");
-						(compounds [0] as Reagent).Dilute (volumeFromTool);
+						(compounds [0] as Compound).Dilute ((Compound)incomingCompound.Clone(volumeFromTool));
 					}
 				} else {	// SubCase: A reagent is coming
 					if (incomingCompound.Formula == (compounds [0] as Compound).Formula) { // There's the same reagent inside
-						AddSameReagent(volumeFromTool, incomingCompound);
+						AddSameReagent(volumeFromTool, (Compound)incomingCompound.Clone(volumeFromTool));
 					} else {
 						if((compounds [0] as Compound).Formula == "H2O") { //There's water
-							Compound aux = new Compound(compounds[0] as Compound);
-							//DILUTE
+							Compound aux = new Compound(incomingCompound);
+							aux.Dilute(compounds[0] as Compound);
+							compounds[0] = aux;
 						}
 						//(compounds [0] as Reagent).React (incomingCompound as Reagent);
 						/*
@@ -333,6 +333,8 @@ public class Glassware : ItemToInventory
 		Debug.Log ("Molarity = " + (compounds[0] as Compound).Molarity);
 		Debug.Log ("Volume = " + (compounds[0] as Compound).Volume);
 		Debug.Log ("RealMass = " + (compounds[0] as Compound).RealMass);
+
+		RefreshContents ();
 	}
 
 	//!	Inserts a solid into the glassware

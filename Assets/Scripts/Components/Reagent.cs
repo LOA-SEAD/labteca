@@ -69,7 +69,7 @@ public class Reagent : Compound {
 		return newCompound;
 	}
 
-	//! Dilutes the reagent into water
+/*	//! Dilutes the reagent into water
 	// 	Takes the reagent Water as a parapeter in order to destroy the component afterwards.
 	public void Dilute (Compound water) {
 		if (!IsSolid) {
@@ -100,7 +100,7 @@ public class Reagent : Compound {
 			this.Density = this.RealMass / this.Volume;
 		}
 	}
-
+*/
 	public Mixture React (Reagent reagent) {
 
 		Compound product = null;

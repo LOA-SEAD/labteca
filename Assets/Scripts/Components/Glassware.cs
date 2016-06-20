@@ -252,12 +252,17 @@ public class Glassware : ItemToInventory
 					if ((compounds [0] as Compound).Formula == "H2O") { // There's water already
 						AddSameReagent(volumeFromTool, incomingCompound);
 					} else {	// There's a reagent
+						Debug.Log ("Dilute will be called!");
 						(compounds [0] as Reagent).Dilute (volumeFromTool);
 					}
 				} else {	// SubCase: A reagent is coming
 					if (incomingCompound.Formula == (compounds [0] as Compound).Formula) { // There's the same reagent inside
 						AddSameReagent(volumeFromTool, incomingCompound);
 					} else {
+						if((compounds [0] as Compound).Formula == "H2O") { //There's water
+							Compound aux = new Compound(compounds[0] as Compound);
+							//DILUTE
+						}
 						//(compounds [0] as Reagent).React (incomingCompound as Reagent);
 						/*
 						 * SET ALL THE OTHER CONTENTS AND MIXTURE STUFF (wheter here or on another script)
@@ -336,10 +341,7 @@ public class Glassware : ItemToInventory
 		//currentVolume += volumeFromTool;
 		//totalMass += solidMass;
 
-		compounds[0]= reagentFromTool.Clone();
-		/*
-		 * ADD THE REAGENT INTO THE REAGENTS LISTS
-		 */
+		compounds[0]= (Compound)reagentFromTool.Clone(volumeFromTool);
 
 		RefreshContents ();
 	}
@@ -349,12 +351,14 @@ public class Glassware : ItemToInventory
 	public void RemoveSolid(float spatulaVolume) {
 		//currentVolume -= spatulaVolume;
 		//totalMass -= spatulaVolume * (compounds [0] as IPhysicochemical).Density;
-		(compounds [0] as IPhysicochemical).RealMass = (compounds [0] as IPhysicochemical).RealMass - spatulaVolume * (compounds [0] as IPhysicochemical).Density;
 
-		if (currentVolume <= 0.0f) {
+		(compounds [0] as IPhysicochemical).RealMass = (compounds [0] as IPhysicochemical).RealMass - spatulaVolume * (compounds [0] as IPhysicochemical).Density;
+		(compounds [0] as IPhysicochemical).Volume = (compounds [0] as IPhysicochemical).Volume - spatulaVolume;
+		if((compounds[0] as IPhysicochemical).Volume <= 0.07f) {
 			compounds[0] = null;
 			hasSolid = false;
 		}
+
 		/*if ((compounds [0]  as IPhysicochemical).Volume <= 0.0f) {
 			compounds [0] = null;
 			hasSolid = false;

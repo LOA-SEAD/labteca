@@ -91,7 +91,6 @@ public class Compound : IPhysicochemical {
 	}
 
 	//! Constructor that copies all the attributes of a previous compound
-	// Does not copy 
 	public Compound (Compound r) {
 		this.Name = r.Name;
 		this.Formula = r.Formula;
@@ -169,5 +168,37 @@ public class Compound : IPhysicochemical {
 		newCompound.volume = compoundVolume;
 		newCompound.realMass = newCompound.Density * newCompound.Volume;
 		return newCompound;
+	}
+
+	//! Dilutes the reagent into water
+	// 	Takes the reagent Water as a parapeter in order to destroy the component afterwards.
+	public void Dilute (Compound water) {
+		if (!IsSolid) {
+			this.Volume = this.Volume + water.Volume;
+			this.RealMass = this.RealMass + water.RealMass;
+			this.Molarity = (this.Molarity *  this.Volume) / (this.Volume + water.Volume);
+			this.Density = this.RealMass / this.Volume;
+		} else {
+			this.Volume = water.Volume; //TODO:CHECK WITH TECA.
+			this.RealMass = this.RealMass + water.RealMass;
+			this.Molarity = (this.Molarity *  this.Volume) / (this.Volume + water.Volume);
+			this.Density = this.RealMass / this.Volume;
+		}
+		
+		water = null;
+	}
+	public void Dilute (float waterVolume) {
+		Debug.Log ("Dilute() called");
+		if (!IsSolid) {
+			this.Volume = this.Volume + waterVolume;
+			this.RealMass = this.RealMass + waterVolume * waterMolarMass;
+			this.Molarity = (this.Molarity  *  this.Volume) / (this.Volume + waterVolume);
+			this.Density = this.RealMass / this.Volume;
+		} else {
+			this.Volume = waterVolume; //TODO:CHECK WITH TECA.
+			this.RealMass = this.RealMass + waterVolume * waterMolarMass;
+			this.Molarity = (this.Molarity *  this.Volume) / (this.Volume + waterVolume);
+			this.Density = this.RealMass / this.Volume;
+		}
 	}
 }

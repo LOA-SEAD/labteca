@@ -253,7 +253,7 @@ public class Spatula : MonoBehaviour {
 		} else {
 			volumeHeld = glassware.currentVolume;
 		}
-		reagentInSpatula = (Compound)(glassware.compounds [0] as Reagent).Clone (volumeHeld);
+		reagentInSpatula = (Compound)(glassware.compounds [0] as Compound).Clone (volumeHeld);
 		glassware.RemoveSolid(volumeHeld);
 		CloseInteractionBox();
 	}

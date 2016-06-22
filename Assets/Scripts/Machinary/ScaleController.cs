@@ -154,7 +154,7 @@ public class ScaleController : EquipmentControllerBase
 			
 			foreach(GameObject g in activeMass){
 				if(g!=null)
-					tempMass += g.GetComponent<Rigidbody>().mass;		
+					tempMass += g.GetComponent<Glassware>().GetMass ();		
 			}
 			
 			realMass = tempMass - PlayerPrefs.GetFloat ("setupBalance");

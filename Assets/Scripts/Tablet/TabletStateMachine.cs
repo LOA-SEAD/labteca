@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
+
 
 public class TabletStateMachine : MonoBehaviour {
 
 	public List<TabletState> states;
+
+	public Text time;
 	
 	// Use this for initialization
 	void Start () {
@@ -16,7 +20,6 @@ public class TabletStateMachine : MonoBehaviour {
 	}
 
 	public void goToState(int index){
-		Debug.Log (index);
 
 		foreach (TabletState ts in states) {
 			if((int)ts.stateType!=index){
@@ -33,7 +36,7 @@ public class TabletStateMachine : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		time.text = (System.DateTime.Now.Hour + ":" + System.DateTime.Now.Minute);
 	}
 }
 

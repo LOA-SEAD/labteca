@@ -13,22 +13,27 @@ public class HUDController : MonoBehaviour {
 	public bool journalUp=false,inventoryUp=false;
 	public GameObject player,map; /*< GameObject of Player. */
 	public Canvas inventoryCanvas;
-	public bool inventoryLocked=false;
+	public bool inventoryLocked=false,lockKey;
 
 	void Start(){
 		map.SetActive (false);
+		lockKey = false;
 	}
 
 	void Update(){
-		if(Input.GetKeyDown(journalKey)){
+		if(Input.GetKeyDown(journalKey)&&!lockKey){
 			callJournal();
 		}
-		if (Input.GetKeyDown (inventoryKey)) {
+		if (Input.GetKeyDown (inventoryKey)&&!lockKey) {
 			callInventory();
 		}
-		if(Input.GetKeyDown(mapKey)){
+		if(Input.GetKeyDown(mapKey)&&!lockKey){
 			callMap();
 		}
+	}
+
+	public void LockKeys(bool b){
+		lockKey = b;
 	}
 	//!Set the local state of the gameObject.
 	/*! Making a gameObject inactive will desable every component. */

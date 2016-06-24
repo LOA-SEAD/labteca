@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class TabletStateMachine : MonoBehaviour {
 
 	public List<TabletState> states;
-
+	public HUDController control;
 	public Text time;
 	
 	// Use this for initialization
@@ -20,6 +20,10 @@ public class TabletStateMachine : MonoBehaviour {
 	}
 
 	public void goToState(int index){
+		if ((int)TabletStates.Notes == index)
+			control.LockKeys (true);
+		else
+			control.LockKeys (false);
 
 		foreach (TabletState ts in states) {
 			if((int)ts.stateType!=index){

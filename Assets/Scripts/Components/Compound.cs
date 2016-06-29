@@ -12,7 +12,7 @@ public class Compound : IPhysicochemical {
 	public const float waterMolarMass = 18.015f;
 	[SerializeField]
 	private string name;
-	public string Name { get{ return name; } set{ name = value; }}
+	public string Name { get{ return name; } set{ name = value.Clone().ToString(); }}
 	[SerializeField]
 	private string formula;
 	public string Formula { get{ return formula; } set{ formula = value; }}

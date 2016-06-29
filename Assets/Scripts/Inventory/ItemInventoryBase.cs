@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 //! Base Class to be used to define an object to work with inventory.
@@ -17,14 +18,19 @@ public class ItemInventoryBase : MonoBehaviour {
     public bool stackable;                      /*!< If can be stacked. */
     public ItemType itemType;                   /*!< Enum to set this item type: 'solids', 'liquids', 'glassware' and 'others'. */
 	public Text underText;
+	public Compound compounds;
 
 	public Transform posTab;
 	
 	public ItemToInventory itemBeingHeld;
-	public GameObject physicalObject;
+	public bool physicalObject;
 
     //! Empty Constructor
-	public ItemInventoryBase (){}
+	public ItemInventoryBase (){
+	}
+
+	void Start(){
+	}
 
 /*	public ItemInventoryBase(Component item)
 	{
@@ -69,6 +75,7 @@ public class ItemInventoryBase : MonoBehaviour {
 		 this.itemBeingHeld=item.itemBeingHeld;
 		 this.index = item.index;
 		 this.underText = item.underText;
+		this.physicalObject = item.physicalObject;
 	}
 
 	public void addReagent(Compound r){

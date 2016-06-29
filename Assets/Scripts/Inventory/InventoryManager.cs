@@ -24,7 +24,7 @@ public class InventoryManager : MonoBehaviour {
     // need to be set on the inspector with the correct game object containing each InventoryController
 	public ArrayList Reagents  = new ArrayList();       /*!< InventoryController for Liquid and Solid Reagents. */
 	public ArrayList Glassware      = new ArrayList();           /*!< InventoryController for Glassware. */
-	public ArrayList Others         = new ArrayList();              /*!< InventoryController for Others. */
+	public ArrayList Products         = new ArrayList();              /*!< InventoryController for Others. */
 
 	public List<Sprite> backgroundInventory;
 	public List<Sprite> backgroundPanel;
@@ -41,6 +41,7 @@ public class InventoryManager : MonoBehaviour {
 
 	private ItemType[] itemType = new ItemType[2];
 	public RectTransform content;
+	public Transform limbo;
 
     public ItemInventoryBase selectedItem = null;     /*!< Current selected item (game object). */
     private ItemStackableBehavior selectedUIItem = null;    /*!< Current selected item from inventory UI. */
@@ -55,31 +56,35 @@ public class InventoryManager : MonoBehaviour {
 		refreshGrid ();
 	}
 
-	public GameObject addItem(ItemInventoryBase item){
-		ItemInventoryBase auxItem = new ItemInventoryBase ();
-		auxItem.copyData (item);
-
-		if (auxItem.index == null) {
+	public string GenerateIndex(ref ItemInventoryBase item){
+		if (item.index == null) {
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < 6; i++) {
 				char aux = (char)Random.Range (65, 126);
 				sb.Append(aux);
 			}
-			auxItem.index=sb.ToString();
+			item.index=sb.ToString();
 		}
+
+		return item.index;
+	}
+
+	public GameObject addItem(ref ItemInventoryBase item){
+		Debug.Log(GenerateIndex (ref item));
+
 		if (item.getItemType () == itemType[0]||item.getItemType () == itemType[1]) {
-			GameObject aux = instantiateObject (auxItem);
+			GameObject aux = instantiateObject (item);
 
 			switch (item.getItemType ()) {
 			case ItemType.Glassware:
-				Glassware.Add (auxItem);
+				Glassware.Add (item);
 				break;
 			case ItemType.Liquids:
 			case ItemType.Solids:
-				Reagents.Add (auxItem);
+				Reagents.Add (item);
 				break;
 			case ItemType.Others:
-				Others.Add (auxItem);
+				Products.Add (item);
 				break;
 			}
 			refreshGrid ();
@@ -89,16 +94,16 @@ public class InventoryManager : MonoBehaviour {
 		} else {
 			switch (item.getItemType ()) {
 			case ItemType.Glassware:
-				Glassware.Add (auxItem);
+				Glassware.Add (item);
 				changeList(2);
 				break;
 			case ItemType.Liquids:
 			case ItemType.Solids:
-				Reagents.Add(auxItem);
+				Reagents.Add(item);
 				changeList(1);
 				break;
 			case ItemType.Others:
-				Others.Add(auxItem);
+				Products.Add(item);
 				changeList(0);
 				break;
 			}
@@ -135,7 +140,7 @@ public class InventoryManager : MonoBehaviour {
 				icon = img[i];
 		}
 
-		Text txt = obj.GetComponentInChildren<Text> ();;
+		Text txt = obj.GetComponentInChildren<Text> ();
 		switch (item.getItemType ()) {
 		case ItemType.Liquids:
 			icon.sprite = icons[0];
@@ -180,6 +185,42 @@ public class InventoryManager : MonoBehaviour {
 				}
 			}
 			break;
+		case ItemType.Others:
+			txt.text = "";
+			string gl = GameObject.Find(item.index).GetComponent<Glassware>().gl;
+			if(gl.Contains("Balão Vol.")){
+				if(gl.Contains("25")){
+					icon.sprite = icons[2];
+					break;
+				}
+				if(gl.Contains("50")){
+					icon.sprite = icons[3];
+					break;
+				}
+				if(gl.Contains("100")){
+					icon.sprite = icons[4];
+					break;
+				}
+			}
+			if(gl.Contains("Bequer")){
+				icon.sprite = icons[5];
+				break;
+			}
+			if(gl.Contains("Erlenmeyer")){
+				if(gl.Contains("25")){
+					icon.sprite = icons[6];
+					break;
+				}
+				if(gl.Contains("50")){
+					icon.sprite = icons[7];
+					break;
+				}
+				if(gl.Contains("100")){
+					icon.sprite = icons[8];
+					break;
+				}
+			}
+			break;
 		}
 	}
 
@@ -194,21 +235,24 @@ public class InventoryManager : MonoBehaviour {
 		tempItem.gameObject.GetComponent<Button> ().onClick.AddListener (() => this.setSelectedItem(tempItem.GetComponent<ItemInventoryBase>()));
 
 		if (item.getItemType() != ItemType.Glassware) {
-			EventTrigger trigger = tempItem.gameObject.GetComponent<EventTrigger> ();
-			EventTrigger.Entry enter = new EventTrigger.Entry ();
-			enter.eventID = EventTriggerType.PointerEnter;
-			enter.callback.AddListener ((eventData) => { 
-				refreshTab (item,true); 
-				actionTab.transform.position = tempItem.GetComponent<ItemInventoryBase> ().posTab.position;
-			});
-			trigger.delegates.Add (enter);
+			if(item.getItemType()==ItemType.Others){}
+			else{
+				EventTrigger trigger = tempItem.gameObject.GetComponent<EventTrigger> ();
+				EventTrigger.Entry enter = new EventTrigger.Entry ();
+				enter.eventID = EventTriggerType.PointerEnter;
+				enter.callback.AddListener ((eventData) => { 
+					refreshTab (item,true); 
+					actionTab.transform.position = tempItem.GetComponent<ItemInventoryBase> ().posTab.position;
+				});
+				trigger.delegates.Add (enter);
 
-			EventTrigger.Entry exit = new EventTrigger.Entry ();
-			exit.eventID = EventTriggerType.PointerExit;
-			exit.callback.AddListener ((eventData) => { 
-				refreshTab (null,false); 
-			});
-			trigger.delegates.Add (exit);
+				EventTrigger.Entry exit = new EventTrigger.Entry ();
+				exit.eventID = EventTriggerType.PointerExit;
+				exit.callback.AddListener ((eventData) => { 
+					refreshTab (null,false); 
+				});
+				trigger.delegates.Add (exit);
+			}
 		}
 		return tempItem;
 	}
@@ -262,7 +306,7 @@ public class InventoryManager : MonoBehaviour {
 			tabValues[1].text = CompoundFactory.GetInstance().GetCompound(i.reagent).MolarMass + " g/mol";
 			tabValues[2].text = CompoundFactory.GetInstance().GetCompound(i.reagent).Density+ " g/ml";
 			tabValues[3].text = CompoundFactory.GetInstance().GetCompound(i.reagent).Purity*100+ "%";
-			tabValues[4].text = CompoundFactory.GetInstance().GetCompound(i.reagent).Solubility+ " g/100g";
+			tabValues[4].text = CompoundFactory.GetInstance().GetCompound(i.reagent).Solubility+ " g/1g";
 			break;
 		}
 
@@ -351,20 +395,32 @@ public class InventoryManager : MonoBehaviour {
 		ItemInventoryBase item = new ItemInventoryBase();
 		item.addGlassware(gl);
 		item.HoldItem (gl);
-		addItem(item);
+		addItem(ref item);
 	}
 
 	public void AddReagentToInventory(ReagentPot reagent, Compound r ) {
 		ItemInventoryBase item = new ItemInventoryBase();
 		item.HoldItem (reagent);
 		item.addReagent(r);
-		addItem(item);
+		addItem(ref item);
+	}
+
+	public void AddProductToInventory(GameObject itm) {
+		ItemInventoryBase item = new ItemInventoryBase();
+		item.physicalObject = true;
+		item.itemType = ItemType.Others;
+		GenerateIndex (ref item);
+		itm.name = item.index;
+
+		addItem(ref item);
+
+		itm.transform.SetParent (limbo, false);
 	}
 
 	public ArrayList getCurrentList(){
 		switch (listIndex) {
 		case 0:
-			return Others;
+			return Products;
 		case 1:
 			return Reagents;
 		case 2:
@@ -402,6 +458,6 @@ public class InventoryManager : MonoBehaviour {
 	}
 
 	public bool CallWorkbenchToTable(ItemInventoryBase item) {
-		return gameController.GetCurrentState ().GetComponent<WorkBench> ().PutItemFromInventory (item.itemBeingHeld,item.reagent);
+		return gameController.GetCurrentState ().GetComponent<WorkBench> ().PutItemFromInventory (item);
 	}
 }

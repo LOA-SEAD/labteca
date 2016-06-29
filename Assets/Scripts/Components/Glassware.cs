@@ -16,11 +16,12 @@ public class Glassware : ItemToInventory
 	public float totalMass;
 	//public float uncalibrateVolume; ?
 	public bool precisionGlass;		//The glassware is a precision one
+	public string gl;
 
 	//! The compounds inside
 	//Water is a valid reagent, but it is only seem when it's the only thing inside, otherwise it's associated with the reagent's concentration.
 	//public Compound[] compounds = new Compound[2];
-	[SerializeField]
+	//[SerializeField]
 	public List<object> compounds = new List<object>();
 //	public Mixture mixture = null;
 
@@ -42,7 +43,31 @@ public class Glassware : ItemToInventory
 
 
 	public bool hasReagents(){
-			return false; //TODO ajeitar aqui
+		/*if(compounds [0] != null)
+			if(compounds [0] is Mixture)
+				Debug.Log ((compounds [0] as Mixture).Name);
+			if(compounds [0] is Compound)
+			Debug.Log ((compounds [0] as Compound));
+		if(compounds [1] != null)
+			if(compounds [1] is Mixture)
+				Debug.Log ((compounds [1] as Mixture).Name);
+		if(compounds [1] is Compound)
+			Debug.Log ((compounds [1] as Compound).Name);*/
+		
+		if (compounds [0] == null && compounds [1] == null) 
+			return false;
+		return true;
+	}
+
+	public List<Compound> GetCompounds(){
+		List<Compound> comp = new List<Compound>(2);
+
+		if(compounds [0] is Compound)
+			comp.Add ((compounds [0] as Compound).Clone() as Compound);
+		if(compounds [1] is Compound)
+			comp.Add ((compounds [1] as Compound).Clone() as Compound);
+
+		return comp;
 	}
 
 	//!  Is called when the script instance is being loaded.

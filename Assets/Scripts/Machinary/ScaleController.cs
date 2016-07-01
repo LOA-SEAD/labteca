@@ -6,110 +6,64 @@ using System.Collections.Generic;
 /*! This is the controller for the Scale, it has all the methods that allows the Scale to work with 
  * the Glassware and Reagents, calculating their mass together and displaying it.
  */
+using System;
+
+
 public class ScaleController : EquipmentControllerBase 
 {
-	private InventoryController inventory;  // TODO: linkar c/ Inventory, se necessario aqui nesse script.
-
 	public float previousMass;
     public float realMass;  /*!< Real mass that is on the scale. */
-	public bool changed;
-    // TODO: quando isso foi implementado a versao do Unity era anterior a 4.6, da pra usar Text da nova UI do Unity.
+
+	private bool changed;
+
 	public TextMesh balanceText;    /*!< Text display of Scale. */
 
-	public float timeToCheckBalanceValue;
-	private float timeToCheckBalanceValueAcc;
+	public float timeConstant;
+	private float timeElapsed;
 
-    // TODO: verificar com a profa. Teca a respeito dessa variacao em casas decimais, ela disse que n fica 'variando' muito.
-	public float errorAmplitude;    /*!< Float number representing the 'error' amplitude. */
-    public int errorPrecision;      /*!< Int number that defines the scale's precision. */
+	public GameObject activeMass;   /*!< List of GameObjects that composes the mass. */
 
-	public List<GameObject> activeMass = new List<GameObject>();   /*!< List of GameObjects that composes the mass. */
-
-    // TODO: Add Remove tah bem, mas bem, confuso.
-	public float addRemoveValue;    /*!< Float number to add remove value? */
-    public float addRemoveError;    /*!< Float number to add remove error? */
-
-    public ScaleState balanceState;       /*!< BalanceState component. */
-	public ReagentsSolid solidSelected;     /*!< ReagentsSolid component. */
+    public ScaleState workbench;       /*!< BalanceState component. */
 	
     // Awake happens before all Start()
 	void Awake()
 	{
-	    // TODO: quando implemeentar o inventario, talvez precise alterar isso.
-        inventory = FindObjectOfType (typeof(InventoryController)) as InventoryController;
 		PlayerPrefs.SetFloat ("setupBalance", 0);
-//		buttonAdd.SetActive(false);
-//		buttonRemove.SetActive(false);
-//		buttonFinishBalance.SetActive(false);
 	}
 
 	void Start () 
 	{
 		previousMass = 0;
-        // TODO: se pega o componente BalanceState dentro do proprio GameObject pq variavel publica entao?
-		balanceState = GetComponent<ScaleState>();
-		timeToCheckBalanceValueAcc = 0;
-		changed = false;
+		workbench = GetComponent<ScaleState>();
+		timeElapsed = 0;
 	}
 
 	void Update () 
 	{
 		RefreshEquipament ();
-		if (previousMass != realMass) {
-			timeToCheckBalanceValueAcc=0;
-			previousMass=realMass;
-		}
-        // Creates the 'fluctuation' effect on Scale display.
-		if (timeToCheckBalanceValueAcc < timeToCheckBalanceValue && activeMass.Count > 0) {
-			balanceText.text = BalanceTextToString(applyErrorInFloat (realMass));
-			timeToCheckBalanceValueAcc += Time.fixedDeltaTime;
-			RefreshEquipament ();
+
+		if (changed) {
+			balanceText.text = BalanceTextToString(UnityEngine.Random.Range(-1f,1f) + realMass);
+			timeElapsed += Time.fixedDeltaTime;
+			if(timeConstant<timeElapsed){
+				timeElapsed = 0;
+				changed = false;
+				balanceText.text = BalanceTextToString(realMass);
+			}
 		} 
 	}
 
 	private string BalanceTextToString(float value){
-		if(Mathf.FloorToInt(value)==Mathf.CeilToInt(value)){
-			return value.ToString()+".00";
-		}else{
-			if((Mathf.RoundToInt((value-((int)value))*100))%10==0)
-				return value.ToString()+"0";
-		}
-		return value.ToString();
-	}
+		string txt;
+		txt = String.Format("{0:F2}", value);
 
-    //! Apply the "error" on Scale value - the value is rounded and sometimes the display keeps changing the value.
-	private float applyErrorInFloat(float realValue)
-	{
-		float value = Mathf.Round ((realValue + (Random.Range(-1f,1f) * errorAmplitude)*realValue) * Mathf.Pow (10f, errorPrecision));
-		return value/ Mathf.Pow (10f, errorPrecision);
-	}
-
-    //! Add more mass to Real Mass.
-    /*! Receives a float 'min' and float 'max' numbers and Real Mass receives a float value in Range(min, max). */
-	public void AddMoreMassButton(float min, float max)
-	{
-		realMass += Random.Range(min , max);
-		changed = true;
-	}
-
-    //! Remove mass from Real Mass.
-    /*! Removes mass within a Range(-1f, 1f) * addRemoveError from Real Mass. */
-    public void RemoveMassButton()
-	{
-		realMass -= (addRemoveValue + Random.Range (-1f, 1f) * addRemoveError);
-		if(realMass < PlayerPrefs.GetFloat ("setupBalance"))
-		{
-			realMass = PlayerPrefs.GetFloat ("setupBalance");
-		}
-		changed = true;
+		return txt;
 	}
     
     //! Set PlayerPrefs "setupBalance" to realMass.
 	public void SetupBalance()
 	{
-
 		PlayerPrefs.SetFloat ("setupBalance", realMass);
-		changed = true;
 	}
 
     //! Set PlayerPrefs "setupBalance" to zero.
@@ -117,52 +71,46 @@ public class ScaleController : EquipmentControllerBase
 	{
 		PlayerPrefs.SetFloat ("setupBalance", 0);
 		RefreshEquipament ();
-		changed = true;
 	}
 
     //! Get Glassware that is on Scale.
 	public Glassware GetGlassInEquipament(){
 		Glassware glassToReturn = null;
 
-		foreach(GameObject g in activeMass){
-			if(g.GetComponent<Glassware>() != null){
-				glassToReturn = g.GetComponent<Glassware>();
-			}
+		if(activeMass.GetComponent<Glassware>() != null){
+			glassToReturn = activeMass.GetComponent<Glassware>();
 		}
 		return glassToReturn;
 	}
 
     //! Add a GameObject to be measured on Scale.
 	public override void AddObjectInEquipament(GameObject objectToAdd){
-		activeMass.Add(objectToAdd);
+		activeMass = objectToAdd;
 		RefreshEquipament();
 	}
 
     //! Remove a GameObject from being measured on Scale.
 	public override void RemoveObjectInEquipament(GameObject objectToRemove){
-		activeMass.Remove(objectToRemove);
+		activeMass = null;
 		RefreshEquipament();
-		balanceText.text = applyErrorInFloat(realMass).ToString();
+		balanceText.text = BalanceTextToString (0f);
 	}
 
     //! Update Real Mass to the mass of all GameObjects on ActiveMass.
-    // TODO: refatorar nome em ingles incorreto - Equipment
 	private void RefreshEquipament(){
-		if(balanceState.IsRunning()){
-			
-			float tempMass = 0;
-			
-			foreach(GameObject g in activeMass){
-				if(g!=null)
-					tempMass += g.GetComponent<Glassware>().GetMass ();		
-			}
+		if (workbench.IsRunning ()) {
+			float tempMass = 0.00f;
+
+			if (activeMass != null)
+				tempMass += activeMass.GetComponent<Glassware> ().GetMass ();		
 			
 			realMass = tempMass - PlayerPrefs.GetFloat ("setupBalance");
 
-			if(realMass < 0)
-				realMass = 0;
+			if(previousMass!=realMass){
+				previousMass = realMass;
+				changed = true;
+			}
 		}
 	}
-
 
 }

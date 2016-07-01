@@ -40,14 +40,14 @@ public class OptionDialogBehaviour : MonoBehaviour {
 				if(!item.GetComponent<Glassware>().hasReagents()){
 					GameObject temp = null;
 					for(int i = 0; i < prefabs.Count; i ++){
-						if(((item as Glassware).name.Contains(prefabs[i].GetComponent<Glassware>().name)))
+						if(((item as Glassware).gl.Contains(prefabs[i].GetComponent<Glassware>().name)))
 							temp = prefabs[i];
 					}
 					GameObject.Find("InventoryManager").GetComponent<InventoryManager>().AddGlasswareToInventory(temp.GetComponent<Glassware>());
 					Destroy(item.gameObject);
 				}else{
-
-					item.GetComponentInParent<EquipmentControllerBase>().RemoveObjectInEquipament(item.gameObject);
+					if(GetComponentInParent<WorkBench>().equipmentController!=null)
+						GetComponentInParent<WorkBench>().equipmentController.RemoveObjectInEquipament(item.gameObject);
 					GameObject.Find("InventoryManager").GetComponent<InventoryManager>().AddProductToInventory(item.gameObject);
 				}
 				break;

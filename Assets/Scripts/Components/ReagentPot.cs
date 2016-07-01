@@ -18,13 +18,13 @@ public class ReagentPot : ItemToInventory {
 	//! Holds the events for when the interactive reagent pot on the Workbench is clicked
 	public void OnClick(){
 		MouseState currentState = CursorManager.GetCurrentState ();
-		Spatula spatula = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().spatula;
-		Pipette pipette = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().pipette;
+		Spatula spatula = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).spatula;
+		Pipette pipette = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).pipette;
 
 		if (isSolid) {
 			switch (currentState) {
 			case MouseState.ms_default: 		//Default -> Solid Reagent: open interaction box to take the reagent to the inventory?
-				GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<StateUIManager>().OpenOptionDialog(this);
+				(GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).stateUIManager.OpenOptionDialog(this);
 				break;
 			case MouseState.ms_pipette: 		//Pipette -> Solid Reagent: nothing
 				break;
@@ -52,7 +52,7 @@ public class ReagentPot : ItemToInventory {
 		else {
 			switch (currentState) {
 			case MouseState.ms_default: 		//Default -> Liquid Reagent: open interaction box to take the reagent to the inventory?
-				GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<StateUIManager>().OpenOptionDialog(this);
+				(GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).stateUIManager.OpenOptionDialog(this);
 				break;
 			case MouseState.ms_pipette: 		//Pipette -> Liquid Reagent: fill the pipette with the reagent clicked
 				if(pipette.graduated)

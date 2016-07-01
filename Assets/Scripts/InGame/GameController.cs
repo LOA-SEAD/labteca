@@ -17,25 +17,10 @@ public class GameController : MonoBehaviour {
 	public int currentStateIndex;
 
 	public static GameController instance;
-
-    //TODO: Remover variaveis de 'Suporte' //Precisa do inventario
-	//variaveis para suprir a falta de inventario.
-	public bool haveReagentNaCl;
-	public int totalBeakers;
-	public GameObject prefabBeaker;
-	public Glassware selectedGlassWare;
+	
 	public AlertDialogBehaviour alertDialog;
 
-
-	//variaveis para suprir a falta de inventario.
-
-    //TODO: No Start esta puxando um Glassware do prefab e jogando para selectedGlassware. //Precisa do inventario
-    /*Comentario: Esse glassware teoricamente eh apenas para suprir a falta do inventario, nao sei se estar dentro do GameController eh a melhor
-     * solucao, talvez uma comunicacao entre o script do 'state' (ex.: Balanca) com o inventario e objeto selecionado atualmente seja mais facil/intuitivo.
-     */
 	void Start () {
-
-		selectedGlassWare = prefabBeaker.GetComponent<Glassware>();
 
 		player = FindObjectOfType(typeof(CharacterController)) as CharacterController;
 

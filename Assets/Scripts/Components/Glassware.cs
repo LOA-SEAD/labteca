@@ -81,7 +81,6 @@ public class Glassware : ItemToInventory
 		currentVolume = 0.0f;
 
 		gameController = GameObject.Find ("GameController").GetComponent<GameController> ();
-		SetStateInUse (gameController.GetCurrentState ());
 	}
 
 	// Use this for initialization
@@ -111,10 +110,10 @@ public class Glassware : ItemToInventory
 
 		switch (currentState) {
 		case MouseState.ms_default: 		//Default -> Glassware: show the interaction options
-			GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<StateUIManager>().OpenOptionDialog(this);
+			(GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).stateUIManager.OpenOptionDialog(this);
 			break;
 		case MouseState.ms_pipette: 		//Pipette -> Glassware: gets the liquid, if there's only liquid inside. So, opens the pipette's interaction box.
-			Pipette pipette = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().pipette;
+			Pipette pipette = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).pipette;
 			if(hasLiquid) {
 				if(pipette.graduated) {
 					pipette.OpenGraduatedFillingBox(currentVolume, this);
@@ -127,7 +126,7 @@ public class Glassware : ItemToInventory
 			}
 			break;
 		case MouseState.ms_filledPipette: 	// Filled Pipette -> Glassware: pours the pipette's contents into the glassware
-			Pipette filledPipette = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().pipette;
+			Pipette filledPipette = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).pipette;
 			//filledPipette.UnfillPipette(this);
 			if(filledPipette.graduated) {
 				filledPipette.OpenGraduatedUnfillingBox(maxVolume - currentVolume, this);
@@ -138,7 +137,7 @@ public class Glassware : ItemToInventory
 			}
 			break;
 		case MouseState.ms_spatula: 		// Spatula -> Glassware: gets the solids, if there's only solid inside. So, opens the spatula's interaction box
-			Spatula spatula = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().spatula;
+			Spatula spatula = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).spatula;
 			if(compounds[0] != null) {
 				if(compounds[0] is Compound && (compounds[0] as Compound).IsSolid) {
 					if(compounds[1] == null) {
@@ -149,19 +148,19 @@ public class Glassware : ItemToInventory
 			//!!!spatula.FillSpatula();
 			break;
 		case MouseState.ms_filledSpatula: 	// Filled Spatula -> Glassware: unloads the spatula into the glassare
-			Spatula filledSpatula = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().spatula;
+			Spatula filledSpatula = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).spatula;
 			//filledSpatula.OpenInteractionBox(maxVolume - currentVolume, this);
 			filledSpatula.UnfillSpatula(maxVolume - currentVolume, this);
 			break;
 		case MouseState.ms_washBottle: 		// Washe Bottle -> Glassware: pours water into the glassware
-			WashBottle washBottle = GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().washBottle;
+			WashBottle washBottle = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).washBottle;
 			washBottle.ActivateWashBottle(maxVolume - currentVolume, this);
 			break;
 		case MouseState.ms_glassStick:		// Glass Stick -> Glassware: mix the contents, if there is any.
-			GlassStick glassStick =  GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().glassStick;
+			//GlassStick glassStick =  GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().glassStick;
 
 			break;
-		case MouseState.ms_usingTool:  		// Unable to click somewhere else TODO:is it necessary?
+		case MouseState.ms_usingTool:  		// Unable to click somewhere else
 			break;
 		}
 	}
@@ -493,11 +492,6 @@ public class Glassware : ItemToInventory
 	/*public void RemoveLiquid(float volumeLiquid){
 		RemoveLiquid (1, volumeLiquid);
 	}*/
-
-	//! Sets the glassware state.
-	public void SetStateInUse(GameStateBase state){
-		stateInUse = state;
-	}
 
 	//!Message when the player clicks in glass.
 /*	public void CLickInGlass(){

@@ -23,7 +23,7 @@ public class ScaleController : EquipmentControllerBase
 
 	public GameObject activeMass;   /*!< List of GameObjects that composes the mass. */
 
-    public ScaleState workbench;       /*!< BalanceState component. */
+    public WorkBench workbench;       /*!< BalanceState component. */
 	
     // Awake happens before all Start()
 	void Awake()
@@ -34,7 +34,6 @@ public class ScaleController : EquipmentControllerBase
 	void Start () 
 	{
 		previousMass = 0;
-		workbench = GetComponent<ScaleState>();
 		timeElapsed = 0;
 	}
 

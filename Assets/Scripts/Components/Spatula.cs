@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -231,7 +231,7 @@ public class Spatula : MonoBehaviour {
 
 		CursorManager.SetMouseState (MouseState.ms_filledSpatula);
 		CursorManager.SetNewCursor (filledSpatula_CursorTexture, hotSpot);
-		GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().CannotEndState = true;
+		GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().cannotEndState = true;
 
 
 		volumeHeld = Random.Range (spatulaCapacity - capacityError, spatulaCapacity + capacityError);
@@ -244,7 +244,7 @@ public class Spatula : MonoBehaviour {
 		
 		CursorManager.SetMouseState (MouseState.ms_filledSpatula);
 		CursorManager.SetNewCursor (filledSpatula_CursorTexture, hotSpot);
-		GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().CannotEndState = true;
+		GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().cannotEndState = true;
 		
 		if ((spatulaCapacity + capacityError) < glassware.currentVolume) { //Volume inside glassware < spatula capacity
 			volumeHeld = Random.Range (spatulaCapacity - capacityError, spatulaCapacity + capacityError);
@@ -308,7 +308,7 @@ public class Spatula : MonoBehaviour {
 
 		CursorManager.SetMouseState (MouseState.ms_default);
 		CursorManager.SetCursorToDefault();
-		GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().CannotEndState = false;
+		GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().cannotEndState = false;
 
 		volumeHeld = 0.0f;
 		spatulaCapacity = 0.0f;

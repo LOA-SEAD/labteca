@@ -7,172 +7,56 @@ using UnityEngine.UI;
 /*! Work as a bridge for the player-equipments interactions.
  	It also manages how this interaction is going to be. */
 
-public class WorkBench : MonoBehaviour {
+public class WorkBench : GameStateBase{
 
 	public Transform positionGlassEquipament;   /*!< Position of Glassware on the Precision Scale. */
 	public Transform[] positionGlass;
-	public int i = 0;
 
-	public bool CannotEndState;					//The player is holding a filled tool, so can't quit the state
+	//GameStateBase variables:
+	public Camera cameraState;                  /*!< Camera for this state. */
+	public GameObject interactBox;              /*!< BoxCollider that allows the Player to enter this state. */
+	public EquipmentControllerBase equipmentController;	/*!< Equipment controller for this state */
+	//end of GameStateBase variables
+
+	public bool cannotEndState;					//The player is holding a filled tool, so can't quit the state
 
 	public AudioSource soundBeaker;				/*!< Audio for the workbench. */
 
-	public UI_Manager uiManager;                /*!< The UI Manager Game Object. */
-
-	public GameController gameController;
-	public GameStateBase currentState;
-	
-	private ButtonObject[] tools;
-	private bool canClickTools;
-
-	public GameObject lastItemSelected;
+	public StateUIManager stateUIManager;                /*!< The UI Manager Game Object. */
 	
 	//Tools on the workbench
 	public Pipette pipette;
 	public Spatula spatula;
 	public WashBottle washBottle;
-	public GlassStick glassStick;
-
-	//Error box of different reagents
-	public GameObject differentReagentErrorBox; //
-
-
-	// TODO: revisar esse hardcode maroto aqui, talvez separar em outros scripts para cada funcionalidade da balanca?
-	//spatula
-	public bool selectSpatula;
-	public float porcentErrorSpatula = 5;
-	public Text textDisplayAmountSpatula;
-	public float amountSelectedSpatula;
-	public int typeSpatulaSelected = 1;
-	public CursorMouse spatulaCursor;
-	public CursorMouse spatulaReagentCursor;
-	//Estas duas variaves sao usadas para o texto dependendo se ele esta usando a balança ou nao
-	public Text textExactValue;		//When the spatula is used for a glassware in the precision scale, the amount should exact
-	public Text textVariableValue;	//Otherwise the amount is variable
-	public Button confirmAddButton;
-	public Button confirmRemoveButton;
-	private bool usePrecision;
-	public Compound heldInSpatula;  //Reagent being held by the spatula
-	//
-	private string lastReagentName;
-
-	//pipeta
-	public bool selectPipeta;
-	public float amountSelectedPipeta;
-	public CursorMouse pipetaCursor;
-	//public ButtonObject pipetaCursor;
-	public CursorMouse pipetaReagentCursor;
-	//public ButtonObject pipetaReagentCursor;
-	public Slider pipetaValue;
-	public Text pipetaValueText;
-	public Compound heldInPipette; //Reagent being held by the pipette
-	//
-	
-	//water
-	public bool selectWater;
-	public CursorMouse waterCursor;
-	//public ButtonObject waterCursos;
-	public float amountSelectedWater;
-	public Slider waterValue;
-	public Text waterValueText;
-	public float porcentErrorWater;
-	//
-
-	//! Change the mouse cursor.
-	/*! Set a cursor when mouse hover an object and set it back to default when not. */
-	// TODO: essa funcao teoricamente tambem existe dentro do script ButtonObject, verificar codigo redundante.
-	[System.Serializable]
-	public class CursorMouse{
-		public Texture2D cursorTexture;
-		public Vector2 hotSpot = Vector2.zero;
-		
-		public void CursorEnter()
-		{
-			CursorManager.SetNewCursor(cursorTexture, hotSpot);
-		}
-		
-		public void CursorExit()
-		{
-			CursorManager.SetCursorToDefault();
-		}
-	}
 	
 	public void Start () {
-		RefreshInteractiveItens ();
-		DeactivateInteractObjects ();
+		cameraState.enabled = false;
+		cameraState.GetComponent<AudioListener> ().enabled = false;
 	}
-
-	// TODO: se for alterado o modo de interacao com objetos na cena para Raycast, isso provavelmente vai ter de ser alterado.
-	private void RefreshInteractiveItens(){
-		tools = GetComponentsInChildren<ButtonObject> ();
-		
-		foreach(ButtonObject t in tools){
-			t.GetComponent<Transform>().parent.GetComponent<Canvas>().worldCamera = currentState.camera;
-		}
-		
-	}
-
+	
+	protected override void UpdateState (){}
+	
 	void Update(){
 
-		if(gameController.alertDialog.IsShowing() || !canClickTools){
-			DeactivateInteractObjects();
-		}
-		else{
-			ActiveInteractObjects();
+		base.Update();
+		
+		if(!canRun)
+			return;
+		
+		//Pressing Esc will exit the state
+		if(Input.GetKeyDown(KeyCode.Escape)){
+			if(cannotEndState)
+				gameController.sendAlert("Nao e possivel sair com reagente na mao\nColoque de volta no seu pote");
+			else{
+				GetComponentInParent<WorkBench>().OnStopRun();
 			
-		}
-	}
-
-	// TODO: funcao que estava dentro do script UI_ObjectManager e foi jogada aqui. Poderia usar o script já feito e não fazer redundancia no codigo.
-	// Desactive tah errado >.< refatorar isso se for continuar usando aqui.
-	private void DeactivateInteractObjects(){
-		foreach(ButtonObject t in tools){
-			if(t!=null)
-				t.GetComponent<Transform>().parent.GetComponent<Canvas>().enabled = false;
+				interactBox.GetComponent<BoxCollider>().enabled = true;
+				gameController.ChangeState(0);
+				FadeScript.instance.ShowFade();
+			}
 		}
 	}
 	
-	// TODO: funcao que estava dentro do script UI_ObjectManager e foi jogada aqui. Poderia usar o script já feito e não fazer redundancia no codigo.
-	private void ActiveInteractObjects(){
-		foreach(ButtonObject t in tools){
-			if(t!=null)
-				t.GetComponent<Transform>().parent.GetComponent<Canvas>().enabled = true;
-		}
-	}
-
-	//! Actions for when the State starts.
-	/*! Set the Camera inside the state to be Active, overlaying the Main Camera used at InGameState,
-     * close all dialogs that might be enabled. */
-	public void OnStartRun ()
-	{
-/*		CloseSpatulaDialog(false);
-		CloseOptionDialogReagent();
-		CloseOptionDialogGlass();
-		CloseOptionDialogWater ();
-		CloseOptionDialogPipeta ();
-		CloseOptionDialogGlassTable ();*/
-		canClickTools = true;
-		returnPosition ();
-	}
-
-	//! Actions for when the State ends.
-	/*! Disable the Camera inside the state, deactivate. */
-	public void OnStopRun ()
-	{
-		/*if(selectSpatula || selectPipeta || selectWater){
-			UnselectAll();
-		}
-		amountSelectedSpatula = 0;*/
-		DeactivateInteractObjects ();
-
-		spatula.OnStopRun ();
-		pipette.OnStopRun ();
-		washBottle.OnStopRun ();
-
-		gameObject.GetComponent<StateUIManager> ().CloseAll ();
-
-	}
-
 	public Transform returnPosition(){
 		for (int z=0; z<positionGlass.Length; z++) {
 			if(positionGlass[z].childCount==0)
@@ -180,6 +64,7 @@ public class WorkBench : MonoBehaviour {
 		}
 		return null;
 	}
+
 	//Methods for equipment
 
 	//! Put the Glassware on the equipment.
@@ -196,13 +81,10 @@ public class WorkBench : MonoBehaviour {
 		}
 
 		GameObject tempGlass = lastItemSelected.gameObject;
-		i--;
 		tempGlass.transform.SetParent(positionGlassEquipament,false);
 		tempGlass.transform.localPosition = Vector3.zero;
-		GetComponent<EquipmentControllerBase>().AddObjectInEquipament(tempGlass);
-		tempGlass.GetComponent<Glassware>().SetStateInUse(currentState);
+		equipmentController.AddObjectInEquipament(tempGlass);
 
-		RefreshInteractiveItens ();
 		return true;
 	}
 
@@ -229,7 +111,7 @@ public class WorkBench : MonoBehaviour {
 					tempItem.transform.SetParent (position, false);
 					tempItem.transform.localPosition = Vector3.zero;
 				}
-				//Debug.Log(item.compounds[0].Name);
+				soundBeaker.Play();
 				return true;
 			}
 		}
@@ -243,7 +125,7 @@ public class WorkBench : MonoBehaviour {
 			if(position.childCount == 0){
 				tempItem.transform.SetParent (position, false);
 				tempItem.transform.localPosition = Vector3.zero;
-				GetComponent<EquipmentControllerBase>().RemoveObjectInEquipament(tempItem);
+				equipmentController.RemoveObjectInEquipament(tempItem);
 				return true;
 			}
 		}
@@ -258,6 +140,37 @@ public class WorkBench : MonoBehaviour {
 			return true;
 		}
 		return false;
+	}
+
+	//! Actions for when the State starts.
+	/*! Set the Camera inside the state to be Active, overlaying the Main Camera used at InGameState,
+     * close all dialogs that might be enabled. */
+	public override void OnStartRun ()
+	{
+		cameraState.enabled = true;
+		cameraState.GetComponent<AudioListener> ().enabled = true;
+		cameraState.depth = 2;
+		HudText.SetText("");
+		returnPosition ();
+	}
+	
+	//! Actions for when the State ends.
+	/*! Disable the Camera inside the state, deactivate. */
+	public override void OnStopRun ()
+	{
+		cameraState.depth = -1;
+		cameraState.enabled = false;
+		cameraState.GetComponent<AudioListener> ().enabled = false;
+		
+		spatula.OnStopRun ();
+		pipette.OnStopRun ();
+		washBottle.OnStopRun ();
+		
+		stateUIManager.CloseAll ();
+	}
+
+	public override EquipmentControllerBase GetEquipmentController () {
+		return equipmentController;
 	}
 
 }

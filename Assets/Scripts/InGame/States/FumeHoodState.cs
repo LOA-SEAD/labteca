@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -28,7 +28,7 @@ public  class FumeHoodState : GameStateBase {
 
 		//Pressing Esc will exit the state
 		if(Input.GetKeyDown(KeyCode.Escape)){
-			if(GetComponent<WorkBench>().CannotEndState) {
+			if(GetComponent<WorkBench>().cannotEndState) {
 				//Show message that can't quit.
 			}
 			else {

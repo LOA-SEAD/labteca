@@ -26,8 +26,10 @@ public class StateUIManager : MonoBehaviour {
 
 	public void OpenOptionDialog(ItemToInventory item){
 		if (item is Glassware) {
-			if(gameObject.GetComponentInParent<WorkBench> ().positionGlassEquipament.childCount != 0 &&
-			item.gameObject.Equals(gameObject.GetComponentInParent<WorkBench> ().positionGlassEquipament.GetChild(0).gameObject)){
+			if(gameObject.GetComponentInParent<WorkBench> ().positionGlassEquipament!=null&&
+			   gameObject.GetComponentInParent<WorkBench> ().positionGlassEquipament.childCount != 0 &&
+			   item.gameObject.Equals(gameObject.GetComponentInParent<WorkBench> ().positionGlassEquipament.GetChild(0).gameObject)){
+
 				List<int> ids = new List<int>();
 				ids.Add (0);
 				ids.Add(2);

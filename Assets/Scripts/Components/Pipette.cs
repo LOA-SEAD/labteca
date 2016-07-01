@@ -213,7 +213,7 @@ public class Pipette : MonoBehaviour {
 				CursorManager.SetMouseState (MouseState.ms_filledPipette);//pipetaReagentCursor.CursorEnter ();
 				CursorManager.SetNewCursor (filledPipette_CursorTexture, hotSpot);
 				
-				GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().CannotEndState = true;
+				GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().cannotEndState = true;
 				
 				reagentInPipette = (Compound)(interactingGlassware.compounds[0] as Compound).Clone(volumeHeld);
 				
@@ -225,7 +225,7 @@ public class Pipette : MonoBehaviour {
 				CursorManager.SetMouseState (MouseState.ms_filledPipette);//pipetaReagentCursor.CursorEnter ();
 				CursorManager.SetNewCursor (filledPipette_CursorTexture, hotSpot);
 
-				GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().CannotEndState = true;
+				GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().cannotEndState = true;
 				reagentInPipette = (Compound)CompoundFactory.GetInstance ().GetCompound ((interactingReagent.Name)).Clone (volumeHeld);
 			}
 		} 
@@ -303,6 +303,7 @@ public class Pipette : MonoBehaviour {
 
 			CursorManager.SetMouseState (MouseState.ms_default);
 			CursorManager.SetCursorToDefault ();
+			GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().cannotEndState = false;
 		}
 	
 		u_volumeSelected = 0.0f;
@@ -338,7 +339,7 @@ public class Pipette : MonoBehaviour {
 		if (volumeHeld > 0.0f) {
 			CursorManager.SetMouseState (MouseState.ms_filledPipette);
 			CursorManager.SetNewCursor (filledPipette_CursorTexture, hotSpot);
-			GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().CannotEndState = true;
+			GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().cannotEndState = true;
 		}
 	}
 	public void FillVolumetricPipette(string reagent) { //OK
@@ -363,7 +364,7 @@ public class Pipette : MonoBehaviour {
 
 			CursorManager.SetMouseState (MouseState.ms_default);
 			CursorManager.SetCursorToDefault();
-			GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().CannotEndState = false;
+			GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().cannotEndState = false;
 		}
 	}
 	public void UnfillVolumetricPipette() { //OK
@@ -372,6 +373,6 @@ public class Pipette : MonoBehaviour {
 		
 		CursorManager.SetMouseState (MouseState.ms_default);
 		CursorManager.SetCursorToDefault();
-		GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().CannotEndState = false;
+		GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().cannotEndState = false;
 	}
 }

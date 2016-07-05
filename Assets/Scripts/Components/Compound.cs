@@ -10,6 +10,9 @@ public class Compound : IPhysicochemical {
 
 	//Water mass;
 	protected const float waterMolarMass = 18.015f;
+	//Density of powedered material
+	protected const float powderDensity = 1.0f;
+
 	[SerializeField]
 	private string name;
 	public string Name { get{ return name; } set{ name = value.Clone().ToString(); }}
@@ -32,7 +35,7 @@ public class Compound : IPhysicochemical {
 	private float volume;		//volume instantiated in the world [mL]
 	public float Volume { get { return volume; } set { volume = value; } }
 	private float density;
-	public float Density { get { return density; } set { density = value; } }
+	public float Density { get { return (this.isSolid) ? powderDensity : density; } set { density = value; } }
 	private float solubility;
 	public float Solubility { get { return solubility; } set { solubility = value; } }
 	public Texture2D irSpecter;
@@ -60,6 +63,11 @@ public class Compound : IPhysicochemical {
 	public Texture2D texture;
 	 //TODO: is this needed?
 	*/
+	
+	// Returns the value of density
+	//!To be used by the Reagent class to clone a Compound correctly
+	public float getDensity () { return this.density; }
+
 
 	//! Constructor for generating a Compound that is yet not used in the real World
 	public Compound(string _name,string _formula, bool _isSolid, float _molarMass, float _purity, float _density, float _solubility, Texture2D _irSpecter, Texture2D _uvSpecter,
@@ -141,7 +149,7 @@ public class Compound : IPhysicochemical {
 	}
 	
 	//! Set all the values to the ones of an existing compound
-	public void CopyCompound(Compound baseCompound) {
+	/*public void CopyCompound(Compound baseCompound) {
 
 		System.Reflection.FieldInfo[] fields = baseCompound.GetType().GetFields(); 
 		foreach (System.Reflection.FieldInfo field in fields)
@@ -163,7 +171,7 @@ public class Compound : IPhysicochemical {
 		refratometer = baseCompound.refratometer;
 		flameSpecter = baseCompound.flameSpecter;
 		hplc = baseCompound.hplc;*/
-	}
+	//}
 
 	public virtual object Clone() {
 		return new Compound (this);
@@ -177,14 +185,19 @@ public class Compound : IPhysicochemical {
 
 	//! Dilutes the reagent into water
 	// 	Takes the reagent Water as a parapeter in order to destroy the component afterwards.
-	public void Dilute (Compound water) {
+	public void Dilute (Compound water) {	//TODO: IMPLEMENTAR PH
 		if (!this.IsSolid) {
 			this.Volume = this.Volume + water.Volume;
 			this.RealMass = this.RealMass + water.RealMass;
 			this.Molarity = (this.Molarity *  this.Volume) / (this.Volume + water.Volume);
 			this.Density = this.RealMass / this.Volume;
 		} else {
-			this.Volume = water.Volume; //TODO:CHECK WITH TECA.
+			if(this.CheckPrecipitate(water)) { //Case there is precipitation
+				this.Volume = water.Volume + ((this.molarMass * this.molarMass * this.volume) - ((this.solubility * water.RealMass) / 100) * powderDensity );
+			}
+			else { ///Case there is no precipitation
+				this.Volume = water.Volume;
+			}
 			this.RealMass = this.RealMass + water.RealMass;
 			this.Molarity = (this.Molarity *  this.Volume) / (this.Volume + water.Volume);
 			this.Density = this.RealMass / this.Volume;
@@ -195,6 +208,18 @@ public class Compound : IPhysicochemical {
 		}
 		
 		water = null;
+	}
+
+	//! Checks if there would be precipitate on the compound
+	//  Returns true if precipitation should happen. False otherwise
+	public bool CheckPrecipitate(Compound water) {
+
+		if (this.Solubility < ((this.MolarMass * this.MolarMass * this.Volume) / water.RealMass)) {
+			return true;
+		} else {
+			return false;
+		}
+
 	}
 	/*public void Dilute (float waterVolume) {
 		Debug.Log ("Dilute(float) called");

@@ -38,7 +38,7 @@ public class Reagent : Compound {
 		this.IsSolid = r.IsSolid;
 		this.MolarMass = r.MolarMass;
 		this.Molarity = r.Molarity;
-		this.Density = r.Density;
+		this.Density = r.getDensity();
 		this.Solubility = r.Solubility;
 		irSpecter = r.irSpecter;
 		uvSpecter = r.uvSpecter;

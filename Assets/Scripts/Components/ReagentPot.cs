@@ -33,7 +33,16 @@ public class ReagentPot : ItemToInventory {
 			case MouseState.ms_spatula: 		// Spatula -> Solid Reagent: fill the spatula with the reagent clicked
 				//spatula.OpenInteractionBox(true);
 				//spatula.FillSpatula ((Compound)this.reagent.Clone ());
-				spatula.FillSpatula (reagent.Name);
+				if(reagent.FumeHoodOnly) { //In case it should be use at the Fume Hood
+					if(GameObject.Find("GameController").GetComponent<GameController>().currentStateIndex != 4) { // If it is the FumeHoodState
+						GameObject.Find("GameController").GetComponent<GameController>().sendAlert("Este reagente libera gases prejudiciais.\nDirija-se a capela");
+					}
+					else { //Sub-case: being use at the fume hood.
+						spatula.FillSpatula (reagent.Name);
+					}
+				} else { //Case: doesn't need fume hood
+					spatula.FillSpatula (reagent.Name);
+				}
 				break;
 			case MouseState.ms_filledSpatula: 	// Filled Spatula -> Solid Reagent: put back the content if it is the same reagent
 				if (spatula.reagentInSpatula.Name == this.reagent.Name)
@@ -55,10 +64,22 @@ public class ReagentPot : ItemToInventory {
 				(GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).stateUIManager.OpenOptionDialog(this);
 				break;
 			case MouseState.ms_pipette: 		//Pipette -> Liquid Reagent: fill the pipette with the reagent clicked
-				if(pipette.graduated)
-					pipette.OpenGraduatedFillingBox(this.reagent);
-				else
-					pipette.FillVolumetricPipette(this.reagent.Name);
+				if(reagent.FumeHoodOnly) { //In case it should be use at the Fume Hood
+					if(GameObject.Find("GameController").GetComponent<GameController>().currentStateIndex != 4) { // If it is the FumeHoodState
+						GameObject.Find("GameController").GetComponent<GameController>().sendAlert("Este reagente libera gases prejudiciais.\nDirija-se a capela");
+					}
+					else { //Sub-case: being use at the fume hood.
+						if(pipette.graduated)
+							pipette.OpenGraduatedFillingBox(this.reagent);
+						else
+							pipette.FillVolumetricPipette(this.reagent.Name);
+					}
+				} else { //Case: doesn't need fume hood
+					if(pipette.graduated)
+						pipette.OpenGraduatedFillingBox(this.reagent);
+					else
+						pipette.FillVolumetricPipette(this.reagent.Name);
+				}
 				break;
 			case MouseState.ms_filledPipette: 	// Filled Spatula -> Liquid Reagent: put back the content if it is the same reagent
 				if(pipette.reagentInPipette.Name == this.reagent.Name) {

@@ -66,7 +66,7 @@ public class DeleteComponent : EditorWindow
 			EditorGUILayout.LabelField("Nome: " + reagent.Name);
 			EditorGUILayout.LabelField("Massa Molar : " + reagent.MolarMass.ToString());
 			EditorGUILayout.LabelField("Densidade : " + reagent.Density.ToString());
-			EditorGUILayout.LabelField("Pureza : " + reagent.Purity.ToString());
+			EditorGUILayout.LabelField("Purity : " + reagent.Purity.ToString());
 			EditorGUILayout.LabelField("Polaridade: " + reagent.Polarizability.ToString());
 			EditorGUILayout.LabelField("Condutividade: " + reagent.Conductibility.ToString());
 			EditorGUILayout.LabelField("Solubilidade: " + reagent.Solubility.ToString());

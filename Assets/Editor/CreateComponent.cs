@@ -21,6 +21,8 @@ public class CreateComponent : EditorWindow
 	private Texture2D hplc;
 	private float refratometer;
 
+	private bool fumeHoodOnly;
+
 	private Texture2D texture;
 	private Color color;
 
@@ -102,6 +104,9 @@ public class CreateComponent : EditorWindow
 		EditorGUILayout.Space();
 		EditorGUILayout.Space();
 
+		fumeHoodOnly = GUILayout.Toggle(fumeHoodOnly, "Usado apenas na capela: ");
+		EditorGUILayout.Space();
+
 		texture = EditorGUILayout.ObjectField("Textura:", texture, typeof(Texture2D)) as Texture2D;
 		EditorGUILayout.Space();
 		EditorGUILayout.Space();
@@ -112,7 +117,7 @@ public class CreateComponent : EditorWindow
 
 		if (GUILayout.Button ("SALVAR")) 
 		{
-			ComponentsSaver.SaveReagentFromEditor(name, formula, isSolid, molarMass, purity, density, ph, polarizability, uvSpecter, irSpecter, flameSpecter, conductibility, solubility, turbidity, hplc, refratometer, texture, color);
+			ComponentsSaver.SaveReagentFromEditor(name, formula, isSolid, molarMass, purity, density, ph, polarizability, uvSpecter, irSpecter, flameSpecter, conductibility, solubility, turbidity, hplc, refratometer, fumeHoodOnly, texture, color);
 			this.Close();
 		}
 

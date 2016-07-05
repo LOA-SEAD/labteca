@@ -9,7 +9,7 @@ using System.Collections.Generic;
 public class Compound : IPhysicochemical {
 
 	//Water mass;
-	public const float waterMolarMass = 18.015f;
+	protected const float waterMolarMass = 18.015f;
 	[SerializeField]
 	private string name;
 	public string Name { get{ return name; } set{ name = value.Clone().ToString(); }}
@@ -53,6 +53,9 @@ public class Compound : IPhysicochemical {
 	private float flameSpecter;
 	public float FlameSpecter { get { return flameSpecter; } set { flameSpecter = value; } }
 	public Texture2D hplc;  //High-Performance liquid chromatography
+
+	private bool fumeHoodOnly;
+	public bool FumeHoodOnly { get { return fumeHoodOnly; } set { fumeHoodOnly = value; } }
 	/*
 	public Texture2D texture;
 	 //TODO: is this needed?
@@ -60,7 +63,7 @@ public class Compound : IPhysicochemical {
 
 	//! Constructor for generating a Compound that is yet not used in the real World
 	public Compound(string _name,string _formula, bool _isSolid, float _molarMass, float _purity, float _density, float _solubility, Texture2D _irSpecter, Texture2D _uvSpecter,
-	                float _pH, float _conducdibility, float _turbidity, float _polarizability, float _refratometer, float _flameSpecter, Texture2D _hplc) {
+	                float _pH, float _conducdibility, float _turbidity, float _polarizability, float _refratometer, float _flameSpecter, Texture2D _hplc, bool _fumeHood) {
 
 		Name = _name;
 		Formula = _formula;
@@ -78,7 +81,7 @@ public class Compound : IPhysicochemical {
 		refratometer = _refratometer;
 		flameSpecter = _flameSpecter;
 		hplc = _hplc;
-
+		fumeHoodOnly = _fumeHood;
 		//volume = 1000.0f; //Supposing 1L as starting value to define the other values
 		//realMass = concentration * molarMass + (1 - concentration)*waterMolarMass;
 		molarity = ((purity * density) / molarMass); // number of mols / volume
@@ -110,6 +113,7 @@ public class Compound : IPhysicochemical {
 			this.turbidity = r.turbidity;
 			this.refratometer = r.refratometer;
 		}
+		this.fumeHoodOnly = r.FumeHoodOnly;
 		this.realMass = r.realMass;
 		this.volume = r.volume;
 	}
@@ -133,6 +137,7 @@ public class Compound : IPhysicochemical {
 			this.turbidity = r.turbidity;
 			this.refratometer = r.refratometer;
 		}
+		this.fumeHoodOnly = r.FumeHoodOnly;
 	}
 	
 	//! Set all the values to the ones of an existing compound
@@ -166,26 +171,19 @@ public class Compound : IPhysicochemical {
 	public virtual object Clone(float compoundVolume) {
 		Compound newCompound = new Compound(this);
 		newCompound.volume = compoundVolume;
-		Debug.Log ("Cloning the compound " + newCompound.RealMass);
 		newCompound.realMass = newCompound.Density * newCompound.Volume;
-		Debug.Log ("After resetting " + newCompound.RealMass);
 		return newCompound;
 	}
 
 	//! Dilutes the reagent into water
 	// 	Takes the reagent Water as a parapeter in order to destroy the component afterwards.
 	public void Dilute (Compound water) {
-		Debug.Log ("Dilute(Compound) called");
 		if (!this.IsSolid) {
-			Debug.Log ("Is not solid diluting");
 			this.Volume = this.Volume + water.Volume;
 			this.RealMass = this.RealMass + water.RealMass;
 			this.Molarity = (this.Molarity *  this.Volume) / (this.Volume + water.Volume);
 			this.Density = this.RealMass / this.Volume;
-			Debug.Log ("Water volume = " + water.Volume);
-			Debug.Log ("New volume = " + this.Volume);
 		} else {
-			Debug.Log ("solid diluting");
 			this.Volume = water.Volume; //TODO:CHECK WITH TECA.
 			this.RealMass = this.RealMass + water.RealMass;
 			this.Molarity = (this.Molarity *  this.Volume) / (this.Volume + water.Volume);

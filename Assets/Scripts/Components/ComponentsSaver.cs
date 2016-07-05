@@ -13,7 +13,7 @@ public class ComponentsSaver
 	//! Saves the component information in a Dictionary. 
 	public static void SaveReagentFromEditor(string name,string formula ,bool isSolid, float molarMass, float purity, float density, float pH, float polarizability, 
 	                                         Texture2D uvSpecter, Texture2D irSpecter, float flameSpecter, float conductibility, 
-	                                         float solubility, float turbidity, Texture2D hplc, float refratometer, Texture2D texture, Color color)
+	                                         float solubility, float turbidity, Texture2D hplc, float refratometer, bool fumeHoodOnly, Texture2D texture, Color color)
 	{
 
 		Dictionary<string, Compound> reagents = LoadReagents ();
@@ -30,6 +30,7 @@ public class ComponentsSaver
 		reagent.irSpecter = irSpecter;
 		reagent.Conductibility = conductibility;
 		reagent.Solubility = solubility;
+		reagent.FumeHoodOnly = fumeHoodOnly;
 
 		if(!isSolid) {
 			reagent.PH = pH;
@@ -88,6 +89,7 @@ public class ComponentsSaver
 
 			text.SetFloat("conductibility" + counter.ToString(), reagent.Conductibility);
 			text.SetFloat("solubility" + counter.ToString(), reagent.Solubility);
+			text.SetBool ("fumeHoodOnly" + counter.ToString (), reagent.FumeHoodOnly);
 			/*
 			text.SetFloat("colorR" + counter.ToString(), reagent.color.r);
 			text.SetFloat("colorG" + counter.ToString(), reagent.color.g);
@@ -156,7 +158,7 @@ public class ComponentsSaver
 
 				reagentAcc.Conductibility = textLoad.GetFloat ("conductibility" + i.ToString ());
 				reagentAcc.Solubility = textLoad.GetFloat ("solubility" + i.ToString ());
-			
+				reagentAcc.FumeHoodOnly = textLoad.GetBool("fumeHoodOnly" + i.ToString());
 
 				//reagentAcc.color = new Color (textLoad.GetFloat ("colorR"+ i.ToString ()), textLoad.GetFloat ("colorG"+ i.ToString ()), textLoad.GetFloat ("colorB"+ i.ToString ()), textLoad.GetFloat ("colorA"+ i.ToString ()));
 

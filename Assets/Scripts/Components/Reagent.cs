@@ -50,6 +50,8 @@ public class Reagent : Compound {
 		this.FlameSpecter = r.FlameSpecter;
 		hplc = r.hplc;
 
+		this.FumeHoodOnly = r.FumeHoodOnly;
+
 		this.RealMass = r.RealMass;
 		this.Volume = r.Volume;
 	}

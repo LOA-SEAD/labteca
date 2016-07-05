@@ -352,8 +352,9 @@ public class Pipette : MonoBehaviour {
 
 	public void UnfillVolumetricPipette(Glassware glassware) { //Ok
 		if ((glassware.maxVolume - glassware.currentVolume) < this.maxVolume) { //Case volume on pipette > volume available
+			float previousVolume = glassware.currentVolume;
 			if(glassware.IncomingReagent (reagentInPipette, glassware.maxVolume - glassware.currentVolume)) //If poured, takes out the volume from the pipette
-				volumeHeld -= (glassware.maxVolume - glassware.currentVolume);
+				volumeHeld -= (glassware.maxVolume - previousVolume);
 		} else { //Case volume available in glass > volume on pipette
 			if(glassware.IncomingReagent (reagentInPipette, volumeHeld))
 				volumeHeld = 0.0f;

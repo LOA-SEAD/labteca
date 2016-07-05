@@ -153,8 +153,13 @@ public class Glassware : ItemToInventory
 			filledSpatula.UnfillSpatula(maxVolume - currentVolume, this);
 			break;
 		case MouseState.ms_washBottle: 		// Washe Bottle -> Glassware: pours water into the glassware
-			WashBottle washBottle = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).washBottle;
-			washBottle.ActivateWashBottle(maxVolume - currentVolume, this);
+			if(this.precisionGlass) {
+
+			}
+			else {
+				WashBottle washBottle = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).washBottle;
+				washBottle.ActivateWashBottle(maxVolume - currentVolume, this);
+			}
 			break;
 		case MouseState.ms_glassStick:		// Glass Stick -> Glassware: mix the contents, if there is any.
 			//GlassStick glassStick =  GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().glassStick;

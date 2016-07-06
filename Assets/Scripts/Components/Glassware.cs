@@ -14,6 +14,10 @@ public class Glassware : ItemToInventory
 	public float currentVolume;		//Current volume used
 	public float mass;				//Mass of the glassware itself [g]
 	public float totalMass;
+
+	public Material liquidMaterial;
+	public Material solidMaterial;
+
 	//public float uncalibrateVolume; ?
 	public bool precisionGlass;		//The glassware is a precision one
 	public string gl;
@@ -87,6 +91,21 @@ public class Glassware : ItemToInventory
 	//! Sets a mass to rigidbody
 	void Start () 
 	{
+		
+		Color newColor = new Color(1f,1f,1f,0.35f);
+		
+		MeshRenderer liquidRenderer = liquid.GetComponent<MeshRenderer> ();
+		MeshRenderer solidRenderer = solid.GetComponent<MeshRenderer> ();
+		
+		Material newliquidMaterial = new Material(liquidMaterial.shader);
+		Material newsolidMaterial = new Material(solidMaterial.shader);
+		
+		liquidMaterial.color = newColor;
+		liquidRenderer.material = newliquidMaterial;
+		
+		solidMaterial.color = newColor;
+		solidRenderer.material = newsolidMaterial;
+
 		this.rigidbody.mass = mass;
 		totalMass = mass;
 		onScale = false;

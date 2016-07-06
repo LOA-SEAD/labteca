@@ -230,6 +230,16 @@ public class Glassware : ItemToInventory
 		return actualMass;
 	}
 
+	public float GetPH() {
+	
+		float actualPH = 7.0f;
+
+		return actualPH;
+
+	}
+
+
+
 	public float GetVolume() {
 		float actualVolume = 0.0f;
 		if (compounds [0] != null) {

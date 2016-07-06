@@ -21,7 +21,7 @@ public class PHMeterController : EquipmentControllerBase {
 	public float timeConstant;
 	private float timeElapsed;
 
-	public GameObject activeMass;   
+	public GameObject activeGlassware;   
 	
 	public WorkBench workbench;
 
@@ -82,8 +82,8 @@ public class PHMeterController : EquipmentControllerBase {
 	public Glassware GetGlassInEquipament(){
 		Glassware glassToReturn = null;
 		
-		if(activeMass.GetComponent<Glassware>() != null){
-			glassToReturn = activeMass.GetComponent<Glassware>();
+		if(activeGlassware.GetComponent<Glassware>() != null){
+			glassToReturn = activeGlassware.GetComponent<Glassware>();
 		}
 		return glassToReturn;
 	}
@@ -92,7 +92,7 @@ public class PHMeterController : EquipmentControllerBase {
 
 	public override void AddObjectInEquipament(GameObject objectToAdd){
 
-		activeMass = objectToAdd;
+		activeGlassware = objectToAdd;
 		RefreshEquipament();
 
 	}
@@ -100,7 +100,7 @@ public class PHMeterController : EquipmentControllerBase {
 	//! Remove a GameObject from being measured on Scale.
 	public override void RemoveObjectInEquipament(GameObject objectToRemove){
 
-		activeMass = null;
+		activeGlassware = null;
 		RefreshEquipament();
 		phmeterText.text = PhmeterTextToString (0f);
 
@@ -114,8 +114,10 @@ public class PHMeterController : EquipmentControllerBase {
 
 			float tempMass = 0.00f;
 
-			if (activeMass != null)
-				tempMass += activeMass.GetComponent<Glassware> ().GetMass ();	
+			if (activeGlassware != null)
+				tempMass += activeGlassware.GetComponent<Glassware> ().GetPH ();
+			else
+				phmeterText.text = PhmeterTextToString (0f);
 
 
 			 ph = tempMass - PlayerPrefs.GetFloat ("setupBalance");

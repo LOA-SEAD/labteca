@@ -15,6 +15,8 @@ public class Pipette : MonoBehaviour {
 
 	public UI_Manager uiManager;		// The UI Manager Game Object.
 
+	public ToggleGroup toggle;
+
 	//Interaction boxes to chose between graduated pipettes or volumetric pipettes
 	public GameObject boxToChoosePipette;		//Interaction box to choose the pipette
 
@@ -49,6 +51,7 @@ public class Pipette : MonoBehaviour {
 	//! Use this for initialization
 	void Start () {
 		boxGraduatedFilling.SetActive (false);
+		toggle = boxToChoosePipette.GetComponent<ToggleGroup> ();
 	}
 	
 	//! Update is called once per frame
@@ -111,6 +114,8 @@ public class Pipette : MonoBehaviour {
 
 	//! Close the interaction box
 	public void CloseInteractionBox(){
+		toggle.SetAllTogglesOff ();
+
 		boxToChoosePipette.SetActive (false);
 		boxGraduatedFilling.SetActive(false);
 		boxGraduatedUnfilling.SetActive (false);
@@ -147,8 +152,10 @@ public class Pipette : MonoBehaviour {
 	//! For the button that chooses the volumetric pipette
 	//	The volume is given as a checkbox parameter
 	public void ChoosePipette() {
-		CursorManager.SetMouseState(MouseState.ms_pipette);
-		CursorManager.SetNewCursor(pipette_CursorTexture, hotSpot);
+		if (toggle.AnyTogglesOn ()) {
+			CursorManager.SetMouseState (MouseState.ms_pipette);
+			CursorManager.SetNewCursor (pipette_CursorTexture, hotSpot);
+		}
 
 		CloseInteractionBox ();
 	}

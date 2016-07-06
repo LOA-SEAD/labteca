@@ -15,7 +15,7 @@ public class Spatula : MonoBehaviour {
 
 	//Interaction boxes
 	public UI_Manager uiManager;	/*!< The UI Manager Game Object. */
-	
+	public ToggleGroup toggle;
 
 	//Interaction box
 	public GameObject boxToChooseSpatula;		//Interaction box to choose the spatula
@@ -52,13 +52,13 @@ public class Spatula : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//boxToFillSpatula.SetActive (false);
+		toggle = boxToChooseSpatula.GetComponent<ToggleGroup>();
 		CloseInteractionBox ();
 		interactingGlassware = null;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
 	}
 
 	//! Holds the events for when the interactive spatula on the Workbench is clicked
@@ -105,6 +105,8 @@ public class Spatula : MonoBehaviour {
 		reagentInSpatula = null;
 		interactingGlassware = null;
 
+
+
 		CursorManager.SetMouseState(MouseState.ms_default);
 		CursorManager.SetCursorToDefault();
 	}
@@ -119,6 +121,7 @@ public class Spatula : MonoBehaviour {
 
 	//! Close the interaction box
 	public void CloseInteractionBox(){
+		toggle.SetAllTogglesOff ();
 		boxToChooseSpatula.SetActive (false);
 		boxToFillSpatula.SetActive(false);
 		boxToUnfillSpatula.SetActive (false);
@@ -166,8 +169,10 @@ public class Spatula : MonoBehaviour {
 
 	//! Consolidate the choice of spatula state, after choosing the capacity
 	public void ChooseSpatula() {
-		CursorManager.SetMouseState(MouseState.ms_spatula);
-		CursorManager.SetNewCursor(spatula_CursorTexture, hotSpot);
+		if(toggle.AnyTogglesOn()){
+			CursorManager.SetMouseState(MouseState.ms_spatula);
+			CursorManager.SetNewCursor(spatula_CursorTexture, hotSpot);
+		}
 
 		CloseInteractionBox ();
 	}

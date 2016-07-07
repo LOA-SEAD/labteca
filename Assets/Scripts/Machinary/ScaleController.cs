@@ -97,6 +97,7 @@ public class ScaleController : EquipmentControllerBase
 
     //! Update Real Mass to the mass of all GameObjects on ActiveMass.
 	private void RefreshEquipament(){
+
 		if (workbench.IsRunning ()) {
 			float tempMass = 0.00f;
 

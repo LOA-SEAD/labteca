@@ -258,6 +258,24 @@ public class Glassware : ItemToInventory
 	}
 
 
+	public float GetConductivity() {
+	
+		float actualConductivity = 0.5f;
+
+		return actualConductivity;
+
+	}
+
+	public float GetPolarity() {
+	
+		float actualPolarity = 1.0f;
+
+		return actualPolarity;
+
+	}
+
+
+
 
 	public float GetVolume() {
 		float actualVolume = 0.0f;

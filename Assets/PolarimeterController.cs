@@ -4,14 +4,14 @@ using System.Collections.Generic;
 
 using System;
 
-public class ConductivimeterController : EquipmentControllerBase {
+public class PolarimeterController : EquipmentControllerBase {
 
-	
-	public float conductivimeter;
+
+	public float polarity;
 	
 	bool changed;
 	
-	public TextMesh conductivimeterText;
+	public TextMesh polarimeterText;
 	
 	public float timeConstant;
 	private float timeElapsed;
@@ -25,10 +25,9 @@ public class ConductivimeterController : EquipmentControllerBase {
 	{
 		// PlayerPrefs.SetFloat ("setupBalance", 0);
 	}
-	
 	void Start () 
 	{
-		conductivimeter = 0;
+		polarity = 0;
 		timeElapsed = 0;
 	}
 	
@@ -38,18 +37,18 @@ public class ConductivimeterController : EquipmentControllerBase {
 		RefreshEquipament ();
 		
 		if (changed) {
-			conductivimeterText.text = conductivimeterTextToString(UnityEngine.Random.Range(-1f,1f) + conductivimeter);
+			polarimeterText.text = PolarimeterTextoToString(UnityEngine.Random.Range(-1f,1f) + polarity);
 			timeElapsed += Time.fixedDeltaTime;
 			if(timeConstant<timeElapsed){
 				timeElapsed = 0;
 				changed = false;
-				conductivimeterText.text = conductivimeterTextToString(conductivimeter);
+				polarimeterText.text = PolarimeterTextoToString(polarity);
 			}
 		} 
 		
 	}
 	
-	private string conductivimeterTextToString(float value){
+	private string PolarimeterTextoToString(float value){
 		string txt;
 		txt = String.Format("{0:F2}", value);
 		
@@ -65,14 +64,14 @@ public class ConductivimeterController : EquipmentControllerBase {
 	
 	//! Set PlayerPrefs "setupBalance" to zero.
 	
-	public void Resetconductivimeter()
+	public void ResetPolarimeter()
 	{
 		PlayerPrefs.SetFloat ("setupBalance", 0);
 		RefreshEquipament ();
 		
 	}
 	
-	//! Get Glassware that is on conductivimeter.
+	//! Get Glassware that is on polaritymeter.
 	
 	public Glassware GetGlassInEquipament(){
 		Glassware glassToReturn = null;
@@ -97,7 +96,7 @@ public class ConductivimeterController : EquipmentControllerBase {
 		
 		activeGlassware = null;
 		RefreshEquipament();
-		conductivimeterText.text = conductivimeterTextToString (0f);
+		polarimeterText.text = PolarimeterTextoToString (0f);
 		
 	}
 	
@@ -110,14 +109,14 @@ public class ConductivimeterController : EquipmentControllerBase {
 			float tempMass = 0.00f;
 			
 			if (activeGlassware != null)
-				tempMass += activeGlassware.GetComponent<Glassware> ().GetConductivity ();
+				tempMass += activeGlassware.GetComponent<Glassware> ().GetPolarity ();
 			else
-				conductivimeterText.text = conductivimeterTextToString (0f);
+				polarimeterText.text = PolarimeterTextoToString (0f);
 			
 			
-			conductivimeter = tempMass - PlayerPrefs.GetFloat ("setupBalance");
+			polarity = tempMass - PlayerPrefs.GetFloat ("setupBalance");
 			
-			if(conductivimeter!=0){
+			if(polarity!=0){
 				changed = true;
 			}
 		}

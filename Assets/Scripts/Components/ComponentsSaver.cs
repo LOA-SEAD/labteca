@@ -189,4 +189,187 @@ public class ComponentsSaver
 		}
 		return reagents;
 	}
+	
+	/* -------------PRODUCT------------- */
+	
+	//! Saves the Product information in a Dictionary. 
+	public static void SaveProductFromEditor(string name,string formula ,bool isSolid, float molarMass, float purity, float density, float pH, float polarizability, 
+	                                         Texture2D uvSpecter, Texture2D irSpecter, float flameSpecter, float conductibility, 
+	                                         float solubility, float turbidity, Texture2D hplc, float refratometer, bool fumeHoodOnly, Texture2D texture, Color color)
+	{
+		
+		Dictionary<string, Compound> products = LoadProducts ();
+		
+		
+		Compound product = new Compound();
+		product.IsSolid = isSolid ;
+		product.Name = name;
+		product.Formula = formula;
+		product.MolarMass = molarMass;
+		product.Purity = purity;
+		product.Density = density;
+		product.Polarizability  = polarizability;
+		product.irSpecter = irSpecter;
+		product.Conductibility = conductibility;
+		product.Solubility = solubility;
+		product.FumeHoodOnly = fumeHoodOnly;
+		
+		if(!isSolid) {
+			product.PH = pH;
+			product.uvSpecter = uvSpecter;
+			product.FlameSpecter = flameSpecter;
+			product.Turbidity = turbidity;
+			product.hplc = hplc;
+			product.Refratometer = refratometer;
+		}
+		
+		if (!products.ContainsKey(product.Name)) 
+		{
+			products.Add(product.Name, product);
+			SaveProducts(products);
+			Debug.Log ("Produto Salvo Com Sucesso!");
+		} 
+		else 
+		{
+			product.Name += "(2)";
+			products.Add(product.Name, product);
+			SaveProducts(products);
+			Debug.Log ("Produto Salvo Com Sucesso!");
+			
+		}
+	}
+
+	//! Saves the new product in a file 
+	public static void SaveProducts(Dictionary<string, Compound> products)
+	{
+		TextEdit text = new TextEdit("Assets/Resources/products.txt");
+		
+		text.ClearFile ();
+		
+		text.SetInt ("numberOfProducts", products.Count);
+		
+		int counter = 0;
+		foreach (Compound product in products.Values)
+		{
+			text.SetString("name" + counter.ToString(), product.Name);
+			text.SetString("formula" + counter.ToString(), product.Formula);
+			text.SetBool("isSolid" + counter.ToString(), product.IsSolid);
+			text.SetFloat("molarMass" + counter.ToString(), product.MolarMass);
+			text.SetFloat ("purity" + counter.ToString(), product.Purity);
+			text.SetFloat("density" + counter.ToString(), product.Density);
+			text.SetFloat("polarizability" + counter.ToString(), product.Polarizability);
+			
+			
+			if(product.irSpecter != null)
+			{
+				text.SetString("irSpecter" + counter.ToString(), product.irSpecter.name);
+			}
+			else
+			{
+				text.SetString("irSpecter" + counter.ToString(), "");
+			}
+			
+			text.SetFloat("conductibility" + counter.ToString(), product.Conductibility);
+			text.SetFloat("solubility" + counter.ToString(), product.Solubility);
+			text.SetBool ("fumeHoodOnly" + counter.ToString (), product.FumeHoodOnly);
+			/*
+			text.SetFloat("colorR" + counter.ToString(), product.color.r);
+			text.SetFloat("colorG" + counter.ToString(), product.color.g);
+			text.SetFloat("colorB" + counter.ToString(), product.color.b);
+			text.SetFloat("colorA" + counter.ToString(), product.color.a);
+			*/
+			//!This saves only what is related to liquids
+			if (!product.IsSolid) {  
+				text.SetFloat("pH" + counter.ToString(), product.PH);
+				text.SetFloat("turbidity" + counter.ToString(), product.Turbidity);
+				text.SetFloat("refratometer" + counter.ToString(), product.Refratometer);
+				text.SetFloat("flameSpecter" + counter.ToString(), product.FlameSpecter);
+				
+				if(product.uvSpecter != null) {
+					text.SetString("uvSpecter" + counter.ToString(), product.uvSpecter.name);
+				} else {
+					text.SetString("uvSpecter" + counter.ToString(), "");
+				}
+				if(product.hplc != null) {
+					text.SetString("hplc" + counter.ToString(), product.hplc.name);
+				} else {
+					text.SetString("hplc" + counter.ToString(), "");
+				}
+			}
+			
+			counter++;
+		}
+	}
+	
+	//! Reads/Loads the dictionary from file.
+	public static Dictionary<string, Compound> LoadProducts()
+	{
+		TextAsset loadText = Resources.Load("products") as TextAsset;
+		
+		TextEdit textLoad = new TextEdit(loadText);
+		
+		//Debug.Log (loadText);
+		
+		int numberOfProducts = textLoad.GetInt ("numberOfProducts");
+		
+		Dictionary<string, Compound> products = new Dictionary<string, Compound>();
+		
+		if (numberOfProducts > 0) 
+		{
+			for (int i = 0; i < numberOfProducts; i++) 
+			{
+				
+				Compound productAcc = new Compound();
+				
+				productAcc.Name = textLoad.GetString ("name" + i.ToString ());
+				productAcc.Formula = textLoad.GetString ("formula" + i.ToString ());
+				productAcc.IsSolid = textLoad.GetBool("isSolid" + i.ToString());
+				productAcc.MolarMass = textLoad.GetFloat ("molarMass" + i.ToString ());
+				productAcc.Purity = textLoad.GetFloat ("purity" + i.ToString ());
+				productAcc.Density = textLoad.GetFloat ("density" + i.ToString ());
+				productAcc.Polarizability = textLoad.GetFloat ("polarizability" + i.ToString ());
+				
+				if (!string.IsNullOrEmpty (textLoad.GetString ("irSpecter" + i.ToString ()))) 
+				{
+					productAcc.irSpecter = Resources.Load<Texture2D> ("specter/" + textLoad.GetString ("irSpecter" + i.ToString ()));
+				} 
+				else 
+				{
+					productAcc.irSpecter = null;
+				}
+				
+				productAcc.Conductibility = textLoad.GetFloat ("conductibility" + i.ToString ());
+				productAcc.Solubility = textLoad.GetFloat ("solubility" + i.ToString ());
+				productAcc.FumeHoodOnly = textLoad.GetBool("fumeHoodOnly" + i.ToString());
+				
+				//productAcc.color = new Color (textLoad.GetFloat ("colorR"+ i.ToString ()), textLoad.GetFloat ("colorG"+ i.ToString ()), textLoad.GetFloat ("colorB"+ i.ToString ()), textLoad.GetFloat ("colorA"+ i.ToString ()));
+				
+				//!Gets the liquid-related variables
+				if(!textLoad.GetBool("isSolid" + i.ToString())) {
+					
+					productAcc.PH = textLoad.GetFloat ("ph" + i.ToString ());
+					productAcc.Turbidity = textLoad.GetFloat ("turbidity" + i.ToString ());
+					productAcc.Refratometer = textLoad.GetFloat ("refratometer" + i.ToString ());
+					productAcc.FlameSpecter = textLoad.GetFloat ("flameSpecter" + i.ToString ());
+					if (!string.IsNullOrEmpty (textLoad.GetString ("uvSpecter" + i.ToString ()))) {
+						productAcc.uvSpecter = Resources.Load<Texture2D> ("specter/" + textLoad.GetString ("uvSpecter" + i.ToString ()));
+					} else {
+						productAcc.uvSpecter = null;
+					}
+					
+					if (!string.IsNullOrEmpty (textLoad.GetString ("hplc" + i.ToString ()))) {
+						productAcc.hplc = Resources.Load<Texture2D> ("specter/" + textLoad.GetString ("hplc" + i.ToString ()));
+					} else {
+						productAcc.hplc = null;
+					}
+				}
+				
+				productAcc.Molarity = ((productAcc.Purity * productAcc.Density) / productAcc.MolarMass); // number of mols / volume
+				Debug.Log (productAcc.Formula + ".Molarity = " + productAcc.Molarity);
+				products.Add(productAcc.Name, productAcc);
+			}
+		}
+		return products;
+	}
+
 }

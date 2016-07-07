@@ -1,0 +1,12 @@
+numberOfProducts=1
+name0=Cloreto de Sodio
+formula0=NaCl
+isSolid0=True
+molarMass0=58.5
+purity0=1
+density0=1
+polarizability0=0
+irSpecter0=
+conductibility0=274.6
+solubility0=1
+fumeHoodOnly0=False

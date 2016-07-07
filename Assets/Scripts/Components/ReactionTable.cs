@@ -33,7 +33,7 @@ public class ReactionTable {
 	public string getCompoundName (Reagent r1, Reagent r2) {
 
 
-		return table [pos [r1.Name]] [pos [r2.Name]];
+		return table [pos [r1.Formula]] [pos [r2.Formula]];
 	}
 
 	//Use the component saver for the time being?

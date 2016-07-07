@@ -161,12 +161,20 @@ public class WorkBench : GameStateBase{
 		cameraState.depth = -1;
 		cameraState.enabled = false;
 		cameraState.GetComponent<AudioListener> ().enabled = false;
+
+
+		if (spatula != null) 
+			spatula.OnStopRun ();
+
+		if (pipette != null)
+			pipette.OnStopRun ();
+
+		if (washBottle != null)
+			washBottle.OnStopRun ();
 		
-		spatula.OnStopRun ();
-		pipette.OnStopRun ();
-		washBottle.OnStopRun ();
+			stateUIManager.CloseAll ();
+
 		
-		stateUIManager.CloseAll ();
 	}
 
 	public override EquipmentControllerBase GetEquipmentController () {

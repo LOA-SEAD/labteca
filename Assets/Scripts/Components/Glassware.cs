@@ -28,6 +28,7 @@ public class Glassware : ItemToInventory
 
 	//Mesh of liquids and solids
 	public GameObject liquid;
+	public GameObject originalLiquid;
 	public GameObject solid;
 	private bool hasLiquid;
 	private bool hasSolid;
@@ -82,13 +83,17 @@ public class Glassware : ItemToInventory
 		
 		Material newliquidMaterial = new Material(liquidRenderer.material);
 		Material newsolidMaterial = new Material(solidRenderer.material);
-		
 
 		liquidRenderer.material = newliquidMaterial;
 		liquidRenderer.material.SetColor ("_Color", new Color32(0,255,255,130)); 
-
 		solidRenderer.material = newsolidMaterial;
-		solidRenderer.material.SetColor ("_Color", Color.red); 
+		solidRenderer.material.SetColor ("_Color", Color.red);
+
+		originalLiquid = Instantiate (liquid) as GameObject;
+		originalLiquid.transform.SetParent (transform, false);
+		originalLiquid.transform.position = liquid.transform.position;
+		originalLiquid.transform.rotation = liquid.transform.rotation;
+		originalLiquid.SetActive (false);
 
 		this.rigidbody.mass = mass;
 		totalMass = mass;
@@ -173,6 +178,40 @@ public class Glassware : ItemToInventory
 		}
 	}
 
+	public void RefreshLiquid(){
+		bool active = liquid.activeSelf;
+		Destroy (liquid);
+		liquid = Instantiate (originalLiquid) as GameObject;
+		liquid.transform.SetParent (transform, false);
+		liquid.transform.position = originalLiquid.transform.position;
+		liquid.transform.rotation = originalLiquid.transform.rotation;
+		liquid.SetActive (active);
+
+		float prop = (originalLiquid.GetComponent<MeshRenderer> ().bounds.max.y
+		            - originalLiquid.GetComponent<MeshRenderer> ().bounds.min.y)
+					* (currentVolume / maxVolume);
+
+		Debug.Log ((float)currentVolume / maxVolume);
+
+		GameObject[] aux = BLINDED_AM_ME.MeshCut.Cut (liquid.gameObject, transform.position + new Vector3(0,prop,0), new Vector3 (0, 1, 0), liquid.GetComponent<MeshRenderer> ().material);
+		Destroy (aux [1]);
+		aux [0].name = "liquid";
+		liquid = aux [0];
+	}
+
+	public void RefreshSolid(){
+		if((compounds [0] as Compound)!=null&&(compounds [0] as Compound).IsSolid)
+			solid.transform.localScale = new Vector3 ((compounds [0] as Compound).Volume*0.7f / maxVolume, 
+			                                          (compounds [0] as Compound).Volume*0.7f / maxVolume, 
+			                                          (compounds [0] as Compound).Volume*0.7f / maxVolume);
+
+		if((compounds [1] as Compound)!=null&&(compounds [1] as Compound).IsSolid)
+			solid.transform.localScale = new Vector3 ((compounds [1] as Compound).Volume*0.7f / maxVolume, 
+			                                          (compounds [1] as Compound).Volume*0.7f / maxVolume, 
+			                                          (compounds [1] as Compound).Volume*0.7f / maxVolume);
+	}
+
+
 	//! Refreshes the contents
 	/*! The method set the correct values and visual states for the glassware */
 	public void RefreshContents() {
@@ -186,7 +225,7 @@ public class Glassware : ItemToInventory
 					if(!(re as Compound).Formula.Contains("H2O"))
 						thisColor = (re as Compound).compoundColor;
 					else
-						thisColor = new Color32(0,255,255,70);
+						thisColor = new Color32(255,255,255,40);
 
 					if ((re as IPhysicochemical).IsSolid){
 						hasSolid = true;
@@ -201,7 +240,7 @@ public class Glassware : ItemToInventory
 
 		if (hasLiquid) {
 			liquid.SetActive (true);
-			liquid.GetComponent<MeshRenderer>().material.SetColor("_Color",liquidColor);
+			originalLiquid.GetComponent<MeshRenderer>().material.SetColor("_Color",liquidColor);
 		} else {
 			liquid.SetActive (false);
 		}
@@ -216,6 +255,9 @@ public class Glassware : ItemToInventory
 	
 		currentVolume = this.GetVolume ();
 		totalMass = this.GetMass ();
+
+		RefreshSolid ();
+		RefreshLiquid ();
 	}
 
 	//! Return the real mass of the glassware

@@ -35,7 +35,7 @@ public class ReactionTable {
 		
 	// Singleton
 	private static ReactionTable instance;		
-	public static ReactionTable getInstance () {
+	public static ReactionTable GetInstance () {
 		if (instance == null) {
 			instance = new ReactionTable ();
 		}
@@ -62,7 +62,7 @@ public class ReactionTable {
 	public ReactionClass GetReaction (Reagent r1, Reagent r2) {
 		string reactionName = "";
 		if (table.TryGetValue(r1.Formula, r2.Formula, reactionName)) {
-			return reactions[reactionName];	
+			return reactions[reactionName].Clone();	
 		}
 		else {
 			return null;

@@ -22,7 +22,7 @@ public class Compound : IPhysicochemical {
 	private bool isSolid;
 	public bool IsSolid { get { return isSolid; } set { isSolid = value; } }
 	[SerializeField]
-	private float molarMass;
+	private float molarMass; // [g/mL]
 	public float MolarMass { get { return molarMass; } set { molarMass = value; } }
 	private float molarity; //The compound's concentration. [mol/L]
 	public float Molarity { get { return molarity; } set { molarity = value; RefreshColor ();} }
@@ -195,7 +195,7 @@ public class Compound : IPhysicochemical {
 		} else {
 			Debug.Log(this.volume);
 			if(this.CheckPrecipitate(water)) { //Case there is precipitation
-				this.Volume = water.Volume + (( this.molarMass * this.volume) - ((this.solubility * water.RealMass) / 100) * powderDensity );
+				this.Volume = water.Volume + (( this.molarMass * (this.volume / 1000)) - ((this.solubility * water.RealMass) / 100) * powderDensity );
 			}
 			else { ///Case there is no precipitation
 				this.Volume = water.Volume;
@@ -214,6 +214,31 @@ public class Compound : IPhysicochemical {
 		water = null;
 		RefreshColor ();
 	}
+	public void Dilute (float waterVolume) {	//TODO: IMPLEMENTAR PH
+		if (!this.IsSolid) {
+			this.Volume = this.Volume + waterVolume;
+			this.RealMass = this.RealMass + waterVolume*waterMolarMass;
+			this.Molarity = (this.Molarity *  this.Volume) / (this.Volume + waterVolume);
+			this.Density = this.RealMass / this.Volume;
+		} else {
+			Debug.Log(this.volume);
+			if(this.CheckPrecipitate(waterVolume)) { //Case there is precipitation
+				this.Volume = waterVolume + (( this.molarMass * (this.volume / 1000)) - ((this.solubility * waterVolume * waterMolarMass) / 100) * powderDensity );
+			}
+			else { ///Case there is no precipitation
+				this.Volume = waterVolume;
+			}
+
+			this.RealMass = this.RealMass + waterVolume * waterMolarMass;
+			this.Molarity = (this.Molarity *  this.Volume) / (this.Volume + waterVolume);
+			this.Density = this.RealMass / this.Volume;
+			/*
+			 * Check if there will be any precipitate
+			 */
+			this.IsSolid = false;
+		}
+		RefreshColor ();
+	}
 
 	//! Checks if there would be precipitate on the compound
 	//  Returns true if precipitation should happen. False otherwise
@@ -225,6 +250,15 @@ public class Compound : IPhysicochemical {
 			return false;
 		}
 
+	}
+	public bool CheckPrecipitate(float water) {
+		
+		if (this.Solubility < ((this.MolarMass * this.MolarMass * this.Volume) / water * waterMolarMass)) {
+			return true;
+		} else {
+			return false;
+		}
+		
 	}
 
 	public void RefreshColor(){

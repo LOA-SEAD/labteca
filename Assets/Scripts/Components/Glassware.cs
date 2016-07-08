@@ -30,8 +30,8 @@ public class Glassware : ItemToInventory
 	public GameObject liquid;
 	public GameObject originalLiquid;
 	public GameObject solid;
-	private bool hasLiquid;
-	private bool hasSolid;
+	public bool hasLiquid;
+	public bool hasSolid;
 
 	public GameStateBase stateInUse;
 
@@ -191,8 +191,6 @@ public class Glassware : ItemToInventory
 		            - originalLiquid.GetComponent<MeshRenderer> ().bounds.min.y)
 					* (currentVolume / maxVolume);
 
-		Debug.Log ((float)currentVolume / maxVolume);
-
 		GameObject[] aux = BLINDED_AM_ME.MeshCut.Cut (liquid.gameObject, transform.position + new Vector3(0,prop,0), new Vector3 (0, 1, 0), liquid.GetComponent<MeshRenderer> ().material);
 		Destroy (aux [1]);
 		aux [0].name = "liquid";
@@ -350,7 +348,6 @@ public class Glassware : ItemToInventory
 	//! 
 	public bool IncomingReagent(Compound incomingCompound, float volumeFromTool) {
 		Debug.Log (incomingCompound.Formula + " incoming!");
-		Debug.Log (incomingCompound.Molarity);
 		if (compounds [0] != null) { //Case not empty
 			if (compounds [0] is Mixture) { // Case: there's Mixture
 				if (incomingCompound.Formula == "H2O") {

@@ -32,6 +32,7 @@ public class InventoryManager : MonoBehaviour {
 	public List<Sprite> backgroundButtons;
 	public List<Sprite> backgroundAction;
 	public List<Sprite> icons;
+	public List<Sprite> productsIcons;
 	private Sprite selectedIcon;
 
 	public Image inventoryImage,tabImage,scrollbar;
@@ -70,8 +71,6 @@ public class InventoryManager : MonoBehaviour {
 	}
 
 	public GameObject addItem(ref ItemInventoryBase item){
-		Debug.Log(GenerateIndex (ref item));
-
 		if (item.getItemType () == itemType[0]||item.getItemType () == itemType[1]) {
 			GameObject aux = instantiateObject (item);
 
@@ -189,6 +188,15 @@ public class InventoryManager : MonoBehaviour {
 			txt.text = "";
 			string gl = GameObject.Find(item.index).GetComponent<Glassware>().gl;
 			if(gl.Contains("Balão Vol.")){
+				if(GameObject.Find(item.index).GetComponent<Glassware>().hasSolid){
+					item.solid.sprite = productsIcons[0];
+					item.solid.enabled = true;
+				}
+				if(GameObject.Find(item.index).GetComponent<Glassware>().hasLiquid){
+					item.liquid.sprite = productsIcons[1];
+					item.liquid.enabled = true;
+				}
+
 				if(gl.Contains("25")){
 					icon.sprite = icons[2];
 					break;
@@ -203,10 +211,26 @@ public class InventoryManager : MonoBehaviour {
 				}
 			}
 			if(gl.Contains("Bequer")){
+				if(GameObject.Find(item.index).GetComponent<Glassware>().hasSolid){
+					item.solid.sprite = productsIcons[2];
+					item.solid.enabled = true;
+				}
+				if(GameObject.Find(item.index).GetComponent<Glassware>().hasLiquid){
+					item.liquid.sprite = productsIcons[3];
+					item.liquid.enabled = true;
+				}
 				icon.sprite = icons[5];
 				break;
 			}
 			if(gl.Contains("Erlenmeyer")){
+				if(GameObject.Find(item.index).GetComponent<Glassware>().hasSolid){
+					item.solid.sprite = productsIcons[4];
+					item.solid.enabled = true;
+				}
+				if(GameObject.Find(item.index).GetComponent<Glassware>().hasLiquid){
+					item.liquid.sprite = productsIcons[5];
+					item.liquid.enabled = true;
+				}
 				if(gl.Contains("25")){
 					icon.sprite = icons[6];
 					break;
@@ -368,7 +392,6 @@ public class InventoryManager : MonoBehaviour {
 
 	public void removeItem(GameObject item){
 		string index = item.GetComponent<ItemInventoryBase> ().index;
-		Debug.Log (index);
 		ObjectList.Remove (item);
 
 		int n = 0;

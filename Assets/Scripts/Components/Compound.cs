@@ -193,12 +193,15 @@ public class Compound : IPhysicochemical {
 			this.Molarity = (this.Molarity *  this.Volume) / (this.Volume + water.Volume);
 			this.Density = this.RealMass / this.Volume;
 		} else {
+			Debug.Log(this.volume);
 			if(this.CheckPrecipitate(water)) { //Case there is precipitation
-				this.Volume = water.Volume + ((this.molarMass * this.molarMass * this.volume) - ((this.solubility * water.RealMass) / 100) * powderDensity );
+				this.Volume = water.Volume + (( this.molarMass * this.volume) - ((this.solubility * water.RealMass) / 100) * powderDensity );
 			}
 			else { ///Case there is no precipitation
 				this.Volume = water.Volume;
 			}
+
+			Debug.Log(water.realMass);
 			this.RealMass = this.RealMass + water.RealMass;
 			this.Molarity = (this.Molarity *  this.Volume) / (this.Volume + water.Volume);
 			this.Density = this.RealMass / this.Volume;

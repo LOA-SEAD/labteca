@@ -55,7 +55,6 @@ public class ReagentUiItemBehaviour : MonoBehaviour {
 		//inventoryManager.AddItemToInventory (GameObject.Find ("GetReagents").GetComponent<GetReagentState>().ReagentInstantiation(nameReagent.text));
 		Compound reagent;
 		reagent = CompoundFactory.GetInstance ().GetCompound (nameReagent.text);
-		Debug.Log (reagent.Name);
 		inventoryManager.AddReagentToInventory (prefabReagentPot,reagent);
 	}
 

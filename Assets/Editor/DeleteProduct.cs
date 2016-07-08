@@ -105,7 +105,7 @@ public class DeleteProduct : EditorWindow
 				EditorGUILayout.LabelField("Textura: ");
 			}*/
 			
-			EditorGUILayout.ColorField("Cor: ", product.color);
+			EditorGUILayout.ColorField("Cor: ", product.compoundColor);
 			
 			if(!deleteSelected)
 			{

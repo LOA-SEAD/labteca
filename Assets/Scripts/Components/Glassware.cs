@@ -15,9 +15,6 @@ public class Glassware : ItemToInventory
 	public float mass;				//Mass of the glassware itself [g]
 	public float totalMass;
 
-	public Material liquidMaterial;
-	public Material solidMaterial;
-
 	//public float uncalibrateVolume; ?
 	public bool precisionGlass;		//The glassware is a precision one
 	public string gl;
@@ -46,18 +43,7 @@ public class Glassware : ItemToInventory
 	private bool onScale;	//The glassware is currently on a scale
 
 
-	public bool hasReagents(){
-		/*if(compounds [0] != null)
-			if(compounds [0] is Mixture)
-				Debug.Log ((compounds [0] as Mixture).Name);
-			if(compounds [0] is Compound)
-			Debug.Log ((compounds [0] as Compound));
-		if(compounds [1] != null)
-			if(compounds [1] is Mixture)
-				Debug.Log ((compounds [1] as Mixture).Name);
-		if(compounds [1] is Compound)
-			Debug.Log ((compounds [1] as Compound).Name);*/
-		
+	public bool hasReagents(){	
 		if (compounds [0] == null && compounds [1] == null) 
 			return false;
 		return true;
@@ -91,20 +77,18 @@ public class Glassware : ItemToInventory
 	//! Sets a mass to rigidbody
 	void Start () 
 	{
-		
-		Color newColor = new Color(1f,1f,1f,0.35f);
-		
 		MeshRenderer liquidRenderer = liquid.GetComponent<MeshRenderer> ();
 		MeshRenderer solidRenderer = solid.GetComponent<MeshRenderer> ();
 		
-		Material newliquidMaterial = new Material(liquidMaterial.shader);
-		Material newsolidMaterial = new Material(solidMaterial.shader);
+		Material newliquidMaterial = new Material(liquidRenderer.material);
+		Material newsolidMaterial = new Material(solidRenderer.material);
 		
-		liquidMaterial.color = newColor;
+
 		liquidRenderer.material = newliquidMaterial;
-		
-		solidMaterial.color = newColor;
+		liquidRenderer.material.SetColor ("_Color", new Color32(0,255,255,130)); 
+
 		solidRenderer.material = newsolidMaterial;
+		solidRenderer.material.SetColor ("_Color", Color.red); 
 
 		this.rigidbody.mass = mass;
 		totalMass = mass;
@@ -192,29 +176,38 @@ public class Glassware : ItemToInventory
 	//! Refreshes the contents
 	/*! The method set the correct values and visual states for the glassware */
 	public void RefreshContents() {
+		Color32 liquidColor = new Color32(), solidColor = new Color32();
+
 		foreach (object re in compounds) {
 			if (re != null) {
 				if(re is IPhysicochemical) {
-					if ((re as IPhysicochemical).IsSolid)
-						hasSolid = true;
+					Color32 thisColor;
+
+					if(!(re as Compound).Formula.Contains("H2O"))
+						thisColor = (re as Compound).compoundColor;
 					else
+						thisColor = new Color32(0,255,255,70);
+
+					if ((re as IPhysicochemical).IsSolid){
+						hasSolid = true;
+						solidColor = thisColor;
+					}else{
 						hasLiquid = true;
+						liquidColor = thisColor;
+					}
 				}
 			}
 		}
 
 		if (hasLiquid) {
 			liquid.SetActive (true);
-
-			/*
-			 * CODE SETTING THE COLOUR OF THE LIQUID?
-			 */
+			liquid.GetComponent<MeshRenderer>().material.SetColor("_Color",liquidColor);
 		} else {
 			liquid.SetActive (false);
 		}
 		if (hasSolid) {
 			solid.SetActive (true);
-
+			solid.GetComponent<MeshRenderer>().material.SetColor("_Color",solidColor);
 			/*
 			 * CODE SETTING THE COLOUR OF THE SOLID?
 			 */
@@ -235,7 +228,7 @@ public class Glassware : ItemToInventory
 			else {
 				actualMass += (compounds[0] as Compound).RealMass;
 			}
-			Debug.Log ("GetMass of 0 " + (actualMass - this.mass).ToString ());
+			//Debug.Log ("GetMass of 0 " + (actualMass - this.mass).ToString ());
 		}
 		if (compounds [1] != null) {
 			if(compounds[1] is Mixture) {
@@ -315,6 +308,7 @@ public class Glassware : ItemToInventory
 	//! 
 	public bool IncomingReagent(Compound incomingCompound, float volumeFromTool) {
 		Debug.Log (incomingCompound.Formula + " incoming!");
+		Debug.Log (incomingCompound.Molarity);
 		if (compounds [0] != null) { //Case not empty
 			if (compounds [0] is Mixture) { // Case: there's Mixture
 				if (incomingCompound.Formula == "H2O") {

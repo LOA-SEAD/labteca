@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
 
@@ -105,7 +105,7 @@ public class DeleteComponent : EditorWindow
 				EditorGUILayout.LabelField("Textura: ");
 			}*/
 
-			EditorGUILayout.ColorField("Cor: ", reagent.color);
+			EditorGUILayout.ColorField("Cor: ", reagent.compoundColor);
 
 			if(!deleteSelected)
 			{

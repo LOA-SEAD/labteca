@@ -25,7 +25,8 @@ public class Compound : IPhysicochemical {
 	private float molarMass;
 	public float MolarMass { get { return molarMass; } set { molarMass = value; } }
 	private float molarity; //The compound's concentration. [mol/L]
-	public float Molarity { get { return molarity; } set { molarity = value; } }
+	public float Molarity { get { return molarity; } set { molarity = value; RefreshColor ();} }
+	private float originalMolarity;
 	private float purity; //The compound's purity, how it comes from the pot. [0, 1][g/g]
 	public float Purity { get { return purity; } set { purity = value; } }
 	[SerializeField]
@@ -33,14 +34,14 @@ public class Compound : IPhysicochemical {
 	public float RealMass { get { return realMass; } set { realMass = value; } }
 	[SerializeField]
 	private float volume;		//volume instantiated in the world [mL]
-	public float Volume { get { return volume; } set { volume = value; } }
+	public float Volume { get { return volume; } set {volume = value;}}
 	private float density;
 	public float Density { get { return (this.isSolid) ? powderDensity : density; } set { density = value; } }
 	private float solubility;
 	public float Solubility { get { return solubility; } set { solubility = value; } }
 	public Texture2D irSpecter;
 	public Texture2D uvSpecter;
-	public Color color;
+	public Color32 compoundColor;
 
 	//For liquid compounds
 	private float pH;
@@ -59,10 +60,6 @@ public class Compound : IPhysicochemical {
 
 	private bool fumeHoodOnly;
 	public bool FumeHoodOnly { get { return fumeHoodOnly; } set { fumeHoodOnly = value; } }
-	/*
-	public Texture2D texture;
-	 //TODO: is this needed?
-	*/
 	
 	// Returns the value of density
 	//!To be used by the Reagent class to clone a Compound correctly
@@ -93,7 +90,7 @@ public class Compound : IPhysicochemical {
 		//volume = 1000.0f; //Supposing 1L as starting value to define the other values
 		//realMass = concentration * molarMass + (1 - concentration)*waterMolarMass;
 		molarity = ((purity * density) / molarMass); // number of mols / volume
-
+		originalMolarity = molarity;
 
 	}
 
@@ -124,6 +121,8 @@ public class Compound : IPhysicochemical {
 		this.fumeHoodOnly = r.FumeHoodOnly;
 		this.realMass = r.realMass;
 		this.volume = r.volume;
+		this.compoundColor = r.compoundColor;
+		originalMolarity = molarity;
 	}
 
 	//! Set all the values to the ones of an existing compound
@@ -146,6 +145,8 @@ public class Compound : IPhysicochemical {
 			this.refratometer = r.refratometer;
 		}
 		this.fumeHoodOnly = r.FumeHoodOnly;
+		this.compoundColor = r.compoundColor;
+		originalMolarity = molarity;
 	}
 	
 	//! Set all the values to the ones of an existing compound
@@ -208,6 +209,7 @@ public class Compound : IPhysicochemical {
 		}
 		
 		water = null;
+		RefreshColor ();
 	}
 
 	//! Checks if there would be precipitate on the compound
@@ -220,6 +222,16 @@ public class Compound : IPhysicochemical {
 			return false;
 		}
 
+	}
+
+	public void RefreshColor(){
+		if(!this.isSolid){
+			byte alpha = originalMolarity >0 ? (byte)(165 - 115 * (1-this.molarity/this.originalMolarity)):(byte)165;
+			this.compoundColor = new Color32 (this.compoundColor.r,
+		                   	  	             this.compoundColor.g,
+		                     	             this.compoundColor.b,
+			                	             alpha);
+		}
 	}
 	/*public void Dilute (float waterVolume) {
 		Debug.Log ("Dilute(float) called");

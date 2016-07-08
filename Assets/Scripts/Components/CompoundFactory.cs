@@ -28,11 +28,17 @@ public class CompoundFactory {
 	}
 
 	//! Returns a clone of the given compound
-	public Compound GetCompound (string formula) {//TODO: Mudar as chamadas de LoadReagents() para GetCompound()
-		return (Compound)collection [formula].Clone ();			//Em algus casos, talvez seja necessario receber o dicionario completo.
-	}															//Utilizar o LoadReagents() nesses casos? Talvez o seria ideal nao ler do arquivo todas as vezes
+	public Compound GetCompound (string formula) {
+		if (collection.ContainsKey (formula))
+			return (Compound)collection [formula].Clone ();
+		else
+			return null;
+	}														
 
 	public Compound GetProduct (string formula) {
-		return (Compound)products [formula].Clone ();
+		if (products.ContainsKey (formula))
+			return (Compound)products [formula].Clone ();
+		else
+			return null;
 	}
 }

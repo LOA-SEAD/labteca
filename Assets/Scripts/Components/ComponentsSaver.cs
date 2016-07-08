@@ -13,7 +13,7 @@ public class ComponentsSaver
 	//! Saves the component information in a Dictionary. 
 	public static void SaveReagentFromEditor(string name,string formula ,bool isSolid, float molarMass, float purity, float density, float pH, float polarizability, 
 	                                         Texture2D uvSpecter, Texture2D irSpecter, float flameSpecter, float conductibility, 
-	                                         float solubility, float turbidity, Texture2D hplc, float refratometer, bool fumeHoodOnly, Texture2D texture, Color color)
+	                                         float solubility, float turbidity, Texture2D hplc, float refratometer, bool fumeHoodOnly, Texture2D texture, Color32 color)
 	{
 
 		Dictionary<string, Compound> reagents = LoadReagents ();
@@ -31,6 +31,7 @@ public class ComponentsSaver
 		reagent.Conductibility = conductibility;
 		reagent.Solubility = solubility;
 		reagent.FumeHoodOnly = fumeHoodOnly;
+		reagent.compoundColor = color;
 
 		if(!isSolid) {
 			reagent.PH = pH;
@@ -76,7 +77,9 @@ public class ComponentsSaver
 			text.SetFloat ("purity" + counter.ToString(), reagent.Purity);
 			text.SetFloat("density" + counter.ToString(), reagent.Density);
 			text.SetFloat("polarizability" + counter.ToString(), reagent.Polarizability);
-
+			text.SetInt("compoundColorR" + counter.ToString(), reagent.compoundColor.r);
+			text.SetInt("compoundColorG" + counter.ToString(), reagent.compoundColor.g);
+			text.SetInt("compoundColorB" + counter.ToString(), reagent.compoundColor.b);
 
 			if(reagent.irSpecter != null)
 			{
@@ -90,12 +93,6 @@ public class ComponentsSaver
 			text.SetFloat("conductibility" + counter.ToString(), reagent.Conductibility);
 			text.SetFloat("solubility" + counter.ToString(), reagent.Solubility);
 			text.SetBool ("fumeHoodOnly" + counter.ToString (), reagent.FumeHoodOnly);
-			/*
-			text.SetFloat("colorR" + counter.ToString(), reagent.color.r);
-			text.SetFloat("colorG" + counter.ToString(), reagent.color.g);
-			text.SetFloat("colorB" + counter.ToString(), reagent.color.b);
-			text.SetFloat("colorA" + counter.ToString(), reagent.color.a);
-			*/
 			//!This saves only what is related to liquids
 			if (!reagent.IsSolid) {  
 				text.SetFloat("pH" + counter.ToString(), reagent.PH);
@@ -146,6 +143,11 @@ public class ComponentsSaver
 				reagentAcc.Purity = textLoad.GetFloat ("purity" + i.ToString ());
 				reagentAcc.Density = textLoad.GetFloat ("density" + i.ToString ());
 				reagentAcc.Polarizability = textLoad.GetFloat ("polarizability" + i.ToString ());
+				reagentAcc.compoundColor = new Color32((byte)textLoad.GetInt("compoundColorR" + i.ToString ()),
+				                                       (byte)textLoad.GetInt("compoundColorG" + i.ToString ()),
+				                                       (byte)textLoad.GetInt("compoundColorB" + i.ToString ()),
+				                                       (byte)255);
+
 
 				if (!string.IsNullOrEmpty (textLoad.GetString ("irSpecter" + i.ToString ()))) 
 				{
@@ -195,7 +197,7 @@ public class ComponentsSaver
 	//! Saves the Product information in a Dictionary. 
 	public static void SaveProductFromEditor(string name,string formula ,bool isSolid, float molarMass, float purity, float density, float pH, float polarizability, 
 	                                         Texture2D uvSpecter, Texture2D irSpecter, float flameSpecter, float conductibility, 
-	                                         float solubility, float turbidity, Texture2D hplc, float refratometer, bool fumeHoodOnly, Texture2D texture, Color color)
+	                                         float solubility, float turbidity, Texture2D hplc, float refratometer, bool fumeHoodOnly, Texture2D texture, Color32 color)
 	{
 		
 		Dictionary<string, Compound> products = LoadProducts ();
@@ -213,6 +215,7 @@ public class ComponentsSaver
 		product.Conductibility = conductibility;
 		product.Solubility = solubility;
 		product.FumeHoodOnly = fumeHoodOnly;
+		product.compoundColor = color;
 		
 		if(!isSolid) {
 			product.PH = pH;
@@ -258,6 +261,9 @@ public class ComponentsSaver
 			text.SetFloat ("purity" + counter.ToString(), product.Purity);
 			text.SetFloat("density" + counter.ToString(), product.Density);
 			text.SetFloat("polarizability" + counter.ToString(), product.Polarizability);
+			text.SetInt("compoundColorR" + counter.ToString(), product.compoundColor.r);
+			text.SetInt("compoundColorG" + counter.ToString(), product.compoundColor.g);
+			text.SetInt("compoundColorB" + counter.ToString(), product.compoundColor.b);
 			
 			
 			if(product.irSpecter != null)
@@ -342,7 +348,10 @@ public class ComponentsSaver
 				productAcc.Solubility = textLoad.GetFloat ("solubility" + i.ToString ());
 				productAcc.FumeHoodOnly = textLoad.GetBool("fumeHoodOnly" + i.ToString());
 				
-				//productAcc.color = new Color (textLoad.GetFloat ("colorR"+ i.ToString ()), textLoad.GetFloat ("colorG"+ i.ToString ()), textLoad.GetFloat ("colorB"+ i.ToString ()), textLoad.GetFloat ("colorA"+ i.ToString ()));
+				productAcc.compoundColor = new Color32((byte)textLoad.GetInt("compoundColorR" + i.ToString ()),
+				                                       (byte)textLoad.GetInt("compoundColorG" + i.ToString ()),
+				                                       (byte)textLoad.GetInt("compoundColorB" + i.ToString ()),
+				                                       (byte)255);
 				
 				//!Gets the liquid-related variables
 				if(!textLoad.GetBool("isSolid" + i.ToString())) {

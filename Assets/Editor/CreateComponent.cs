@@ -24,7 +24,7 @@ public class CreateComponent : EditorWindow
 	private bool fumeHoodOnly;
 
 	private Texture2D texture;
-	private Color color;
+	private Color32 color;
 
 
 	private Vector2 scrollPosition;
@@ -77,6 +77,9 @@ public class CreateComponent : EditorWindow
 		flameSpecter = EditorGUILayout.FloatField ("Espectro de Chama:", flameSpecter);
 		EditorGUILayout.Space ();
 
+		color = EditorGUILayout.ColorField ("Cor:", color);
+		EditorGUILayout.Space ();
+
 		if (!isSolid) {
 
 			ph = EditorGUILayout.FloatField ("PH:", ph);
@@ -110,9 +113,6 @@ public class CreateComponent : EditorWindow
 		texture = EditorGUILayout.ObjectField("Textura:", texture, typeof(Texture2D)) as Texture2D;
 		EditorGUILayout.Space();
 		EditorGUILayout.Space();
-		EditorGUILayout.Space();
-
-		color = EditorGUILayout.ColorField ("Cor", color);
 		EditorGUILayout.Space();
 
 		if (GUILayout.Button ("SALVAR")) 

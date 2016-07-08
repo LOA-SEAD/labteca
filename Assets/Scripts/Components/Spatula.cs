@@ -273,6 +273,7 @@ public class Spatula : MonoBehaviour {
 		if (volumeAvailable > volumeHeld) {
 			//glassware.InsertSolid (volumeHeld, volumeHeld * reagentInSpatula.Density, reagentInSpatula);
 			glassware.IncomingReagent(reagentInSpatula, volumeHeld);
+			GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().cannotEndState = false;
 
 			CursorManager.SetMouseState (MouseState.ms_default);
 			CursorManager.SetCursorToDefault ();

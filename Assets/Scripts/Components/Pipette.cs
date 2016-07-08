@@ -355,6 +355,9 @@ public class Pipette : MonoBehaviour {
 		reagentInPipette = (Compound)CompoundFactory.GetInstance ().GetCompound ((reagent)).Clone (volumeHeld);
 		CursorManager.SetMouseState (MouseState.ms_filledPipette);
 		CursorManager.SetNewCursor (filledPipette_CursorTexture, hotSpot);
+
+		GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().cannotEndState = true;
+
 	}
 
 	public void UnfillVolumetricPipette(Glassware glassware) { //Ok

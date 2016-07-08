@@ -57,6 +57,11 @@ public class Mixture : IPhysicochemical {
 		this.leftovers = _leftovers;
 	}
 
+	public Mixture(Reagent r1, Reagent r2) {
+		
+	
+	}
+
 	//! Return the value of mass
 	public float GetMass() {
 		float resultingMass = 0.0f;

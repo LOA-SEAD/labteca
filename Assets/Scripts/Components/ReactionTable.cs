@@ -2,11 +2,36 @@
 using System.Collections;
 using System.Collections.Generic;
 
+public class MultiDictionary<K1, K2, V> {
+	private Dictionary<K1, Dictionary<K2, V>> dict =  new Dictionary<K1, Dictionary<K2, V>>();
+	
+	public V this[K1 key1, K2 key2] {
+		get { return dict[key1][key2]; }
+		
+		set {
+			if (!dict.ContainsKey(key1)) {
+				dict[key1] = new Dictionary<K2, V>();
+			}
+			dict[key1][key2] = value;
+		}
+	}
+
+	public bool TryGetValue(K1 key1, K2 key2, V value) {
+		if (!dict.ContainsKey (key1)) { 
+			return false;
+		} else if (!dict[key1].ContainsKey (key2)) {
+			return false;
+		} else {
+			value = dict[key1][key2];
+			return true;
+		}
+	}
+}
+
 public class ReactionTable {
-		
-	private Dictionary<string, int> pos;
-		
-	private string[][] table;
+
+	private MultiDictionary<string, string, string> table; // < r1's Formula, r2's Formula, reaction's name >
+	private Dictionary<string, ReactionClass> reactions;   // < reaction's name, reaction >
 		
 	// Singleton
 	private static ReactionTable instance;		
@@ -18,24 +43,30 @@ public class ReactionTable {
 	}
 
 	private ReactionTable () {
-		/*pos = new Dictionary<string, int> ();
-		pos ["NaOH"] = 0;
-		pos ["HCl"] = 1;
+		//Load the reagents from file into memory
+		reactions = ReactionsSaver.LoadReactions ();
 
-		table = new string[2][];
-		table [0] = new string[2] { null, "NaCl" }; // linha do NaOH
-		table [1] = new string[2] { "NaCl", null }; // linha do HCl*/
+		foreach (Compound c in CompoundFactory.GetInstance().Collection.Values) {
+			foreach (ReactionClass re in reactions.Values) {
+				if(re.reagent1 == c.Formula) {
+					table[re.reagent1, re.reagent2] = re.name;
+					table[re.reagent2, re.reagent1] = re.name;
+				}
+			}
+		}
 
 
 	}
 
 	//! Returns the product's name base on the two reagents reacting
-	public string getCompoundName (Reagent r1, Reagent r2) {
-
-
-		return table [pos [r1.Formula]] [pos [r2.Formula]];
+	public ReactionClass GetReaction (Reagent r1, Reagent r2) {
+		string reactionName = "";
+		if (table.TryGetValue(r1.Formula, r2.Formula, reactionName)) {
+			return reactions[reactionName];	
+		}
+		else {
+			return null;
+		}
 	}
-
-	//Use the component saver for the time being?
 }
 

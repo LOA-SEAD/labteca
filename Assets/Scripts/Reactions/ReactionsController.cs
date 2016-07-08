@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -42,30 +42,30 @@ public class ReactionsController : MonoBehaviour
 
 		realConcentrationB = concentrationB; // limitant!!! 
 
-		realConcentrationA = realConcentrationB * reaction.aMultipler;
+		realConcentrationA = realConcentrationB * reaction.stoichiometryR1;
 
-		realConcentrationC = realConcentrationA * reaction.cMultipler;
+		realConcentrationC = realConcentrationA * reaction.stoichiometryMainProduct;
 
-		realConcentrationD = realConcentrationA * reaction.dMultipler;
+		realConcentrationD = realConcentrationA * reaction.stoichiometrySubProduct;
 
 		float phC = 0, phD = 0;
 		float turbidityC = 0, turbidityD = 0;
 
 		Dictionary<string, Compound> reagents = CompoundFactory.GetInstance().Collection;
 
-		if (!reagents [reaction.cName].IsSolid) {
-			phC = reagents [reaction.cName].PH;
-			turbidityC = reagents [reaction.cName].Turbidity;
+		if (!reagents [reaction.mainProduct].IsSolid) {
+			phC = reagents [reaction.mainProduct].PH;
+			turbidityC = reagents [reaction.mainProduct].Turbidity;
 		}
 
-		if (!reagents [reaction.dName].IsSolid) {
-			phD = reagents [reaction.cName].PH;
-			turbidityD = reagents [reaction.cName].Turbidity;
+		if (!reagents [reaction.subProduct].IsSolid) {
+			phD = reagents [reaction.mainProduct].PH;
+			turbidityD = reagents [reaction.mainProduct].Turbidity;
 		}
 
-		polarizability = (reagents [reaction.cName].Polarizability * realConcentrationC + reagents [reaction.dName].Polarizability * realConcentrationD) / (realConcentrationC + realConcentrationD);
-		conductibility = (reagents [reaction.cName].Conductibility * realConcentrationC + reagents [reaction.dName].Conductibility * realConcentrationD) / (realConcentrationC + realConcentrationD);
-		solubility = (reagents [reaction.cName].Solubility * realConcentrationC + reagents [reaction.dName].Solubility * realConcentrationD) / (realConcentrationC + realConcentrationD);
+		polarizability = (reagents [reaction.mainProduct].Polarizability * realConcentrationC + reagents [reaction.subProduct].Polarizability * realConcentrationD) / (realConcentrationC + realConcentrationD);
+		conductibility = (reagents [reaction.mainProduct].Conductibility * realConcentrationC + reagents [reaction.subProduct].Conductibility * realConcentrationD) / (realConcentrationC + realConcentrationD);
+		solubility = (reagents [reaction.mainProduct].Solubility * realConcentrationC + reagents [reaction.subProduct].Solubility * realConcentrationD) / (realConcentrationC + realConcentrationD);
 
 		ph = (phC * realConcentrationC + phD * realConcentrationD) / (realConcentrationC + realConcentrationD);
 		turbidity = (turbidityC * realConcentrationC + turbidityD * realConcentrationD) / (realConcentrationC + realConcentrationD);

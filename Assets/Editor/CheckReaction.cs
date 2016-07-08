@@ -69,18 +69,18 @@ public class CheckReaction : EditorWindow
 			EditorGUILayout.Space();
 
 			string bString = "";
-			if(reaction.bMultipler != 0)
+			if(reaction.stoichiometryR2 != 0)
 			{
-				bString = " + " + reaction.bMultipler.ToString() + " " + reaction.bName;
+				bString = " + " + reaction.stoichiometryR2.ToString() + " " + reaction.reagent2;
 			}
 
 			string dString = "";
-			if(reaction.dMultipler != 0)
+			if(reaction.stoichiometrySubProduct != 0)
 			{
-				dString = " + " + reaction.dMultipler.ToString() + " " + reaction.dName;
+				dString = " + " + reaction.stoichiometrySubProduct.ToString() + " " + reaction.subProduct;
 			}
 
-			EditorGUILayout.LabelField(reaction.aMultipler.ToString() + " " + reaction.aName + bString + " = " +  reaction.cMultipler.ToString() + " " + reaction.cName + dString);
+			EditorGUILayout.LabelField(reaction.stoichiometryR1.ToString() + " " + reaction.reagent1 + bString + " = " +  reaction.stoichiometryMainProduct.ToString() + " " + reaction.mainProduct + dString);
 		}
 
 		EditorGUILayout.EndScrollView();

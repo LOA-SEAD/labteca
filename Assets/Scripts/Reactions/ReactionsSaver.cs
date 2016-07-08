@@ -20,15 +20,15 @@ public class ReactionsSaver
 
 		reaction.name = name;
 
-		reaction.aName = aName;
-		reaction.bName = bName;
-		reaction.cName = cName;
-		reaction.dName = dName;
+		reaction.reagent1 = aName;
+		reaction.reagent2 = bName;
+		reaction.mainProduct = cName;
+		reaction.subProduct = dName;
 
-		reaction.aMultipler = aMultiply;
-		reaction.bMultipler = bMultiply;
-		reaction.cMultipler = cMultiply;
-		reaction.dMultipler = dMultiply;
+		reaction.stoichiometryR1 = aMultiply;
+		reaction.stoichiometryR2 = bMultiply;
+		reaction.stoichiometryMainProduct = cMultiply;
+		reaction.stoichiometrySubProduct = dMultiply;
 		
 		if (!reactions.ContainsKey(reaction.name)) 
 		{
@@ -54,15 +54,15 @@ public class ReactionsSaver
 		{
 			text.SetString("name" + counter.ToString(), reaction.name);
 
-			text.SetString("aName" + counter.ToString(), reaction.aName);
-			text.SetString("bName" + counter.ToString(), reaction.bName);
-			text.SetString("cName" + counter.ToString(), reaction.cName);
-			text.SetString("dName" + counter.ToString(), reaction.dName);
+			text.SetString("aName" + counter.ToString(), reaction.reagent1);
+			text.SetString("bName" + counter.ToString(), reaction.reagent2);
+			text.SetString("cName" + counter.ToString(), reaction.mainProduct);
+			text.SetString("dName" + counter.ToString(), reaction.subProduct);
 
-			text.SetInt("aMultiply" + counter.ToString(), reaction.aMultipler);
-			text.SetInt("bMultiply" + counter.ToString(), reaction.bMultipler);
-			text.SetInt("cMultiply" + counter.ToString(), reaction.cMultipler);
-			text.SetInt("dMultiply" + counter.ToString(), reaction.dMultipler);
+			text.SetInt("aMultiply" + counter.ToString(), reaction.stoichiometryR1);
+			text.SetInt("bMultiply" + counter.ToString(), reaction.stoichiometryR2);
+			text.SetInt("cMultiply" + counter.ToString(), reaction.stoichiometryMainProduct);
+			text.SetInt("dMultiply" + counter.ToString(), reaction.stoichiometrySubProduct);
 			
 			counter++;
 		}
@@ -86,15 +86,15 @@ public class ReactionsSaver
 
 				reaction.name = textLoad.GetString("name" + i.ToString ());
 
-				reaction.aName = textLoad.GetString("aName" + i.ToString ());
-				reaction.bName = textLoad.GetString("bName" + i.ToString ());
-				reaction.cName = textLoad.GetString("cName" + i.ToString ());
-				reaction.dName = textLoad.GetString("dName" + i.ToString ());
+				reaction.reagent1 = textLoad.GetString("aName" + i.ToString ());
+				reaction.reagent2 = textLoad.GetString("bName" + i.ToString ());
+				reaction.mainProduct = textLoad.GetString("cName" + i.ToString ());
+				reaction.subProduct = textLoad.GetString("dName" + i.ToString ());
 
-				reaction.aMultipler = textLoad.GetInt("aMultiply" + i.ToString());
-				reaction.bMultipler = textLoad.GetInt("bMultiply" + i.ToString());
-				reaction.cMultipler = textLoad.GetInt("cMultiply" + i.ToString());
-				reaction.dMultipler = textLoad.GetInt("dMultiply" + i.ToString());
+				reaction.stoichiometryR1 = textLoad.GetInt("aMultiply" + i.ToString());
+				reaction.stoichiometryR2 = textLoad.GetInt("bMultiply" + i.ToString());
+				reaction.stoichiometryMainProduct = textLoad.GetInt("cMultiply" + i.ToString());
+				reaction.stoichiometrySubProduct = textLoad.GetInt("dMultiply" + i.ToString());
 
 				Reagents.Add(reaction.name, reaction);
 			}

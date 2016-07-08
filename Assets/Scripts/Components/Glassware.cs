@@ -267,6 +267,14 @@ public class Glassware : ItemToInventory
 
 	}
 
+	public float GetTurbidity() {
+		
+		float actualTurbidity = 8.0f;
+		
+		return actualTurbidity;
+		
+	}
+
 
 
 

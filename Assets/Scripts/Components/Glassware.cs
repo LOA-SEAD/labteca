@@ -153,7 +153,6 @@ public class Glassware : ItemToInventory
 					}
 				}
 			}
-			//!!!spatula.FillSpatula();
 			break;
 		case MouseState.ms_filledSpatula: 	// Filled Spatula -> Glassware: unloads the spatula into the glassare
 			Spatula filledSpatula = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).spatula;
@@ -384,6 +383,9 @@ public class Glassware : ItemToInventory
 							hasSolid = false;
 							hasLiquid = true;
 						}
+						else { //A mixure has to be created
+
+						}
 						//(compounds [0] as Reagent).React (incomingCompound as Reagent);
 						/*
 						 * SET ALL THE OTHER CONTENTS AND MIXTURE STUFF (wheter here or on another script)
@@ -514,81 +516,4 @@ public class Glassware : ItemToInventory
 		 * GLASS TO INVENTORY();
 		 */
 	}
-	
-	//-------------------------------------------------------------------------//
-
-	//! Add the solid
-	public void AddSolid(float massSolid, string reagent){
-		if(liquid.activeSelf == false)
-			solid.SetActive(true);
-		GetComponent<Rigidbody>().mass += massSolid;
-	}
-
-	//! Remove the solid
-	/*public void RemoveSolid(float massSolid){
-		GetComponent<Rigidbody>().mass -= massSolid;
-		if(GetComponent<Rigidbody>().mass < mass){
-			GetComponent<Rigidbody>().mass = mass;
-			solid.SetActive(false);
-		}
-	}*/
-
-	//! Add the liquid
-	/*! Checks the current volume (higher, lower or equal) and add the liquid. */
-	public void AddLiquid(float massLiquid, float volumeLiquid){
-
-		if(currentVolume < maxVolume){
-
-			float lastVolume = currentVolume;
-
-			currentVolume += volumeLiquid;
-
-			Debug.Log (massLiquid);
-
-			if(currentVolume > maxVolume){
-
-				currentVolume = maxVolume;
-			}
-
-			Debug.Log (massLiquid);
-
-			liquid.SetActive(true);
-			GetComponent<Rigidbody>().mass += massLiquid*(currentVolume-lastVolume);
-		}
-		else if(currentVolume >= maxVolume ){
-
-            Debug.Log("Recipiente esta cheio");
-            //AlertDialogBehaviour.ShowAlert("Recipente esta cheio");
-		}
-	}
-
-	public void AddLiquid(float volumeLiquid){
-		AddLiquid (1, volumeLiquid);
-	}
-
-	//! Remove the liquid.
-	/*public void RemoveLiquid(float massLiquid, float volumeLiquid){
-
-		GetComponent<Rigidbody>().mass -= massLiquid*volumeLiquid;
-		currentVolume -= volumeLiquid;
-
-		if(currentVolume < 0)
-			currentVolume = 0;
-
-		if(GetComponent<Rigidbody>().mass < mass){
-			GetComponent<Rigidbody>().mass = mass;
-			liquid.SetActive(false);
-		}
-
-	}*/
-
-	/*public void RemoveLiquid(float volumeLiquid){
-		RemoveLiquid (1, volumeLiquid);
-	}*/
-
-	//!Message when the player clicks in glass.
-/*	public void CLickInGlass(){
-		Debug.Log ("CLick");
-		gameController.GetCurrentState().GetComponent<WorkBench> ().ClickGlass (this.gameObject);
-	}*/
 }

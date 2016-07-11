@@ -74,49 +74,94 @@ public class Mixture : IPhysicochemical {
 			}
 			product = CompoundFactory.GetInstance ().GetCompound (reaction.mainProduct);
 
-			this.RealMass = r1.RealMass + r2.RealMass;
-			leftovers [0] = r1;
-			leftovers [1] = r2;
-
 			//Calculates the limiting reagent
 			float limitingFactor1 = (leftovers [0].Molarity * leftovers [0].Volume) / reaction.stoichiometryR1;
 			float limitingFactor2 = (leftovers [1].Molarity * leftovers [1].Volume) / reaction.stoichiometryR2;
+
+			float trueLimiting;
+			float limitingStoichiometry;
 			if (limitingFactor1 <= limitingFactor2) { //Case: limiting reagent is R1
 
-
-
-				//Adding the water into the product's values
-				product.Dilute((leftovers[0].RealMass - (leftovers[0].Molarity * (leftovers[0].Volume / 1000) * leftovers[0].MolarMass)) * 1.0f);
-				product.Dilute((leftovers[1].RealMass - (leftovers[1].Molarity * (leftovers[1].Volume / 1000) * leftovers[1].MolarMass)) * 1.0f);
-
-				//leftovers[0].Volume
-				//product.Dilute(agua r2);
-
-				//consomeTodo(r1);
-					//r1.RealMass = 0.0f;
-
-
-				//consome(r2);
-					//r2.RealMass = (massaAgua + massaSolutoConsumido)
-					//r2.Molarity = 
-
-				/*
-
-				leftovers [0].RealMass = 0.0f;
-				leftovers [0].Molarity = 0.0f;
-				leftovers [0].Density = 0.0f;
-				leftovers [0].Volume = 0.0f;
-
-				float usedMoles = reaction.stoichiometryR2 / limitingFactor1;
-				leftovers [1].RealMass -= usedMoles * leftovers [1].MolarMass;
-				leftovers [1].Molarity = (leftovers [1].Molarity * leftovers [1].MolarMass);
-				leftovers [1].Density = 0.0f;
-				leftovers [1].Volume = 0.0f;*/
-
+				trueLimiting = limitingFactor1;			
+				limitingStoichiometry = reaction.stoichiometryR1;
+			}
+			else { 
+				trueLimiting = limitingFactor2;			
+				limitingStoichiometry = reaction.stoichiometryR2;
+				 
 			}
 
+
+			leftovers[0] = r1;
+			leftovers[1] = r2;
+
+			//Calculating mass of product
+			float productMoles = trueLimiting * reaction.stoichiometryMainProduct / limitingStoichiometry;
+			float productMass = productMoles * product.MolarMass;
+
+			//Calculating total amount of water
+			float waterVolume = (r1.RealMass - (r1.Molarity * (r1.Volume / 1000) * r1.MolarMass)) * 1.0f;
+			waterVolume += (r2.RealMass - (r2.Molarity * (r2.Volume / 1000) * r2.MolarMass)) * 1.0f;
+			if(reaction.subProduct == "H2O") {
+				waterVolume += (trueLimiting * reaction.stoichiometrySubProduct / limitingStoichiometry) * Compound.waterMolarMass;
+			}
+
+			//Setting product's molarity
+			product.Purity = 1.0f;
+			product.Molarity = ((product.Purity * product.Density) / product.MolarMass);
+
+			//Adding the water into the product's values
+			product.Dilute(waterVolume);
+
+
+			//Setting leftovers's values
+			leftovers[0].Purity = 1.0f;
+			leftovers[0].Molarity = 0.0f;
+			leftovers[0].RealMass = 0.0f;
+			leftovers[0].Density = 0.0f;
+			leftovers[0].Volume = 0.0f;
+
+			leftovers[1] = (Reagent)CompoundFactory.GetInstance().GetCompound (reaction.reagent2);
+			leftovers[1].Purity = 1.0f;
+			leftovers[1].RealMass = (trueLimiting * reaction.stoichiometryR2 / limitingStoichiometry) * leftovers[1].MolarMass;
+			if(leftovers[1].IsSolid) {
+				//CHECK FOR PRECIPITATE
+				//FOR THE TIME BEING, IT WILL BE DILUTED, AND WON'T CHANGE THE VOLUME
+				leftovers[1].Volume = 0.0f;
+			}
+			else {
+				leftovers[1].Volume = leftovers[1].RealMass * leftovers[1].Density;
+			}
+
+			//Setting Mixture's values
+			this.RealMass = this.GetMass ();
+			this.Volume = this.GetVolume ();
+			this.Density  = this.RealMass / this.Volume;
+			this.Name = reaction.name;
+
+			//Setting product's values that depends on the mixture's final values
+			product.Molarity = productMass / this.Volume;
+			leftovers[1].Molarity = leftovers[1].RealMass / this.Volume;
+
+
+
+				/*
+				 * TODO: VERIFICAR PRECIPITADOS
+				 */
+
 			if ((reaction.subProduct != "H2O") || (reaction.subProduct != "")) {
-				leftovers [2] = (Reagent)CompoundFactory.GetInstance ().GetCompound (reaction.subProduct);
+				leftovers[3] = (Reagent)CompoundFactory.GetInstance ().GetCompound (reaction.subProduct);
+				leftovers[3].Purity = 1.0f;
+				leftovers[3].RealMass = (trueLimiting * reaction.stoichiometrySubProduct / limitingStoichiometry) * leftovers[3].MolarMass;
+				leftovers[3].Molarity = leftovers[3].RealMass / this.Volume;
+				if(leftovers[3].IsSolid) {
+					//CHECK FOR PRECIPITATE
+					//FOR THE TIME BEING, IT WILL BE DILUTED, AND WON'T CHANGE THE VOLUME
+					leftovers[3].Volume = 0.0f;
+				}
+				else {
+					leftovers[3].Volume = leftovers[3].RealMass * leftovers[3].Density;
+				}
 			}
 		} else { //There was no reaction
 			product = null;
@@ -125,8 +170,6 @@ public class Mixture : IPhysicochemical {
 
 			Name = "UnknownMixture";
 			RealMass = leftovers[0].RealMass + leftovers[1].RealMass;
-
-
 		}
 	
 	}

@@ -9,7 +9,7 @@ using System.Collections.Generic;
 public class Compound : IPhysicochemical {
 
 	//Water mass;
-	protected const float waterMolarMass = 18.015f;
+	public static float waterMolarMass = 18.015f;
 	//Density of powedered material
 	protected const float powderDensity = 1.0f;
 
@@ -122,7 +122,7 @@ public class Compound : IPhysicochemical {
 		this.realMass = r.realMass;
 		this.volume = r.volume;
 		this.compoundColor = r.compoundColor;
-		originalMolarity = molarity;
+		this.originalMolarity = r.originalMolarity; //TODO: Leo, certeza que este nao vai dar pau?
 	}
 
 	//! Set all the values to the ones of an existing compound

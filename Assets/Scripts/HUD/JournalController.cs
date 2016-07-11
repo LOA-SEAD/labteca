@@ -24,8 +24,10 @@ public class JournalController : TabletState {
 	}
 	public void changeExperiment(int expo){
 		experimentText.text = "Experimento " +(expo+1);
-		experimentNumber = expo;
-		rewriteContent ();
+		if (experimentNumber != expo) {
+			experimentNumber = expo;
+			rewriteContent ();
+		}
 	}
 
 	public void writeReagentInfo(string name){
@@ -71,7 +73,7 @@ public class JournalController : TabletState {
 			Destroy (deletableInfo);
 		GameObject[] deletable = GameObject.FindGameObjectsWithTag ("JournalUIItem");
 		for (int i = 0; i < deletable.Length; i++) 
-			Destroy (deletable [i]);
+			DestroyImmediate (deletable [i]);
 	}
 
 	public void rewriteContent(){
@@ -98,13 +100,10 @@ public class JournalController : TabletState {
 			tempItem.name = "JournalUIItem" + currentJournalUI.index.ToString ();
 
 			tempItem.GetComponent<JournalUIItem> ().setText(currentJournalUI.name);
-
-
 			tempItem.GetComponent<JournalUIItem> ().index = currentJournalUI.index;
 			tempItem.GetComponent<JournalUIItem> ().isDone = currentJournalUI.isDone;
-			tempItem.GetComponent<JournalUIItem> ().prerequisites = new JournalUIItem[currentJournalUI.prerequisites.Length];
-			for (int n = 0; n < currentJournalUI.prerequisites.Length; n++) {
-				tempItem.GetComponent<JournalUIItem> ().prerequisites [n] = GameObject.Find ("JournalUIItem" + currentJournalUI.prerequisites [n].index.ToString ()).GetComponent<JournalUIItem>();
+			for (int n = 0; n < currentJournalUI.prerequisites.Count; n++) {
+				tempItem.GetComponent<JournalUIItem>().SetPrerequisites(currentJournalUI.prerequisites [n]);
 			}
 			tempItem.GetComponent<JournalUIItem> ().checkPrerequisites ();
 			

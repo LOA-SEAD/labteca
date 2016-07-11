@@ -8,7 +8,7 @@ public class JournalSaver{
 
 	private static TextEdit text;
 
-	public static int numberOfJournals;
+	private static int numberOfJournals;
 
 	public static void AddJournalUIItem(JournalUIItem journalItem,int expo){
 		Dictionary<int, JournalUIItem> JournalItems = JournalSaver.LoadJournalUIItems (expo);
@@ -31,10 +31,10 @@ public class JournalSaver{
 			text.SetInt("index" + counter.ToString(), counter);
 			text.SetString("name" + counter.ToString(), JournalItem.name);
 			text.SetBool("isDone" + counter.ToString(),JournalItem.isDone);
-			text.SetInt("numberOfPrerequisites" + counter.ToString() , JournalItem.prerequisites.Length);
-			for(int i = 0; i < JournalItem.prerequisites.Length;i++){
-				Debug.Log("indexPrerequisiteOf" + counter.ToString()+"_"+i.ToString()+"= "+JournalItem.prerequisites[i].index);
-				text.SetInt("indexPrerequisiteOf" + counter.ToString()+"_"+i.ToString(), JournalItem.prerequisites[i].index);
+			text.SetInt("numberOfPrerequisites" + counter.ToString() , JournalItem.prerequisites.Count);
+			for(int i = 0; i < JournalItem.prerequisites.Count;i++){
+				Debug.Log("indexPrerequisiteOf" + counter.ToString()+"_"+i.ToString()+"= "+JournalItem.prerequisites[i]);
+				text.SetInt("indexPrerequisiteOf" + counter.ToString()+"_"+i.ToString(), JournalItem.prerequisites[i]);
 			}
 			counter++;
 		}
@@ -61,14 +61,12 @@ public class JournalSaver{
 				
 				journalItem.name = textLoad.GetString("name" + i.ToString ());
 				journalItem.isDone = textLoad.GetBool("isDone" + i.ToString ());
-				journalItem.prerequisites = new JournalUIItem[textLoad.GetInt("numberOfPrerequisites" + i.ToString ())];
-				for(int n = 0;n < journalItem.prerequisites.Length; n++){
+				journalItem.prerequisites.Clear();
+				for(int n = 0;n < textLoad.GetInt("numberOfPrerequisites" + i.ToString ()); n++){
 					int indexOfPre=textLoad.GetInt("indexPrerequisiteOf"+i.ToString()+"_"+n.ToString());
-					JournalUIItem preReq;
-					journalUIItems.TryGetValue(indexOfPre,out preReq);
-					journalItem.prerequisites[n]=preReq;
+					journalItem.prerequisites.Add(indexOfPre);
 				}
-				
+				journalItem.prerequisitesDone=false;
 				journalUIItems.Add(journalItem.index, journalItem);
 			}
 		}

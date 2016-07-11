@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class JournalUIItem : MonoBehaviour {
 	public int index;
@@ -8,13 +9,12 @@ public class JournalUIItem : MonoBehaviour {
 	public Text journalText;
 	public Image checkmarkPlace;
 	public RectTransform self;
-	public GameObject checkmark;
-	public bool isDone,prerequisitesDone;
-	public JournalUIItem[] prerequisites;
+	public GameObject checkmark;	
+	public bool isDone=false,prerequisitesDone=false;
+	public List<int> prerequisites = new List<int>();
 	
 	public void Start(){
 		checkmark.SetActive (isDone?true:false);
-		//journalText.text = name;
 	}
 
 	public void checkItem(){
@@ -34,14 +34,21 @@ public class JournalUIItem : MonoBehaviour {
 		name = txt;
 	}
 
+	public void SetPrerequisites(int index){
+		prerequisites.Add (index);
+	}
+
 	public void checkPrerequisites(){
+		if (prerequisites [0] == null)
+			prerequisites.RemoveAt (0);
 		bool allDone=true;
-		for (int i=0; i < prerequisites.Length&&allDone; i++) {
-			allDone = prerequisites[i].isDone;
+		for (int i=0; i < prerequisites.Count&&allDone; i++) {
+			allDone = GameObject.Find("JournalUIItem"+prerequisites[i]).GetComponent<JournalUIItem>().isDone;
 		}
 
 		if (allDone) { 
 			prerequisitesDone = true;
+			if(checkmarkPlace!=null)
 			checkmarkPlace.color = new Color(255,255,255,255);
 		}
 

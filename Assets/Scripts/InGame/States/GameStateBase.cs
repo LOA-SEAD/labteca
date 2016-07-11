@@ -9,7 +9,7 @@ using System.Collections;
 public abstract class GameStateBase : MonoBehaviour {
 
 	protected bool canRun;
-	private int indexState;
+	protected int indexState;
 	protected GameController gameController;
 	
 	protected abstract void UpdateState();

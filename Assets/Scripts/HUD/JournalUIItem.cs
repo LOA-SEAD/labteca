@@ -48,7 +48,6 @@ public class JournalUIItem : MonoBehaviour {
 
 		if (allDone) { 
 			prerequisitesDone = true;
-			if(checkmarkPlace!=null)
 			checkmarkPlace.color = new Color(255,255,255,255);
 		}
 

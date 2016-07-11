@@ -32,7 +32,8 @@ public class AccessEquipmentBehaviour : InteractObjectBase {
 
 			if(currentDelay > delay){
 				callInteract = false;
-				targetEquipment.StartState();
+				if(targetEquipment!=null)
+					targetEquipment.StartState();
 				currentDelay = 0;
 
 			}

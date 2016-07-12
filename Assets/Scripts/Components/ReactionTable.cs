@@ -16,7 +16,7 @@ public class MultiDictionary<K1, K2, V> {
 		}
 	}
 
-	public bool TryGetValue(K1 key1, K2 key2, V value) {
+	public bool TryGetValue(K1 key1, K2 key2, ref V value) {
 		if (!dict.ContainsKey (key1)) { 
 			return false;
 		} else if (!dict[key1].ContainsKey (key2)) {
@@ -43,6 +43,8 @@ public class ReactionTable {
 	}
 
 	private ReactionTable () {
+		table = new MultiDictionary<string, string, string> ();
+
 		//Load the reagents from file into memory
 		reactions = ReactionsSaver.LoadReactions ();
 
@@ -54,14 +56,12 @@ public class ReactionTable {
 				}
 			}
 		}
-
-
 	}
 
 	//! Returns the product's name base on the two reagents reacting
-	public ReactionClass GetReaction (Reagent r1, Reagent r2) {
+	public ReactionClass GetReaction (string r1, string r2) {
 		string reactionName = "";
-		if (table.TryGetValue(r1.Formula, r2.Formula, reactionName)) {
+		if (table.TryGetValue(r1, r2, ref reactionName)) {
 			return reactions[reactionName].Clone();	
 		}
 		else {

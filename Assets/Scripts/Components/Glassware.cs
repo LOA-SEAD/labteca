@@ -218,11 +218,16 @@ public class Glassware : ItemToInventory
 			if (re != null) {
 				if(re is IPhysicochemical) {
 					Color32 thisColor;
-
-					if(!(re as Compound).Formula.Contains("H2O"))
-						thisColor = (re as Compound).compoundColor;
-					else
+					if(!(re is Mixture)) {
+						if(!(re as Compound).Formula.Contains("H2O"))
+							thisColor = (re as Compound).compoundColor;
+						else
+							thisColor = new Color32(255,255,255,40);
+					}
+					else {
 						thisColor = new Color32(255,255,255,40);
+					}
+
 
 					if ((re as IPhysicochemical).IsSolid){
 						hasSolid = true;
@@ -352,7 +357,7 @@ public class Glassware : ItemToInventory
 		 */
 	}
 
-	//! 
+	//! Treatment of cases for when a reagent is being put into the glassware
 	public bool IncomingReagent(Compound incomingCompound, float volumeFromTool) {
 		Debug.Log (incomingCompound.Formula + " incoming!");
 		if (compounds [0] != null) { //Case not empty
@@ -384,6 +389,9 @@ public class Glassware : ItemToInventory
 							hasLiquid = true;
 						}
 						else { //A mixure has to be created
+							Debug.Log ("r1 = " + (compounds[0] as Compound).Formula + "   r2 = " + incomingCompound.Formula);
+							Mixture mix = new Mixture(compounds[0] as Compound, incomingCompound);
+							compounds[0] = mix;
 
 						}
 						//(compounds [0] as Reagent).React (incomingCompound as Reagent);

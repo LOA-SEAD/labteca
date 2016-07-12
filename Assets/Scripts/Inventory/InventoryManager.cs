@@ -353,10 +353,12 @@ public class InventoryManager : MonoBehaviour {
 		if (currentState != null) {
 			listButton[2].interactable = true;
 			if (currentState.GetComponent<InGameState> () == null) {
-				if ((currentState.GetComponent<GetGlasswareState> () != null && listIndex == 2) || (currentState.GetComponent<GetReagentState> () != null && (listIndex == 1 || listIndex == 0)))
-					listButton [2].GetComponent<Image> ().sprite = backgroundAction [2];
+				if ((currentState.GetComponent<GetGlasswareState> () != null && listIndex == 2) 
+				    || (currentState.GetComponent<GetReagentState> () != null && listIndex == 1))
+						listButton [2].GetComponent<Image> ().sprite = backgroundAction [2];
 				else {
-					if (currentState.GetComponent<WorkBench> () != null){
+					if (currentState.GetComponent<WorkBench> () != null || 
+					   (currentState.GetComponent<LIAState> () != null && listIndex == 0)){
 						listButton [2].GetComponent<Image> ().sprite = backgroundAction [1];
 					}
 					else{
@@ -479,7 +481,10 @@ public class InventoryManager : MonoBehaviour {
 			GameStateBase currentState = gameController.GetCurrentState ();
 
 			if (currentState.GetComponent<WorkBench> () != null)
-				remove = CallWorkbenchToTable (item);
+				remove = SendObjectToWorkbench (item);
+
+			if (currentState.GetComponent<LIAState> () != null)
+				remove = currentState.GetComponent<LIAState>().RecieveProduct(item,GameObject.Find(item.index));
 
 			if(remove)
 			removeItem (GameObject.Find (selectedItem.gameObject.name));
@@ -487,7 +492,7 @@ public class InventoryManager : MonoBehaviour {
 		}
 	}
 
-	public bool CallWorkbenchToTable(ItemInventoryBase item) {
+	public bool SendObjectToWorkbench(ItemInventoryBase item) {
 		return gameController.GetCurrentState ().GetComponent<WorkBench> ().PutItemFromInventory (item);
 	}
 }

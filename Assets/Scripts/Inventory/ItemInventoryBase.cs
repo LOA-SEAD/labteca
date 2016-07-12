@@ -37,8 +37,7 @@ public class ItemInventoryBase : MonoBehaviour {
 	{
 		 this.name=item.name;
 		 this.gl=item.gl;
-		 this.reagent = item.reagent;
-		 this.icon=item.icon;         
+		 this.reagent = item.reagent;        
 		 this.stackable=item.stackable;   
 		 this.itemType=item.itemType;
 		 this.itemBeingHeld=item.itemBeingHeld;

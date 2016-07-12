@@ -46,6 +46,7 @@ public class InventoryManager : MonoBehaviour {
 
     public ItemInventoryBase selectedItem = null;     /*!< Current selected item (game object). */
     private ItemStackableBehavior selectedUIItem = null;    /*!< Current selected item from inventory UI. */
+	private List<string> listOfIndexes = new List<string>();
 	///-----------REFACTOR-------------------
 	void Start(){
 		refreshTab (null,false);
@@ -59,18 +60,23 @@ public class InventoryManager : MonoBehaviour {
 
 	public string GenerateIndex(ref ItemInventoryBase item){
 		if (item.index == null) {
-			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < 6; i++) {
-				char aux = (char)Random.Range (65, 126);
-				sb.Append(aux);
-			}
+			StringBuilder sb;
+			do{
+				sb = new StringBuilder();
+				for (int i = 0; i < 6; i++) {
+					char aux = (char)Random.Range (65, 126);
+					sb.Append(aux);
+				}
+			}while(listOfIndexes.Contains(sb.ToString()));
 			item.index=sb.ToString();
+			listOfIndexes.Add(sb.ToString());
 		}
 
 		return item.index;
 	}
 
 	public GameObject addItem(ref ItemInventoryBase item){
+		GenerateIndex (ref item);
 		if (item.getItemType () == itemType[0]||item.getItemType () == itemType[1]) {
 			GameObject aux = instantiateObject (item);
 
@@ -347,10 +353,12 @@ public class InventoryManager : MonoBehaviour {
 		if (currentState != null) {
 			listButton[2].interactable = true;
 			if (currentState.GetComponent<InGameState> () == null) {
-				if ((currentState.GetComponent<GetGlasswareState> () != null && listIndex == 2) || (currentState.GetComponent<GetReagentState> () != null && (listIndex == 1 || listIndex == 0)))
-					listButton [2].GetComponent<Image> ().sprite = backgroundAction [2];
+				if ((currentState.GetComponent<GetGlasswareState> () != null && listIndex == 2) 
+				    || (currentState.GetComponent<GetReagentState> () != null && listIndex == 1))
+						listButton [2].GetComponent<Image> ().sprite = backgroundAction [2];
 				else {
-					if (currentState.GetComponent<WorkBench> () != null){
+					if (currentState.GetComponent<WorkBench> () != null || 
+					   (currentState.GetComponent<LIAState> () != null && listIndex == 0)){
 						listButton [2].GetComponent<Image> ().sprite = backgroundAction [1];
 					}
 					else{
@@ -392,6 +400,7 @@ public class InventoryManager : MonoBehaviour {
 
 	public void removeItem(GameObject item){
 		string index = item.GetComponent<ItemInventoryBase> ().index;
+		listOfIndexes.Remove (index);
 		ObjectList.Remove (item);
 
 		int n = 0;
@@ -472,7 +481,10 @@ public class InventoryManager : MonoBehaviour {
 			GameStateBase currentState = gameController.GetCurrentState ();
 
 			if (currentState.GetComponent<WorkBench> () != null)
-				remove = CallWorkbenchToTable (item);
+				remove = SendObjectToWorkbench (item);
+
+			if (currentState.GetComponent<LIAState> () != null)
+				remove = currentState.GetComponent<LIAState>().RecieveProduct(item,GameObject.Find(item.index));
 
 			if(remove)
 			removeItem (GameObject.Find (selectedItem.gameObject.name));
@@ -480,7 +492,7 @@ public class InventoryManager : MonoBehaviour {
 		}
 	}
 
-	public bool CallWorkbenchToTable(ItemInventoryBase item) {
+	public bool SendObjectToWorkbench(ItemInventoryBase item) {
 		return gameController.GetCurrentState ().GetComponent<WorkBench> ().PutItemFromInventory (item);
 	}
 }

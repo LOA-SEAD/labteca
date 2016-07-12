@@ -9,7 +9,7 @@ public class EspectofometerController : EquipmentControllerBase {
 	
 	public float light;  // nao sei se eh o melhor nome
 	
-	bool changed;
+	bool changed,equipmentOn,measure;
 	
 	public TextMesh espectofometerText;
 	
@@ -96,7 +96,7 @@ public class EspectofometerController : EquipmentControllerBase {
 		
 		activeGlassware = null;
 		RefreshEquipament();
-		espectofometerText.text = EspectofometerTextoToString (0f);
+
 		
 	}
 	
@@ -104,14 +104,13 @@ public class EspectofometerController : EquipmentControllerBase {
 	
 	private void RefreshEquipament(){
 		
-		if (workbench.IsRunning ()) {
+		if (workbench.IsRunning ()&& activeGlassware!=null && equipmentOn && measure) {
 			
 			float tempMass = 0.00f;
 			
 			if (activeGlassware != null)
 				tempMass += activeGlassware.GetComponent<Glassware> ().GetPolarity ();
-			else
-				espectofometerText.text = EspectofometerTextoToString (0f);
+		
 			
 			
 			light = tempMass - PlayerPrefs.GetFloat ("setupBalance");
@@ -120,7 +119,21 @@ public class EspectofometerController : EquipmentControllerBase {
 				changed = true;
 			}
 		}
+
 	}
+
+		public void onClickRun(){
+			
+			espectofometerText.text = EspectofometerTextoToString (0f);
+			equipmentOn = true;
+		}
+		
+		public void onClickMeasure(){
+			if(equipmentOn)
+				measure = true;
+		}
+
+	
 	
 	
 }

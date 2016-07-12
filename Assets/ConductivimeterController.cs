@@ -9,7 +9,7 @@ public class ConductivimeterController : EquipmentControllerBase {
 	
 	public float conductivimeter;
 	
-	bool changed;
+	bool changed,equipmentOn,measure;
 	
 	public TextMesh conductivimeterText;
 	
@@ -97,7 +97,7 @@ public class ConductivimeterController : EquipmentControllerBase {
 		
 		activeGlassware = null;
 		RefreshEquipament();
-		conductivimeterText.text = conductivimeterTextToString (0f);
+	
 		
 	}
 	
@@ -105,15 +105,13 @@ public class ConductivimeterController : EquipmentControllerBase {
 	
 	private void RefreshEquipament(){
 		
-		if (workbench.IsRunning ()) {
+		if (workbench.IsRunning () && activeGlassware!=null && equipmentOn && measure) {
 			
 			float tempMass = 0.00f;
 			
 			if (activeGlassware != null)
 				tempMass += activeGlassware.GetComponent<Glassware> ().GetConductivity ();
-			else
-				conductivimeterText.text = conductivimeterTextToString (0f);
-			
+				
 			
 			conductivimeter = tempMass - PlayerPrefs.GetFloat ("setupBalance");
 			
@@ -122,6 +120,18 @@ public class ConductivimeterController : EquipmentControllerBase {
 			}
 		}
 	}
+
+	public void onClickRun(){
+		
+		conductivimeterText.text = conductivimeterTextToString (0f);
+		equipmentOn = true;
+	}
+	
+	public void onClickMeasure(){
+		if(equipmentOn)
+			measure = true;
+	}
+
 	
 	
 }

@@ -14,7 +14,7 @@ public class PHMeterController : EquipmentControllerBase {
 
 	public float ph;
 
-	bool changed;
+	bool changed,equipmentOn,measure;
 
 	public TextMesh phmeterText;
 
@@ -40,6 +40,7 @@ public class PHMeterController : EquipmentControllerBase {
 
 	void Update () 
 	{
+	
 		RefreshEquipament ();
 
 		if (changed) {
@@ -93,7 +94,7 @@ public class PHMeterController : EquipmentControllerBase {
 	public override void AddObjectInEquipament(GameObject objectToAdd){
 
 		activeGlassware = objectToAdd;
-		RefreshEquipament();
+		 RefreshEquipament();
 
 	}
 	
@@ -102,7 +103,7 @@ public class PHMeterController : EquipmentControllerBase {
 
 		activeGlassware = null;
 		RefreshEquipament();
-		phmeterText.text = PhmeterTextToString (0f);
+	
 
 	}
 
@@ -110,22 +111,33 @@ public class PHMeterController : EquipmentControllerBase {
 
 	private void RefreshEquipament(){
 
-		if (workbench.IsRunning ()) {
+		if (workbench.IsRunning ()&& activeGlassware!=null && equipmentOn && measure) {
 
 			float tempMass = 0.00f;
 
 			if (activeGlassware != null)
 				tempMass += activeGlassware.GetComponent<Glassware> ().GetPH ();
-			else
-				phmeterText.text = PhmeterTextToString (0f);
-
+		
 
 			 ph = tempMass - PlayerPrefs.GetFloat ("setupBalance");
 
 			if(ph!=0){
 				changed = true;
 			}
+			measure=false;
 		}
+	}
+
+
+	public void onClickRun(){
+
+		phmeterText.text = PhmeterTextToString (0f);
+		equipmentOn = true;
+	}
+
+	public void onClickMeasure(){
+		if(equipmentOn)
+			measure = true;
 	}
 
 

@@ -9,7 +9,6 @@ public  class FumeHoodState : GameStateBase {
 	
 	// camera and interactive area
 	public Camera cameraState;                  /*!< Camera for this state. */
-	public GameObject interactBox;              /*!< BoxCollider that allows the Player to enter this state. */
 	
 	public void Start () {
 		cameraState.gameObject.SetActive(false);

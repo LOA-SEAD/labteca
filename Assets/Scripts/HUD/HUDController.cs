@@ -21,13 +21,13 @@ public class HUDController : MonoBehaviour {
 	}
 
 	void Update(){
-		if(Input.GetKeyDown(journalKey)&&!lockKey){
+		if((Input.GetKeyDown(journalKey))&&!lockKey){
 			callJournal();
 		}
-		if (Input.GetKeyDown (inventoryKey)&&!lockKey) {
+		if ((Input.GetKeyDown (inventoryKey))&&!lockKey) {
 			callInventory();
 		}
-		if(Input.GetKeyDown(mapKey)&&!lockKey){
+		if((Input.GetKeyDown(mapKey))&&!lockKey){
 			callMap();
 		}
 	}
@@ -85,6 +85,9 @@ public class HUDController : MonoBehaviour {
 		if (journalUp)
 			callJournal ();
 		map.SetActive (!map.activeSelf);
+		if (player.GetComponent<MouseLook> ().enabled ==map.activeSelf)
+			changePlayerState ();
+
 	}
 
 

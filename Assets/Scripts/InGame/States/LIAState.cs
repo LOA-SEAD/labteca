@@ -6,7 +6,6 @@ public class LIAState : GameStateBase {
 	
 	// camera and interactive area
 	public Camera cameraState;                  /*!< Camera for this state. */
-	public GameObject interactBox;              /*!< BoxCollider that allows the Player to enter this state. */
 	public Light LIALight;
 	public Image glassware,solid,liquid;
 

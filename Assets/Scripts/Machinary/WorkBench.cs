@@ -14,7 +14,6 @@ public class WorkBench : GameStateBase{
 
 	//GameStateBase variables:
 	public Camera cameraState;                  /*!< Camera for this state. */
-	public GameObject interactBox;              /*!< BoxCollider that allows the Player to enter this state. */
 	public EquipmentControllerBase equipmentController;	/*!< Equipment controller for this state */
 	//end of GameStateBase variables
 

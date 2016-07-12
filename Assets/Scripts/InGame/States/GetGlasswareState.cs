@@ -8,7 +8,6 @@ using UnityEngine.UI;
 public  class GetGlasswareState : GameStateBase, GetInterface {
 
     public Camera cameraState;          /*!< Camera for this State. */
-    public GameObject interactBox;      /*!< Box Colider to allow interaction. */
     public DoorBehaviour leftDoor;      /*!< GameObject that contains the left door. */
     public DoorBehaviour rightDoor;     /*!< GameObject that contains the right door. */
     public Glassware[] glasswareList;   /*!< List of Glassware that are inside. */

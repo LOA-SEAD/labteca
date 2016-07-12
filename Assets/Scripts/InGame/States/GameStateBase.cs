@@ -7,10 +7,17 @@ using System.Collections;
  *  methods when state is starting: 'OnStartRun' and when state is stopping: 'OnStopRun'.
  */
 public abstract class GameStateBase : MonoBehaviour {
-
+	public GameObject interactBox;
 	protected bool canRun;
 	protected int indexState;
 	protected GameController gameController;
+
+	private Vector3 worldLocation;
+	public Vector3 WorldLocation{
+		get{
+			return this.transform.position;
+		}
+	}
 	
 	protected abstract void UpdateState();
 
@@ -56,6 +63,7 @@ public abstract class GameStateBase : MonoBehaviour {
 
     //! Start the State.
 	public void StartState(){
+		Debug.Log (WorldLocation);
 		gameController.ChangeState(indexState);
 	}
 

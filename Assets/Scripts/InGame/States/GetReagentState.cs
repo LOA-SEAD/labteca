@@ -8,7 +8,6 @@ using UnityEngine.UI;
 public  class GetReagentState : GameStateBase, GetInterface {
 
 	public Camera cameraState;          /*!< Camera for this State. */
-    public GameObject interactBox;      /*!< Box Colider to allow interaction. */
     public DoorBehaviour leftDoor;      /*!< GameObject that contains the left door. */
     public DoorBehaviour rightDoor;     /*!< GameObject that contains the right door. */
 	public Dictionary<string, Compound> reagents = new Dictionary<string, Compound>(); /*!< Dictionary that stores all reagents>!*/

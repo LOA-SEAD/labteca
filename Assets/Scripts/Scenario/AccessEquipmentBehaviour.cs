@@ -12,11 +12,11 @@ public class AccessEquipmentBehaviour : InteractObjectBase {
 	public float delay = 0.5f;                  /*!< Float delay time. */
 	public float fadeTime;
 	public string equipName;
+	public bool trigger;
 	private float currentDelay;
 	private float canvasAlpha=1f;
 	public float timeLeft;
-	private bool callInteract;
-	private bool isFadingOut, isFadingIn;
+	private bool callInteract,fadedOut,firstTimeTrigger;
 	
 	void Start(){
 		if (fadeTime == 0)
@@ -24,6 +24,7 @@ public class AccessEquipmentBehaviour : InteractObjectBase {
 		if (descriptionCanvas != null) {
 			setCanvasAlphaForce(0f);
 		}
+		fadedOut = true;
 	}
 
 	void Update () {
@@ -42,22 +43,26 @@ public class AccessEquipmentBehaviour : InteractObjectBase {
 	}
 
 	void FixedUpdate(){
-		if (isFadingIn) {
-			if(timeLeft<=0f){
-				setCanvasAlphaForce(canvasAlpha);
-			}else{
-				float increment = ((canvasAlpha - descriptionCanvas.GetComponentInChildren<Image>().color.a)/timeLeft)*Time.deltaTime;
-				setCanvasAlphaForce(descriptionCanvas.GetComponentInChildren<Image>().color.a+increment);
-				timeLeft-=Time.deltaTime;
-			}
+		if (firstTimeTrigger) {
+			timeLeft = fadeTime;
+			firstTimeTrigger = false;
 		}
-		if(isFadingOut){
-			if(timeLeft<=0f){
-				setCanvasAlphaForce(canvasAlpha);
-			}else{
-				float increment = ((- descriptionCanvas.GetComponentInChildren<Image>().color.a)/timeLeft)*Time.deltaTime;
-				setCanvasAlphaForce(descriptionCanvas.GetComponentInChildren<Image>().color.a+increment);
-				timeLeft-=Time.deltaTime;
+
+		if (trigger) {
+			if (timeLeft <= 0f) {
+				setCanvasAlphaForce (canvasAlpha);
+			} else {
+				float increment = (canvasAlpha - descriptionCanvas.GetComponentInChildren<Image> ().color.a)*Time.fixedDeltaTime/timeLeft;
+				setCanvasAlphaForce (descriptionCanvas.GetComponentInChildren<Image> ().color.a + increment);
+				timeLeft -= Time.deltaTime;
+			}
+		}else{
+			if (timeLeft <= 0f) {
+				setCanvasAlphaForce (0);
+			} else {
+				float increment = (0 - descriptionCanvas.GetComponentInChildren<Image> ().color.a)*Time.fixedDeltaTime/timeLeft;
+				setCanvasAlphaForce (descriptionCanvas.GetComponentInChildren<Image> ().color.a + increment);
+				timeLeft -= Time.deltaTime;
 			}
 		}
 	}
@@ -72,7 +77,7 @@ public class AccessEquipmentBehaviour : InteractObjectBase {
 		GetComponent<BoxCollider>().enabled = false;
 	}
 
-	public void fadeIn(){
+	/*public void fadeIn(){
 		descriptionCanvas.enabled = true;
 		isFadingOut = false;
 		if (!isFadingIn)
@@ -91,15 +96,16 @@ public class AccessEquipmentBehaviour : InteractObjectBase {
 			isFadingOut = true;
 		else
 			isFadingOut = false;
-	}
+	}*/
 
 	public void setCanvasAlpha(float a){
 		canvasAlpha = a;
-		if (!isFadingIn && !isFadingOut) {
-			Color cor = descriptionCanvas.GetComponentInChildren<Image>().color;
-			cor.a=a;
-			descriptionCanvas.GetComponentInChildren<Image>().color=cor;
-		}
+	}
+
+	public void SetTrigger(bool b){
+		if (trigger != b)
+			firstTimeTrigger = true;
+		trigger = b;
 	}
 
 	private void setCanvasAlphaForce(float a){

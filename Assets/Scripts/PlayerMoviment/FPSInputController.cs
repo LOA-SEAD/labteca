@@ -80,21 +80,21 @@ public class FPSInputController : MonoBehaviour
 		if (Physics.Raycast (cameraRay, out hitInfo, Mathf.Infinity)) {
 			bool nameReset = false;
 			if (hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ()) {
-				nameReset = true;
-				HudText.SetText (hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ().equipName);
-				hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ().fadeIn();
-				if(hitInfo.distance>3){
-					hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ().setCanvasAlpha(1f);
-				}
-				else{
-					hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ().setCanvasAlpha(0.5f*hitInfo.distance-0.5f);
-				}
-			}else{
-				if(lastHit.collider.GetComponent<AccessEquipmentBehaviour>()){
-					if(lastHit.collider.GetComponent<AccessEquipmentBehaviour> ().descriptionCanvas!=null)
-						lastHit.collider.GetComponent<AccessEquipmentBehaviour> ().fadeOut();
-				}
-			}
+				if(hitInfo.collider.gameObject.Equals(lastHit.collider.gameObject)){
+					nameReset = true;
+					hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ().SetTrigger(true);
+					HudText.SetText (hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ().equipName);
+					if(hitInfo.distance>3){
+						hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ().setCanvasAlpha(1f);
+					}
+					else{
+						hitInfo.collider.GetComponent<AccessEquipmentBehaviour> ().setCanvasAlpha(0.5f*hitInfo.distance-0.5f);
+					}
+				}else
+					if(lastHit.collider.GetComponent<AccessEquipmentBehaviour> ()!=null)
+						lastHit.collider.GetComponent<AccessEquipmentBehaviour> ().SetTrigger(false);
+			}else if(lastHit.collider.GetComponent<AccessEquipmentBehaviour> ()!=null)
+				lastHit.collider.GetComponent<AccessEquipmentBehaviour> ().SetTrigger(false);
 			if (hitInfo.collider.GetComponent<InteractObjectBase> () && hitInfo.distance <= distanceToInteract) {
 				if (Input.GetKeyDown (KeyCode.E)) {
 					hitInfo.collider.GetComponent<InteractObjectBase> ().Interact ();

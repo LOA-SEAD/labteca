@@ -139,9 +139,8 @@ public class Mixture : IPhysicochemical {
 
 			float massOfReagent = (leftovers[1].Molarity * (leftovers[1].Volume) * leftovers[1].MolarMass)
 								  - ((trueLimiting * reaction.stoichiometryR2 / limitingStoichiometry) * leftovers[1].MolarMass); // Mass = previousMass of reagent - mass consumed;
-			                                               
-			Compound cAux = (Compound)(CompoundFactory.GetInstance().GetCompound (leftovers[1].Name).Clone());
-			leftovers[1].setValues(cAux);
+
+			leftovers[1].setValues(CompoundFactory.GetInstance().GetCompound (leftovers[1].Name));
 			leftovers[1].Purity = 1.0f;
 			leftovers[1].RealMass = massOfReagent;
 			if(leftovers[1].IsSolid) {
@@ -162,7 +161,6 @@ public class Mixture : IPhysicochemical {
 			//Setting product's values that depends on the mixture's final values
 			product.Molarity = productMass / this.Volume;
 			leftovers[1].Molarity = leftovers[1].RealMass / this.Volume;
-
 
 
 				/*
@@ -191,6 +189,23 @@ public class Mixture : IPhysicochemical {
 
 			Name = "UnknownMixture";
 			RealMass = leftovers[0].RealMass + leftovers[1].RealMass;
+
+			float auxVolume = 0.0f;
+
+			//Cases where the physical states are the same, the volumes do not change
+			if(leftovers[0].IsSolid && (!leftovers[1].IsSolid)) { //Case: l0 is solid, l1 is liquid
+				leftovers[0].Volume = 0.0f;
+				this.IsSolid = false;
+			}
+			else if (leftovers[1].IsSolid && (!leftovers[0].IsSolid)) { //Case: l0 is liquid, l1 is solid
+				leftovers[1].Volume = 0.0f;
+				this.IsSolid = false;
+			} else if (leftovers[0].IsSolid && leftovers[1].IsSolid) {
+				this.IsSolid = true;
+			}
+			else if ((!leftovers[0].IsSolid) && (!leftovers[1].IsSolid)) {
+				this.IsSolid = false;
+			}
 		}
 	
 	}
@@ -199,9 +214,9 @@ public class Mixture : IPhysicochemical {
 	public float GetMass() {
 		float resultingMass = 0.0f;
 
-		if(product != null)
+		if (product != null) {
 			resultingMass += product.RealMass;
-		Debug.Log (product.Formula + " = " + product.RealMass);
+		}
 		if (leftovers != null) {
 			for (int i = 0; i < leftovers.Count; i++) {
 				resultingMass += leftovers[i].RealMass;
@@ -212,12 +227,13 @@ public class Mixture : IPhysicochemical {
 		Debug.Log ("Mixture total mass = " + resultingMass.ToString ());
 		return resultingMass;
 	}
-	
+	//! Return the value of volume
 	public float GetVolume() {
 		float resultingVolume = 0.0f;
 					
-		if(product != null)
+		if (product != null) {
 			resultingVolume += product.Volume;
+		}
 		Debug.Log (product.Formula + " Volume = " + product.Volume);
 		if (leftovers != null) {
 			if (leftovers != null) {
@@ -229,6 +245,7 @@ public class Mixture : IPhysicochemical {
 		}
 		return resultingVolume;
 	}
+	
 
 	public void Dilute(Compound water) {
 

@@ -241,7 +241,22 @@ public class Mixture : IPhysicochemical {
 	
 	}
 
-	public void Dilute(Compound water) {
 
+	//! Dilutes the mixture based on the amount of water
+	//  This overload receives the very Water compound
+	public void Dilute(Compound water) {
+		
+	}
+
+	//! Returns a new instance of the mixture, based on the volume wanted
+	//  The portion of each component of the mixture is set based on the ratio of (originalComponentVolume / originalTotalVolume) * volume
+	public Mixture Clone (float volume) {
+		Mixture mix = new Mixture ();
+
+		mix.product = (Compound)product.Clone ((this.product.Volume / this.Volume) * volume);
+		mix.leftovers [0] = (Compound)this.leftovers [0].Clone ((this.leftovers [0].Volume / this.Volume) * volume);
+		mix.leftovers [1] = (Compound)this.leftovers [1].Clone ((this.leftovers [1].Volume / this.Volume) * volume);
+		
+		return mix;
 	}
 }

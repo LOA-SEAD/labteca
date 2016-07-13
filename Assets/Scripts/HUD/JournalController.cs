@@ -8,8 +8,9 @@ public class JournalController : TabletState {
 	public JournalUIInfo infoPrefab;
 	public JournalUIItem journalPrefab;    /*!< Prefab with reagent list layout. */
 	public float offSetItens;     /*!< Offset for each reagent on the list. */
-	public int experimentNumber;
+	public int experimentNumber=-1;
 	public Text experimentText;
+	public Dictionary<int,Dictionary<int, JournalUIItem>> experimentDictionary = new Dictionary<int, Dictionary<int, JournalUIItem>>();
 	
 	private ScrollRect UIScrollList;
 	private Vector3 currentPosition;
@@ -20,10 +21,11 @@ public class JournalController : TabletState {
 	void Start () {
 		UIScrollList = canvasObject.GetComponentInChildren<ScrollRect> ();
 		contentRect = UIScrollList.content;
-		rewriteContent ();
 	}
 	public void changeExperiment(int expo){
 		experimentText.text = "Experimento " +(expo+1);
+		LoadExperiment (expo);
+		SaveExperiment (experimentNumber);
 		if (experimentNumber != expo) {
 			experimentNumber = expo;
 			rewriteContent ();
@@ -76,10 +78,35 @@ public class JournalController : TabletState {
 			DestroyImmediate (deletable [i]);
 	}
 
+	public void LoadExperiment(int exp){
+		if (!experimentDictionary.ContainsKey (exp)&&exp!=-1) {
+			Dictionary<int, JournalUIItem> tempDictionary = new Dictionary<int, JournalUIItem>();
+			tempDictionary = JournalSaver.LoadJournalUIItems (exp);
+		
+			experimentDictionary.Add (exp, tempDictionary);
+		}
+	}
+
+	public void SaveExperiment(int exp){
+		if (exp != -1) {
+			Dictionary<int, JournalUIItem> tempDictionary = new Dictionary<int, JournalUIItem>();
+			experimentDictionary.Remove(exp);
+			GameObject[] journalUIItems = GameObject.FindGameObjectsWithTag ("JournalUIItem");
+
+			for (int i = 0; i < journalUIItems.Length; i++){
+				int key = int.Parse(journalUIItems[i].name.Replace("JournalUIItem",""));
+				tempDictionary.Add(key,journalUIItems[i].GetComponent<JournalUIItem>());
+			}
+			
+			experimentDictionary.Add(exp,tempDictionary);
+		}
+	}
+
 	public void rewriteContent(){
 		deleteContent ();
 		JournalUIItem currentJournalUI;
-		Dictionary<int, JournalUIItem> journalUIItem = JournalSaver.LoadJournalUIItems (experimentNumber);
+		Dictionary<int, JournalUIItem> journalUIItem = new Dictionary<int, JournalUIItem>();
+		experimentDictionary.TryGetValue (experimentNumber, out journalUIItem);
 		
 		// Set-up components
 		if (canvasObject == null)   

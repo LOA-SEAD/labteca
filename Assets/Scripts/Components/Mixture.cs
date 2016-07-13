@@ -12,8 +12,24 @@ public class Mixture : IPhysicochemical {
 
 	private string name;
 	public string Name { get{ return name; } set{ name = value; }}
-	private float realMass;		//The mass instantiated in the world [g]
-	public float RealMass { get { return this.GetMass (); } set { } }
+
+	public float RealMass { get { 
+		float resultingMass = 0.0f;
+			
+		if (product != null) {
+			resultingMass += product.RealMass;
+		}
+		if (leftovers != null) {
+			for (int i = 0; i < leftovers.Count; i++) {
+				resultingMass += leftovers[i].RealMass;
+				Debug.Log (leftovers[i].Formula + " = " + leftovers[i].RealMass);
+			}
+		}
+			
+		Debug.Log ("Mixture total mass = " + resultingMass.ToString ());
+		return resultingMass;
+		} set {}}
+
 	private float density;
 	public float Density { get { return density; } set { density = value; } }
 	private float solubility;
@@ -23,7 +39,24 @@ public class Mixture : IPhysicochemical {
 	private bool isSolid;
 	public bool IsSolid { get { return this.isSolid; } set { isSolid = value; } }
 	private float volume = 0.0f;		//volume instantiated in the world [mL]
-	public float Volume { get { return volume; } set { volume = value; } }
+
+	public float Volume { get { 
+		float resultingVolume = 0.0f;
+			
+		if (product != null) {
+			resultingVolume += product.Volume;
+		}
+		if (leftovers != null) {
+			if (leftovers != null) {
+				for (int i = 0; i < leftovers.Count; i++) {
+					resultingVolume += leftovers[i].Volume;
+					Debug.Log (leftovers[i].Formula + " Volume = " + leftovers[i].Volume);
+				}
+			}
+		}
+		return resultingVolume;
+	} set{}}
+
 	private float waterVolume = 0.0f;
 	public float WaterVolume { get { return waterVolume; } set { waterVolume = value; } }
 
@@ -153,15 +186,14 @@ public class Mixture : IPhysicochemical {
 			}
 
 			//Setting Mixture's values
-			this.RealMass = this.GetMass ();
-			this.Volume = this.GetVolume ();
+			//this.RealMass = this.GetMass ();
+			//this.Volume = this.GetVolume ();
 			this.Density  = this.RealMass / this.Volume;
 			this.Name = reaction.name;
 
 			//Setting product's values that depends on the mixture's final values
 			product.Molarity = productMass / this.Volume;
 			leftovers[1].Molarity = leftovers[1].RealMass / this.Volume;
-
 
 				/*
 				 * TODO: VERIFICAR PRECIPITADOS
@@ -188,7 +220,6 @@ public class Mixture : IPhysicochemical {
 			leftovers.Add (r2);
 
 			Name = "UnknownMixture";
-			RealMass = leftovers[0].RealMass + leftovers[1].RealMass;
 
 			float auxVolume = 0.0f;
 
@@ -209,43 +240,6 @@ public class Mixture : IPhysicochemical {
 		}
 	
 	}
-
-	//! Return the value of mass
-	public float GetMass() {
-		float resultingMass = 0.0f;
-
-		if (product != null) {
-			resultingMass += product.RealMass;
-		}
-		if (leftovers != null) {
-			for (int i = 0; i < leftovers.Count; i++) {
-				resultingMass += leftovers[i].RealMass;
-				Debug.Log (leftovers[i].Formula + " = " + leftovers[i].RealMass);
-			}
-		}
-
-		Debug.Log ("Mixture total mass = " + resultingMass.ToString ());
-		return resultingMass;
-	}
-	//! Return the value of volume
-	public float GetVolume() {
-		float resultingVolume = 0.0f;
-					
-		if (product != null) {
-			resultingVolume += product.Volume;
-		}
-		Debug.Log (product.Formula + " Volume = " + product.Volume);
-		if (leftovers != null) {
-			if (leftovers != null) {
-				for (int i = 0; i < leftovers.Count; i++) {
-					resultingVolume += leftovers[i].Volume;
-					Debug.Log (leftovers[i].Formula + " Volume = " + leftovers[i].Volume);
-				}
-			}
-		}
-		return resultingVolume;
-	}
-	
 
 	public void Dilute(Compound water) {
 

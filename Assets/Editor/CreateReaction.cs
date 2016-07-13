@@ -69,13 +69,13 @@ public class CreateReaction : EditorWindow
 
 		EditorGUILayout.BeginHorizontal();
 		//TODO: Add the isSolid component when defining the components
-		if(aName != "")
+		/*if(aName != "")
 		{
 			if (reagents.ContainsKey(aName)) 
 			{
 				EditorGUILayout.BeginVertical ();
 
-				EditorGUILayout.LabelField ("Nome: " + reagents [aName].Name);
+				EditorGUILayout.LabelField ("Nome: " + reagents [aName].Formula);
 				EditorGUILayout.LabelField ("MassaMolar: " + reagents [aName].MolarMass);
 				EditorGUILayout.LabelField ("Densidade: " + reagents [aName].Density);
 				EditorGUILayout.LabelField ("pH: " + reagents [aName].PH);
@@ -115,7 +115,7 @@ public class CreateReaction : EditorWindow
 			{
 				EditorGUILayout.BeginVertical ();
 				
-				EditorGUILayout.LabelField ("Nome: " + reagents [bName].Name);
+				EditorGUILayout.LabelField ("Nome: " + reagents [bName].Formula);
 				EditorGUILayout.LabelField ("MassaMolar: " + reagents [bName].MolarMass);
 				EditorGUILayout.LabelField ("Densidade: " + reagents [bName].Density);
 				EditorGUILayout.LabelField ("pH: " + (reagents [bName] as Compound).PH);
@@ -156,7 +156,7 @@ public class CreateReaction : EditorWindow
 			{
 				EditorGUILayout.BeginVertical ();
 				
-				EditorGUILayout.LabelField ("Nome: " + reagents [cName].Name);
+				EditorGUILayout.LabelField ("Nome: " + reagents [cName].Formula);
 				EditorGUILayout.LabelField ("MassaMolar: " + reagents [cName].MolarMass);
 				EditorGUILayout.LabelField ("Densidade: " + reagents [cName].Density);
 				EditorGUILayout.LabelField ("pH: " + (reagents [cName] as Compound).PH);
@@ -197,7 +197,7 @@ public class CreateReaction : EditorWindow
 			{
 				EditorGUILayout.BeginVertical ();
 				
-				EditorGUILayout.LabelField ("Nome: " + reagents [dName].Name);
+				EditorGUILayout.LabelField ("Nome: " + reagents [dName].Formula);
 				EditorGUILayout.LabelField ("MassaMolar: " + reagents [dName].MolarMass);
 				EditorGUILayout.LabelField ("Densidade: " + reagents [dName].Density);
 				EditorGUILayout.LabelField ("pH: " + (reagents [dName] as Compound).PH);
@@ -339,7 +339,12 @@ public class CreateReaction : EditorWindow
 				ReactionsSaver.SaveReactionsFromEditor(name, aMultipler, aName, bMultipler, bName, cMultipler, cName, dMultipler, dName);
 				this.Close();
 			}
-		}
+		}*/
+
+		if (GUILayout.Button ("Salvar")) {
+			ReactionsSaver.SaveReactionsFromEditor (name, aMultipler, aName, bMultipler, bName, cMultipler, cName, dMultipler, dName);
+			this.Close ();
+		} 
 
 		EditorGUILayout.EndScrollView();
 		EditorGUILayout.EndVertical();

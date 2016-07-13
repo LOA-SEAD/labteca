@@ -153,7 +153,6 @@ public class Glassware : ItemToInventory
 					}
 				}
 			}
-			//!!!spatula.FillSpatula();
 			break;
 		case MouseState.ms_filledSpatula: 	// Filled Spatula -> Glassware: unloads the spatula into the glassare
 			Spatula filledSpatula = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).spatula;
@@ -219,11 +218,16 @@ public class Glassware : ItemToInventory
 			if (re != null) {
 				if(re is IPhysicochemical) {
 					Color32 thisColor;
-
-					if(!(re as Compound).Formula.Contains("H2O"))
-						thisColor = (re as Compound).compoundColor;
-					else
+					if(!(re is Mixture)) {
+						if(!(re as Compound).Formula.Contains("H2O"))
+							thisColor = (re as Compound).compoundColor;
+						else
+							thisColor = new Color32(255,255,255,40);
+					}
+					else {
 						thisColor = new Color32(255,255,255,40);
+					}
+
 
 					if ((re as IPhysicochemical).IsSolid){
 						hasSolid = true;
@@ -353,7 +357,7 @@ public class Glassware : ItemToInventory
 		 */
 	}
 
-	//! 
+	//! Treatment of cases for when something is being put into the glassware
 	public bool IncomingReagent(Compound incomingCompound, float volumeFromTool) {
 		Debug.Log (incomingCompound.Formula + " incoming!");
 		if (compounds [0] != null) { //Case not empty
@@ -383,6 +387,12 @@ public class Glassware : ItemToInventory
 							compounds[0] = aux;
 							hasSolid = false;
 							hasLiquid = true;
+						}
+						else { //A mixure has to be created
+							Debug.Log ("r1 = " + (compounds[0] as Compound).Formula + "   r2 = " + incomingCompound.Formula);
+							Mixture mix = new Mixture(compounds[0] as Compound, incomingCompound);
+							compounds[0] = mix;
+
 						}
 						//(compounds [0] as Reagent).React (incomingCompound as Reagent);
 						/*
@@ -514,81 +524,4 @@ public class Glassware : ItemToInventory
 		 * GLASS TO INVENTORY();
 		 */
 	}
-	
-	//-------------------------------------------------------------------------//
-
-	//! Add the solid
-	public void AddSolid(float massSolid, string reagent){
-		if(liquid.activeSelf == false)
-			solid.SetActive(true);
-		GetComponent<Rigidbody>().mass += massSolid;
-	}
-
-	//! Remove the solid
-	/*public void RemoveSolid(float massSolid){
-		GetComponent<Rigidbody>().mass -= massSolid;
-		if(GetComponent<Rigidbody>().mass < mass){
-			GetComponent<Rigidbody>().mass = mass;
-			solid.SetActive(false);
-		}
-	}*/
-
-	//! Add the liquid
-	/*! Checks the current volume (higher, lower or equal) and add the liquid. */
-	public void AddLiquid(float massLiquid, float volumeLiquid){
-
-		if(currentVolume < maxVolume){
-
-			float lastVolume = currentVolume;
-
-			currentVolume += volumeLiquid;
-
-			Debug.Log (massLiquid);
-
-			if(currentVolume > maxVolume){
-
-				currentVolume = maxVolume;
-			}
-
-			Debug.Log (massLiquid);
-
-			liquid.SetActive(true);
-			GetComponent<Rigidbody>().mass += massLiquid*(currentVolume-lastVolume);
-		}
-		else if(currentVolume >= maxVolume ){
-
-            Debug.Log("Recipiente esta cheio");
-            //AlertDialogBehaviour.ShowAlert("Recipente esta cheio");
-		}
-	}
-
-	public void AddLiquid(float volumeLiquid){
-		AddLiquid (1, volumeLiquid);
-	}
-
-	//! Remove the liquid.
-	/*public void RemoveLiquid(float massLiquid, float volumeLiquid){
-
-		GetComponent<Rigidbody>().mass -= massLiquid*volumeLiquid;
-		currentVolume -= volumeLiquid;
-
-		if(currentVolume < 0)
-			currentVolume = 0;
-
-		if(GetComponent<Rigidbody>().mass < mass){
-			GetComponent<Rigidbody>().mass = mass;
-			liquid.SetActive(false);
-		}
-
-	}*/
-
-	/*public void RemoveLiquid(float volumeLiquid){
-		RemoveLiquid (1, volumeLiquid);
-	}*/
-
-	//!Message when the player clicks in glass.
-/*	public void CLickInGlass(){
-		Debug.Log ("CLick");
-		gameController.GetCurrentState().GetComponent<WorkBench> ().ClickGlass (this.gameObject);
-	}*/
 }

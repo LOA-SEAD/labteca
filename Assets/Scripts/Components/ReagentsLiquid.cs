@@ -103,7 +103,7 @@ public class ReagentsLiquid : MonoBehaviour
 				{
 					machine.textResult.text = "waiting";
 				}
-				machine.actualReagent = info.Name;
+				machine.actualReagent = info.Formula;
 				machine.actualConcentration = concentration;
 
 			}

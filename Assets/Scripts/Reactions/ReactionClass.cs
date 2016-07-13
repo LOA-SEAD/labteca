@@ -17,4 +17,21 @@ public class ReactionClass
 
 	public string subProduct;    		 //String with sub-product's formula
 	public int stoichiometrySubProduct;  //Integer with sub-product's multiplier
+
+	public ReactionClass() {}
+	public ReactionClass(ReactionClass re) {
+		this.name = re.name;
+		this.reagent1 = re.reagent1;
+		this.stoichiometryR1 = re.stoichiometryR1;
+		this.reagent2 = re.reagent2;
+		this.stoichiometryR2 = re.stoichiometryR2;
+		this.mainProduct = re.mainProduct;
+		this.stoichiometryMainProduct = re.stoichiometryMainProduct;
+		this.subProduct = re.subProduct;
+		this.stoichiometrySubProduct = re.stoichiometrySubProduct;
+	}
+
+	public virtual ReactionClass Clone() {
+		return new ReactionClass (this);
+	}
 }

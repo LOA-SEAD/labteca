@@ -357,7 +357,7 @@ public class Glassware : ItemToInventory
 		 */
 	}
 
-	//! Treatment of cases for when a reagent is being put into the glassware
+	//! Treatment of cases for when something is being put into the glassware
 	public bool IncomingReagent(Compound incomingCompound, float volumeFromTool) {
 		Debug.Log (incomingCompound.Formula + " incoming!");
 		if (compounds [0] != null) { //Case not empty

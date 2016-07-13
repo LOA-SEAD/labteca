@@ -25,9 +25,6 @@ public class CompoundFactory {
 
 		products = new Dictionary<string, Compound> ();
 		products = ComponentsSaver.LoadProducts ();
-		foreach (Compound c in products.Values) {
-			Debug.Log ("aMostrando produtos: " + c.Formula);
-		}
 	}
 
 	//! Returns a clone of the given compound
@@ -39,8 +36,6 @@ public class CompoundFactory {
 	}														
 
 	public Compound GetProduct (string formula) {
-		Debug.Log ("Returning product =" + formula);
-		Debug.Log ("Product being returned = " + products [formula].Formula);
 		if (products.ContainsKey (formula))
 			return (Compound)products [formula].Clone ();
 		else

@@ -10,6 +10,7 @@ public class Compound : IPhysicochemical {
 
 	//Water mass;
 	public static float waterMolarMass = 18.015f;
+	public static float waterDensity = 1.0f;
 	//Density of powedered material
 	protected const float powderDensity = 1.0f;
 
@@ -217,19 +218,19 @@ public class Compound : IPhysicochemical {
 	public void Dilute (float waterVolume) {	//TODO: IMPLEMENTAR PH
 		if (!this.IsSolid) {
 			this.Volume = this.Volume + waterVolume;
-			this.RealMass = this.RealMass + waterVolume*waterMolarMass;
+			this.RealMass = this.RealMass + waterVolume * waterDensity;
 			this.Molarity = (this.Molarity *  this.Volume) / (this.Volume + waterVolume);
 			this.Density = this.RealMass / this.Volume;
 		} else {
-			Debug.Log(this.volume);
-			if(this.CheckPrecipitate(waterVolume)) { //Case there is precipitation
+			/*if(this.CheckPrecipitate(waterVolume)) { //Case there is precipitation
 				this.Volume = waterVolume + (( this.molarMass * (this.volume / 1000)) - ((this.solubility * waterVolume * waterMolarMass) / 100) * powderDensity );
 			}
 			else { ///Case there is no precipitation
 				this.Volume = waterVolume;
 			}
-
-			this.RealMass = this.RealMass + waterVolume * waterMolarMass;
+			*/
+			this.Volume = waterVolume;
+			this.RealMass = this.RealMass + waterVolume * waterDensity;
 			this.Molarity = (this.Molarity *  this.Volume) / (this.Volume + waterVolume);
 			this.Density = this.RealMass / this.Volume;
 			/*

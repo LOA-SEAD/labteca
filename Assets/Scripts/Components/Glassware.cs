@@ -362,10 +362,6 @@ public class Glassware : ItemToInventory
 							content = mix;
 
 						}
-						//(compounds as Reagent).React (incomingCompound as Reagent);
-						/*
-						 * SET ALL THE OTHER CONTENTS AND MIXTURE STUFF (wheter here or on another script)
-						 */
 					}
 				}	
 			}

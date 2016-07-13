@@ -222,7 +222,7 @@ public class Pipette : MonoBehaviour {
 				
 				GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().cannotEndState = true;
 				
-				reagentInPipette = (Compound)(interactingGlassware.compounds[0] as Compound).Clone(volumeHeld);
+				reagentInPipette = (Compound)(interactingGlassware.content as Compound).Clone(volumeHeld);
 				
 				interactingGlassware.RemoveLiquid(volumeHeld);
 			}
@@ -336,11 +336,11 @@ public class Pipette : MonoBehaviour {
 	public void FillVolumetricPipette(Glassware glassware) { //Ok
 		if (glassware.currentVolume < maxVolume) { //Case volume on glass < pipette's max volume
 			volumeHeld = glassware.currentVolume;
-			reagentInPipette = (Compound)(glassware.compounds[0] as Compound).Clone (volumeHeld);
+			reagentInPipette = (Compound)(glassware.content as Compound).Clone (volumeHeld);
 			glassware.RemoveLiquid(glassware.currentVolume);
 		} else {
 			volumeHeld = maxVolume;
-			reagentInPipette = (Compound)(glassware.compounds[0] as Compound).Clone (volumeHeld);
+			reagentInPipette = (Compound)(glassware.content as Compound).Clone (volumeHeld);
 			glassware.RemoveLiquid (volumeHeld);
 		}
 		if (volumeHeld > 0.0f) {

@@ -44,6 +44,8 @@ public abstract class GameStateBase : MonoBehaviour {
 
     //! Start running the State.
 	public void StartRun(){
+		if (interactBox != null)
+			interactBox.SetActive (false);
 		canRun = true;
 		if (!(this is InGameState)) {
 			gameController.GetComponent<HUDController> ().inventoryLocked = true;
@@ -54,6 +56,8 @@ public abstract class GameStateBase : MonoBehaviour {
 
     //! Stop running the State.
 	public void StopRun(){
+		if (interactBox != null)
+			interactBox.SetActive (true);
 		gameController.GetComponent<HUDController> ().inventoryLocked = false;
 		gameController.GetComponent<HUDController> ().mapLocked = false;
 		canRun = false;

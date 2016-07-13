@@ -45,14 +45,19 @@ public abstract class GameStateBase : MonoBehaviour {
     //! Start running the State.
 	public void StartRun(){
 		canRun = true;
+		if (!(this is InGameState)) {
+			gameController.GetComponent<HUDController> ().inventoryLocked = true;
+			gameController.GetComponent<HUDController> ().mapLocked = true;
+		}
 		OnStartRun();
 	}
 
     //! Stop running the State.
 	public void StopRun(){
+		gameController.GetComponent<HUDController> ().inventoryLocked = false;
+		gameController.GetComponent<HUDController> ().mapLocked = false;
 		canRun = false;
 		OnStopRun();
-	
 	}
 
     //! Interface to run other methods once the State start running.
@@ -63,7 +68,7 @@ public abstract class GameStateBase : MonoBehaviour {
 
     //! Start the State.
 	public void StartState(){
-		Debug.Log (WorldLocation);
+		gameController.GetComponent<HUDController> ().CallInventory (true);
 		gameController.ChangeState(indexState);
 	}
 

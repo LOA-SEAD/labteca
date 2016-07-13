@@ -25,12 +25,12 @@ public class InGameState : GameStateBase {
 		HUD.enabled = true;
 		player.SetActive(true);
 
-		if (HUDControl.journalUp)
-			HUDControl.callJournal ();
+		if (HUDControl.tabletUp)
+			HUDControl.CallTablet (false);
 
 		if (HUDControl.inventoryUp) {
 			HUDControl.inventoryLocked=false;
-			HUDControl.callInventory ();
+			HUDControl.CallInventory (false);
 		}
 	}
 
@@ -38,12 +38,12 @@ public class InGameState : GameStateBase {
     /*! When it stops, the Player is setActive false. */
 	public override void OnStopRun ()
 	{
-		if (HUDControl.journalUp)
-			HUDControl.callJournal ();
+		if (HUDControl.tabletUp)
+			HUDControl.CallTablet (false);
 
 		if (!HUDControl.inventoryUp) {
-			HUDControl.callInventory ();
-			HUDControl.inventoryLocked=true;
+			HUDControl.CallInventory (false);
+			HUDControl.inventoryLocked=false;
 		}
 		HUD.enabled = false;
 		player.SetActive(false);

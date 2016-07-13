@@ -10,25 +10,33 @@ using System.Collections;
 public class HUDController : MonoBehaviour {
 	public InventoryControl invControl;
 	public KeyCode journalKey,inventoryKey,mapKey;
-	public bool journalUp=false,inventoryUp=false;
+	public bool tabletUp=false,inventoryUp=false;
 	public GameObject player,map; /*< GameObject of Player. */
 	public Canvas inventoryCanvas;
-	public bool inventoryLocked=false,lockKey;
+	public bool inventoryLocked=false,mapLocked = false,lockKey;
 
 	void Start(){
 		map.SetActive (false);
 		lockKey = false;
+		Screen.showCursor = false;
+		Screen.lockCursor = true;
 	}
 
 	void Update(){
-		if((Input.GetKeyDown(journalKey))&&!lockKey){
-			callJournal();
+		if(Input.GetKeyDown(journalKey)&&!lockKey){
+			CallTabletTrigger();
 		}
 		if ((Input.GetKeyDown (inventoryKey))&&!lockKey) {
-			callInventory();
+			CallInventoryTrigger();
 		}
 		if((Input.GetKeyDown(mapKey))&&!lockKey){
-			callMap();
+			CallMapTrigger();
+		}
+
+		if ((Input.GetKeyDown (KeyCode.Escape)) && !lockKey) {
+			CallTablet(false);
+			CallMap(false);
+			CallInventory(false);
 		}
 	}
 
@@ -52,42 +60,77 @@ public class HUDController : MonoBehaviour {
     {
         GetComponent<Canvas>().worldCamera = newCamera;
     }
-	public void callJournal(){
-		journalUp = (!journalUp);
-		invControl.setTabletState (journalUp);
 
-		if (player.GetComponent<MouseLook> ().enabled && journalUp)
+	public void CallTabletTrigger(){
+		CallTablet(!tabletUp);
+	}
+	public void CallTablet(bool b){
+		tabletUp = b;
+		invControl.setTabletState (b);
+
+		if (player.GetComponent<MouseLook> ().enabled && tabletUp)
 			changePlayerState ();
-		if (!player.GetComponent<MouseLook> ().enabled && !inventoryUp && !journalUp)
+		if (!player.GetComponent<MouseLook> ().enabled && !inventoryUp && !tabletUp)
 			changePlayerState ();
 
 		if (map.activeSelf)
-			map.SetActive (false);	
+			map.SetActive (false);
+
+		if (tabletUp) {
+			Screen.showCursor = true;
+			Screen.lockCursor = false;
+		}else if (!inventoryUp && !map.activeSelf) {
+			Screen.showCursor = false;
+			Screen.lockCursor = true;
+		}
 	}
 
-	public void callInventory(){
+	public void CallInventoryTrigger(){
+		CallInventory(!inventoryUp);
+	}
+	public void CallInventory(bool b){
 		if (!inventoryLocked) {
-			inventoryUp = (!inventoryUp);
-			invControl.setInventoryState (inventoryUp);
+			inventoryUp = b;
+			invControl.setInventoryState (b);
 			if (player.GetComponent<MouseLook> ().enabled && inventoryUp)
 				changePlayerState ();
-			if (!player.GetComponent<MouseLook> ().enabled && !inventoryUp && !inventoryLocked && !journalUp)
+			if (!player.GetComponent<MouseLook> ().enabled && !inventoryUp && !inventoryLocked && !tabletUp)
 				changePlayerState ();
 		}
 
 		if (map.activeSelf)
-			map.SetActive (false);				
+			map.SetActive (false);
+
+		if (inventoryUp) {
+			Screen.showCursor = true;
+			Screen.lockCursor = false;
+		} else if (!tabletUp && !map.activeSelf) {
+			Screen.showCursor = false;
+			Screen.lockCursor = true;
+		}
 	}
 
-	public void callMap(){
-		if (inventoryUp)
-			callInventory ();
-		if (journalUp)
-			callJournal ();
-		map.SetActive (!map.activeSelf);
-		if (player.GetComponent<MouseLook> ().enabled ==map.activeSelf)
-			changePlayerState ();
+	public void CallMapTrigger(){
+		CallMap(!map.activeSelf);
+	}
+	public void CallMap(bool b){
+		if (!mapLocked) {
+			if (inventoryUp)
+				CallInventory (false);
+			if (tabletUp)
+				CallTablet (false);
+			map.SetActive (b);
 
+			if (player.GetComponent<MouseLook> ().enabled == map.activeSelf)
+				changePlayerState ();
+		}
+		if (map.activeSelf) {
+			Screen.showCursor = true;
+			Screen.lockCursor = false;
+		}else if (!tabletUp && !inventoryUp) {
+			Screen.showCursor = false;
+			Screen.lockCursor = true;
+		}
 	}
 
 

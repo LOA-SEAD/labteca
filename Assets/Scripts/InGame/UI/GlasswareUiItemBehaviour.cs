@@ -39,7 +39,7 @@ public class GlasswareUiItemBehaviour : MonoBehaviour {
 			icon.sprite = icons[0];
 		if(nameGlass.text.Contains("Erlenmeyer"))
 			icon.sprite = icons[1];
-		if(nameGlass.text.Contains("Bequer"))
+		if(nameGlass.text.Contains("Béquer"))
 			icon.sprite = icons[2];
 
 

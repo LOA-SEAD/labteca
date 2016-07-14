@@ -45,7 +45,7 @@ public class WorkBench : GameStateBase{
 		//Pressing Esc will exit the state
 		if(Input.GetKeyDown(KeyCode.Escape)){
 			if(cannotEndState)
-				gameController.sendAlert("Nao e possivel sair com reagente na mao\nColoque de volta no seu pote");
+				gameController.sendAlert("Não é possível sair com reagente na mão\nColoque de volta no seu pote");
 			else{
 				GetComponentInParent<WorkBench>().OnStopRun();
 			
@@ -70,12 +70,12 @@ public class WorkBench : GameStateBase{
 	/*! Verifiy if glassware can be put on the equipment. */
 	public bool PutGlassInEquip(GameObject lastItemSelected){
 		if(positionGlassEquipament.childCount > 0){
-			gameController.sendAlert("O equipamento ja tem um recipiente!");
+			gameController.sendAlert("O equipamento já tem um recipiente!");
 			return false;
 		}
 
 		if(lastItemSelected.transform.parent == positionGlassEquipament){
-			gameController.sendAlert("O equipamento ja esta na bancada");
+			gameController.sendAlert("O equipamento já está na bancada");
 			return false;
 		}
 
@@ -115,7 +115,7 @@ public class WorkBench : GameStateBase{
 			}
 		}
 		Debug.Log ("erro");
-		gameController.sendAlert("A Bancada esta cheia!");
+		gameController.sendAlert("A Bancada está cheia!");
 		return false;
 	}
 
@@ -129,7 +129,7 @@ public class WorkBench : GameStateBase{
 			}
 		}
 		Debug.Log ("erro");
-		gameController.sendAlert("A Bancada esta cheia!");
+		gameController.sendAlert("A Bancada está cheia!");
 		return false;
 	}
 

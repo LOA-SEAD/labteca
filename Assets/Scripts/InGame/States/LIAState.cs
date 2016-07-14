@@ -44,7 +44,7 @@ public class LIAState : GameStateBase {
 				return false;
 			}
 		} else {
-			gameController.sendAlert("Ja tem um produto na LIA");
+			gameController.sendAlert("Já tem um produto na LIA");
 		}
 		return false;
 	}
@@ -57,7 +57,7 @@ public class LIAState : GameStateBase {
 			liquid.color = new Color32(255,255,255,0);
 			currentIndex = "";
 		} else {
-			gameController.sendAlert("Nao ha nenhum produto");
+			gameController.sendAlert("Não há nenhum produto");
 		}
 	}
 	

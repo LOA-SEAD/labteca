@@ -35,7 +35,7 @@ public class ReagentPot : ItemToInventory {
 				//spatula.FillSpatula ((Compound)this.reagent.Clone ());
 				if(reagent.FumeHoodOnly) { //In case it should be use at the Fume Hood
 					if(GameObject.Find("GameController").GetComponent<GameController>().currentStateIndex != 4) { // If it is the FumeHoodState
-						GameObject.Find("GameController").GetComponent<GameController>().sendAlert("Este reagente libera gases prejudiciais.\nDirija-se a capela");
+						GameObject.Find("GameController").GetComponent<GameController>().sendAlert("Este reagente libera gases prejudiciais.\nDirija-se à capela");
 					}
 					else { //Sub-case: being use at the fume hood.
 						spatula.FillSpatula (reagent.Name);
@@ -66,7 +66,7 @@ public class ReagentPot : ItemToInventory {
 			case MouseState.ms_pipette: 		//Pipette -> Liquid Reagent: fill the pipette with the reagent clicked
 				if(reagent.FumeHoodOnly) { //In case it should be use at the Fume Hood
 					if(GameObject.Find("GameController").GetComponent<GameController>().currentStateIndex != 4) { // If it is the FumeHoodState
-						GameObject.Find("GameController").GetComponent<GameController>().sendAlert("Este reagente libera gases prejudiciais.\nDirija-se a capela");
+						GameObject.Find("GameController").GetComponent<GameController>().sendAlert("Este reagente libera gases prejudiciais.\nDirija-se à capela");
 					}
 					else { //Sub-case: being use at the fume hood.
 						if(pipette.graduated)

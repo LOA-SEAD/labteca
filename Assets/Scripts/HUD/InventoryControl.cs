@@ -24,5 +24,7 @@ public class InventoryControl : MonoBehaviour {
 	public void setInventoryState(bool state){
 		if(inventory.activeSelf!=state)
 			inventory.SetActive (state);
+		if(state==false)
+			GameObject.Find("InventoryManager").GetComponent<InventoryManager>().actionTab.SetActive (false);
 	}
 }

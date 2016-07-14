@@ -117,7 +117,6 @@ public class InventoryManager : MonoBehaviour {
 	}
 
 	public void changeList(int index){
-
 		selectedItem = null;
 
 		for (int i = ObjectList.Count -1; i>=0; i--) {
@@ -171,7 +170,7 @@ public class InventoryManager : MonoBehaviour {
 					break;
 				}
 			}
-			if(item.gl.name.Contains("Bequer")){
+			if(item.gl.name.Contains("Béquer")){
 				icon.sprite = icons[5];
 				break;
 			}
@@ -216,7 +215,7 @@ public class InventoryManager : MonoBehaviour {
 					break;
 				}
 			}
-			if(gl.Contains("Bequer")){
+			if(gl.Contains("Béquer")){
 				if(GameObject.Find(item.index).GetComponent<Glassware>().hasSolid){
 					item.solid.sprite = productsIcons[2];
 					item.solid.enabled = true;

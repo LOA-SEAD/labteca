@@ -105,7 +105,7 @@ public class Glassware : ItemToInventory
 				(GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).stateUIManager.OpenOptionDialog (this);
 			}
 			else {
-				gameController.sendAlert("Este tipo de interaçao nao esta habilitada apos uma possivel reacao");
+				gameController.sendAlert("Este tipo de interação não está habilitada apás uma possável reação");
 			}
 		} else {
 			switch (currentState) {

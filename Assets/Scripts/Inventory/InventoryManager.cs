@@ -176,15 +176,15 @@ public class InventoryManager : MonoBehaviour {
 				break;
 			}
 			if(item.gl.name.Contains("Erlenmeyer")){
-				if(item.gl.name.Contains("25")){
+				if(item.gl.name.Contains(" 50ml")){
 					icon.sprite = icons[6];
 					break;
 				}
-				if(item.gl.name.Contains("50")){
+				if(item.gl.name.Contains("125")){
 					icon.sprite = icons[7];
 					break;
 				}
-				if(item.gl.name.Contains("100")){
+				if(item.gl.name.Contains("250")){
 					icon.sprite = icons[8];
 					break;
 				}
@@ -237,15 +237,15 @@ public class InventoryManager : MonoBehaviour {
 					item.liquid.sprite = productsIcons[5];
 					item.liquid.enabled = true;
 				}
-				if(gl.Contains("25")){
+				if(gl.Contains(" 50ml")){
 					icon.sprite = icons[6];
 					break;
 				}
-				if(gl.Contains("50")){
+				if(gl.Contains("125")){
 					icon.sprite = icons[7];
 					break;
 				}
-				if(gl.Contains("100")){
+				if(gl.Contains("250")){
 					icon.sprite = icons[8];
 					break;
 				}

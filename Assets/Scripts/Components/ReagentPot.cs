@@ -1,13 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class ReagentPot : ItemToInventory {
 	
 	public Reagent reagent = new Reagent();
+	public RectTransform infoCanvas;
 	public bool isSolid;
+	public List<Text> tabValues;
 
 	// Use this for initialization
 	void Start () {
+		tabValues[0].text = reagent.Name;
+		tabValues[1].text = reagent.MolarMass + " g/mol";
+		tabValues[2].text = reagent.Density+ " g/ml";
+		tabValues[3].text = CompoundFactory.GetInstance().GetCompound(reagent.Name).Purity*100+ "%";
+		tabValues[4].text = reagent.Solubility+ " g/1g";
 	}
 	
 	// Update is called once per frame

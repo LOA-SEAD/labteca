@@ -13,7 +13,7 @@ public class WorkBench : GameStateBase{
 	public Transform[] positionGlass;
 
 	//GameStateBase variables:
-	public Camera cameraState;                  /*!< Camera for this state. */
+	public Camera cameraState;                 /*!< Camera for this state. */
 	public EquipmentControllerBase equipmentController;	/*!< Equipment controller for this state */
 	//end of GameStateBase variables
 

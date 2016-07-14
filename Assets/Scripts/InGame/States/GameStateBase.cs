@@ -7,6 +7,7 @@ using System.Collections;
  *  methods when state is starting: 'OnStartRun' and when state is stopping: 'OnStopRun'.
  */
 public abstract class GameStateBase : MonoBehaviour {
+
 	public GameObject interactBox;
 	protected bool canRun;
 	protected int indexState;

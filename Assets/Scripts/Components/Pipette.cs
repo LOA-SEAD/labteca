@@ -333,7 +333,7 @@ public class Pipette : MonoBehaviour {
 
 	/* END OF GRADUATED PIPETTE */
 
-	public void FillVolumetricPipette(Glassware glassware) { //Ok
+	/*public void FillVolumetricPipette(Glassware glassware) { //Ok
 		if (glassware.currentVolume < maxVolume) { //Case volume on glass < pipette's max volume
 			volumeHeld = glassware.currentVolume;
 			reagentInPipette = (Compound)(glassware.content as Compound).Clone (volumeHeld);
@@ -348,8 +348,24 @@ public class Pipette : MonoBehaviour {
 			CursorManager.SetNewCursor (filledPipette_CursorTexture, hotSpot);
 			GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().cannotEndState = true;
 		}
+	}*/
+	/*PRECIPITATE VERSION*/public void FillVolumetricPipette(Glassware glassware) { //NEEDS TESTING
+		if (glassware.currentVolume < maxVolume) { //Case volume on glass < pipette's max volume
+			volumeHeld = glassware.currentVolume;
+			reagentInPipette = (glassware.content as Compound).PipetteUse (volumeHeld);
+			glassware.RemoveLiquid(glassware.currentVolume);
+		} else {
+			volumeHeld = maxVolume;
+			reagentInPipette = (glassware.content as Compound).PipetteUse (volumeHeld);
+			glassware.RemoveLiquid (volumeHeld);
+		}
+		if (volumeHeld > 0.0f) {
+			CursorManager.SetMouseState (MouseState.ms_filledPipette);
+			CursorManager.SetNewCursor (filledPipette_CursorTexture, hotSpot);
+			GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().cannotEndState = true;
+		}
 	}
-	public void FillVolumetricPipette(string reagent) { //OK
+	/*public void FillVolumetricPipette(string reagent) { //OK
 		volumeHeld = maxVolume;
 
 		reagentInPipette = (Compound)CompoundFactory.GetInstance ().GetCompound ((reagent)).Clone (volumeHeld);
@@ -358,7 +374,18 @@ public class Pipette : MonoBehaviour {
 
 		GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().cannotEndState = true;
 
+	}*/
+	public void FillVolumetricPipette(string reagent) { //OK
+		volumeHeld = maxVolume;
+		//TODO: REDO HOW THE REAGENT IS TAKEN FROM THE POT. Needs an overload that handles that
+		reagentInPipette = (Compound)CompoundFactory.GetInstance ().GetCompound ((reagent)).Clone (volumeHeld);
+		CursorManager.SetMouseState (MouseState.ms_filledPipette);
+		CursorManager.SetNewCursor (filledPipette_CursorTexture, hotSpot);
+
+		GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().cannotEndState = true;
+
 	}
+
 
 	public void UnfillVolumetricPipette(Glassware glassware) { //Ok
 		if ((glassware.maxVolume - glassware.currentVolume) < this.maxVolume) { //Case volume on pipette > volume available

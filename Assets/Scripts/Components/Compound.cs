@@ -194,21 +194,23 @@ public class Compound : IPhysicochemical {
 			return false;
 		}
 	}
+	
 	//! This is being pipetted
 	//  The volume is already lower than the total solution volume
 	public Compound PipetteUse(float pipetteVolume) {
-		Compound pipettedPart = this.Clone();
+		Compound pipettedPart = (Compound)this.Clone();
 
 		pipettedPart.solidMass = 0.0f;
 		pipettedPart.solidVolume = 0.0f;
 
 		pipettedPart.TotalMoles = pipetteVolume * this.Molarity;
-		pipettedPart.solutionVolume = pipettedVolume;
-		pipettedPart.solutionMass = pipettedVolume * this.solutionDensity;
+		pipettedPart.solutionVolume = pipetteVolume;
+		pipettedPart.solutionMass = pipetteVolume * this.solutionDensity;
 
-		this.TotalMoles -= pipettedPart.TolalMoles;
-		this.solutionVolume -= pipettedVolume;
-		this.solutionMass -= pipettedVolume * this.solutionDensity;
+		//TODO: CHECK WHERE THINGS WILL BE SET. Now it is redundant (Glassware and here)
+		this.TotalMoles -= pipettedPart.TotalMoles;
+		this.solutionVolume -= pipetteVolume;
+		this.solutionMass -= pipetteVolume * this.solutionDensity;
 
 		return pipettedPart;
 	}
@@ -225,16 +227,17 @@ public class Compound : IPhysicochemical {
 	//! This is being "spatuled"
 	//  The volume is already lower than the total solid volume
 	public Compound SpatulaUse(float spatulaVolume) {
-		Compound takenPart = this.Clone();
+		Compound takenPart = (Compound)this.Clone();
 
-		takenPart.liquidMass = 0.0f;
-		takenPart.liquidVolume = 0.0f;
+		takenPart.solutionMass = 0.0f;
+		takenPart.solutionVolume = 0.0f;
 
 		takenPart.TotalMoles = spatulaVolume * this.Molarity;
 		takenPart.solidVolume = spatulaVolume;
 		takenPart.solidMass = spatulaVolume * this.Density; //RECHECK THIS LATER; This Density now is the density as it came out of the pot
 
-		this.TotalMoles -= takenPart.TolalMoles;
+		//TODO: CHECK WHERE THINGS WILL BE SET. Now it is redundant (Glassware and here)
+		this.TotalMoles -= takenPart.TotalMoles;
 		this.solidVolume -= spatulaVolume;
 		this.solidMass -= spatulaVolume * this.Density;
 

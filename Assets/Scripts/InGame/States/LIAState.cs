@@ -25,7 +25,7 @@ public class LIAState : GameStateBase {
 		
 	}
 
-	public bool RecieveProduct(ItemInventoryBase item,GameObject obj){
+	public bool ReceiveProduct(ItemInventoryBase item,GameObject obj){
 		if (currentIndex.Length == 0) {
 			if (obj != null) {
 				currentIndex = item.index;

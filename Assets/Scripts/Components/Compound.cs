@@ -7,13 +7,13 @@ using System.Collections.Generic;
 	The compounds are the reagents as "pure" as they can, having all the reference values. */
 [System.Serializable]
 public class Compound : IPhysicochemical {
-
+	
 	//Water mass;
 	public static float waterMolarMass = 18.015f;
 	public static float waterDensity = 1.0f;
 	//Density of powedered material
 	protected const float powderDensity = 1.0f;
-
+	
 	[SerializeField]
 	private string name;
 	public string Name { get{ return name; } set{ name = value.Clone().ToString(); }}
@@ -36,14 +36,14 @@ public class Compound : IPhysicochemical {
 	[SerializeField]
 	private float volume;		//volume instantiated in the world [mL]
 	public float Volume { get { return volume; } set {volume = value;}}
-	private float density;
+	private float density;		//Density as it was inside the pot
 	public float Density { get { return (this.isSolid) ? powderDensity : density; } set { density = value; } }
-	private float solubility;
+	private float solubility;	//Solubility of a reagent in water [g/100g]
 	public float Solubility { get { return solubility; } set { solubility = value; } }
 	public Texture2D irSpecter;
 	public Texture2D uvSpecter;
 	public Color32 compoundColor;
-
+	
 	//For liquid compounds
 	private float pH;
 	public float PH { get { return pH; } set { pH = value; } }
@@ -58,19 +58,31 @@ public class Compound : IPhysicochemical {
 	private float flameSpecter;
 	public float FlameSpecter { get { return flameSpecter; } set { flameSpecter = value; } }
 	public Texture2D hplc;  //High-Performance liquid chromatography
-
+	
 	private bool fumeHoodOnly;
 	public bool FumeHoodOnly { get { return fumeHoodOnly; } set { fumeHoodOnly = value; } }
+	private float totalMoles = 1.0f;
+	public float TotalMoles { get { return totalMoles; } set { totalMoles = value; } }
+	private float solutionMass = 0.0f;
+	public float SolutionMass { get { return solutionMass; } set { solutionMass = value; } }
+	private float solutionVolume = 0.0f;
+	public float SolutionVolume { get { return solutionVolume; } set { solutionVolume = value; } }
+	private float solutionDensity = 0.0f; //TODO: IF SOLID, NEEDS TO BE SET WHEN CREATING THE REAGENT. It will be the density of a 1mol/L solution
+	public float SolutionDensity { get { return solutionDensity; } set { solutionDensity = value; } }
+	private float solidMass = 0.0f;
+	public float SolidMass { get { return solidMass; } set { solidMass = value; } }
+	private float solidVolume = 0.0f;
+	public float SolidVolume { get { return solidVolume; } set { solidVolume = value; } }
 	
 	// Returns the value of density
 	//!To be used by the Reagent class to clone a Compound correctly
 	public float getDensity () { return this.density; }
-
-
+	
+	
 	//! Constructor for generating a Compound that is yet not used in the real World
 	public Compound(string _name,string _formula, bool _isSolid, float _molarMass, float _purity, float _density, float _solubility, Texture2D _irSpecter, Texture2D _uvSpecter,
 	                float _pH, float _conducdibility, float _turbidity, float _polarizability, float _refratometer, float _flameSpecter, Texture2D _hplc, bool _fumeHood) {
-
+		
 		Name = _name;
 		Formula = _formula;
 		isSolid = _isSolid;
@@ -92,13 +104,12 @@ public class Compound : IPhysicochemical {
 		//realMass = concentration * molarMass + (1 - concentration)*waterMolarMass;
 		molarity = ((purity * density) / molarMass); // number of mols / volume
 		originalMolarity = molarity;
-
 	}
-
+	
 	//! Empty constructor
 	public Compound () {
 	}
-
+	
 	//! Constructor that copies all the attributes of a previous compound
 	public Compound (Compound r) {
 		this.Name = r.Name;
@@ -123,9 +134,16 @@ public class Compound : IPhysicochemical {
 		this.realMass = r.realMass;
 		this.volume = r.volume;
 		this.compoundColor = r.compoundColor;
-		this.originalMolarity = r.originalMolarity; //TODO: Leo, certeza que este nao vai dar pau?
+		this.originalMolarity = r.originalMolarity;
+		
+		this.totalMoles = r.totalMoles;
+		this.solutionMass = r.solutionMass;
+		this.solutionVolume = r.solutionVolume;
+		this.solutionDensity = r.solutionDensity;
+		this.solidMass = r.solidMass;
+		this.solidVolume = r.solidVolume;
 	}
-
+	
 	//! Set all the values to the ones of an existing compound
 	public void setValues(Compound r){
 		this.Name = r.Name;
@@ -148,141 +166,153 @@ public class Compound : IPhysicochemical {
 		this.fumeHoodOnly = r.FumeHoodOnly;
 		this.compoundColor = r.compoundColor;
 		originalMolarity = molarity;
+		
+		this.totalMoles = r.totalMoles;
+		this.solutionMass = r.solutionMass;
+		this.solutionVolume = r.solutionVolume;
+		this.solutionDensity = r.solutionDensity;
+		this.solidMass = r.solidMass;
+		this.solidVolume = r.solidVolume;
 	}
 	
-	//! Set all the values to the ones of an existing compound
-	/*public void CopyCompound(Compound baseCompound) {
-
-		System.Reflection.FieldInfo[] fields = baseCompound.GetType().GetFields(); 
-		foreach (System.Reflection.FieldInfo field in fields)
-		{
-			field.SetValue(this, field.GetValue(baseCompound));
-		}
-		/*name = baseCompound.name;
-		isSolid = baseCompound.isSolid;
-		molarMass = baseCompound.molarMass;
-		purity = baseCompound.purity;
-		density = baseCompound.density;
-		solubility = baseCompound.solubility;
-		irSpecter = baseCompound.irSpecter;
-		uvSpecter = baseCompound.uvSpecter;
-		pH = baseCompound.pH;
-		conductibility = baseCompound.conductibility;
-		turbidity = baseCompound.turbidity;
-		polarizability = baseCompound.polarizability;
-		refratometer = baseCompound.refratometer;
-		flameSpecter = baseCompound.flameSpecter;
-		hplc = baseCompound.hplc;*/
-	//}
-
 	public virtual object Clone() {
 		return new Compound (this);
 	}
-	public virtual object Clone(float compoundVolume) {
+	public virtual object Clone(float compoundVolume) { //TODO: REVER ISSO!! Precisaria de métodos para clonar de cada maneira (Liquido, Liquido+Precipitado) e o que será clonado
 		Compound newCompound = new Compound(this);
 		newCompound.volume = compoundVolume;
 		newCompound.realMass = newCompound.Density * newCompound.Volume;
+
 		return newCompound;
 	}
+	//! For pipette to check if this is "pipettable"
+	public bool TryPipette() {
+		if(this.solutionMass > 0.0f) {
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	//! This is being pipetted
+	//  The volume is already lower than the total solution volume
+	public Compound PipetteUse(float pipetteVolume) {
+		Compound pipettedPart = this.Clone();
+
+		pipettedPart.solidMass = 0.0f;
+		pipettedPart.solidVolume = 0.0f;
+
+		pipettedPart.TotalMoles = pipetteVolume * this.Molarity;
+		pipettedPart.solutionVolume = pipettedVolume;
+		pipettedPart.solutionMass = pipettedVolume * this.solutionDensity;
+
+		this.TotalMoles -= pipettedPart.TolalMoles;
+		this.solutionVolume -= pipettedVolume;
+		this.solutionMass -= pipettedVolume * this.solutionDensity;
+
+		return pipettedPart;
+	}
+
+	//! For satulas to check if this is "spatulable"
+	public bool TrySpatula() {
+		if(this.solutionMass <= 0.0f && this.solidMass > 0.0f) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	//! This is being "spatuled"
+	//  The volume is already lower than the total solid volume
+	public Compound SpatulaUse(float spatulaVolume) {
+		Compound takenPart = this.Clone();
+
+		takenPart.liquidMass = 0.0f;
+		takenPart.liquidVolume = 0.0f;
+
+		takenPart.TotalMoles = spatulaVolume * this.Molarity;
+		takenPart.solidVolume = spatulaVolume;
+		takenPart.solidMass = spatulaVolume * this.Density; //RECHECK THIS LATER; This Density now is the density as it came out of the pot
+
+		this.TotalMoles -= takenPart.TolalMoles;
+		this.solidVolume -= spatulaVolume;
+		this.solidMass -= spatulaVolume * this.Density;
+
+		return takenPart;
+	}
+
+
 
 	//! Dilutes the reagent into water
 	// 	Takes the reagent Water as a parapeter in order to destroy the component afterwards.
 	public void Dilute (Compound water) {	//TODO: IMPLEMENTAR PH
-		if (!this.IsSolid) {
-			this.Volume = this.Volume + water.Volume;
-			this.RealMass = this.RealMass + water.RealMass;
-			this.Molarity = (this.Molarity *  this.Volume) / (this.Volume + water.Volume);
-			this.Density = this.RealMass / this.Volume;
-		} else {
-			Debug.Log(this.volume);
-			if(this.CheckPrecipitate(water)) { //Case there is precipitation
-				this.Volume = water.Volume + (( this.molarMass * (this.volume / 1000)) - ((this.solubility * water.RealMass) / 100) * powderDensity );
-			}
-			else { ///Case there is no precipitation
-				this.Volume = water.Volume;
-			}
-
-			Debug.Log(water.realMass);
-			this.RealMass = this.RealMass + water.RealMass;
-			this.Molarity = (this.Molarity *  this.Volume) / (this.Volume + water.Volume);
-			this.Density = this.RealMass / this.Volume;
-			/*
-			 * Check if there will be any precipitate
-			 */
-			this.IsSolid = false;
+		if(CheckPrecipitate(water.Volume)) { //There will be precipitate after the dilution
+			this.DilutionWithPrecipitate(water.Volume);
 		}
-		
+		else { //No precipitate afterwards
+			this.FullDilution(water.Volume);
+		}
 		water = null;
 		RefreshColor ();
 	}
+	//	Overload that only receives the water volume
 	public void Dilute (float waterVolume) {	//TODO: IMPLEMENTAR PH
-		if (!this.IsSolid) {
-			this.Volume = this.Volume + waterVolume;
-			this.RealMass = this.RealMass + waterVolume * waterDensity;
-			this.Molarity = (this.Molarity *  this.Volume) / (this.Volume + waterVolume);
-			this.Density = this.RealMass / this.Volume;
-		} else {
-			/*if(this.CheckPrecipitate(waterVolume)) { //Case there is precipitation
-				this.Volume = waterVolume + (( this.molarMass * (this.volume / 1000)) - ((this.solubility * waterVolume * waterMolarMass) / 100) * powderDensity );
-			}
-			else { ///Case there is no precipitation
-				this.Volume = waterVolume;
-			}
-			*/
-			this.Volume = waterVolume;
-			this.RealMass = this.RealMass + waterVolume * waterDensity;
-			this.Molarity = (this.Molarity *  this.Volume) / (this.Volume + waterVolume);
-			this.Density = this.RealMass / this.Volume;
-			/*
-			 * Check if there will be any precipitate
-			 */
-			this.IsSolid = false;
+		if(CheckPrecipitate(waterVolume)) { //There will be precipitate after the dilution
+			this.DilutionWithPrecipitate(waterVolume);
+		}
+		else { //No precipitate afterwards
+			this.FullDilution(waterVolume);
 		}
 		RefreshColor ();
 	}
-
+	private void FullDilution(float waterVolume) {
+		this.solutionMass = waterVolume * waterDensity + this.totalMoles*this.MolarMass;
+		this.solutionVolume = waterVolume; //TODO: REVER COM A TECA
+		
+		this.SolidMass = 0.0f;
+		this.SolidVolume = 0.0f;
+		
+		this.Molarity = this.TotalMoles / this.SolutionVolume;
+		
+		this.SolutionDensity = this.SolutionMass / this.SolutionVolume;
+		this.Volume = this.SolutionVolume + this.SolidVolume;
+		this.RealMass = this.SolutionMass + this.SolidMass;
+	}
+	private void DilutionWithPrecipitate(float waterVolume) {
+		this.SolutionMass = (waterVolume * waterDensity * this.Solubility / 100) + waterVolume * waterDensity; //Will be saturated
+		this.SolutionVolume = waterVolume; //TODO: PERGUNTAR TECA RELAÇÃO ENTRE MOLARIDADE E DENSIDADE, OU QUAL VALOR DE DENSIDADE OU VOLUME USAR APÓS DILUIÇÃO
+		
+		this.SolidMass = this.TotalMoles * this.MolarMass - (waterVolume * waterDensity * this.Solubility / 100);
+		this.SolidVolume = solidMass * powderDensity;
+		
+		this.Molarity = (this.TotalMoles - this.SolidMass * this.MolarMass) / this.SolutionVolume;
+			
+		this.SolutionDensity = this.SolutionMass / this.SolutionVolume;
+		this.Volume = this.SolutionVolume + this.SolidVolume;
+		this.RealMass = this.SolutionMass + this.SolidMass;
+	}
+	
+	
 	//! Checks if there would be precipitate on the compound
 	//  Returns true if precipitation should happen. False otherwise
-	public bool CheckPrecipitate(Compound water) {
-
-		if (this.Solubility < ((this.MolarMass * this.MolarMass * this.Volume) / water.RealMass)) {
-			return true;
-		} else {
-			return false;
-		}
-
-	}
 	public bool CheckPrecipitate(float water) {
-		
-		if (this.Solubility < ((this.MolarMass * this.MolarMass * this.Volume) / water * waterMolarMass)) {
+		if (this.Solubility < ((this.TotalMoles * MolarMass) / ((water + (this.SolutionMass - (this.TotalMoles*this.MolarMass - this.SolidMass))) * waterMolarMass))) {
 			return true;
 		} else {
 			return false;
 		}
-		
 	}
-
+	
+	public void RefreshPrecipitate() {
+	}
+	
 	public void RefreshColor(){
 		if(!this.isSolid){
 			byte alpha = originalMolarity >0 ? (byte)(165 - 115 * (1-this.molarity/this.originalMolarity)):(byte)165;
 			this.compoundColor = new Color32 (this.compoundColor.r,
-		                   	  	             this.compoundColor.g,
-		                     	             this.compoundColor.b,
-			                	             alpha);
+			                                  this.compoundColor.g,
+			                                  this.compoundColor.b,
+			                                  alpha);
 		}
 	}
-	/*public void Dilute (float waterVolume) {
-		Debug.Log ("Dilute(float) called");
-		if (!IsSolid) {
-			this.Volume = this.Volume + waterVolume;
-			this.RealMass = this.RealMass + waterVolume * waterMolarMass;
-			this.Molarity = (this.Molarity  *  this.Volume) / (this.Volume + waterVolume);
-			this.Density = this.RealMass / this.Volume;
-		} else {
-			this.Volume = waterVolume; //TODO:CHECK WITH TECA.
-			this.RealMass = this.RealMass + waterVolume * waterMolarMass;
-			this.Molarity = (this.Molarity *  this.Volume) / (this.Volume + waterVolume);
-			this.Density = this.RealMass / this.Volume;
-		}
-	}*/
 }

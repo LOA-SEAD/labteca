@@ -58,4 +58,13 @@ public interface IPhysicochemical {
 		get;
 		set;
 	}
+	
+	float SolidMass {
+		get;
+		set;
+	}
+	float SolutionMass {
+		get;
+		set;
+	}
 }

@@ -73,6 +73,10 @@ public class Mixture : IPhysicochemical {
 	private float refratometer;
 	public float Refratometer { get { return refratometer; } set { refratometer = value; } }
 
+	private float solidMass;
+	public float SolidMass { get { return solidMass; } set { solidMass = value; } }
+	private float solutionMass;
+	public float SolutionMass { get { return solutionMass; } set { solutionMass = value; } }
 
 	//! The reagents that resulted on this mixture.
 	// It may also indicate reagent leftovers after the reaction.

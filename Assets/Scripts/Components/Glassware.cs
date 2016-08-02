@@ -217,12 +217,20 @@ public class Glassware : ItemToInventory
 					thisColor = new Color32(255,255,255,40);
 				}
 
-				if ((content as IPhysicochemical).IsSolid){
+				//Setting the booleans for checking if the liquid or solid meshes should be visible
+				if ((content as IPhysicochemical).SolidMass > 0.0f){
 					hasSolid = true;
 					solidColor = thisColor;
-				}else{
+				}
+				else {
+					hasSolid = false;
+				}
+				if ((content as IPhysicochemical).SolutionMass > 0.0f){
 					hasLiquid = true;
 					liquidColor = thisColor;
+				}
+				else{
+					hasLiquid = false;
 				}
 			}
 		}
@@ -340,15 +348,16 @@ public class Glassware : ItemToInventory
 				if (incomingCompound.Formula == "H2O") { // SubCase: Water is coming
 					if ((content as Compound).Formula == "H2O") { // There's water already
 						(content as Compound).AddSameCompound(incomingCompound);
+
 					} else {	// There's a reagent
 						(content as Compound).Dilute ((Compound)incomingCompound.Clone(volumeFromTool));
-						hasLiquid = true;
+						/*hasLiquid = true;
 						if((content as Compound).SolidMass > 0.0f){
 							hasSolid = true;
 						}
 						else {
 							hasSolid = false;
-						}
+						}*/
 					}
 				} else {	// SubCase: A reagent is coming
 					if (incomingCompound.Formula == (content as Compound).Formula) { // There's the same reagent inside
@@ -359,19 +368,18 @@ public class Glassware : ItemToInventory
 							aux.Dilute(content as Compound);
 							content = aux;
 
-							hasLiquid = true;
+							/*hasLiquid = true;
 							if((content as Compound).SolidMass > 0.0f){
 								hasSolid = true;
 							}
 							else {
 								hasSolid = false;
-							}
+							}*/
 						}
 						else { //A mixure has to be created
 							Debug.Log ("r1 = " + (content as Compound).Formula + "   r2 = " + incomingCompound.Formula);
 							Mixture mix = new Mixture(content as Compound, incomingCompound);
 							content = mix;
-
 						}
 					}
 				}	
@@ -379,7 +387,7 @@ public class Glassware : ItemToInventory
 			this.RefreshContents();
 			return true;
 		} else {
-			if(!incomingCompound.IsSolid) {
+			if(incomingCompound.SolutionMass > 0.0f) { //As the incoming compound can be either solid or liquid, only one check is enough
 				this.PourLiquid(volumeFromTool, volumeFromTool * incomingCompound.Density, incomingCompound);
 			}
 			else
@@ -428,52 +436,6 @@ public class Glassware : ItemToInventory
 		RefreshContents();
 	}
 
-	//! Pours the same reagent
-	//TODO: DELETE THIS. It's not being used anymore. Keeping it here just for possible future checking
-	public void AddSameReagent(float volumeFromTool, Compound reagentFromTool) { //TODO:Verify all interactions! Volumetric / Graduated / Spatula / WashBottle
-	
-		Debug.Log ("Adding same reagent " + reagentFromTool.Formula + " to " + (content as Compound).Formula );
-		if ((content as Compound).IsSolid == reagentFromTool.IsSolid) { //Case: same physical state
-			(content as Compound).TotalMoles += reagentFromTool.TotalMoles;
-
-			(content as Compound).SolutionMass += reagentFromTool.SolutionMass;
-			(content as Compound).SolutionVolume += reagentFromTool.SolutionVolume;
-			(content as Compound).SolutionDensity = (content as Compound).SolutionMass / (content as Compound).SolutionVolume;
-			(content as Compound).Molarity = ((content as Compound).SolutionMass * (content as Compound).MolarMass) / (content as Compound).SolutionVolume;
-
-			(content as Compound).SolidMass += reagentFromTool.SolidMass;
-			(content as Compound).SolidVolume += reagentFromTool.SolidVolume;
-
-
-
-			/*(content as Compound).Molarity = ((content as Compound).Volume * (content as Compound).Molarity + reagentFromTool.Molarity * volumeFromTool) / ((content as Compound).Volume + volumeFromTool);
-			(content as Compound).Volume = (content as Compound).Volume + volumeFromTool;
-			(content as Compound).RealMass = (content as Compound).RealMass + reagentFromTool.Density * volumeFromTool;
-			(content as Compound).Density = (content as Compound).RealMass / (content as Compound).Volume;*/
-		} else {
-			if(reagentFromTool.IsSolid) {
-				(content as Compound).Molarity = ((content as Compound).Volume * (content as Compound).Molarity + reagentFromTool.Molarity * volumeFromTool) / ((content as Compound).Volume + volumeFromTool);
-				(content as Compound).Volume = (content as Compound).Volume; //TODO: NEEDS TO CHECK FOR PRECIPITATE
-				(content as Compound).RealMass = (content as Compound).RealMass + reagentFromTool.Density * volumeFromTool;
-				(content as Compound).Density = (content as Compound).RealMass / (content as Compound).Volume;
-			}
-			else {
-				(content as Compound).Molarity = ((content as Compound).Volume * (content as Compound).Molarity + reagentFromTool.Molarity * volumeFromTool) / ((content as Compound).Volume + volumeFromTool);
-				(content as Compound).Volume = volumeFromTool; //TODO: NEEDS TO CHECK FOR PRECIPITATE
-				(content as Compound).RealMass = (content as Compound).RealMass + reagentFromTool.Density * volumeFromTool;
-				(content as Compound).Density = (content as Compound).RealMass / (content as Compound).Volume;
-			}
-			(content as Compound).IsSolid = false;
-			hasSolid = false;
-			hasLiquid = true;
-		}
-		Debug.Log ("Molarity = " + (content as Compound).Molarity);
-		Debug.Log ("Volume = " + (content as Compound).Volume);
-		Debug.Log ("RealMass = " + (content as Compound).RealMass);
-
-		RefreshContents ();
-	}
-
 	//!	Inserts a solid into the glassware
 	//	The solid only comes from spatulas
 	public void InsertSolid(float volumeFromTool, float solidMass, Compound reagentFromTool) {
@@ -511,5 +473,51 @@ public class Glassware : ItemToInventory
 		/*
 		 * GLASS TO INVENTORY();
 		 */
+	}
+
+	//! Pours the same reagent
+	//TODO: DELETE THIS. It's not being used anymore. Keeping it here just for possible future checking
+	public void AddSameReagent(float volumeFromTool, Compound reagentFromTool) { //TODO:Verify all interactions! Volumetric / Graduated / Spatula / WashBottle
+		
+		Debug.Log ("Adding same reagent " + reagentFromTool.Formula + " to " + (content as Compound).Formula );
+		if ((content as Compound).IsSolid == reagentFromTool.IsSolid) { //Case: same physical state
+			(content as Compound).TotalMoles += reagentFromTool.TotalMoles;
+			
+			(content as Compound).SolutionMass += reagentFromTool.SolutionMass;
+			(content as Compound).SolutionVolume += reagentFromTool.SolutionVolume;
+			(content as Compound).SolutionDensity = (content as Compound).SolutionMass / (content as Compound).SolutionVolume;
+			(content as Compound).Molarity = ((content as Compound).SolutionMass * (content as Compound).MolarMass) / (content as Compound).SolutionVolume;
+			
+			(content as Compound).SolidMass += reagentFromTool.SolidMass;
+			(content as Compound).SolidVolume += reagentFromTool.SolidVolume;
+			
+			
+			
+			/*(content as Compound).Molarity = ((content as Compound).Volume * (content as Compound).Molarity + reagentFromTool.Molarity * volumeFromTool) / ((content as Compound).Volume + volumeFromTool);
+			(content as Compound).Volume = (content as Compound).Volume + volumeFromTool;
+			(content as Compound).RealMass = (content as Compound).RealMass + reagentFromTool.Density * volumeFromTool;
+			(content as Compound).Density = (content as Compound).RealMass / (content as Compound).Volume;*/
+		} else {
+			if(reagentFromTool.IsSolid) {
+				(content as Compound).Molarity = ((content as Compound).Volume * (content as Compound).Molarity + reagentFromTool.Molarity * volumeFromTool) / ((content as Compound).Volume + volumeFromTool);
+				(content as Compound).Volume = (content as Compound).Volume; //TODO: NEEDS TO CHECK FOR PRECIPITATE
+				(content as Compound).RealMass = (content as Compound).RealMass + reagentFromTool.Density * volumeFromTool;
+				(content as Compound).Density = (content as Compound).RealMass / (content as Compound).Volume;
+			}
+			else {
+				(content as Compound).Molarity = ((content as Compound).Volume * (content as Compound).Molarity + reagentFromTool.Molarity * volumeFromTool) / ((content as Compound).Volume + volumeFromTool);
+				(content as Compound).Volume = volumeFromTool; //TODO: NEEDS TO CHECK FOR PRECIPITATE
+				(content as Compound).RealMass = (content as Compound).RealMass + reagentFromTool.Density * volumeFromTool;
+				(content as Compound).Density = (content as Compound).RealMass / (content as Compound).Volume;
+			}
+			(content as Compound).IsSolid = false;
+			hasSolid = false;
+			hasLiquid = true;
+		}
+		Debug.Log ("Molarity = " + (content as Compound).Molarity);
+		Debug.Log ("Volume = " + (content as Compound).Volume);
+		Debug.Log ("RealMass = " + (content as Compound).RealMass);
+		
+		RefreshContents ();
 	}
 }

@@ -207,7 +207,6 @@ public class Compound : IPhysicochemical {
 		pipettedPart.solutionVolume = pipetteVolume;
 		pipettedPart.solutionMass = pipetteVolume * this.solutionDensity;
 
-		//TODO: CHECK WHERE THINGS WILL BE SET. Now it is redundant (Glassware and here)
 		this.TotalMoles -= pipettedPart.TotalMoles;
 		this.solutionVolume -= pipetteVolume;
 		this.solutionMass -= pipetteVolume * this.solutionDensity;
@@ -236,7 +235,6 @@ public class Compound : IPhysicochemical {
 		takenPart.solidVolume = spatulaVolume;
 		takenPart.solidMass = spatulaVolume * this.Density; //RECHECK THIS LATER; This Density now is the density as it came out of the pot
 
-		//TODO: CHECK WHERE THINGS WILL BE SET. Now it is redundant (Glassware and here)
 		this.TotalMoles -= takenPart.TotalMoles;
 		this.solidVolume -= spatulaVolume;
 		this.solidMass -= spatulaVolume * this.Density;
@@ -269,8 +267,8 @@ public class Compound : IPhysicochemical {
 		RefreshColor ();
 	}
 	private void FullDilution(float waterVolume) {
-		this.solutionMass = waterVolume * waterDensity + this.totalMoles*this.MolarMass;
-		this.solutionVolume = waterVolume; //TODO: REVER COM A TECA
+		this.SolutionMass = waterVolume * waterDensity + this.TotalMoles*this.MolarMass;
+		this.SolutionVolume = waterVolume; //TODO: REVER COM A TECA
 		
 		this.SolidMass = 0.0f;
 		this.SolidVolume = 0.0f;
@@ -294,8 +292,7 @@ public class Compound : IPhysicochemical {
 		this.Volume = this.SolutionVolume + this.SolidVolume;
 		this.RealMass = this.SolutionMass + this.SolidMass;
 	}
-	
-	
+
 	//! Checks if there would be precipitate on the compound
 	//  Returns true if precipitation should happen. False otherwise
 	public bool CheckPrecipitate(float water) {
@@ -305,8 +302,54 @@ public class Compound : IPhysicochemical {
 			return false;
 		}
 	}
-	
+
 	public void RefreshPrecipitate() {
+	}
+
+	//! Treats each case of when the Compound is receiving a reagent of the same name
+	//  Each case takes in consideration the physical states of both reagents
+	public void AddSameCompound(Compound reagent) {
+		float waterMass = ((this.SolutionMass - this.SolutionVolume * this.Molarity * this.MolarMass) + (reagent.SolutionMass - reagent.SolutionVolume * reagent.Molarity * reagent.MolarMass));
+		float waterVolume = waterMass / waterDensity;
+		float compoundMass = this.TotalMoles * this.MolarMass + reagent.TotalMoles * reagent.MolarMass;
+
+		if((reagent.SolutionMass > 0.0f) && (reagent.SolidMass == 0.0f)) { //Incoming reagent is Liquid
+			if((this.SolutionMass > 0.0f) && (this.SolidMass == 0.0f)) { //This compound is Liquid
+				this.TotalMoles += reagent.TotalMoles;
+				this.FullDilution(waterVolume);
+			}
+			else { //In both cases this compound is Solid or Heterogeneous, it will behave as the same
+				if(this.Solubility < (compoundMass) / waterMass) { // It will precipitate
+					this.TotalMoles += reagent.TotalMoles;
+					this.DilutionWithPrecipitate(waterVolume);
+				}
+				else { //It will NOT precipitate
+					this.TotalMoles += reagent.TotalMoles;
+					this.FullDilution(waterVolume);
+				}
+			}
+		}
+		else { //Incoming reagent is Solid
+			if((this.SolutionVolume > 0.0f) && (this.SolidMass == 0.0f)) { //This compound is Liquid
+				if(this.Solubility < (compoundMass) / waterMass) { // It will precipitate
+					this.TotalMoles += reagent.TotalMoles;
+					this.DilutionWithPrecipitate(waterVolume);
+				}
+				else { //It will NOT precipitate
+					this.TotalMoles += reagent.TotalMoles;
+					this.FullDilution(waterVolume);
+				}
+			}
+			else { //In both cases this compound is Solid or Heterogeneous, it will behave as the same
+				//The incoming reagent doesn't change the solution, as the latter is either already saturated or solid
+				this.TotalMoles += reagent.TotalMoles;
+				this.SolidMass += reagent.SolidMass;
+				this.SolidVolume += reagent.SolidVolume;
+
+				this.Volume = this.SolutionVolume + this.SolidVolume;
+				this.RealMass = this.SolutionMass + this.SolidMass;
+			}
+		}
 	}
 	
 	public void RefreshColor(){

@@ -339,22 +339,33 @@ public class Glassware : ItemToInventory
 			} else { // Case: Not Mixture
 				if (incomingCompound.Formula == "H2O") { // SubCase: Water is coming
 					if ((content as Compound).Formula == "H2O") { // There's water already
-						AddSameReagent(volumeFromTool, (Compound)incomingCompound.Clone(volumeFromTool));
+						(content as Compound).AddSameCompound(incomingCompound);
 					} else {	// There's a reagent
 						(content as Compound).Dilute ((Compound)incomingCompound.Clone(volumeFromTool));
-						hasSolid = false;
 						hasLiquid = true;
+						if((content as Compound).SolidMass > 0.0f){
+							hasSolid = true;
+						}
+						else {
+							hasSolid = false;
+						}
 					}
 				} else {	// SubCase: A reagent is coming
 					if (incomingCompound.Formula == (content as Compound).Formula) { // There's the same reagent inside
-						AddSameReagent(volumeFromTool, (Compound)incomingCompound.Clone(volumeFromTool));
+						(content as Compound).AddSameCompound(incomingCompound);
 					} else {
 						if((content as Compound).Formula == "H2O") { //There's water
 							Compound aux = new Compound(incomingCompound);
 							aux.Dilute(content as Compound);
 							content = aux;
-							hasSolid = false;
+
 							hasLiquid = true;
+							if((content as Compound).SolidMass > 0.0f){
+								hasSolid = true;
+							}
+							else {
+								hasSolid = false;
+							}
 						}
 						else { //A mixure has to be created
 							Debug.Log ("r1 = " + (content as Compound).Formula + "   r2 = " + incomingCompound.Formula);
@@ -417,15 +428,28 @@ public class Glassware : ItemToInventory
 		RefreshContents();
 	}
 
-	//! Pours the same liquid
-	public void AddSameReagent(float volumeFromTool, Compound reagentFromTool) { //TODO:Verify all interactions! Volumetric OK / Graduated OK / Spatula OK / WashBottle OK
+	//! Pours the same reagent
+	//TODO: DELETE THIS. It's not being used anymore. Keeping it here just for possible future checking
+	public void AddSameReagent(float volumeFromTool, Compound reagentFromTool) { //TODO:Verify all interactions! Volumetric / Graduated / Spatula / WashBottle
 	
 		Debug.Log ("Adding same reagent " + reagentFromTool.Formula + " to " + (content as Compound).Formula );
 		if ((content as Compound).IsSolid == reagentFromTool.IsSolid) { //Case: same physical state
-			(content as Compound).Molarity = ((content as Compound).Volume * (content as Compound).Molarity + reagentFromTool.Molarity * volumeFromTool) / ((content as Compound).Volume + volumeFromTool);
+			(content as Compound).TotalMoles += reagentFromTool.TotalMoles;
+
+			(content as Compound).SolutionMass += reagentFromTool.SolutionMass;
+			(content as Compound).SolutionVolume += reagentFromTool.SolutionVolume;
+			(content as Compound).SolutionDensity = (content as Compound).SolutionMass / (content as Compound).SolutionVolume;
+			(content as Compound).Molarity = ((content as Compound).SolutionMass * (content as Compound).MolarMass) / (content as Compound).SolutionVolume;
+
+			(content as Compound).SolidMass += reagentFromTool.SolidMass;
+			(content as Compound).SolidVolume += reagentFromTool.SolidVolume;
+
+
+
+			/*(content as Compound).Molarity = ((content as Compound).Volume * (content as Compound).Molarity + reagentFromTool.Molarity * volumeFromTool) / ((content as Compound).Volume + volumeFromTool);
 			(content as Compound).Volume = (content as Compound).Volume + volumeFromTool;
 			(content as Compound).RealMass = (content as Compound).RealMass + reagentFromTool.Density * volumeFromTool;
-			(content as Compound).Density = (content as Compound).RealMass / (content as Compound).Volume;
+			(content as Compound).Density = (content as Compound).RealMass / (content as Compound).Volume;*/
 		} else {
 			if(reagentFromTool.IsSolid) {
 				(content as Compound).Molarity = ((content as Compound).Volume * (content as Compound).Molarity + reagentFromTool.Molarity * volumeFromTool) / ((content as Compound).Volume + volumeFromTool);

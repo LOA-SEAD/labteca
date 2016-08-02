@@ -227,6 +227,16 @@ public class Mixture : IPhysicochemical {
 	
 	}
 
+	//! This is being pipetted
+	//  The volume is already lower than the total solution volume
+	public Compound PipetteUse(float pipetteVolume) {
+		return new Compound (); //TODO: CHANGE COMPOUND TO MIXTURE
+	}
+	//! This is being "spatuled"
+	//  The volume is already lower than the total solid volume
+	public Compound SpatulaUse(float spatulaVolume) {
+		return new Compound (); //TODO: CHANGE COMPOUND TO MIXTURE
+	}
 
 	//! Dilutes the mixture based on the amount of water
 	//  This overload receives the very Water compound

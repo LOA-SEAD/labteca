@@ -20,9 +20,7 @@ public class Spatula : MonoBehaviour {
 	//Interaction box
 	public GameObject boxToChooseSpatula;		//Interaction box to choose the spatula
 	public GameObject boxToFillSpatula;			//Interaction box to fill spatula
-//	public Text f_timesToUseText;				//Text showing the selected number of spatulas for the filling interaction box
 	public GameObject boxToUnfillSpatula;		//Interaction box to unfill spatula
-//	public Text u_timesToUseText;				//Text showing the selected number of spatulas for the unfilling interaction box
 //	public float realVolumeSelected;			//Volume selected during the interaction
 //	public float maxVolume;						//Maximum value of spatulas that might be put into the vessel
 
@@ -140,23 +138,7 @@ public class Spatula : MonoBehaviour {
 		 */
 	}
 	public void OpenInteractionBox(float volumeAvailable, Glassware glassware) {
-
-		/*
-		 * OPENS THE RIGHT BOX WHETHER THE GLASSWARE IS ON A SCALE OR NOT
-		 */
-
 		boxToUnfillSpatula.SetActive(true);
-		
-		//Defining maximum amount of spatulas
-/*		if (volumeAvailable < realVolumeSelected) {
-			maxVolume = volumeAvailable;
-			maxNumberOfSpatulas = (int)(volumeAvailable - (volumeAvailable % 1)); //Truncanting value
-		}
-		else {
-			maxVolume = realVolumeSelected;
-			maxNumberOfSpatulas = (int)(realVolumeSelected - (realVolumeSelected % 1)); //Trucanting value
-		}*/
-		
 		interactingGlassware = glassware;
 	}
 	
@@ -176,50 +158,6 @@ public class Spatula : MonoBehaviour {
 
 		CloseInteractionBox ();
 	}
-
-	//! Select the number of times the selected spatula is going to be used
-	//  The volume of reagent held by the spatula will be define in a range associated if its capacity
-/*	public void SelectingNumberOfSpatulas(bool increase) {
-		/*
-		 * CODE FILLING THE SPATULA
-		 */
-		/*if(precision)
-		 *	use slider?
-		 *else
-		 *	use intervals
-		 *
-		 */
-/*		if(realVolumeSelected < 0 || timesToUseSpatula < 0) {		//Can't go below zero
-			realVolumeSelected = 0.0f;
-			timesToUseSpatula = 0;
-		}
-
-		if (!usingPrecision) { //If the vessel is NOT on a scale
-
-			if(increase) {
-				timesToUseSpatula++;
-				realVolumeSelected += Random.Range(spatulaCapacity - capacityError, spatulaCapacity + capacityError);
-			}
-			else {
-				timesToUseSpatula--;
-				realVolumeSelected -= Random.Range(spatulaCapacity - capacityError, spatulaCapacity + capacityError);
-			}
-			if(realVolumeSelected > maxVolume && interactingGlassware != null)	
-				realVolumeSelected = maxVolume;
-
-			if(realVolumeSelected < 0 || timesToUseSpatula < 0) {		//Can't go below zero
-		 		realVolumeSelected = 0.0f;
-				timesToUseSpatula = 0;
-			}
-			//timesToUseText.text = realVolumeSelected.ToString();
-		}
-	}*/
-
-	/*//! Amount of Spatulas chosen
-	public void SetUsesOfSpatula() {
-		volumeHeld = realVolumeSelected;
-
-	}*/
 
 	//! Uses the spatula to hold a volume of a solid reagent
 	public void FillSpatula (string reagent) { //Ok

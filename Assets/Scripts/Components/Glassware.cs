@@ -105,14 +105,14 @@ public class Glassware : ItemToInventory
 				(GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).stateUIManager.OpenOptionDialog (this);
 			}
 			else {
-				gameController.sendAlert("Este tipo de interação não está habilitada apás uma possável reação");
+				gameController.sendAlert("Este tipo de interação não está habilitada após uma possível reação");
 			}
 		} else {
 			switch (currentState) {
 			case MouseState.ms_default: 		//Default -> Glassware: show the interaction options
 				(GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).stateUIManager.OpenOptionDialog (this);
 				break;
-			case MouseState.ms_pipette: 		//Pipette -> Glassware: gets the liquid, if there's only liquid inside. So, opens the pipette's interaction box.
+			case MouseState.ms_pipette: 		//Pipette -> Glassware: gets the liquid, if there's only liquid inside. Then, opens the pipette's interaction box.
 				Pipette pipette = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).pipette;
 				if (hasLiquid) {
 					if (pipette.graduated) {

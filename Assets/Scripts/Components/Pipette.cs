@@ -349,15 +349,18 @@ public class Pipette : MonoBehaviour {
 			GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().cannotEndState = true;
 		}
 	}*/
-	/*PRECIPITATE VERSION*/public void FillVolumetricPipette(Glassware glassware) { //NEEDS TESTING
+	/*PRECIPITATE VERSION*/public void FillVolumetricPipette(Glassware glassware) { //OK, THOUGH NEEDS TESTING
 		if (glassware.currentVolume < maxVolume) { //Case volume on glass < pipette's max volume
 			volumeHeld = glassware.currentVolume;
-			reagentInPipette = (glassware.content as Compound).PipetteUse (volumeHeld);
-			glassware.RemoveLiquid(glassware.currentVolume);
+			if(glassware.content is Compound) {
+				reagentInPipette = (glassware.content as Compound).PipetteUse (volumeHeld);
+			}
+			else if(glassware.content is Mixture) {
+				reagentInPipette = (glassware.content as Mixture).PipetteUse (volumeHeld); //TODO: CHANGE COMPOUND TO MIXTURE
+			}
 		} else {
 			volumeHeld = maxVolume;
 			reagentInPipette = (glassware.content as Compound).PipetteUse (volumeHeld);
-			glassware.RemoveLiquid (volumeHeld);
 		}
 		if (volumeHeld > 0.0f) {
 			CursorManager.SetMouseState (MouseState.ms_filledPipette);

@@ -185,6 +185,7 @@ public class Compound : IPhysicochemical {
 
 		return newCompound;
 	}
+
 	//! For pipette to check if this is "pipettable"
 	public bool TryPipette() {
 		if(this.solutionMass > 0.0f) {
@@ -194,7 +195,6 @@ public class Compound : IPhysicochemical {
 			return false;
 		}
 	}
-	
 	//! This is being pipetted
 	//  The volume is already lower than the total solution volume
 	public Compound PipetteUse(float pipetteVolume) {
@@ -215,7 +215,7 @@ public class Compound : IPhysicochemical {
 		return pipettedPart;
 	}
 
-	//! For satulas to check if this is "spatulable"
+	//! For spatulas to check if this is "spatulable"
 	public bool TrySpatula() {
 		if(this.solutionMass <= 0.0f && this.solidMass > 0.0f) {
 			return true;

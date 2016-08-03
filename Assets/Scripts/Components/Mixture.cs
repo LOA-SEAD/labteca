@@ -81,11 +81,48 @@ public class Mixture : IPhysicochemical {
 	//private Compound[] leftovers = new Compound[3]; //List of reagents inside
 	private List<Compound> leftovers = new List<Compound>(); //List of reagents inside
 
+	public string Leftover1Name() {
+		return leftovers[0].Name;
+	}
+	public string Leftover1Formula(){
+		return leftovers[0].Formula;
+	}
+	public float Leftover1Molarity () {
+		return leftovers[0].Molarity;
+	}
+	public string Leftover2Name() {
+		return leftovers[1].Name;
+	}
+	public string Leftover2Formula(){
+		return leftovers[1].Formula;
+	}
+	public float Leftover2Molarity () {
+		return leftovers[1].Molarity;
+	}
+
 	//! The product of the reaction
 	// The volume of water is taken in consideration only in this Compound, via the concentration value
 	[SerializeField]
 	private Compound product = new Compound(); //Product of the reaction
 
+	public string ProductName() {
+		if (product != null)
+			return product.Name;
+		else
+			return "";
+	}
+	public string ProductFormula(){
+		if (product != null)
+			return product.Formula;
+		else
+			return "";
+	}
+	public float ProductMolarity () {
+		if (product != null)
+			return product.Molarity;
+		else
+			return -1.0f;
+	}
 
 	public Mixture() {
 	}
@@ -178,8 +215,8 @@ public class Mixture : IPhysicochemical {
 			this.Name = reaction.name;
 
 			//Setting product's values that depends on the mixture's final values
-			product.Molarity = productMass / this.Volume;
-			leftovers[1].Molarity = leftovers[1].RealMass / this.Volume;
+			product.Molarity = (productMass / product.MolarMass) / this.Volume;
+			leftovers[1].Molarity = (leftovers[1].RealMass / leftovers[1].MolarMass) / this.Volume;
 
 				/*
 				 * TODO: VERIFICAR PRECIPITADOS

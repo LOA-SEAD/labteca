@@ -104,4 +104,20 @@ public class LIAState : GameStateBase {
 		cameraState.depth = -1;
 		cameraState.gameObject.SetActive(false);
 	}
+
+
+	public void VerifyPhase() {
+		/*if(ResultVerifier.GetInstance().VerifyResult(1, (GameObject.Find(currentIndex).GetComponent<Glassware>()).content)) {
+			gameController.sendAlert("Resultado correto! Parabens!");
+		}
+		else{
+			gameController.sendAlert("Resultado incorreto.");
+		}*/
+		if(ResultVerifier.GetInstance().VerifyResult((GameObject.Find(currentIndex).GetComponent<Glassware>()).content)) {
+			gameController.sendAlert("Resultado correto! Parabens!");
+		}
+		else{
+			gameController.sendAlert("Resultado incorreto.");
+		}
+	}
 }

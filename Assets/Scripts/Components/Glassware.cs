@@ -96,6 +96,23 @@ public class Glassware : ItemToInventory
 			liquid.SetActive (false);*/
 	}
 
+	public void OnClickTurbidimeter() {
+
+		MouseState currentState = CursorManager.GetCurrentState ();
+
+		
+		if (content is Mixture) { //TODO:PROVISORIO!
+			if (currentState == MouseState.ms_default) {
+				(GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).stateUIManager.OpenOptionDialog (this);
+			}
+			else {
+				gameController.sendAlert("Este tipo de interação não está habilitada apás uma possável reação");
+			}
+		}
+
+
+	}
+
 	//! Holds the events for when the interactive spatula on the Workbench is clicked
 	public void OnClick() {
 		MouseState currentState = CursorManager.GetCurrentState ();

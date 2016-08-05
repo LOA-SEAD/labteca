@@ -7,7 +7,6 @@ public class StateUIManager : MonoBehaviour {
 	public GameObject optionDialogGlass;        /*!< Dialog. */
 	public GameObject optionDialogReagent;      /*!< Dialog. */
 	public GameObject optionDialogEquipment;    /*!< Should only be linked when there's an equipment in the state */
-	public GameObject optionDialogTurbidimeter;
 	public WorkBench currentWorkbench;
 	
 	void Start () {
@@ -23,7 +22,6 @@ public class StateUIManager : MonoBehaviour {
 		optionDialogGlass.SetActive(false);
 		optionDialogReagent.SetActive(false);
 		optionDialogEquipment.SetActive(false);
-		optionDialogTurbidimeter.SetActive(false);
 	}
 
 	public void OpenOptionDialog(ItemToInventory item){

@@ -18,6 +18,7 @@ public class Mixture : IPhysicochemical {
 			
 		if (product != null) {
 			resultingMass += product.RealMass;
+			Debug.Log (product.Formula + " = " + product.RealMass);
 		}
 		if (leftovers != null) {
 			for (int i = 0; i < leftovers.Count; i++) {
@@ -41,7 +42,7 @@ public class Mixture : IPhysicochemical {
 	private float volume = 0.0f;		//volume instantiated in the world [mL]
 
 	public float Volume { get { 
-		float resultingVolume = 0.0f;
+		/*float resultingVolume = 0.0f;
 			
 		if (product != null) {
 			resultingVolume += product.Volume;
@@ -55,8 +56,9 @@ public class Mixture : IPhysicochemical {
 			}
 		}
 		resultingVolume += waterVolume;
-		return resultingVolume;
-	} set{}}
+		return resultingVolume;*/
+		return volume;
+		} set{ volume = value; }}
 
 	private float waterVolume = 0.0f;
 	public float WaterVolume { get { return waterVolume; } set { waterVolume = value; } }
@@ -73,6 +75,14 @@ public class Mixture : IPhysicochemical {
 	private float refratometer;
 	public float Refratometer { get { return refratometer; } set { refratometer = value; } }
 
+	public void ShowMolarity() {
+		Debug.Log ("Amostrando de amor a molaridade da mistura");
+		if (product != null) {
+			Debug.Log (product.Formula + " = " + product.Molarity);
+		}
+		Debug.Log (leftovers[0].Formula + " = " + leftovers[0].Molarity);
+		Debug.Log (leftovers[1].Formula + " = " + leftovers[1].Molarity);
+	}
 
 	//! The reagents that resulted on this mixture.
 	// It may also indicate reagent leftovers after the reaction.
@@ -149,8 +159,8 @@ public class Mixture : IPhysicochemical {
 			product = CompoundFactory.GetInstance ().GetProduct (reaction.mainProduct);
 
 			//Calculates the limiting reagent
-			float limitingFactor1 = (r1.Molarity * r1.Volume) / reaction.stoichiometryR1;
-			float limitingFactor2 = (r2.Molarity * r2.Volume) / reaction.stoichiometryR2;
+			float limitingFactor1 = ( (r1.Molarity / 1000) * r1.Volume) / reaction.stoichiometryR1;
+			float limitingFactor2 = ( (r2.Molarity / 1000) * r2.Volume) / reaction.stoichiometryR2;
 			Debug.Log ("limit1 =" + limitingFactor1.ToString() + "; limit2 = " + limitingFactor2.ToString());
 
 			float trueLimiting;
@@ -171,13 +181,13 @@ public class Mixture : IPhysicochemical {
 			}
 
 			//Calculating mass of product
-			//float productMoles = trueLimiting * reaction.stoichiometryMainProduct / limitingStoichiometry;
-			float productMass = (trueLimiting * reaction.stoichiometryMainProduct / limitingStoichiometry) * product.MolarMass;
+			//mass = limiting mols consumed * (stoichiometry of product / limiting stoichiometry) * product molar mass
+			float productMass = ((trueLimiting * limitingStoichiometry) * reaction.stoichiometryMainProduct / limitingStoichiometry) * product.MolarMass;
 			//Calculating total amount of water
-			waterVolume = (r1.RealMass - (r1.Molarity * (r1.Volume) * r1.MolarMass)) * Compound.waterDensity;
-			waterVolume += (r2.RealMass - (r2.Molarity * (r2.Volume) * r2.MolarMass)) * Compound.waterDensity;
+			waterVolume = (r1.RealMass - ( (r1.Molarity / 1000) * r1.Volume * r1.MolarMass)) / Compound.waterDensity;
+			waterVolume += (r2.RealMass - ( (r2.Molarity / 1000) * r2.Volume * r2.MolarMass)) / Compound.waterDensity;
 			if(reaction.subProduct == "H2O") {
-				waterVolume += ((trueLimiting * reaction.stoichiometrySubProduct / limitingStoichiometry) * Compound.waterMolarMass) * Compound.waterDensity;
+				waterVolume += (((trueLimiting * limitingStoichiometry) * (reaction.stoichiometrySubProduct / limitingStoichiometry)) * Compound.waterMolarMass) / Compound.waterDensity;
 			}
 
 
@@ -185,6 +195,7 @@ public class Mixture : IPhysicochemical {
 			product.Purity = 1.0f;
 			product.Molarity = ((product.Purity * product.Density) / product.MolarMass);
 			product.RealMass = productMass;
+			this.Volume = r1.Volume + r2.Volume; //TODO:For the time being, the final volume is the sum of both volumes
 
 			//Setting leftovers's values
 			leftovers[0].Purity = 1.0f;
@@ -193,8 +204,8 @@ public class Mixture : IPhysicochemical {
 			leftovers[0].Density = 0.0f;
 			leftovers[0].Volume = 0.0f;
 
-			float massOfReagent = (leftovers[1].Molarity * (leftovers[1].Volume) * leftovers[1].MolarMass)
-								  - ((trueLimiting * reaction.stoichiometryR2 / limitingStoichiometry) * leftovers[1].MolarMass); // Mass = previousMass of reagent - mass consumed;
+			float massOfReagent = (leftovers[1].Molarity * (leftovers[1].Volume / 1000) * leftovers[1].MolarMass)
+				- (((trueLimiting * limitingStoichiometry) * (reaction.stoichiometryR2 / limitingStoichiometry)) * leftovers[1].MolarMass); // Mass = previous mass of reagent - mass consumed;
 
 			leftovers[1].setValues(CompoundFactory.GetInstance().GetCompound (leftovers[1].Name));
 			leftovers[1].Purity = 1.0f;
@@ -205,7 +216,8 @@ public class Mixture : IPhysicochemical {
 				leftovers[1].Volume = 0.0f;
 			}
 			else {
-				leftovers[1].Volume = leftovers[1].RealMass * leftovers[1].Density;
+				//leftovers[1].Volume = leftovers[1].RealMass * leftovers[1].Density;
+				leftovers[1].Volume = 0.0f;
 			}
 
 			//Setting Mixture's values
@@ -215,8 +227,8 @@ public class Mixture : IPhysicochemical {
 			this.Name = reaction.name;
 
 			//Setting product's values that depends on the mixture's final values
-			product.Molarity = (productMass / product.MolarMass) / this.Volume;
-			leftovers[1].Molarity = (leftovers[1].RealMass / leftovers[1].MolarMass) / this.Volume;
+			product.Molarity = (productMass / product.MolarMass) / (this.Volume * 0.001f);
+			leftovers[1].Molarity = (leftovers[1].RealMass / leftovers[1].MolarMass) / (this.Volume * 0.001f);
 
 				/*
 				 * TODO: VERIFICAR PRECIPITADOS

@@ -225,6 +225,8 @@ public class Glassware : ItemToInventory
 			if(content is IPhysicochemical) {
 				Color32 thisColor;
 				if(!(content is Mixture)) {
+					Debug.Log ("Molarity of " +(content as Compound).Formula + " = " + (content as Compound).Molarity);
+					Debug.Log ("Volume of " +(content as Compound).Formula + " = " + (content as Compound).Volume);
 					if(!(content as Compound).Formula.Contains("H2O"))
 						thisColor = (content as Compound).compoundColor;
 					else
@@ -232,6 +234,7 @@ public class Glassware : ItemToInventory
 				}
 				else {
 					thisColor = new Color32(255,255,255,40);
+					(content as Mixture).ShowMolarity ();
 				}
 
 				if ((content as IPhysicochemical).IsSolid){

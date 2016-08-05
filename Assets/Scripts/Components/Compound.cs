@@ -90,7 +90,7 @@ public class Compound : IPhysicochemical {
 		fumeHoodOnly = _fumeHood;
 		//volume = 1000.0f; //Supposing 1L as starting value to define the other values
 		//realMass = concentration * molarMass + (1 - concentration)*waterMolarMass;
-		molarity = ((purity * density) / molarMass); // number of mols / volume
+		molarity = ((purity * density) / molarMass) * 1000; // number of mols / volume 
 		originalMolarity = molarity;
 
 	}
@@ -186,40 +186,11 @@ public class Compound : IPhysicochemical {
 	}
 
 	//! Dilutes the reagent into water
-	// 	Takes the reagent Water as a parapeter in order to destroy the component afterwards.
-	public void Dilute (Compound water) {	//TODO: IMPLEMENTAR PH
-		if (!this.IsSolid) {
-			this.Volume = this.Volume + water.Volume;
-			this.RealMass = this.RealMass + water.RealMass;
-			this.Molarity = (this.Molarity *  this.Volume) / (this.Volume + water.Volume);
-			this.Density = this.RealMass / this.Volume;
-		} else {
-			Debug.Log(this.volume);
-			if(this.CheckPrecipitate(water)) { //Case there is precipitation
-				this.Volume = water.Volume + (( this.molarMass * (this.volume / 1000)) - ((this.solubility * water.RealMass) / 100) * powderDensity );
-			}
-			else { ///Case there is no precipitation
-				this.Volume = water.Volume;
-			}
-
-			Debug.Log(water.realMass);
-			this.RealMass = this.RealMass + water.RealMass;
-			this.Molarity = (this.Molarity *  this.Volume) / (this.Volume + water.Volume);
-			this.Density = this.RealMass / this.Volume;
-			/*
-			 * Check if there will be any precipitate
-			 */
-			this.IsSolid = false;
-		}
-		
-		water = null;
-		RefreshColor ();
-	}
 	public void Dilute (float waterVolume) {	//TODO: IMPLEMENTAR PH
 		if (!this.IsSolid) {
+			this.Molarity = (this.Molarity *  this.Volume) / (this.Volume + waterVolume);
 			this.Volume = this.Volume + waterVolume;
 			this.RealMass = this.RealMass + waterVolume * waterDensity;
-			this.Molarity = (this.Molarity *  this.Volume) / (this.Volume + waterVolume);
 			this.Density = this.RealMass / this.Volume;
 		} else {
 			/*if(this.CheckPrecipitate(waterVolume)) { //Case there is precipitation
@@ -229,9 +200,9 @@ public class Compound : IPhysicochemical {
 				this.Volume = waterVolume;
 			}
 			*/
+			this.Molarity = (this.Molarity *  this.Volume) / (waterVolume);
 			this.Volume = waterVolume;
 			this.RealMass = this.RealMass + waterVolume * waterDensity;
-			this.Molarity = (this.Molarity *  this.Volume) / (this.Volume + waterVolume);
 			this.Density = this.RealMass / this.Volume;
 			/*
 			 * Check if there will be any precipitate
@@ -239,6 +210,12 @@ public class Compound : IPhysicochemical {
 			this.IsSolid = false;
 		}
 		RefreshColor ();
+	}
+	// 	Takes the reagent Water as a parapeter in order to destroy the component afterwards.
+	public void Dilute (Compound water) {
+		this.Dilute (water.Volume);
+
+		water = null;
 	}
 
 	//! Checks if there would be precipitate on the compound

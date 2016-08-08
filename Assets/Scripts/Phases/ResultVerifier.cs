@@ -133,46 +133,46 @@ public class ResultVerifier {
 	//Overload for testing the first phase
 	public bool VerifyResult (object content) {
 		bool flag = false;
-		float maxError = 0.2f;
+		float maxError = 0.1f;
+		float desiredMolarity = 1.0f;
+		float minimumSolutionVolume = 25.0f;
 
+		if ((content is Mixture)) {
+			if ((content as Mixture).ProductFormula () == "NaCl") {
+				flag = true;
+			} else {
+				return false;
+			}
 
-		if((content as Mixture).ProductFormula() == "NaCl") {
-			flag = true;
-		}
-		else {
-			return false;
-		}
+			if (((content as Mixture).ProductMolarity () < desiredMolarity + maxError) && ((content as Mixture).ProductMolarity () > desiredMolarity - maxError)) {
+				flag = true;
+			} else {
+				return false;
+			}
 
-		if(((content as Mixture).ProductMolarity() < 1.0f + maxError) && ((content as Mixture).ProductMolarity() > 1.0f - maxError)) {
-			flag = true;
-		}
-		else {
-			return false;
-		}
+			if (((content as Mixture).Leftover1Molarity () < 0.0f + maxError) && ((content as Mixture).Leftover1Molarity () > 0.0f - maxError)) {
+				flag = true;
+			} else {
+				return false;
+			}
 
-		if(((content as Mixture).Leftover1Molarity() < 0.0f + maxError) && ((content as Mixture).Leftover1Molarity() > 0.0f - maxError)) {
-			flag = true;
-		}
-		else {
-			return false;
-		}
+			if (((content as Mixture).Leftover2Molarity () < 0.0f + maxError) && ((content as Mixture).Leftover2Molarity () > 0.0f - maxError)) {
+				flag = true;
+			} else {
+				return false;
+			}
 
-		if(((content as Mixture).Leftover2Molarity() < 0.0f + maxError) && ((content as Mixture).Leftover2Molarity() > 0.0f - maxError)) {
-			flag = true;
-		}
-		else {
-			return false;
-		}
+			if ((content as Mixture).Volume > minimumSolutionVolume) {
+				flag = true;
+			} else {
+				return false;
+			}
 
-		if((content as Mixture).Volume > 50.0f) {
-			flag = true;
-		}
-		else {
-			return false;
-		}
-
-		if (flag) {
-			return true;
+			if (flag) {
+				return true;
+			} else {
+				return false;
+			}
 		} else {
 			return false;
 		}

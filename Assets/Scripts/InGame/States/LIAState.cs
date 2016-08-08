@@ -80,8 +80,8 @@ public class LIAState : GameStateBase {
 		//Pressing Esc will exit the state
 		if(Input.GetKeyDown(KeyCode.Escape)){
 			interactBox.GetComponent<BoxCollider>().enabled = true;
-			gameController.ChangeState(0);
 			FadeScript.instance.ShowFade();
+			gameController.ChangeState(0);
 		}
 	}
 	
@@ -100,6 +100,7 @@ public class LIAState : GameStateBase {
 	/*! Disable the Camera inside the state, deactivate. */
 	public override void OnStopRun ()
 	{
+		gameController.closeAlert ();
 		LIALight.intensity = 0f;
 		cameraState.depth = -1;
 		cameraState.gameObject.SetActive(false);
@@ -113,11 +114,14 @@ public class LIAState : GameStateBase {
 		else{
 			gameController.sendAlert("Resultado incorreto.");
 		}*/
-		if(ResultVerifier.GetInstance().VerifyResult((GameObject.Find(currentIndex).GetComponent<Glassware>()).content)) {
-			gameController.sendAlert("Resultado correto! Parabens!");
-		}
-		else{
-			gameController.sendAlert("Resultado incorreto.");
+		if ((GameObject.Find (currentIndex).GetComponent<Glassware> ()).content != null) {
+			if (ResultVerifier.GetInstance ().VerifyResult ((GameObject.Find (currentIndex).GetComponent<Glassware> ()).content)) {
+				gameController.sendAlert ("Resultado correto! Parabéns!");
+			} else {
+				gameController.sendAlert ("Resultado incorreto.");
+			}
+		} else {
+			gameController.sendAlert ("A vidraria está vazia!");
 		}
 	}
 }

@@ -95,4 +95,8 @@ public class GameController : MonoBehaviour {
 	public void sendAlert(string text){
 		alertDialog.ShowAlert (text);
 	}
+
+	public void closeAlert() {
+		alertDialog.CloseAlert ();
+	}
 }

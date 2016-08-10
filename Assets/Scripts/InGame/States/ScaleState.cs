@@ -31,7 +31,6 @@ public  class ScaleState : GameStateBase {
 		//Pressing Esc will exit the state
 		if(Input.GetKeyDown(KeyCode.Escape)){
 			GetComponentInParent<WorkBench>().OnStopRun();
-			
 			interactBox.GetComponent<BoxCollider>().enabled = true;
 			gameController.ChangeState(0);
 			FadeScript.instance.ShowFade();
@@ -54,7 +53,6 @@ public  class ScaleState : GameStateBase {
     /*! Disable the Camera inside the state, deactivate. */
 	public override void OnStopRun ()
 	{
-		gameController.closeAlert ();
         cameraState.depth = -1;
         cameraState.gameObject.SetActive(false);
 		GetComponentInParent<WorkBench> ().OnStopRun ();

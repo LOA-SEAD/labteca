@@ -56,7 +56,6 @@ public  class FumeHoodState : GameStateBase {
 	/*! Disable the Camera inside the state, deactivate. */
 	public override void OnStopRun ()
 	{
-		gameController.closeAlert ();
 		cameraState.depth = -1;
 		cameraState.gameObject.SetActive(false);
 		GetComponentInParent<WorkBench> ().OnStopRun ();

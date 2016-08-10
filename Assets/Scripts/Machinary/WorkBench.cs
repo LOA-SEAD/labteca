@@ -48,7 +48,6 @@ public class WorkBench : GameStateBase{
 				gameController.sendAlert("Não é possível sair com reagente na mão\nColoque de volta no seu pote");
 			else{
 				GetComponentInParent<WorkBench>().OnStopRun();
-			
 				interactBox.GetComponent<BoxCollider>().enabled = true;
 				gameController.ChangeState(0);
 				FadeScript.instance.ShowFade();
@@ -157,6 +156,7 @@ public class WorkBench : GameStateBase{
 	/*! Disable the Camera inside the state, deactivate. */
 	public override void OnStopRun ()
 	{
+		gameController.closeAlert ();
 		cameraState.depth = -1;
 		cameraState.enabled = false;
 		cameraState.GetComponent<AudioListener> ().enabled = false;

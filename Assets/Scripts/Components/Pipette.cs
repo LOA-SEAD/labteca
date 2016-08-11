@@ -109,7 +109,6 @@ public class Pipette : MonoBehaviour {
 
 		CursorManager.SetMouseState(MouseState.ms_default);
 		CursorManager.SetCursorToDefault();
-		//TODO: Hide cursor
 	}
 
 	//! Close the interaction box
@@ -126,6 +125,7 @@ public class Pipette : MonoBehaviour {
 		volumeSelected = 0.0f;
 		u_boxSlider.value = 0.0f;
 		u_volumeSelected = 0.0f;
+		transform.GetComponentInParent<WorkBench>().UnblockClicks();
 	}
 
 	/* CHOOSING INTERACTION */
@@ -135,9 +135,10 @@ public class Pipette : MonoBehaviour {
 		maxVolume = 0.0f;
 		graduated = false;
 		boxToChoosePipette.SetActive (true);
+		transform.GetComponentInParent<WorkBench>().BlockClicks();
 	}
 
-	//! Opens the box where the choice of pipette is done
+	//! Choose the volumetric pipette for and the volume
 	public void SelectingVolumetricPipette(float volume) {
 		maxVolume = volume;	
 		graduated = false;
@@ -176,12 +177,7 @@ public class Pipette : MonoBehaviour {
 		volumeSelected = 0.0f;
 		interactingReagent = reagent;
 
-	
-		//CursorManager.SetDefaultCursor ();
-		/*
-		 * DEFINE HOW TO BLOCK CLICKS OUTSIDE
-		 * CANVAS GROUP, MAYBE?
-		 */
+		transform.GetComponentInParent<WorkBench>().BlockClicks();
 	}
 	//	This case is to get liquid from a glassware
 	public void OpenGraduatedFillingBox(float volumeAvailable, Glassware glassware) {
@@ -195,11 +191,8 @@ public class Pipette : MonoBehaviour {
 			boxGraduatedFilling.GetComponentInChildren<Slider> ().maxValue = maxVolume;
 
 		interactingGlassware = glassware;
-		//CursorManager.SetDefaultCursor ();
-		/*
-		 * DEFINE HOW TO BLOCK CLICKS OUTSIDE 
-		 * CANVAS GROUP, MAYBE?
-		 */
+
+		transform.GetComponentInParent<WorkBench>().BlockClicks();
 	}
 
 	//! Set value of volume currently set by the slider.
@@ -258,6 +251,7 @@ public class Pipette : MonoBehaviour {
 
 		interactingGlassware = glassware;
 		interactingReagent = null;
+		transform.GetComponentInParent<WorkBench>().BlockClicks();
 	}
 	//! Open the interaction box to unfill the pipette
 	//	Also defines the maximum value for the slider
@@ -271,6 +265,7 @@ public class Pipette : MonoBehaviour {
 
 		interactingReagent = reagentPot;
 		interactingGlassware = null;
+		transform.GetComponentInParent<WorkBench>().BlockClicks();
 	}
 
 	//! Set value of volume currently set by the slider.

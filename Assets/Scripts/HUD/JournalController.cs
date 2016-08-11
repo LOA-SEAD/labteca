@@ -23,7 +23,7 @@ public class JournalController : TabletState {
 		contentRect = UIScrollList.content;
 	}
 	public void changeExperiment(int expo){
-		experimentText.text = "Experimento " +(expo+1);
+		experimentText.text = "Parte " +(expo+1); //TODO: FOR THE TIME BEING, AS THERE'S ONLY ONE PHASE, WE CAN USE IT AS 3 PARTS
 		LoadExperiment (expo);
 		SaveExperiment (experimentNumber);
 		if (experimentNumber != expo) {

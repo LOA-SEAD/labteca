@@ -24,7 +24,7 @@ public class ExperimentMenu : TabletState
 		for (int i = 0; i <= lastExperiment; i++) {
 			GameObject tempItem = Instantiate (prefab.gameObject) as GameObject;
 			tempItem.name = "MenuButton"+i;
-			tempItem.GetComponentInChildren<Text> ().text = tempItem.GetComponentInChildren<Text> ().text + (i+1);
+			tempItem.GetComponentInChildren<Text> ().text = tempItem.GetComponentInChildren<Text> ().text + (i+1); //The name is based on the prefab's text
 			tempItem.gameObject.GetComponent<Button> ().onClick.AddListener (() => GoToExperiment(int.Parse(tempItem.name.Substring(10))));
 			tempItem.transform.SetParent (content.transform, false);
 		}
@@ -35,4 +35,3 @@ public class ExperimentMenu : TabletState
 		GetComponentInParent<TabletStateMachine> ().goToState (2);
 	}
 }
-

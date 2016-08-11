@@ -44,7 +44,7 @@ public class LIAState : GameStateBase {
 				return false;
 			}
 		} else {
-			gameController.sendAlert("Já tem um produto na LIA");
+			gameController.sendAlert("Já tem um produto");
 		}
 		return false;
 	}
@@ -114,14 +114,18 @@ public class LIAState : GameStateBase {
 		else{
 			gameController.sendAlert("Resultado incorreto.");
 		}*/
-		if ((GameObject.Find (currentIndex).GetComponent<Glassware> ()).content != null) {
-			if (ResultVerifier.GetInstance ().VerifyResult ((GameObject.Find (currentIndex).GetComponent<Glassware> ()).content)) {
-				gameController.sendAlert ("Resultado correto! Parabéns!");
+		if (currentIndex.Length > 0) {
+			if ((GameObject.Find (currentIndex).GetComponent<Glassware> ()).content != null) {
+				if (ResultVerifier.GetInstance ().VerifyResult ((GameObject.Find (currentIndex).GetComponent<Glassware> ()).content)) {
+					gameController.sendAlert ("Resultado correto! Parabéns!");
+				} else {
+					gameController.sendAlert ("Resultado incorreto.");
+				}
 			} else {
-				gameController.sendAlert ("Resultado incorreto.");
+				gameController.sendAlert ("A vidraria está vazia!");
 			}
 		} else {
-			gameController.sendAlert ("A vidraria está vazia!");
+			gameController.sendAlert("Não há nenhum produto para verificar!");
 		}
 	}
 }

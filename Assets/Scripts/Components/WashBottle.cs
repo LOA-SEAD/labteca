@@ -100,15 +100,13 @@ public class WashBottle : MonoBehaviour {
 		interactingGlassware = null;
 		CursorManager.SetMouseState(MouseState.ms_default);
 		CursorManager.SetCursorToDefault();
+		transform.GetComponentInParent<WorkBench>().UnblockClicks();
 	}
 	//! Open the interaction box
 	public void OpenInteractionBox(float maxSliderVolume) {
 		interactionBoxWashBottle.SetActive (true);
 		interactionBoxWashBottle.GetComponentInChildren<Slider> ().maxValue = maxSliderVolume;
-		//CursorManager.SetDefaultCursor ();
-		/*
-		 * DEFINE HOW TO BLOCK CLICKS OUTSIDE 
-		 */
+		transform.GetComponentInParent<WorkBench>().BlockClicks();
 	}
 
 	//! The wash bottle is being put to work

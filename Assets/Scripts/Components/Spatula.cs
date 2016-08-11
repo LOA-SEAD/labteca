@@ -117,6 +117,7 @@ public class Spatula : MonoBehaviour {
 		spatulaCapacity = 0.0f;
 		capacityError = 0.0f;
 		boxToChooseSpatula.SetActive(true);
+		transform.GetComponentInParent<WorkBench>().BlockClicks();
 	}
 
 	//! Close the interaction box
@@ -125,6 +126,7 @@ public class Spatula : MonoBehaviour {
 		boxToChooseSpatula.SetActive (false);
 		boxToFillSpatula.SetActive(false);
 		boxToUnfillSpatula.SetActive (false);
+		transform.GetComponentInParent<WorkBench>().UnblockClicks();
 	}
 	//! Open the interaction box
 	public void OpenInteractionBox(bool fill) {
@@ -138,6 +140,7 @@ public class Spatula : MonoBehaviour {
 		/*
 		 * DEFINE HOW TO BLOCK CLICKS OUTSIDE 
 		 */
+		transform.GetComponentInParent<WorkBench>().BlockClicks();
 	}
 	public void OpenInteractionBox(float volumeAvailable, Glassware glassware) {
 

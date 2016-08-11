@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class WorkBench : GameStateBase{
 
-	public Transform positionGlassEquipament;   /*!< Position of Glassware on the Precision Scale. */
+	public Transform positionGlassEquipament;   /*!< Position of Glassware on the equipment. */
 	public Transform[] positionGlass;
 
 	//GameStateBase variables:
@@ -145,6 +145,7 @@ public class WorkBench : GameStateBase{
      * close all dialogs that might be enabled. */
 	public override void OnStartRun ()
 	{
+		UnblockClicks ();
 		cameraState.enabled = true;
 		cameraState.GetComponent<AudioListener> ().enabled = true;
 		cameraState.depth = 2;
@@ -156,6 +157,7 @@ public class WorkBench : GameStateBase{
 	/*! Disable the Camera inside the state, deactivate. */
 	public override void OnStopRun ()
 	{
+		UnblockClicks ();
 		gameController.closeAlert ();
 		cameraState.depth = -1;
 		cameraState.enabled = false;
@@ -178,6 +180,64 @@ public class WorkBench : GameStateBase{
 
 	public override EquipmentControllerBase GetEquipmentController () {
 		return equipmentController;
+	}
+
+	//! Block the clicks of the interactable objects
+	public void BlockClicks() {
+		if (pipette != null) {
+			pipette.transform.FindChild("interactiveObjectCanvas").GetComponentInChildren<Button>().interactable = false;
+		}
+		if (spatula != null) {
+			spatula.transform.FindChild("interactiveObjectCanvas").GetComponentInChildren<Button>().interactable = false;
+		}
+		if (washBottle != null) {
+			washBottle.transform.FindChild("interactiveObjectCanvas").GetComponentInChildren<Button>().interactable = false;
+		}
+		if (equipmentController != null) {
+			equipmentController.transform.FindChild("interactiveObjectCanvas").GetComponentInChildren<Button>().interactable = false;
+		}
+
+		if (positionGlass != null) {
+			foreach(Transform p in positionGlass) {
+				if(p.childCount > 0.0f) {
+					p.GetComponentInChildren<Button>().interactable = false;
+				}
+			}
+		}
+		if (positionGlassEquipament != null) {
+			if(positionGlassEquipament.childCount > 0.0f) {
+				positionGlassEquipament.GetComponentInChildren<Button>().interactable = false;
+			}
+		}
+	}
+
+	//! Unblock the clicks of the interactable objects
+	public void UnblockClicks() {
+		if (pipette != null) {
+			pipette.transform.FindChild("interactiveObjectCanvas").GetComponentInChildren<Button>().interactable = true;
+		}
+		if (spatula != null) {
+			spatula.transform.FindChild("interactiveObjectCanvas").GetComponentInChildren<Button>().interactable = true;
+		}
+		if (washBottle != null) {
+			washBottle.transform.FindChild("interactiveObjectCanvas").GetComponentInChildren<Button>().interactable = true;
+		}
+		if (equipmentController != null) {
+			equipmentController.transform.FindChild("interactiveObjectCanvas").GetComponentInChildren<Button>().interactable = true;
+		}
+
+		if (positionGlass != null) {
+			foreach(Transform p in positionGlass) {
+				if(p.childCount > 0.0f) {
+					p.GetComponentInChildren<Button>().interactable = true;
+				}
+			}
+		}
+		if (positionGlassEquipament != null) {
+			if(positionGlassEquipament.childCount > 0.0f) {
+				positionGlassEquipament.GetComponentInChildren<Button>().interactable = true;
+			}
+		}
 	}
 
 }

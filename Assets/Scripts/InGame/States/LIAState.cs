@@ -79,8 +79,8 @@ public class LIAState : GameStateBase {
 
 		//Pressing Esc will exit the state
 		if(Input.GetKeyDown(KeyCode.Escape)){
-			interactBox.GetComponent<BoxCollider>().enabled = true;
-			FadeScript.instance.ShowFade();
+			/*interactBox.GetComponent<BoxCollider>().enabled = true;
+			FadeScript.instance.ShowFade();*/
 			gameController.ChangeState(0);
 		}
 	}
@@ -100,6 +100,10 @@ public class LIAState : GameStateBase {
 	/*! Disable the Camera inside the state, deactivate. */
 	public override void OnStopRun ()
 	{
+		this.RetrieveProduct ();
+		interactBox.GetComponent<BoxCollider>().enabled = true;
+		FadeScript.instance.ShowFade();
+
 		gameController.closeAlert ();
 		LIALight.intensity = 0f;
 		cameraState.depth = -1;

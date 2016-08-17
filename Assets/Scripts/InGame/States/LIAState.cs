@@ -6,6 +6,8 @@ public class LIAState : GameStateBase {
 	
 	// camera and interactive area
 	public Camera cameraState;                  /*!< Camera for this state. */
+	public GameObject interactiveCanvas;		//Interactive canvas of the state
+
 	public Light LIALight;
 	public Image glassware,solid,liquid;
 
@@ -93,6 +95,7 @@ public class LIAState : GameStateBase {
 		GameObject.Find ("InventoryManager").GetComponent<InventoryManager> ().changeList (0);
 		cameraState.gameObject.SetActive(true);
 		cameraState.depth = 2;
+		interactiveCanvas.SetActive (true);
 		HudText.SetText("");
 	}
 	
@@ -108,6 +111,7 @@ public class LIAState : GameStateBase {
 		LIALight.intensity = 0f;
 		cameraState.depth = -1;
 		cameraState.gameObject.SetActive(false);
+		interactiveCanvas.SetActive (false);
 	}
 
 

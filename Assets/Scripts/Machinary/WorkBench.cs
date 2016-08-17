@@ -200,7 +200,9 @@ public class WorkBench : GameStateBase{
 		if (positionGlass != null) {
 			foreach(Transform p in positionGlass) {
 				if(p.childCount > 0.0f) {
+					if(p.GetComponentInChildren<Button>() != null) {
 					p.GetComponentInChildren<Button>().interactable = false;
+					}
 				}
 			}
 		}
@@ -229,7 +231,9 @@ public class WorkBench : GameStateBase{
 		if (positionGlass != null) {
 			foreach(Transform p in positionGlass) {
 				if(p.childCount > 0.0f) {
-					p.GetComponentInChildren<Button>().interactable = true;
+					if(p.GetComponentInChildren<Button>()!= null) {
+						p.GetComponentInChildren<Button>().interactable = true;
+					}
 				}
 			}
 		}

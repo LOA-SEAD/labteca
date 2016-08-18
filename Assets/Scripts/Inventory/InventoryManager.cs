@@ -483,7 +483,7 @@ public class InventoryManager : MonoBehaviour {
 				remove = SendObjectToWorkbench (item);
 
 			if (currentState.GetComponent<LIAState> () != null)
-				remove = currentState.GetComponent<LIAState>().RecieveProduct(item,GameObject.Find(item.index));
+				remove = currentState.GetComponent<LIAState>().ReceiveProduct(item,GameObject.Find(item.index));
 
 			if(remove)
 			removeItem (GameObject.Find (selectedItem.gameObject.name));

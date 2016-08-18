@@ -35,6 +35,9 @@ public class ExperimentMenu : TabletState
 			else if(i == 2) {
 				name = "Neutralização";
 			}
+			else {
+				tempItem.GetComponentInChildren<Text> ().text = tempItem.GetComponentInChildren<Text> ().text + (i+1); //The name is based on the prefab's text
+			}
 			tempItem.GetComponentInChildren<Text> ().text = name;
 			tempItem.gameObject.GetComponent<Button> ().onClick.AddListener (() => GoToExperiment(int.Parse(tempItem.name.Substring(10))));
 			tempItem.transform.SetParent (content.transform, false);

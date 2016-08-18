@@ -24,7 +24,7 @@ public class ScaleController : EquipmentControllerBase
 	public GameObject activeMass;   /*!< List of GameObjects that composes the mass. */
 
     public WorkBench workbench;       /*!< BalanceState component. */
-	
+
     // Awake happens before all Start()
 	void Awake()
 	{
@@ -63,6 +63,7 @@ public class ScaleController : EquipmentControllerBase
 	public void SetupBalance()
 	{
 		PlayerPrefs.SetFloat ("setupBalance", realMass);
+		workbench.GetComponentInChildren<StateUIManager> ().CloseAll ();
 	}
 
     //! Set PlayerPrefs "setupBalance" to zero.
@@ -70,6 +71,7 @@ public class ScaleController : EquipmentControllerBase
 	{
 		PlayerPrefs.SetFloat ("setupBalance", 0);
 		RefreshEquipament ();
+		workbench.GetComponentInChildren<StateUIManager> ().CloseAll ();
 	}
 
     //! Get Glassware that is on Scale.

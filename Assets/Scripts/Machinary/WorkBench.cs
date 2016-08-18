@@ -237,6 +237,7 @@ public class WorkBench : GameStateBase{
 				}
 			}
 		}
+
 		if (positionGlassEquipament != null) {
 			if(positionGlassEquipament.childCount > 0.0f) {
 				positionGlassEquipament.GetComponentInChildren<Button>().interactable = true;

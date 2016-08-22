@@ -43,6 +43,10 @@ public class UI_Manager : MonoBehaviour {
          */
     }
 
+	public void OnClick(){
+		GetComponentInParent<WorkbenchInteractive> ().OnClick ();
+	}
+
     //! Get the current dialog that is being shown.
     public GameObject getCurrentDialog()
     {

@@ -63,7 +63,7 @@ public class Spatula : WorkbenchInteractive {
 	}
 
 	//! Holds the events for when the interactive spatula on the Workbench is clicked
-	public void OnClick() {
+	public override void OnClick() {
 		MouseState currentState = CursorManager.GetCurrentState ();
 		
 		switch (currentState) {

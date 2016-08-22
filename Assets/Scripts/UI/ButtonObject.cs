@@ -12,6 +12,7 @@ public class ButtonObject : MonoBehaviour {
     public Vector2 hotSpot = Vector2.zero; 
     
     private string objectName = "";
+	public string hoverName;
 
 	public bool changeIconeOut = false;
 	public bool changeIconeEnter = false;
@@ -32,6 +33,11 @@ public class ButtonObject : MonoBehaviour {
     //! Set cursor when mouse hover.
     public void cursorEnter()
     {
+		if (GetComponentInParent<WorkbenchInteractive> () != null)
+			Debug.Log (GetComponentInParent<WorkbenchInteractive> ().hoverName);
+		else if (hoverName.Length != 0)
+			Debug.Log (hoverName);
+	//GetComponentInParent<Tools>()
 		if (changeIconeEnter){
 
 			if((changeIconIfOnlyDefault && CursorManager.UsingDefaultCursor()) || !changeIconIfOnlyDefault)

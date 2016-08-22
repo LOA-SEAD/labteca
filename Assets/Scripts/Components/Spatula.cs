@@ -7,7 +7,7 @@ using UnityEngine.UI;
 /*! Defines if the spatulas are being used, how much they are holding
  *	and integrates the interaction boxes. */
 
-public class Spatula : MonoBehaviour {
+public class Spatula : WorkbenchInteractive {
 
 	private float volumeHeld;					//Total volume being held in that number of spatulas
 	public Compound reagentInSpatula;	//Reagent being held by the pipette
@@ -52,6 +52,7 @@ public class Spatula : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//boxToFillSpatula.SetActive (false);
+		hoverName = "Espatula";
 		toggle = boxToChooseSpatula.GetComponent<ToggleGroup>();
 		CloseInteractionBox ();
 		interactingGlassware = null;
@@ -62,7 +63,7 @@ public class Spatula : MonoBehaviour {
 	}
 
 	//! Holds the events for when the interactive spatula on the Workbench is clicked
-	public void OnClick() {
+	public override void OnClick() {
 		MouseState currentState = CursorManager.GetCurrentState ();
 		
 		switch (currentState) {

@@ -60,11 +60,17 @@ public class WashBottle : MonoBehaviour {
 			CursorManager.SetMouseState(MouseState.ms_washBottle);
 			CursorManager.SetNewCursor(washBottle_CursorTexture, hotSpot);
 			break;
-		case MouseState.ms_pipette: 		//Pipette -> Wash Bottle: change to wash bottle state
+		case MouseState.ms_volPipette: 		//Pipette -> Wash Bottle: change to wash bottle state
 			CursorManager.SetMouseState(MouseState.ms_washBottle);
 			CursorManager.SetNewCursor(washBottle_CursorTexture, hotSpot);
 			break;
-		case MouseState.ms_filledPipette: 	// Filled Spatula -> Wash Bottle: nothing
+		case MouseState.ms_filledVolPipette: 	// Filled Spatula -> Wash Bottle: nothing
+			break;
+		case MouseState.ms_gradPipette:
+			CursorManager.SetMouseState(MouseState.ms_washBottle);
+			CursorManager.SetNewCursor(washBottle_CursorTexture, hotSpot);
+			break;
+		case MouseState.ms_filledGradPipette:
 			break;
 		case MouseState.ms_spatula: 		// Spatula -> Wash Bottle: change to wash bottle state
 			CursorManager.SetMouseState(MouseState.ms_washBottle);

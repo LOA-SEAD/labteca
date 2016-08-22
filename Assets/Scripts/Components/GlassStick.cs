@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -31,11 +31,11 @@ public class GlassStick : MonoBehaviour {
 			CursorManager.SetMouseState(MouseState.ms_glassStick);
 			CursorManager.SetNewCursor(glassStick_CursorTexture, hotSpot);
 			break;
-		case MouseState.ms_pipette: 		//Pipette -> Glass Stick: change to glass stick state
+		case MouseState.ms_volPipette: 		//Pipette -> Glass Stick: change to glass stick state
 			CursorManager.SetMouseState(MouseState.ms_glassStick);
 			CursorManager.SetNewCursor(glassStick_CursorTexture, hotSpot);
 			break;
-		case MouseState.ms_filledPipette: 	// Filled Spatula -> Glass Stick: nothing
+		case MouseState.ms_filledVolPipette: 	// Filled Spatula -> Glass Stick: nothing
 			break;
 		case MouseState.ms_spatula: 		// Spatula -> Glass Stick: change to wash bottle state
 			CursorManager.SetMouseState(MouseState.ms_glassStick);

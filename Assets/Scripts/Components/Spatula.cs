@@ -70,12 +70,12 @@ public class Spatula : WorkbenchInteractive {
 		case MouseState.ms_default: 		//Default -> Spatula: prepares the spatula for use
 			OpenChooseBox();
 			break;
-		case MouseState.ms_pipette: 		//Pipette -> Spatula: change to spatula state
+		case MouseState.ms_volPipette: 		//Pipette -> Spatula: change to spatula state
 			OpenChooseBox();
 			CursorManager.SetMouseState(MouseState.ms_default);
 			CursorManager.SetCursorToDefault();
 			break;
-		case MouseState.ms_filledPipette: 	// Filled Spatula -> Spatula: nothing
+		case MouseState.ms_filledVolPipette: 	// Filled Spatula -> Spatula: nothing
 			break;
 		case MouseState.ms_spatula: 		// Spatula -> Spatula: put back the spatula
 			CursorManager.SetMouseState(MouseState.ms_default);

@@ -24,7 +24,8 @@ public class WorkBench : GameStateBase{
 	public StateUIManager stateUIManager;                /*!< The UI Manager Game Object. */
 	
 	//Tools on the workbench
-	public Pipette pipette;
+	public VolumetricPipette volumetricPipette;
+	public GraduatedPipette graduatedPipette;
 	public Spatula spatula;
 	public WashBottle washBottle;
 	
@@ -167,8 +168,11 @@ public class WorkBench : GameStateBase{
 		if (spatula != null) 
 			spatula.OnStopRun ();
 
-		if (pipette != null)
-			pipette.OnStopRun ();
+		if (volumetricPipette != null)
+			volumetricPipette.OnStopRun ();
+
+		if (graduatedPipette != null)
+			graduatedPipette.OnStopRun ();
 
 		if (washBottle != null)
 			washBottle.OnStopRun ();
@@ -184,8 +188,11 @@ public class WorkBench : GameStateBase{
 
 	//! Block the clicks of the interactable objects
 	public void BlockClicks() {
-		if (pipette != null) {
-			pipette.transform.FindChild("interactiveObjectCanvas").GetComponentInChildren<Button>().interactable = false;
+		if (volumetricPipette != null) {
+			volumetricPipette.transform.FindChild("interactiveObjectCanvas").GetComponentInChildren<Button>().interactable = false;
+		}
+		if (graduatedPipette != null) {
+			graduatedPipette.transform.FindChild("interactiveObjectCanvas").GetComponentInChildren<Button>().interactable = false;
 		}
 		if (spatula != null) {
 			spatula.transform.FindChild("interactiveObjectCanvas").GetComponentInChildren<Button>().interactable = false;
@@ -215,8 +222,11 @@ public class WorkBench : GameStateBase{
 
 	//! Unblock the clicks of the interactable objects
 	public void UnblockClicks() {
-		if (pipette != null) {
-			pipette.transform.FindChild("interactiveObjectCanvas").GetComponentInChildren<Button>().interactable = true;
+		if (volumetricPipette != null) {
+			volumetricPipette.transform.FindChild("interactiveObjectCanvas").GetComponentInChildren<Button>().interactable = false;
+		}
+		if (graduatedPipette != null) {
+			graduatedPipette.transform.FindChild("interactiveObjectCanvas").GetComponentInChildren<Button>().interactable = true;
 		}
 		if (spatula != null) {
 			spatula.transform.FindChild("interactiveObjectCanvas").GetComponentInChildren<Button>().interactable = true;

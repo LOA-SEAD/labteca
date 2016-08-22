@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -28,16 +28,21 @@ public class ReagentPot : ItemToInventory {
 	public void OnClick(){
 		MouseState currentState = CursorManager.GetCurrentState ();
 		Spatula spatula = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).spatula;
-		Pipette pipette = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).pipette;
+		VolumetricPipette volPipette = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).volumetricPipette;
+		GraduatedPipette gradPipette = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).graduatedPipette;
 
 		if (isSolid) {
 			switch (currentState) {
 			case MouseState.ms_default: 		//Default -> Solid Reagent: open interaction box to take the reagent to the inventory?
 				(GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).stateUIManager.OpenOptionDialog(this);
 				break;
-			case MouseState.ms_pipette: 		//Pipette -> Solid Reagent: nothing
+			case MouseState.ms_volPipette: 		//Pipette -> Solid Reagent: nothing
 				break;
-			case MouseState.ms_filledPipette: 	// Filled Spatula -> Solid Reagent: nothing
+			case MouseState.ms_filledVolPipette: 	// Filled Pipette -> Solid Reagent: nothing
+				break;
+			case MouseState.ms_gradPipette: 		//Pipette -> Solid Reagent: nothing
+				break;
+			case MouseState.ms_filledGradPipette: 	// Filled Pipette -> Solid Reagent: nothing
 				break;
 			case MouseState.ms_spatula: 		// Spatula -> Solid Reagent: fill the spatula with the reagent clicked
 				//spatula.OpenInteractionBox(true);
@@ -72,8 +77,8 @@ public class ReagentPot : ItemToInventory {
 			case MouseState.ms_default: 		//Default -> Liquid Reagent: open interaction box to take the reagent to the inventory?
 				(GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).stateUIManager.OpenOptionDialog(this);
 				break;
-			case MouseState.ms_pipette: 		//Pipette -> Liquid Reagent: fill the pipette with the reagent clicked
-				if(reagent.FumeHoodOnly) { //In case it should be use at the Fume Hood
+			case MouseState.ms_volPipette: 		//Pipette -> Liquid Reagent: fill the pipette with the reagent clicked
+			/*	if(reagent.FumeHoodOnly) { //In case it should be use at the Fume Hood
 					if(GameObject.Find("GameController").GetComponent<GameController>().currentStateIndex != 4) { // If it is the FumeHoodState
 						GameObject.Find("GameController").GetComponent<GameController>().sendAlert("Este reagente libera gases prejudiciais.\nDirija-se à capela");
 					}
@@ -81,22 +86,26 @@ public class ReagentPot : ItemToInventory {
 						if(pipette.graduated)
 							pipette.OpenGraduatedFillingBox(this.reagent);
 						else
-							pipette.FillVolumetricPipette(this.reagent.Name);
+							pipette.FillPipette(this.reagent.Name);
 					}
 				} else { //Case: doesn't need fume hood
 					if(pipette.graduated)
 						pipette.OpenGraduatedFillingBox(this.reagent);
 					else
-						pipette.FillVolumetricPipette(this.reagent.Name);
-				}
+						pipette.FillPipette(this.reagent.Name);
+				}*/
 				break;
-			case MouseState.ms_filledPipette: 	// Filled Spatula -> Liquid Reagent: put back the content if it is the same reagent
-				if(pipette.reagentInPipette.Name == this.reagent.Name) {
+			case MouseState.ms_filledVolPipette: 	// Filled Spatula -> Liquid Reagent: put back the content if it is the same reagent
+				/*if(pipette.reagentInPipette.Name == this.reagent.Name) {
 					if(pipette.graduated)
 						pipette.OpenGraduatedUnfillingBox(this.reagent);
 					else
-						pipette.UnfillVolumetricPipette();
-				}
+						pipette.UnfillPipette();
+				}*/
+				break;
+			case MouseState.ms_gradPipette: 		//Pipette -> Solid Reagent: nothing
+				break;
+			case MouseState.ms_filledGradPipette: 	// Filled Spatula -> Solid Reagent: nothing
 				break;
 			case MouseState.ms_spatula: 		// Spatula -> Liquid Reagent: nothing
 				break;

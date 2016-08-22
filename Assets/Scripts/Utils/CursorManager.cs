@@ -11,8 +11,10 @@ using System.Collections;
 // Enum that defines what mouse states the workbench might be.
 public enum MouseState {
 	ms_default,			//Holding nothing
-	ms_pipette,			//Holding an empty pipette
-	ms_filledPipette,	//Holding a filled pipette
+	ms_volPipette,		//Holding an empty volumetric pipette
+	ms_filledVolPipette,//Holding a filled volumetric pipette
+	ms_gradPipette,		//Holding an empty volumetric pipette
+	ms_filledGradPipette,//Holding a filled volumetric pipette
 	ms_spatula,			//Holding an empty spatula
 	ms_filledSpatula,	//Holding a filled spatula
 	ms_washBottle,		//Holding the wash bottle

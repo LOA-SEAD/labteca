@@ -122,34 +122,42 @@ public class Glassware : ItemToInventory
 				(GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).stateUIManager.OpenOptionDialog (this);
 			}
 			else {
-				gameController.sendAlert("Este tipo de interação não está habilitada apás uma possável reação");
+				gameController.sendAlert("Este tipo de interação não está habilitada após uma possível reação");
 			}
 		} else {
 			switch (currentState) {
 			case MouseState.ms_default: 		//Default -> Glassware: show the interaction options
 				(GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).stateUIManager.OpenOptionDialog (this);
 				break;
-			case MouseState.ms_pipette: 		//Pipette -> Glassware: gets the liquid, if there's only liquid inside. So, opens the pipette's interaction box.
-				Pipette pipette = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).pipette;
+			case MouseState.ms_volPipette: 		//Pipette -> Glassware: gets the liquid, if there's only liquid inside.
+				VolumetricPipette volPipette = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).volumetricPipette;
 				if (hasLiquid) {
-					if (pipette.graduated) {
+					/*if (pipette.graduated) {
 						pipette.OpenGraduatedFillingBox (currentVolume, this);
 						RefreshContents ();
-					} else {
-						pipette.FillVolumetricPipette (this);
+					} else {*/
+						volPipette.FillPipette (this);
 						RefreshContents ();
-					}
+					//}
 				}
 				break;
-			case MouseState.ms_filledPipette: 	// Filled Pipette -> Glassware: pours the pipette's contents into the glassware
-				Pipette filledPipette = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).pipette;
-			//filledPipette.UnfillPipette(this);
-				if (filledPipette.graduated) {
-					filledPipette.OpenGraduatedUnfillingBox (maxVolume - currentVolume, this);
-				} else {
-					filledPipette.UnfillVolumetricPipette (this);
+			case MouseState.ms_filledVolPipette: 	// Filled Pipette -> Glassware: pours the pipette's contents into the glassware
+				VolumetricPipette filledVolPipette = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).volumetricPipette;
+
+				filledVolPipette.UnfillPipette (this);
+				RefreshContents ();
+				
+				break;
+			case MouseState.ms_gradPipette: 		//GradPipette -> Glassware: put back the pipette
+				GraduatedPipette gradPipette = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).graduatedPipette;
+				if (hasLiquid) {
+					gradPipette.OpenGraduatedFillingBox (currentVolume, this);
 					RefreshContents ();
 				}
+				break;
+			case MouseState.ms_filledGradPipette: 	// Filled GradPipette -> Pipette: nothing
+				GraduatedPipette filledGradPipette = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).graduatedPipette;
+				filledGradPipette.OpenGraduatedUnfillingBox (maxVolume - currentVolume, this);
 				break;
 			case MouseState.ms_spatula: 		// Spatula -> Glassware: gets the solids, if there's only solid inside. So, opens the spatula's interaction box
 				Spatula spatula = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).spatula;

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 //! Controls the pipette
 /*! Defines if the pipettes are being used, how much they are holding
  *	and integrates the interaction boxes. */
-public class Pipette : MonoBehaviour {
+public class Pipette : WorkbenchInteractive {
 
 	public float volumeHeld;			//Volume being held by the pipette [ml]
 	private float maxVolume;			//Max volume the pipette can hold [ml]
@@ -50,6 +50,7 @@ public class Pipette : MonoBehaviour {
 
 	//! Use this for initialization
 	void Start () {
+		hoverName = "Pipeta";
 		boxGraduatedFilling.SetActive (false);
 		toggle = boxToChoosePipette.GetComponent<ToggleGroup> ();
 	}
@@ -60,7 +61,7 @@ public class Pipette : MonoBehaviour {
 	}
 
 	//! Holds the events for when the interactive pipette on the Workbench is clicked
-	public void OnClick() {
+	public override void OnClick() {
 		MouseState currentState = CursorManager.GetCurrentState ();
 
 		switch (currentState) {

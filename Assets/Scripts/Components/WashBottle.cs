@@ -7,7 +7,7 @@ using UnityEngine.UI;
 /*! Defines if the wash bottle is being used, and defines how much water they
  * 	are going to pour, integrating the interaction boxes . */
 
-public class WashBottle : MonoBehaviour {
+public class WashBottle : WorkbenchInteractive {
 
 
 	//Interaction box and components
@@ -26,6 +26,7 @@ public class WashBottle : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		hoverName = "Pisseta";
 		interactionBoxWashBottle.SetActive (false);
 
 	/*	Water.Name = "H2O";
@@ -52,7 +53,7 @@ public class WashBottle : MonoBehaviour {
 	}
 
 	//! Holds the events for when the interactive wash bottle on the Workbench is clicked
-	public void OnClick() {
+	public override void OnClick() {
 		MouseState currentState = CursorManager.GetCurrentState ();
 		
 		switch (currentState) {

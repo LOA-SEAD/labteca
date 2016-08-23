@@ -15,6 +15,8 @@ public class HUDController : MonoBehaviour {
 	public Canvas inventoryCanvas;
 	public bool inventoryLocked=false,mapLocked = false,lockKey;
 
+	public RectTransform hover;
+
 	void Start(){
 		map.SetActive (false);
 		lockKey = false;

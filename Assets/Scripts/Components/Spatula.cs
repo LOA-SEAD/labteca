@@ -46,13 +46,12 @@ public class Spatula : WorkbenchInteractive {
 	public Texture2D filledSpatula_CursorTexture;
 	public Vector2 hotSpot = Vector2.zero;
 
-
 	public Glassware interactingGlassware;		//Glassware which the spatula is interacting with
 
 	// Use this for initialization
 	void Start () {
 		//boxToFillSpatula.SetActive (false);
-		hoverName = "Espatula";
+		hoverName = "Espátula";
 		toggle = boxToChooseSpatula.GetComponent<ToggleGroup>();
 		CloseInteractionBox ();
 		interactingGlassware = null;

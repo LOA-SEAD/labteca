@@ -57,6 +57,7 @@ public abstract class GameStateBase : MonoBehaviour {
 
     //! Stop running the State.
 	public void StopRun(){
+		GameObject.Find ("GameController").GetComponent<HUDController> ().hover.gameObject.SetActive (false);
 		if (interactBox != null)
 			interactBox.SetActive (true);
 		gameController.GetComponent<HUDController> ().inventoryLocked = false;

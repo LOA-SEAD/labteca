@@ -33,11 +33,11 @@ public class LIAState : GameStateBase {
 			if (obj != null) {
 				currentIndex = item.index;
 				glassware.sprite = item.icon.sprite;
-				if(item.solid.isActiveAndEnabled){
+				if(item.solid.IsActive()){
 					solid.sprite = item.solid.sprite;
 					solid.color = new Color32(255,255,255,255);
 				}
-				if(item.liquid.isActiveAndEnabled){
+				if(item.liquid.IsActive()){
 					liquid.sprite = item.liquid.sprite;
 					liquid.color = new Color32(255,255,255,255);
 				}

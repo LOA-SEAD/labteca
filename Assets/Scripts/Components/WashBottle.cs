@@ -82,10 +82,6 @@ public class WashBottle : MonoBehaviour {
 			CursorManager.SetMouseState(MouseState.ms_default);
 			CursorManager.SetCursorToDefault();
 			break;
-		case MouseState.ms_glassStick:		// Glass Stick -> Wash Bottle: change to wash bottle state
-			CursorManager.SetMouseState(MouseState.ms_washBottle);
-			CursorManager.SetNewCursor(washBottle_CursorTexture, hotSpot);
-			break;
 		case MouseState.ms_usingTool:  		// Unable to click somewhere else TODO:is it necessary?
 			break;
 		}

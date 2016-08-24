@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class WorkbenchInteractive : MonoBehaviour {
-	public string hoverName;
+public interface WorkbenchInteractive {
+	public string hoverName { get; }
 
-	public abstract void OnClick();
+	public void OnClick();
 }

@@ -51,9 +51,6 @@ public class VolumetricPipette : Pipette {
 		case MouseState.ms_washBottle: 		// Wash Bottle -> VolPipette: change to vol pipette state
 			this.OnStartRun();
 			break;
-		case MouseState.ms_glassStick:		// Glass Stic -> VolPipette: change to vol pipette state
-			this.OnStartRun();
-			break;
 		case MouseState.ms_usingTool:  		// Unable to click somewhere else
 			break;
 		}
@@ -107,10 +104,17 @@ public class VolumetricPipette : Pipette {
 		CloseInteractionBox ();
 	}
 
+	//! Treats how the interaction with the different recipients would be.
+	public override void FillingInteraction(WorkbenchInteractive interactive) {
+		if (interactive is ReagentPot) {
+			this.FillPipette((interactive as ReagentPot).reagent.Name);
+		} else if (interactive is Glassware) {
+			this.FillPipette (interactive as Glassware);
+		}
+	}
 
-	public override void FillPipette ()
-	{
-
+	public override void FillPipette () {
+		
 	}
 	public void FillPipette(Glassware glassware) {
 		if (glassware.currentVolume < maxVolume) { //Case volume on glass < pipette's max volume
@@ -138,7 +142,15 @@ public class VolumetricPipette : Pipette {
 		GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().cannotEndState = true;
 		
 	}
-	
+
+
+	public override void UnfillingInteraction(WorkbenchInteractive interactive) {
+		if (interactive is ReagentPot) {
+			this.UnfillPipette();
+		} else if (interactive is Glassware) {
+			this.UnfillPipette (interactive as Glassware);
+		}
+	}
 	public void UnfillPipette(Glassware glassware) {
 		if ((glassware.maxVolume - glassware.currentVolume) < this.maxVolume) { //Case volume on pipette > volume available
 			float previousVolume = glassware.currentVolume;

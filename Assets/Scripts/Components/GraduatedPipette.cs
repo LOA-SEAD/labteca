@@ -58,9 +58,6 @@ public class GraduatedPipette : Pipette {
 		case MouseState.ms_washBottle: 			// Wash Bottle -> GradPipette: change to grad pipette state
 			this.OnStartRun ();
 			break;
-		case MouseState.ms_glassStick:			// Glass Stic -> GradPipette: change to grad pipette state
-			this.OnStartRun ();
-			break;
 		case MouseState.ms_usingTool:  			// Unable to click somewhere else
 			break;
 		}
@@ -107,6 +104,15 @@ public class GraduatedPipette : Pipette {
 	}
 	
 	//FILLING INTERACTION
+
+	//! Treats how the interaction with different recipients would be.
+	public override void FillingInteraction(WorkbenchInteractive interactive) {
+		if (interactive is ReagentPot) {
+			this.OpenGraduatedFillingBox ((interactive as ReagentPot).reagent);
+		} else if (interactive is Glassware) {
+			this.OpenGraduatedFillingBox((interactive as Glassware).currentVolume , interactive as Glassware);
+		}
+	}
 
 	//! Open the interaction box to fill the pipette
 	//	Also defines the maximum value for the slider
@@ -177,7 +183,16 @@ public class GraduatedPipette : Pipette {
 	}
 	
 	//UNFILLING INTERACTION
-	
+
+	//! Treats how the interaction with different recipients would be.
+	public override void UnfillingInteraction(WorkbenchInteractive interactive) {
+		if (interactive is ReagentPot) {
+			this.OpenGraduatedUnfillingBox((interactive as ReagentPot).reagent);
+		} else if (interactive is Glassware) {
+			this.OpenGraduatedUnfillingBox ((interactive as Glassware).maxVolume - (interactive as Glassware).currentVolume, (interactive as Glassware));
+		}
+	}
+
 	//! Open the interaction box to unfill the pipette
 	//	Also defines the maximum value for the slider
 	//	Case to unfill pipette into a glassware

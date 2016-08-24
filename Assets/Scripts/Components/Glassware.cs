@@ -8,7 +8,7 @@ using System.Collections.Generic;
 * add and remove liquids and solids.
 */
 
-public class Glassware : ItemToInventory 
+public class Glassware : ItemToInventory, WorkbenchInteractive
 {
 	public float maxVolume;			//Maximum volume capacity of the glassware [ml or cm]
 	public float currentVolume;		//Current volume used
@@ -130,34 +130,31 @@ public class Glassware : ItemToInventory
 				(GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).stateUIManager.OpenOptionDialog (this);
 				break;
 			case MouseState.ms_volPipette: 		//Pipette -> Glassware: gets the liquid, if there's only liquid inside.
-				VolumetricPipette volPipette = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).volumetricPipette;
 				if (hasLiquid) {
-					/*if (pipette.graduated) {
-						pipette.OpenGraduatedFillingBox (currentVolume, this);
-						RefreshContents ();
-					} else {*/
-						volPipette.FillPipette (this);
-						RefreshContents ();
-					//}
+					VolumetricPipette volPipette = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).volumetricPipette;
+					volPipette.FillingInteraction(this);
+					RefreshContents ();
 				}
 				break;
 			case MouseState.ms_filledVolPipette: 	// Filled Pipette -> Glassware: pours the pipette's contents into the glassware
 				VolumetricPipette filledVolPipette = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).volumetricPipette;
 
-				filledVolPipette.UnfillPipette (this);
+				filledVolPipette.UnfillingInteraction(this);
 				RefreshContents ();
 				
 				break;
 			case MouseState.ms_gradPipette: 		//GradPipette -> Glassware: put back the pipette
-				GraduatedPipette gradPipette = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).graduatedPipette;
 				if (hasLiquid) {
-					gradPipette.OpenGraduatedFillingBox (currentVolume, this);
+					GraduatedPipette gradPipette = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).graduatedPipette;
+					gradPipette.FillingInteraction(this);
 					RefreshContents ();
 				}
 				break;
 			case MouseState.ms_filledGradPipette: 	// Filled GradPipette -> Pipette: nothing
 				GraduatedPipette filledGradPipette = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).graduatedPipette;
-				filledGradPipette.OpenGraduatedUnfillingBox (maxVolume - currentVolume, this);
+				//filledGradPipette.OpenGraduatedUnfillingBox (maxVolume - currentVolume, this);
+				filledGradPipette.UnfillingInteraction(this);
+				RefreshContents();
 				break;
 			case MouseState.ms_spatula: 		// Spatula -> Glassware: gets the solids, if there's only solid inside. So, opens the spatula's interaction box
 				Spatula spatula = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).spatula;
@@ -174,17 +171,13 @@ public class Glassware : ItemToInventory
 			//filledSpatula.OpenInteractionBox(maxVolume - currentVolume, this);
 				filledSpatula.UnfillSpatula (maxVolume - currentVolume, this);
 				break;
-			case MouseState.ms_washBottle: 		// Washe Bottle -> Glassware: pours water into the glassware
+			case MouseState.ms_washBottle: 		// Wash Bottle -> Glassware: pours water into the glassware
 				if (this.precisionGlass) {
 
 				} else {
 					WashBottle washBottle = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).washBottle;
 					washBottle.ActivateWashBottle (maxVolume - currentVolume, this);
 				}
-				break;
-			case MouseState.ms_glassStick:		// Glass Stick -> Glassware: mix the contents, if there is any.
-			//GlassStick glassStick =  GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().glassStick;
-
 				break;
 			case MouseState.ms_usingTool:  		// Unable to click somewhere else
 				break;

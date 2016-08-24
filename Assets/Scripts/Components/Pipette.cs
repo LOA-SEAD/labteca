@@ -27,8 +27,12 @@ public abstract class Pipette : WorkbenchInteractive {
 	//! Close the interaction box
 	public abstract void CloseInteractionBox ();
 
+	//! Used to start filling interaction with the interactives objects in the Workbench
+	public abstract void FillingInteraction(WorkbenchInteractive interactive);
 	//! Use the pipette to hold the selected volume.
 	public abstract void FillPipette ();
+	//! Used to start unfilling interaction with the interactives objects in the Workbench
+	public abstract void UnfillingInteraction(WorkbenchInteractive interactive);
 	//! Unloads the pipette into a proper vessel
 	public abstract void UnfillPipette ();
 }

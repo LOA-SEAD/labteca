@@ -2,7 +2,7 @@
 using System.Collections;
 
 public interface WorkbenchInteractive {
-	public string hoverName { get; }
+	string hoverName { get; }
 
-	public void OnClick();
+	void OnClick();
 }

@@ -115,6 +115,7 @@ public class Glassware : ItemToInventory
 
 	//! Holds the events for when the interactive spatula on the Workbench is clicked
 	public void OnClick() {
+        Debug.Log("Chamando");
 		MouseState currentState = CursorManager.GetCurrentState ();
 
 		if (content is Mixture) { //TODO:PROVISORIO!

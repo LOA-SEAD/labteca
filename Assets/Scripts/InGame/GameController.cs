@@ -5,6 +5,9 @@ using System.Collections.Generic;
 //! Game Controller
 /*! Script that controls the current state of the game - therefore, it is where the 'State Machine' changes. 
  */
+using UnityEngine.UI;
+
+
 public class GameController : MonoBehaviour {
 
 	private CharacterController player;
@@ -19,6 +22,8 @@ public class GameController : MonoBehaviour {
 	public static GameController instance;
 	
 	public AlertDialogBehaviour alertDialog;
+
+	public GameObject exitButton;
 
 	void Start () {
 
@@ -64,6 +69,10 @@ public class GameController : MonoBehaviour {
 		currentGameState = selectState;
 		currentStateIndex = indexState;
 		refreshInventory ();
+		if (currentStateIndex != 0)
+			exitButton.SetActive(true);
+		else
+			exitButton.SetActive(false);
 		currentGameState.StartRun();
 		switch(indexState){
 			case 0:

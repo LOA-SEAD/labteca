@@ -123,18 +123,37 @@ public class LIAState : GameStateBase {
 		else{
 			gameController.sendAlert("Resultado incorreto.");
 		}*/
-		if (currentIndex.Length > 0) {
-			if ((GameObject.Find (currentIndex).GetComponent<Glassware> ()).content != null) {
-				if (ResultVerifier.GetInstance ().VerifyResult ((GameObject.Find (currentIndex).GetComponent<Glassware> ()).content)) {
+		if (currentIndex.Length > 0) { //Case there is a Glassware being verified
+			if ((GameObject.Find (currentIndex).GetComponent<Glassware> ()).content != null) { //Case there is a content
+				if (ResultVerifier.GetInstance ().VerifyResult ((GameObject.Find (currentIndex).GetComponent<Glassware> ()).content)) { //Case Product is correct
+
 					gameController.sendAlert ("Resultado correto! Parabéns!");
-				} else {
+				} else {	//Case Product is NOT correct
 					gameController.sendAlert ("Resultado incorreto.");
 				}
-			} else {
+			} else {	//Case the Glassware is empty (it won't actually happen)
 				gameController.sendAlert ("A vidraria está vazia!");
 			}
-		} else {
+		} else {	//Case there's no Glassware selected
 			gameController.sendAlert("Não há nenhum produto para verificar!");
 		}
+	}
+
+	//Ending animation TODO:This was created as a finisher for the SBGames Version
+	public void EndGame() {
+		//Fade Out
+		FadeScript.instance.ShowFade ();
+
+		//Show Animation/image
+		// ~Musica tocando~
+		/*
+		 * - Pular para nova scene?
+		 * - Bloquear comandos e ativar uma animaçao/imagem?
+		 * 
+		 */
+		//Fade out
+
+		//Credits?
+		//Exit
 	}
 }

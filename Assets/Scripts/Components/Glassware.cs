@@ -92,6 +92,7 @@ public class Glassware : ItemToInventory
 	// Update is called once per frame
 	void Update () 
 	{
+		Debug.Log (CursorManager.GetCurrentState ());
 		/*if (volume == 0.0f)
 			liquid.SetActive (false);*/
 	}

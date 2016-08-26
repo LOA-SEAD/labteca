@@ -4,11 +4,10 @@ using System.Collections;
 public class AudioController : MonoBehaviour{
 	public AudioSource audioPlaying, newAudio;
 	public float maxVolume, time,elapsedTime;
-	private bool transition,serious;
+	private bool transition;
 
 	void Start(){
 		transition = false;
-		serious = false;
 	}
 	void FixedUpdate() {
 		if (transition) {

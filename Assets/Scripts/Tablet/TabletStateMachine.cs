@@ -40,7 +40,18 @@ public class TabletStateMachine : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		time.text = (System.DateTime.Now.Hour + ":" + System.DateTime.Now.Minute);
+		time.text = GetTime();
+	}
+
+	private string GetTime(){
+		string str = "";
+		str += System.DateTime.Now.Hour >= 10 ? System.DateTime.Now.Hour.ToString () :
+											   "0" + System.DateTime.Now.Hour.ToString ();
+		str += ":";
+		str += System.DateTime.Now.Minute >= 10 ? System.DateTime.Now.Minute.ToString () :
+											   "0" + System.DateTime.Now.Minute.ToString ();
+
+		return str;
 	}
 }
 

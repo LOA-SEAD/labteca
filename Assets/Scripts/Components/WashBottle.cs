@@ -58,18 +58,15 @@ public class WashBottle : WorkbenchInteractive {
 		
 		switch (currentState) {
 		case MouseState.ms_default: 		//Default -> Wash Bottle: prepares the washe bottle for use
-			CursorManager.SetMouseState(MouseState.ms_washBottle);
-			CursorManager.SetNewCursor(washBottle_CursorTexture, hotSpot);
+			OnStartInteraction();
 			break;
 		case MouseState.ms_pipette: 		//Pipette -> Wash Bottle: change to wash bottle state
-			CursorManager.SetMouseState(MouseState.ms_washBottle);
-			CursorManager.SetNewCursor(washBottle_CursorTexture, hotSpot);
+			OnStartInteraction();
 			break;
 		case MouseState.ms_filledPipette: 	// Filled Spatula -> Wash Bottle: nothing
 			break;
 		case MouseState.ms_spatula: 		// Spatula -> Wash Bottle: change to wash bottle state
-			CursorManager.SetMouseState(MouseState.ms_washBottle);
-			CursorManager.SetNewCursor(washBottle_CursorTexture, hotSpot);
+			OnStartInteraction();
 			break;
 		case MouseState.ms_filledSpatula: 	// Filled Spatula -> Wash Bottle: nothing
 			break;
@@ -77,19 +74,18 @@ public class WashBottle : WorkbenchInteractive {
 			CursorManager.SetMouseState(MouseState.ms_default);
 			CursorManager.SetCursorToDefault();
 			break;
-		case MouseState.ms_glassStick:		// Glass Stick -> Wash Bottle: change to wash bottle state
-			CursorManager.SetMouseState(MouseState.ms_washBottle);
-			CursorManager.SetNewCursor(washBottle_CursorTexture, hotSpot);
-			break;
-		case MouseState.ms_usingTool:  		// Unable to click somewhere else TODO:is it necessary?
+		case MouseState.ms_interacting:  	// Unable to click somewhere else
 			break;
 		}
 	}
 
+	public void OnStartInteraction() {
+		CursorManager.SetMouseState(MouseState.ms_washBottle);
+		CursorManager.SetNewCursor(washBottle_CursorTexture, hotSpot);
+	}
+
 	public void OnStopRun() {
 		CloseInteractionBox ();
-
-		//TODO: Hide cursor
 	}
 
 	//! Close the interaction box
@@ -99,15 +95,17 @@ public class WashBottle : WorkbenchInteractive {
 		boxSlider.value = 0.0f;
 		volumeSelected = 0.0f;
 		interactingGlassware = null;
-		CursorManager.SetMouseState(MouseState.ms_default);
-		CursorManager.SetCursorToDefault();
-		transform.GetComponentInParent<WorkBench>().UnblockClicks();
+
+		if (CursorManager.GetCurrentState () == MouseState.ms_interacting) {
+			CursorManager.SetMouseState(MouseState.ms_default);
+			CursorManager.SetCursorToDefault();
+		}
 	}
 	//! Open the interaction box
 	public void OpenInteractionBox(float maxSliderVolume) {
 		interactionBoxWashBottle.SetActive (true);
 		interactionBoxWashBottle.GetComponentInChildren<Slider> ().maxValue = maxSliderVolume;
-		transform.GetComponentInParent<WorkBench>().BlockClicks();
+		CursorManager.SetMouseState(MouseState.ms_interacting);
 	}
 
 	//! The wash bottle is being put to work

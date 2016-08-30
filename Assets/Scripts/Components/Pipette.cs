@@ -67,7 +67,7 @@ public class Pipette : WorkbenchInteractive {
 		switch (currentState) {
 		case MouseState.ms_default: 		//Default -> Pipette: prepares the pipette for use
 			//ChoosePipetteBox
-			OpenSelectingBox();
+			OnStartInteraction();
 			break;
 		case MouseState.ms_pipette: 		//Pipette -> Pipette: put back the pipette
 			CursorManager.SetMouseState(MouseState.ms_default);
@@ -76,25 +76,22 @@ public class Pipette : WorkbenchInteractive {
 		case MouseState.ms_filledPipette: 	// Filled Pipette -> Pipette: nothing
 			break;
 		case MouseState.ms_spatula: 		// Spatula -> Piepette: change to pipette state
-			OpenSelectingBox();
-			CursorManager.SetMouseState(MouseState.ms_default);
-			CursorManager.SetCursorToDefault();
+			OnStartInteraction();
 			break;
 		case MouseState.ms_filledSpatula: 	// Filled Spatula -> Pipette: nothing
 			break;
 		case MouseState.ms_washBottle: 		// Wash Bottle -> Pipette: change to pipette state
-			OpenSelectingBox();
-			CursorManager.SetMouseState(MouseState.ms_default);
-			CursorManager.SetCursorToDefault();
+			OnStartInteraction();
 			break;
-		case MouseState.ms_glassStick:		// Glass Stic -> Pipette: change to pipette state
-			OpenSelectingBox();
-			CursorManager.SetMouseState(MouseState.ms_default);
-			CursorManager.SetCursorToDefault();
-			break;
-		case MouseState.ms_usingTool:  		// Unable to click somewhere else
+		case MouseState.ms_interacting:  		// Unable to click somewhere else
 			break;
 		}
+	}
+
+	public void OnStartInteraction() {
+		OpenSelectingBox();
+		CursorManager.SetMouseState(MouseState.ms_interacting);
+		CursorManager.SetCursorToDefault();
 	}
 
 	public void OnStopRun() {
@@ -126,7 +123,11 @@ public class Pipette : WorkbenchInteractive {
 		volumeSelected = 0.0f;
 		u_boxSlider.value = 0.0f;
 		u_volumeSelected = 0.0f;
-		transform.GetComponentInParent<WorkBench>().UnblockClicks();
+
+		if (CursorManager.GetCurrentState () == MouseState.ms_interacting) {
+			CursorManager.SetMouseState(MouseState.ms_default);
+			CursorManager.SetCursorToDefault();
+		}
 	}
 
 	/* CHOOSING INTERACTION */
@@ -136,7 +137,7 @@ public class Pipette : WorkbenchInteractive {
 		maxVolume = 0.0f;
 		graduated = false;
 		boxToChoosePipette.SetActive (true);
-		transform.GetComponentInParent<WorkBench>().BlockClicks();
+		CursorManager.SetMouseState(MouseState.ms_interacting);
 	}
 
 	//! Choose the volumetric pipette for and the volume
@@ -178,7 +179,7 @@ public class Pipette : WorkbenchInteractive {
 		volumeSelected = 0.0f;
 		interactingReagent = reagent;
 
-		transform.GetComponentInParent<WorkBench>().BlockClicks();
+		CursorManager.SetMouseState(MouseState.ms_interacting);
 	}
 	//	This case is to get liquid from a glassware
 	public void OpenGraduatedFillingBox(float volumeAvailable, Glassware glassware) {
@@ -193,7 +194,7 @@ public class Pipette : WorkbenchInteractive {
 
 		interactingGlassware = glassware;
 
-		transform.GetComponentInParent<WorkBench>().BlockClicks();
+		CursorManager.SetMouseState(MouseState.ms_interacting);
 	}
 
 	//! Set value of volume currently set by the slider.
@@ -252,7 +253,7 @@ public class Pipette : WorkbenchInteractive {
 
 		interactingGlassware = glassware;
 		interactingReagent = null;
-		transform.GetComponentInParent<WorkBench>().BlockClicks();
+		CursorManager.SetMouseState(MouseState.ms_interacting);
 	}
 	//! Open the interaction box to unfill the pipette
 	//	Also defines the maximum value for the slider
@@ -266,7 +267,7 @@ public class Pipette : WorkbenchInteractive {
 
 		interactingReagent = reagentPot;
 		interactingGlassware = null;
-		transform.GetComponentInParent<WorkBench>().BlockClicks();
+		CursorManager.SetMouseState(MouseState.ms_interacting);
 	}
 
 	//! Set value of volume currently set by the slider.

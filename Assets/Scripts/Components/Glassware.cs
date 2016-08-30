@@ -180,7 +180,7 @@ public class Glassware : ItemToInventory
 			//GlassStick glassStick =  GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().glassStick;
 
 				break;
-			case MouseState.ms_usingTool:  		// Unable to click somewhere else
+			case MouseState.ms_interacting:  		// Unable to click somewhere else
 				break;
 			}
 		}

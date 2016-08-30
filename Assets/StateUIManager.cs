@@ -16,18 +16,22 @@ public class StateUIManager : MonoBehaviour {
 
 	public void OpenOptionDialogEquipment(){
 		optionDialogEquipment.SetActive(true);
-		transform.GetComponentInParent<WorkBench>().BlockClicks();
+		CursorManager.SetMouseState(MouseState.ms_interacting);
 	}
 
 	public void CloseAll(){
 		optionDialogGlass.SetActive(false);
 		optionDialogReagent.SetActive(false);
 		optionDialogEquipment.SetActive(false);
-		transform.GetComponentInParent<WorkBench>().UnblockClicks();
+
+		if (CursorManager.GetCurrentState () == MouseState.ms_interacting) {
+			CursorManager.SetMouseState(MouseState.ms_default);
+			CursorManager.SetCursorToDefault();
+		}
 	}
 
 	public void OpenOptionDialog(ItemToInventory item){
-		transform.GetComponentInParent<WorkBench>().BlockClicks();
+		CursorManager.SetMouseState(MouseState.ms_interacting);
 		if (item is Glassware) {
 			if(gameObject.GetComponentInParent<WorkBench> ().positionGlassEquipament!=null&&
 			   gameObject.GetComponentInParent<WorkBench> ().positionGlassEquipament.childCount != 0 &&

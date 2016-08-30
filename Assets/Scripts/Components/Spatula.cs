@@ -67,12 +67,10 @@ public class Spatula : WorkbenchInteractive {
 		
 		switch (currentState) {
 		case MouseState.ms_default: 		//Default -> Spatula: prepares the spatula for use
-			OpenChooseBox();
+			OnStartInteraction();
 			break;
 		case MouseState.ms_pipette: 		//Pipette -> Spatula: change to spatula state
-			OpenChooseBox();
-			CursorManager.SetMouseState(MouseState.ms_default);
-			CursorManager.SetCursorToDefault();
+			OnStartInteraction();
 			break;
 		case MouseState.ms_filledPipette: 	// Filled Spatula -> Spatula: nothing
 			break;
@@ -83,18 +81,17 @@ public class Spatula : WorkbenchInteractive {
 		case MouseState.ms_filledSpatula: 	// Filled Spatula -> Spatula: nothing
 			break;
 		case MouseState.ms_washBottle: 		// Washe Bottle -> Spatula: change to spatula state
-			OpenChooseBox();
-			CursorManager.SetMouseState(MouseState.ms_default);
-			CursorManager.SetCursorToDefault();
+			OnStartInteraction();
 			break;
-		case MouseState.ms_glassStick:		// Glass Stick -> Spatula: change to spatula state
-			OpenChooseBox();
-			CursorManager.SetMouseState(MouseState.ms_default);
-			CursorManager.SetCursorToDefault();
-			break;
-		case MouseState.ms_usingTool:  		// Unable to click somewhere else TODO:is it necessary?
+		case MouseState.ms_interacting:  		// Unable to click somewhere else TODO:is it necessary?
 			break;
 		}
+	}
+
+	public void OnStartInteraction() {
+		OpenChooseBox();
+		CursorManager.SetMouseState(MouseState.ms_interacting);
+		CursorManager.SetCursorToDefault();
 	}
 
 	public void OnStopRun() {
@@ -117,7 +114,7 @@ public class Spatula : WorkbenchInteractive {
 		spatulaCapacity = 0.0f;
 		capacityError = 0.0f;
 		boxToChooseSpatula.SetActive(true);
-		transform.GetComponentInParent<WorkBench>().BlockClicks();
+		CursorManager.SetMouseState(MouseState.ms_interacting);
 	}
 
 	//! Close the interaction box
@@ -126,7 +123,11 @@ public class Spatula : WorkbenchInteractive {
 		boxToChooseSpatula.SetActive (false);
 		boxToFillSpatula.SetActive(false);
 		boxToUnfillSpatula.SetActive (false);
-		transform.GetComponentInParent<WorkBench>().UnblockClicks();
+
+		if (CursorManager.GetCurrentState () == MouseState.ms_interacting) {
+			CursorManager.SetMouseState(MouseState.ms_default);
+			CursorManager.SetCursorToDefault();
+		}
 	}
 	//! Open the interaction box
 	public void OpenInteractionBox(bool fill) {
@@ -140,7 +141,7 @@ public class Spatula : WorkbenchInteractive {
 		/*
 		 * DEFINE HOW TO BLOCK CLICKS OUTSIDE 
 		 */
-		transform.GetComponentInParent<WorkBench>().BlockClicks();
+		CursorManager.SetMouseState(MouseState.ms_interacting);
 	}
 	public void OpenInteractionBox(float volumeAvailable, Glassware glassware) {
 

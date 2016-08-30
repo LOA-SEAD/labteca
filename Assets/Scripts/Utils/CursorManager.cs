@@ -17,7 +17,7 @@ public enum MouseState {
 	ms_filledSpatula,	//Holding a filled spatula
 	ms_washBottle,		//Holding the wash bottle
 	ms_glassStick,		//Holding the glass stick
-	ms_usingTool		/*The player is using a tool.
+	ms_interacting		/*The player is using a tool.
 	               		  interaction box is open, so the player
 	               		  is unable to click anywhere else */
 						/*TODO: Maybe there's a better way of blocking the player's clicks

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -51,7 +51,7 @@ public class GlassStick : MonoBehaviour {
 			CursorManager.SetMouseState(MouseState.ms_default);
 			CursorManager.SetNewCursor(glassStick_CursorTexture, hotSpot);
 			break;
-		case MouseState.ms_usingTool:  		// Unable to click somewhere else TODO:is it necessary?
+		case MouseState.ms_interacting:  		// Unable to click somewhere else TODO:is it necessary?
 			break;
 		}
 	}

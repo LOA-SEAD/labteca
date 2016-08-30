@@ -93,8 +93,8 @@ public class ScaleController : EquipmentControllerBase
     //! Remove a GameObject from being measured on Scale.
 	public override void RemoveObjectInEquipament(GameObject objectToRemove){
 		activeMass = null;
-		RefreshEquipament();
 		balanceText.text = BalanceTextToString (0f);
+		RefreshEquipament();
 	}
 
     //! Update Real Mass to the mass of all GameObjects on ActiveMass.

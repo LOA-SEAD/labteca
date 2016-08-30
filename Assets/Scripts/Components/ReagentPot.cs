@@ -86,8 +86,6 @@ public class ReagentPot : ItemToInventory {
 			break;
 		case MouseState.ms_washBottle: 		// Wash Bottle -> Solid Reagent: nothing
 			break;
-		case MouseState.ms_glassStick:		// Glass Stick -> Solid Reagent: nothing
-			break;
 		case MouseState.ms_interacting:  		// Unable to click somewhere else TODO:is this necessary?
 			break;
 		}

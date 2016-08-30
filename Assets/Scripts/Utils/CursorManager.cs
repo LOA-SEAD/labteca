@@ -16,7 +16,6 @@ public enum MouseState {
 	ms_spatula,			//Holding an empty spatula
 	ms_filledSpatula,	//Holding a filled spatula
 	ms_washBottle,		//Holding the wash bottle
-	ms_glassStick,		//Holding the glass stick
 	ms_interacting		/*The player is using a tool.
 	               		  interaction box is open, so the player
 	               		  is unable to click anywhere else */

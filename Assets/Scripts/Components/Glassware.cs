@@ -155,11 +155,12 @@ public class Glassware : ItemToInventory
 				break;
 			case MouseState.ms_spatula: 		// Spatula -> Glassware: gets the solids, if there's only solid inside. So, opens the spatula's interaction box
 				Spatula spatula = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).spatula;
+				Debug.Log ("Spatula clickou no Glassware");
 				if (content != null) {
+					Debug.Log ("Glassware nao esta vazio");
 					if (content is Compound && (content as Compound).IsSolid) {
-						if (content == null) {
-							spatula.FillSpatula (this);
-						}
+						Debug.Log ("Enchendo a espatula");
+						spatula.FillSpatula (this);
 					}
 				}
 				break;
@@ -175,10 +176,6 @@ public class Glassware : ItemToInventory
 					WashBottle washBottle = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).washBottle;
 					washBottle.ActivateWashBottle (maxVolume - currentVolume, this);
 				}
-				break;
-			case MouseState.ms_glassStick:		// Glass Stick -> Glassware: mix the contents, if there is any.
-			//GlassStick glassStick =  GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().glassStick;
-
 				break;
 			case MouseState.ms_interacting:  		// Unable to click somewhere else
 				break;

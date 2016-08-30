@@ -120,7 +120,7 @@ public  class GetReagentState : GameStateBase, GetInterface {
 	void Update(){
 		base.Update();
 
-		if(Input.GetKeyDown(KeyCode.Escape) && canRun){
+		if(Input.GetKeyDown(KeyCode.E) && canRun){
 			ExitState();
 		}
 

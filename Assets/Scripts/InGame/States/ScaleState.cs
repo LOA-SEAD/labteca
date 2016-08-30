@@ -29,7 +29,7 @@ public  class ScaleState : GameStateBase {
 			return;
 
 		//Pressing Esc will exit the state
-		if(Input.GetKeyDown(KeyCode.Escape)){
+		if(Input.GetKeyDown(KeyCode.E)){
 			GetComponentInParent<WorkBench>().OnStopRun();
 			interactBox.GetComponent<BoxCollider>().enabled = true;
 			gameController.ChangeState(0);

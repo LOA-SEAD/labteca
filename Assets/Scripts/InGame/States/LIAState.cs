@@ -81,7 +81,7 @@ public class LIAState : GameStateBase {
 		}
 
 		//Pressing Esc will exit the state
-		if(Input.GetKeyDown(KeyCode.Escape)){
+		if(Input.GetKeyDown(KeyCode.E)){
 			/*interactBox.GetComponent<BoxCollider>().enabled = true;
 			FadeScript.instance.ShowFade();*/
 			gameController.ChangeState(0);

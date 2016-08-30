@@ -92,7 +92,7 @@ public class Glassware : ItemToInventory
 	// Update is called once per frame
 	void Update () 
 	{
-		Debug.Log (CursorManager.GetCurrentState ());
+		//Debug.Log (CursorManager.GetCurrentState ());
 		/*if (volume == 0.0f)
 			liquid.SetActive (false);*/
 	}
@@ -124,7 +124,7 @@ public class Glassware : ItemToInventory
 				(GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).stateUIManager.OpenOptionDialog (this);
 			}
 			else {
-				gameController.sendAlert("Este tipo de interação não está habilitada apás uma possável reação");
+				gameController.sendAlert("Este tipo de interação não está habilitada após uma possível reação");
 			}
 		} else {
 			switch (currentState) {

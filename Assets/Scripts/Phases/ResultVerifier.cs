@@ -135,7 +135,7 @@ public class ResultVerifier {
 		bool flag = false;
 		float maxError = 0.1f;
 		float desiredMolarity = 1.0f;
-		float minimumSolutionVolume = 25.0f;
+		float minimumSolutionVolume = 24.7f;
 
 		if ((content is Mixture)) {
 			if ((content as Mixture).ProductFormula () == "NaCl") {

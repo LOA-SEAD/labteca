@@ -42,7 +42,7 @@ public class ScaleController : EquipmentControllerBase
 		RefreshEquipament ();
 
 		if (changed) {
-			balanceText.text = BalanceTextToString(UnityEngine.Random.Range(-1f,1f) + realMass);
+			balanceText.text = BalanceTextToString(UnityEngine.Random.Range(-1f+timeElapsed/timeConstant,1f-timeElapsed/timeConstant) + realMass);
 			timeElapsed += Time.fixedDeltaTime;
 			if(timeConstant<timeElapsed){
 				timeElapsed = 0;

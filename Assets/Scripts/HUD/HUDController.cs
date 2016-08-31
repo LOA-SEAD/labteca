@@ -6,6 +6,9 @@ using System.Collections;
  * Contains three methods that enable or desable the components of gameObject
  * and change the HUDCamera.
  */
+using System.Collections.Generic;
+using UnityEngine.UI;
+
 
 public class HUDController : MonoBehaviour {
 	public InventoryControl invControl;
@@ -14,6 +17,7 @@ public class HUDController : MonoBehaviour {
 	public GameObject player,map; /*< GameObject of Player. */
 	public Canvas inventoryCanvas;
 	public bool inventoryLocked=false,mapLocked = false,lockKey;
+	public List<Text> keysText;
 
 	public RectTransform hover;
 
@@ -22,6 +26,7 @@ public class HUDController : MonoBehaviour {
 		lockKey = false;
 		Screen.showCursor = false;
 		Screen.lockCursor = true;
+		RefreshKeys ();
 	}
 
 	void Update(){
@@ -33,12 +38,6 @@ public class HUDController : MonoBehaviour {
 		}
 		if((Input.GetKeyDown(mapKey))&&!lockKey){
 			CallMapTrigger();
-		}
-
-		if ((Input.GetKeyDown (KeyCode.Escape)) && !lockKey) {
-			CallTablet(false);
-			CallMap(false);
-			CallInventory(false);
 		}
 	}
 
@@ -64,7 +63,8 @@ public class HUDController : MonoBehaviour {
     }
 
 	public void CallTabletTrigger(){
-		CallTablet(!tabletUp);
+		if(!lockKey)	
+			CallTablet(!tabletUp);
 	}
 	public void CallTablet(bool b){
 		tabletUp = b;
@@ -79,6 +79,7 @@ public class HUDController : MonoBehaviour {
 			map.SetActive (false);
 
 		if (tabletUp) {
+			TabletStateMachine.CloseNotification();
 			Screen.showCursor = true;
 			Screen.lockCursor = false;
 		}else if (!inventoryUp && !map.activeSelf) {
@@ -88,7 +89,8 @@ public class HUDController : MonoBehaviour {
 	}
 
 	public void CallInventoryTrigger(){
-		CallInventory(!inventoryUp);
+		if(!lockKey)
+			CallInventory(!inventoryUp);
 	}
 	public void CallInventory(bool b){
 		if (!inventoryLocked) {
@@ -113,7 +115,8 @@ public class HUDController : MonoBehaviour {
 	}
 
 	public void CallMapTrigger(){
-		CallMap(!map.activeSelf);
+		if(!lockKey)
+			CallMap(!map.activeSelf);
 	}
 	public void CallMap(bool b){
 		if (!mapLocked) {
@@ -135,6 +138,11 @@ public class HUDController : MonoBehaviour {
 		}
 	}
 
+	public void RefreshKeys(){
+		keysText [0].text = inventoryKey.ToString ();
+		keysText [1].text = journalKey.ToString ();
+		keysText [2].text = mapKey.ToString ();
+	}
 
 	public void changePlayerState(){
 		if (player.activeSelf) {

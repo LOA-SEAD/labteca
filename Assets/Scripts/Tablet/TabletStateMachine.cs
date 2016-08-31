@@ -9,10 +9,22 @@ public class TabletStateMachine : MonoBehaviour {
 	public List<TabletState> states;
 	public HUDController control;
 	public Text time;
+	public static GameObject notification;
 	
 	// Use this for initialization
 	void Start () {
+		notification = GameObject.Find ("Notification");
+		SendNotification ();
 		resetState ();
+	}
+
+	public static void SendNotification(){
+		notification.SetActive (true);
+	}
+
+	public static void CloseNotification(){
+		if (notification.activeSelf)
+			notification.SetActive (false);
 	}
 
 	public void resetState(){

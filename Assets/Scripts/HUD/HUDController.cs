@@ -6,7 +6,6 @@ using System.Collections;
  * Contains three methods that enable or desable the components of gameObject
  * and change the HUDCamera.
  */
-
 public class HUDController : MonoBehaviour {
 	public InventoryControl invControl;
 	public KeyCode journalKey,inventoryKey,mapKey;
@@ -34,12 +33,6 @@ public class HUDController : MonoBehaviour {
 		if((Input.GetKeyDown(mapKey))&&!lockKey){
 			CallMapTrigger();
 		}
-
-		if ((Input.GetKeyDown (KeyCode.Escape)) && !lockKey) {
-			CallTablet(false);
-			CallMap(false);
-			CallInventory(false);
-		}
 	}
 
 	public void LockKeys(bool b){
@@ -64,7 +57,8 @@ public class HUDController : MonoBehaviour {
     }
 
 	public void CallTabletTrigger(){
-		CallTablet(!tabletUp);
+		if(!lockKey)	
+			CallTablet(!tabletUp);
 	}
 	public void CallTablet(bool b){
 		tabletUp = b;
@@ -88,7 +82,8 @@ public class HUDController : MonoBehaviour {
 	}
 
 	public void CallInventoryTrigger(){
-		CallInventory(!inventoryUp);
+		if(!lockKey)
+			CallInventory(!inventoryUp);
 	}
 	public void CallInventory(bool b){
 		if (!inventoryLocked) {
@@ -113,7 +108,8 @@ public class HUDController : MonoBehaviour {
 	}
 
 	public void CallMapTrigger(){
-		CallMap(!map.activeSelf);
+		if(!lockKey)
+			CallMap(!map.activeSelf);
 	}
 	public void CallMap(bool b){
 		if (!mapLocked) {

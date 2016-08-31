@@ -31,8 +31,12 @@ public class ButtonObject : MonoBehaviour {
 		if (hoverName.Length == 0 && GetComponentInParent<WorkbenchInteractive> () != null) {
 			hoverName = GetComponentInParent<WorkbenchInteractive> ().hoverName;
 		}
-		if(hovering)
-			hover.position = Input.mousePosition+new Vector3(7f,3f);
+		if (hovering) {
+			if(CursorManager.GetCurrentState()==MouseState.ms_interacting)
+				cursorExit();
+			else
+				hover.position = Input.mousePosition + new Vector3 (7f, 3f);
+		}
 	}
 
     public void Awake()
@@ -50,19 +54,19 @@ public class ButtonObject : MonoBehaviour {
     //! Set cursor when mouse hover.
     public void cursorEnter()
     {
-		if (hoverName.Length != 0) {
-			hover.gameObject.SetActive(true);
-			hover.GetComponentInChildren<Text> ().text = hoverName;
-			float y = Input.mousePosition.x>0?180f:0f;
-			hover.rotation = Quaternion.Euler(0f,y,0f);
-			hover.GetComponentInChildren<Text> ().rectTransform.localRotation = Quaternion.Euler(0f,y,0f);
-			hovering = true;
-		}
-
-		if (changeIconeEnter){
-
-			if((changeIconIfOnlyDefault && CursorManager.UsingDefaultCursor()) || !changeIconIfOnlyDefault)
-				CursorManager.SetToInteractiveCursor(cursorTexture, hotSpot);
+		if (CursorManager.GetCurrentState () != MouseState.ms_interacting) {
+			if (hoverName.Length != 0) {
+				hover.gameObject.SetActive (true);
+				hover.GetComponentInChildren<Text> ().text = hoverName;
+				float y = Input.mousePosition.x > 0 ? 180f : 0f;
+				hover.rotation = Quaternion.Euler (0f, y, 0f);
+				hover.GetComponentInChildren<Text> ().rectTransform.localRotation = Quaternion.Euler (0f, y, 0f);
+				hovering = true;
+			}
+			if (changeIconeEnter) {
+				if ((changeIconIfOnlyDefault && CursorManager.UsingDefaultCursor ()) || !changeIconIfOnlyDefault)
+					CursorManager.SetToInteractiveCursor (cursorTexture, hotSpot);
+			}
 		}
     }
 

@@ -15,8 +15,10 @@ public class StateUIManager : MonoBehaviour {
 	}
 
 	public void OpenOptionDialogEquipment(){
-		optionDialogEquipment.SetActive(true);
-		CursorManager.SetMouseState(MouseState.ms_interacting);
+		if (CursorManager.GetCurrentState () != MouseState.ms_interacting) {
+			optionDialogEquipment.SetActive (true);
+			CursorManager.SetMouseState (MouseState.ms_interacting);
+		}
 	}
 
 	public void CloseAll(){
@@ -31,33 +33,35 @@ public class StateUIManager : MonoBehaviour {
 	}
 
 	public void OpenOptionDialog(ItemToInventory item){
-		CursorManager.SetMouseState(MouseState.ms_interacting);
-		if (item is Glassware) {
-			if(gameObject.GetComponentInParent<WorkBench> ().positionGlassEquipament!=null&&
-			   gameObject.GetComponentInParent<WorkBench> ().positionGlassEquipament.childCount != 0 &&
-			   item.gameObject.Equals(gameObject.GetComponentInParent<WorkBench> ().positionGlassEquipament.GetChild(0).gameObject)){
+		if (CursorManager.GetCurrentState () != MouseState.ms_interacting) {
+			CursorManager.SetMouseState (MouseState.ms_interacting);
+			if (item is Glassware) {
+				if (gameObject.GetComponentInParent<WorkBench> ().positionGlassEquipament != null &&
+					gameObject.GetComponentInParent<WorkBench> ().positionGlassEquipament.childCount != 0 &&
+					item.gameObject.Equals (gameObject.GetComponentInParent<WorkBench> ().positionGlassEquipament.GetChild (0).gameObject)) {
 
-				List<int> ids = new List<int>();
-				ids.Add (0);
-				ids.Add(2);
-				optionDialogGlass.GetComponent<OptionDialogBehaviour>().changeIDs(ids);
-			}else{
-				List<int> ids = new List<int>();
-				ids.Add (0);
-				ids.Add(1);
-				optionDialogGlass.GetComponent<OptionDialogBehaviour>().changeIDs(ids);
+					List<int> ids = new List<int> ();
+					ids.Add (0);
+					ids.Add (2);
+					optionDialogGlass.GetComponent<OptionDialogBehaviour> ().changeIDs (ids);
+				} else {
+					List<int> ids = new List<int> ();
+					ids.Add (0);
+					ids.Add (1);
+					optionDialogGlass.GetComponent<OptionDialogBehaviour> ().changeIDs (ids);
+				}
+				optionDialogGlass.SetActive (true);
+				optionDialogGlass.GetComponent<OptionDialogBehaviour> ().setCurrentItem (item);
+
+				return;
 			}
-			optionDialogGlass.SetActive(true);
-			optionDialogGlass.GetComponent<OptionDialogBehaviour>().setCurrentItem(item);
 
-			return;
-		}
+			if (item is ReagentPot) {
+				optionDialogReagent.SetActive (true);
+				optionDialogReagent.GetComponent<OptionDialogBehaviour> ().setCurrentItem (item);
 
-		if (item is ReagentPot) {
-			optionDialogReagent.SetActive(true);
-			optionDialogReagent.GetComponent<OptionDialogBehaviour>().setCurrentItem(item);
-
-			return;
+				return;
+			}
 		}
 	}
 }

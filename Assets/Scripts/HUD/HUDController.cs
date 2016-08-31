@@ -6,6 +6,10 @@ using System.Collections;
  * Contains three methods that enable or desable the components of gameObject
  * and change the HUDCamera.
  */
+using System.Collections.Generic;
+using UnityEngine.UI;
+
+
 public class HUDController : MonoBehaviour {
 	public InventoryControl invControl;
 	public KeyCode journalKey,inventoryKey,mapKey;
@@ -13,6 +17,7 @@ public class HUDController : MonoBehaviour {
 	public GameObject player,map; /*< GameObject of Player. */
 	public Canvas inventoryCanvas;
 	public bool inventoryLocked=false,mapLocked = false,lockKey;
+	public List<Text> keysText;
 
 	public RectTransform hover;
 
@@ -21,6 +26,7 @@ public class HUDController : MonoBehaviour {
 		lockKey = false;
 		Screen.showCursor = false;
 		Screen.lockCursor = true;
+		RefreshKeys ();
 	}
 
 	void Update(){
@@ -73,6 +79,7 @@ public class HUDController : MonoBehaviour {
 			map.SetActive (false);
 
 		if (tabletUp) {
+			TabletStateMachine.CloseNotification();
 			Screen.showCursor = true;
 			Screen.lockCursor = false;
 		}else if (!inventoryUp && !map.activeSelf) {
@@ -131,6 +138,11 @@ public class HUDController : MonoBehaviour {
 		}
 	}
 
+	public void RefreshKeys(){
+		keysText [0].text = inventoryKey.ToString ();
+		keysText [1].text = journalKey.ToString ();
+		keysText [2].text = mapKey.ToString ();
+	}
 
 	public void changePlayerState(){
 		if (player.activeSelf) {

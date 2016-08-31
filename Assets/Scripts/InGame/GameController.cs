@@ -23,7 +23,7 @@ public class GameController : MonoBehaviour {
 	
 	public AlertDialogBehaviour alertDialog;
 
-	public GameObject exitButton;
+	public CanvasGroup exitButton;
 
 	void Start () {
 
@@ -71,10 +71,15 @@ public class GameController : MonoBehaviour {
 		currentGameState = selectState;
 		currentStateIndex = indexState;
 		refreshInventory ();
-		if (currentStateIndex != 0)
-			exitButton.SetActive(true);
-		else
-			exitButton.SetActive(false);
+		if (currentStateIndex != 0) {
+			exitButton.alpha = 1;
+			exitButton.interactable = true;
+			exitButton.blocksRaycasts = true;
+		}else {
+			exitButton.alpha = 0;
+			exitButton.interactable = false;
+			exitButton.blocksRaycasts = false;
+		}
 		currentGameState.StartRun();
 		switch(indexState){
 			case 0:

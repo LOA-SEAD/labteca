@@ -30,9 +30,7 @@ public  class ScaleState : GameStateBase {
 
 		//Pressing Esc will exit the state
 		if(Input.GetKeyDown(KeyCode.E)){
-			GetComponentInParent<WorkBench>().OnStopRun();
-			interactBox.GetComponent<BoxCollider>().enabled = true;
-			gameController.ChangeState(0);
+			ExitState();
 		}
 	}
 
@@ -56,6 +54,12 @@ public  class ScaleState : GameStateBase {
         cameraState.gameObject.SetActive(false);
 		GetComponentInParent<WorkBench> ().OnStopRun ();
 
+	}
+
+	public override void ExitState(){
+		GetComponentInParent<WorkBench>().OnStopRun();
+		interactBox.GetComponent<BoxCollider>().enabled = true;
+		gameController.ChangeState(0);
 	}
 
 	public override EquipmentControllerBase GetEquipmentController () {

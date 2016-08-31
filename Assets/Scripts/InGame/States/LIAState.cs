@@ -82,7 +82,7 @@ public class LIAState : GameStateBase {
 
 		//Pressing Esc will exit the state
 		if(Input.GetKeyDown(KeyCode.E)){
-			gameController.ChangeState(0);
+			ExitState();
 		}
 	}
 	
@@ -112,6 +112,9 @@ public class LIAState : GameStateBase {
 		interactiveCanvas.SetActive (false);
 	}
 
+	public override void ExitState(){
+		gameController.ChangeState(0);
+	}
 
 	public void VerifyPhase() {
 		/*if(ResultVerifier.GetInstance().VerifyResult(1, (GameObject.Find(currentIndex).GetComponent<Glassware>()).content)) {

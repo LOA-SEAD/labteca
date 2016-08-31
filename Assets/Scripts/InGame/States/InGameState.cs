@@ -48,4 +48,8 @@ public class InGameState : GameStateBase {
 		HUD.enabled = false;
 		player.SetActive(false);
 	}
+
+	public override void ExitState(){
+
+	}
 }

@@ -47,9 +47,7 @@ public class WorkBench : GameStateBase{
 			if(cannotEndState)
 				gameController.sendAlert("Não é possível sair com reagente na mão\nColoque de volta no seu pote");
 			else{
-				GetComponentInParent<WorkBench>().OnStopRun();
-				interactBox.GetComponent<BoxCollider>().enabled = true;
-				gameController.ChangeState(0);
+				ExitState();
 			}
 		}
 	}
@@ -175,6 +173,12 @@ public class WorkBench : GameStateBase{
 			stateUIManager.CloseAll ();
 
 		
+	}
+
+	public override void ExitState(){
+		GetComponentInParent<WorkBench>().OnStopRun();
+		interactBox.GetComponent<BoxCollider>().enabled = true;
+		gameController.ChangeState(0);
 	}
 
 	public override EquipmentControllerBase GetEquipmentController () {

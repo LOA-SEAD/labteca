@@ -98,6 +98,10 @@ public class GameController : MonoBehaviour {
 		ChangeState(0);
 	}
 
+	public void ExitCurrentState(){
+		currentGameState.ExitState ();
+	}
+
 	public void CallJSaver(JournalUIItem journalUI){
 		int expo = GameObject.Find ("Journal").GetComponent<JournalController> ().experimentNumber;
 		JournalSaver.AddJournalUIItem (journalUI,expo);

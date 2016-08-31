@@ -31,13 +31,15 @@ public  class FumeHoodState : GameStateBase {
 				//Show message that can't quit.
 			}
 			else {
-				GetComponentInParent<WorkBench>().OnStopRun();
-
-				interactBox.GetComponent<BoxCollider>().enabled = true;
-				gameController.ChangeState(0);
-
+				ExitState();
 			}
 		}
+	}
+
+	public override void ExitState(){
+		GetComponentInParent<WorkBench>().OnStopRun();
+		interactBox.GetComponent<BoxCollider>().enabled = true;
+		gameController.ChangeState(0);
 	}
 	
 	//! Actions for when the State starts.

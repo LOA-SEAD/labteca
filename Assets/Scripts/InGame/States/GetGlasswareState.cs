@@ -98,7 +98,7 @@ public  class GetGlasswareState : GameStateBase, GetInterface {
     //! Actions for when exits the State.
     /*! Enable the BoxCollider so the cupboard can be accessed again, change the Game State to 'Default' and 
      * plays a fade script. */
-	public void ExitState(){
+	public override void ExitState(){
 		interactBox.GetComponent<BoxCollider>().enabled = true;
 		gameController.ChangeState(0);
 	}

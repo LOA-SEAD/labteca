@@ -72,6 +72,8 @@ public abstract class GameStateBase : MonoBehaviour {
     //! Interface to run other methods once the State is stopping.
 	public abstract void OnStopRun();
 
+	public abstract void ExitState ();
+
     //! Start the State.
 	public void StartState(){
 		gameController.GetComponent<HUDController> ().CallInventory (true);

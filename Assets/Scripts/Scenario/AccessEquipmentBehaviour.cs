@@ -71,7 +71,6 @@ public class AccessEquipmentBehaviour : InteractObjectBase {
     /*! Fades the camera and starts the equipment state. */
 	public override void Interact ()
 	{
-		FadeScript.instance.ShowFade();
 		callInteract = true;
 		HudText.SetText("");
 		GetComponent<BoxCollider>().enabled = false;

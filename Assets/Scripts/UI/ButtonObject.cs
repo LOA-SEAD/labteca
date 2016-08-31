@@ -54,7 +54,7 @@ public class ButtonObject : MonoBehaviour {
     //! Set cursor when mouse hover.
     public void cursorEnter()
     {
-		if (CursorManager.GetCurrentState () != MouseState.ms_interacting) {
+		if (CursorManager.GetCurrentState () != MouseState.ms_interacting&&GameObject.Find("GameController").GetComponent<GameController>().currentStateIndex!=0) {
 			if (hoverName.Length != 0) {
 				hover.gameObject.SetActive (true);
 				hover.GetComponentInChildren<Text> ().text = hoverName;

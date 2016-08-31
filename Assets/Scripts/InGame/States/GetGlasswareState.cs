@@ -101,7 +101,6 @@ public  class GetGlasswareState : GameStateBase, GetInterface {
 	public void ExitState(){
 		interactBox.GetComponent<BoxCollider>().enabled = true;
 		gameController.ChangeState(0);
-		FadeScript.instance.ShowFade();
 	}
 
     //! Actions for when the State stops.

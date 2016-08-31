@@ -82,8 +82,6 @@ public class LIAState : GameStateBase {
 
 		//Pressing Esc will exit the state
 		if(Input.GetKeyDown(KeyCode.E)){
-			/*interactBox.GetComponent<BoxCollider>().enabled = true;
-			FadeScript.instance.ShowFade();*/
 			gameController.ChangeState(0);
 		}
 	}
@@ -106,7 +104,6 @@ public class LIAState : GameStateBase {
 	{
 		this.RetrieveProduct ();
 		interactBox.GetComponent<BoxCollider>().enabled = true;
-		FadeScript.instance.ShowFade();
 
 		gameController.closeAlert ();
 		LIALight.intensity = 0f;
@@ -142,7 +139,7 @@ public class LIAState : GameStateBase {
 	//Ending animation TODO:This was created as a finisher for the SBGames Version
 	public void EndGame() {
 		//Fade Out
-		FadeScript.instance.ShowFade ();
+		FadeScript.instance.FadeIn ();
 
 		//Show Animation/image
 		// ~Musica tocando~

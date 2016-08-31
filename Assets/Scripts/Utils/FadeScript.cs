@@ -5,10 +5,14 @@ using System.Collections;
 /*!
  * Contains two methods that makes the fade used in a animation transition (make and show).
  */
+using UnityEngine.UI;
+
+
 public class FadeScript : MonoBehaviour {
 
 	public static FadeScript instance;
-	public Animator fadeAnim;
+	public bool fadeInTrigger,fadeOutTrigger;
+	public Image fade;
 
 	//!  The script instance is being loaded (before the game starts).
 	/*! Makes the fade*/
@@ -22,8 +26,37 @@ public class FadeScript : MonoBehaviour {
 			Destroy(gameObject);
 	}
 
-	//! Sets a trigger parameter to active the fade.
-	public void ShowFade(){
-		instance.fadeAnim.SetTrigger("fade");
+	void Start(){
+		fade = GameObject.Find ("Fade").GetComponent<Image> ();
+		FadeOut ();
+	}
+
+	void Update(){
+		if (fadeInTrigger) {
+			fade.color = new Color(0f,0f,0f,fade.color.a+Time.deltaTime);
+			if(fade.color.a>=1f){
+				fadeInTrigger = false;
+				fade.enabled = false;
+			}
+		}
+		if (fadeOutTrigger) {
+			fade.color = new Color (0f, 0f, 0f, fade.color.a - Time.deltaTime);
+			if (fade.color.a <= 0f) {
+				fadeOutTrigger = false;
+				fade.enabled = false;
+			}
+		}
+	}
+
+	public void FadeIn(){
+		fade.enabled = true;
+		fade.color = new Color (0f, 0f, 0f, 0f);
+		fadeInTrigger = true;
+	}
+
+	public void FadeOut(){
+		fade.enabled = true;
+		fade.color = new Color (0f, 0f, 0f, 1f);
+		fadeOutTrigger = true;
 	}
 }

@@ -64,6 +64,8 @@ public class GameController : MonoBehaviour {
 	public void ChangeState(int indexState){
 
 		GameStateBase selectState = gameStates[indexState];
+		FadeScript.instance.FadeOut ();
+
 
 		currentGameState.StopRun();
 		currentGameState = selectState;

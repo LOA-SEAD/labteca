@@ -50,7 +50,6 @@ public class MachineUse : MonoBehaviour
 				Application.LoadLevel(sceneToGo);
 
 				InventoryController inventory = FindObjectOfType(typeof(InventoryController)) as InventoryController;
-				FadeScript.instance.ShowFade();
 
 			}
 		}

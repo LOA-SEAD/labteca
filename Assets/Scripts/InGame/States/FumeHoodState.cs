@@ -35,7 +35,7 @@ public  class FumeHoodState : GameStateBase {
 
 				interactBox.GetComponent<BoxCollider>().enabled = true;
 				gameController.ChangeState(0);
-				FadeScript.instance.ShowFade();
+
 			}
 		}
 	}

@@ -61,7 +61,7 @@ public class Glassware : ItemToInventory
 
 	// Use this for initialization
 	//! Sets a mass to rigidbody
-	void Start () 
+	void Start ()
 	{
 		MeshRenderer liquidRenderer = liquid.GetComponent<MeshRenderer> ();
 		MeshRenderer solidRenderer = solid.GetComponent<MeshRenderer> ();
@@ -202,10 +202,12 @@ public class Glassware : ItemToInventory
 	}
 
 	public void RefreshSolid(){
+		float scaleValue = Mathf.Log10(((content as Compound).Volume*0.9f / maxVolume)*9+1f);
+
 		if((content as Compound)!=null&&(content as Compound).IsSolid)
-			solid.transform.localScale = new Vector3 ((content as Compound).Volume*0.7f / maxVolume, 
-			                                          (content as Compound).Volume*0.7f / maxVolume, 
-			                                          (content as Compound).Volume*0.7f / maxVolume);
+			solid.transform.localScale = new Vector3 (scaleValue*0.8f, 
+			                                          scaleValue*0.8f,
+			                                          scaleValue*0.9f);
 
 		/*if((content as Compound)!=null&&(content as Compound).IsSolid)
 			solid.transform.localScale = new Vector3 ((content as Compound).Volume*0.7f / maxVolume, 
@@ -248,23 +250,19 @@ public class Glassware : ItemToInventory
 		if (hasLiquid) {
 			liquid.SetActive (true);
 			originalLiquid.GetComponent<MeshRenderer>().material.SetColor("_Color",liquidColor);
+			RefreshLiquid ();
 		} else {
 			liquid.SetActive (false);
 		}
 		if (hasSolid) {
 			solid.SetActive (true);
 			solid.GetComponent<MeshRenderer>().material.SetColor("_Color",solidColor);
-			/*
-			 * CODE SETTING THE COLOUR OF THE SOLID?
-			 */
+			RefreshSolid ();
 		} else
 			solid.SetActive (false);
 	
 		currentVolume = this.GetVolume ();
 		totalMass = this.GetMass ();
-
-		RefreshSolid ();
-		RefreshLiquid ();
 	}
 
 	//! Return the real mass of the glassware

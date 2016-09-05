@@ -8,6 +8,9 @@ public class LIAState : GameStateBase {
 	public Camera cameraState;                  /*!< Camera for this state. */
 	public GameObject interactiveCanvas;		//Interactive canvas of the state
 
+	public GameObject correctAnswer;			//Canva with the answer for the correct results
+	public GameObject wrongAnswer;				//Canva with the answer for the wrong results   TODO:Take this out. It's only here for SBGames
+
 	public Light LIALight;
 	public Image glassware,solid,liquid;
 
@@ -21,6 +24,9 @@ public class LIAState : GameStateBase {
 		interactiveCanvas.SetActive (false);
 		inventory = GameObject.Find ("InventoryManager").GetComponent<InventoryManager> ();
 		originalSprite = glassware.sprite;
+
+		correctAnswer.SetActive (false);
+		wrongAnswer.SetActive (false);
 	}
 	
 	protected override void UpdateState ()
@@ -127,9 +133,12 @@ public class LIAState : GameStateBase {
 			if ((GameObject.Find (currentIndex).GetComponent<Glassware> ()).content != null) { //Case there is a content
 				if (ResultVerifier.GetInstance ().VerifyResult ((GameObject.Find (currentIndex).GetComponent<Glassware> ()).content)) { //Case Product is correct
 
-					gameController.sendAlert ("Resultado correto! Parabéns!");
+					//gameController.sendAlert ("Resultado correto! Parabéns!");
+					correctAnswer.SetActive(true);
+
 				} else {	//Case Product is NOT correct
-					gameController.sendAlert ("Resultado incorreto.");
+					//gameController.sendAlert ("Resultado incorreto.");
+					wrongAnswer.SetActive(true);
 				}
 			} else {	//Case the Glassware is empty (it won't actually happen)
 				gameController.sendAlert ("A vidraria está vazia!");
@@ -141,19 +150,9 @@ public class LIAState : GameStateBase {
 
 	//Ending animation TODO:This was created as a finisher for the SBGames Version
 	public void EndGame() {
-		//Fade Out
 		FadeScript.instance.FadeIn ();
 
-		//Show Animation/image
-		// ~Musica tocando~
-		/*
-		 * - Pular para nova scene?
-		 * - Bloquear comandos e ativar uma animaçao/imagem?
-		 * 
-		 */
-		//Fade out
 
-		//Credits?
-		//Exit
+		Debug.Log ("Retorna ao menu");
 	}
 }

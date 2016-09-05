@@ -247,6 +247,9 @@ public class Glassware : ItemToInventory
 			}
 		}
 		
+		currentVolume = this.GetVolume ();
+		totalMass = this.GetMass ();
+		
 		if (hasLiquid) {
 			liquid.SetActive (true);
 			originalLiquid.GetComponent<MeshRenderer>().material.SetColor("_Color",liquidColor);
@@ -260,9 +263,6 @@ public class Glassware : ItemToInventory
 			RefreshSolid ();
 		} else
 			solid.SetActive (false);
-	
-		currentVolume = this.GetVolume ();
-		totalMass = this.GetMass ();
 	}
 
 	//! Return the real mass of the glassware

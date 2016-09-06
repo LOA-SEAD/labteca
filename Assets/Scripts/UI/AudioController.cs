@@ -1,15 +1,19 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class AudioController : MonoBehaviour{
 	public AudioSource audioPlaying, newAudio;
 	public float maxVolume, time,elapsedTime;
+	public Slider musicSlider,effectsSlider;
 	private float internVolume;
 	private bool transition;
 
 	void Start(){
 		transition = false;
-		UpdateVolume (maxVolume);
+	//	UpdateVolume (maxVolume);
+		newAudio.enabled = false;
 	}
 	void FixedUpdate() {
 		if (transition) {
@@ -24,6 +28,8 @@ public class AudioController : MonoBehaviour{
 				newAudio=aux;
 				aux=null;
 				transition=false;
+
+				newAudio.enabled = false;
 			}
 		}
 	}
@@ -31,16 +37,37 @@ public class AudioController : MonoBehaviour{
 	public void crossFade(){
 		elapsedTime = 0;
 		transition = true;
+		newAudio.enabled = true;
 	}
 
-	public void UpdateVolume(float volume){
-		PlayerPrefs.SetFloat ("volume", volume);
-		internVolume = PlayerPrefs.GetFloat("volume") * 3 / 10;
+	public void UpdateSoundVolume(float volume){
+		PlayerPrefs.SetFloat ("soundVolume", volume*3/10);
+		internVolume = volume*3/10;
 
+		GameObject[] audios = GameObject.FindGameObjectsWithTag("BackgroundAudio");
+		foreach (GameObject audio in audios) {
+			audio.GetComponent<AudioSource>().volume = internVolume;
+		}
+	}
+
+	public void UpdateEffectsVolume(float volume){
+		PlayerPrefs.SetFloat ("effectsVolume", volume);
+		
 		AudioSource[] audios = GameObject.FindObjectsOfType<AudioSource> ();
 		foreach (AudioSource audio in audios) {
-			audio.volume = volume;
+			if(!audio.gameObject.CompareTag("BackgroundAudio"))
+				audio.volume = volume;
 		}
+	}
+
+	public void UpdateEffectsVolume(){
+		float volume = effectsSlider.value;
+		UpdateEffectsVolume (volume);
+	}
+
+	public void UpdateSoundVolume(){
+		float volume = musicSlider.value;
+		UpdateSoundVolume (volume);
 	}
 }
 

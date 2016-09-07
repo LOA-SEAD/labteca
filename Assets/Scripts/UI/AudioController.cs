@@ -5,14 +5,24 @@ using UnityEngine.EventSystems;
 
 public class AudioController : MonoBehaviour{
 	public AudioSource audioPlaying, newAudio;
-	public float maxVolume, time,elapsedTime;
+	public float time,elapsedTime;
 	public Slider musicSlider,effectsSlider;
 	private float internVolume;
 	private bool transition;
 
 	void Start(){
 		transition = false;
-	//	UpdateVolume (maxVolume);
+
+		if (PlayerPrefs.HasKey ("soundVolume"))
+			UpdateSoundVolume (PlayerPrefs.GetFloat ("soundVolume"));
+		else
+			UpdateSoundVolume (1f);
+
+		if (PlayerPrefs.HasKey ("effectsVolume"))
+			UpdateEffectsVolume (PlayerPrefs.GetFloat ("effectsVolume"));
+		else
+			UpdateEffectsVolume (1f);
+
 		newAudio.enabled = false;
 	}
 	void FixedUpdate() {
@@ -41,7 +51,7 @@ public class AudioController : MonoBehaviour{
 	}
 
 	public void UpdateSoundVolume(float volume){
-		PlayerPrefs.SetFloat ("soundVolume", volume*3/10);
+		PlayerPrefs.SetFloat ("soundVolume", volume);
 		internVolume = volume*3/10;
 
 		GameObject[] audios = GameObject.FindGameObjectsWithTag("BackgroundAudio");

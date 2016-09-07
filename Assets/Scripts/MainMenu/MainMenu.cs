@@ -18,8 +18,8 @@ public class MainMenu : MonoBehaviour {
 	public Slider effectsSlider;
 	public Text effectsText;
 
-	private const string musicVolume = "musicVolume";
-	private const string effectsVolume = "effectsVolume"; //TODO: VERIFY STRINGS OF VARIABLES
+	private const string musicVolume = "soundVolume";
+	private const string effectsVolume = "effectsVolume";
 
 
 
@@ -57,30 +57,35 @@ public class MainMenu : MonoBehaviour {
 	//BUTTONS PANEL
 
 	//Called when the Play Button is pressed
-	public void PlayButton() {
-
+	public void ButtonPlay() {
+		Application.LoadLevel ("Cena1");
 	}
 
 	//Called when the Load button is pressed
-	public void LoadButton() {
+	public void ButtonLoad() {
 
 	}
 	
 	//Called when the Options button is pressed
-	public void OptionsButton() {
+	public void ButtonOptions() {
 		CloseAllPanels ();
 		OnStartOptionsPanel ();
 	}
 
 	//Called when the Credits button is pressed
-	public void CreditsButton() {
+	public void ButtonCredits() {
 	
 	}
 
 	//Called when the Exit button is pressed
-	public void ExitButton() {
-
-	}	
+	public void ButtonExit() {
+		#if UNITY_EDITOR
+		Debug.Log ("Quitting Application");	
+		#else
+		Application.Quit();
+		#endif
+	
+	}
 
 	//-------------------------
 	//OPTIONS PANEL

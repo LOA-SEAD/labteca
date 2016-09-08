@@ -13,13 +13,17 @@ public class AudioController : MonoBehaviour{
 	void Start(){
 		transition = false;
 
-		if (PlayerPrefs.HasKey ("soundVolume"))
+		if (PlayerPrefs.HasKey ("soundVolume")) {
 			UpdateSoundVolume (PlayerPrefs.GetFloat ("soundVolume"));
+			musicSlider.value = PlayerPrefs.GetFloat ("soundVolume");
+		}
 		else
 			UpdateSoundVolume (1f);
 
-		if (PlayerPrefs.HasKey ("effectsVolume"))
+		if (PlayerPrefs.HasKey ("effectsVolume")) {
 			UpdateEffectsVolume (PlayerPrefs.GetFloat ("effectsVolume"));
+			effectsSlider.value = PlayerPrefs.GetFloat ("effectsVolume");
+		}	
 		else
 			UpdateEffectsVolume (1f);
 

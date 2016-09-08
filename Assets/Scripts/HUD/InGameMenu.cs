@@ -16,6 +16,11 @@ public class InGameMenu : MonoBehaviour {
 		pause.alpha = 1f;
 		pause.interactable = true;
 		pause.blocksRaycasts = true;
+
+		GameObject[] audios = GameObject.FindGameObjectsWithTag("BackgroundAudio");
+		foreach (GameObject audio in audios) {
+			audio.GetComponent<AudioSource>().pitch = 0.7f;
+		}
 	}
 
 	public void UnPause(){
@@ -24,6 +29,11 @@ public class InGameMenu : MonoBehaviour {
 
 		Time.timeScale = 1f;
 		this.GetComponent<Canvas> ().enabled = false;
+
+		GameObject[] audios = GameObject.FindGameObjectsWithTag("BackgroundAudio");
+		foreach (GameObject audio in audios) {
+			audio.GetComponent<AudioSource>().pitch = 1f;
+		}
 	}
 
 	public void GoToOptions(){

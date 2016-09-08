@@ -11,6 +11,7 @@ using UnityEngine.UI;
 
 
 public class HUDController : MonoBehaviour {
+	public InGameMenu menu;
 	public InventoryControl invControl;
 	public KeyCode journalKey,inventoryKey,mapKey;
 	public bool tabletUp=false,inventoryUp=false;
@@ -29,7 +30,10 @@ public class HUDController : MonoBehaviour {
 		RefreshKeys ();
 	}
 
-	void Update(){
+	void FixedUpdate(){
+		if (Input.GetKeyDown (KeyCode.Escape))
+			menu.Pause ();
+
 		if(Input.GetKeyDown(journalKey)&&!lockKey){
 			CallTabletTrigger();
 		}

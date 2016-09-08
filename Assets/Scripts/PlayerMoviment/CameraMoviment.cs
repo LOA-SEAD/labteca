@@ -25,7 +25,7 @@ public class CameraMoviment : MonoBehaviour
 		
 	}
 	
-	void  LateUpdate ()
+	void  FixedUpdate ()
 	{	
 		x += movimentSensibility * Input.GetAxis("Mouse X");
 		y += movimentSensibility * Input.GetAxis("Mouse Y");

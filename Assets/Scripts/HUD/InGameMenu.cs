@@ -17,6 +17,8 @@ public class InGameMenu : MonoBehaviour {
 		pause.interactable = true;
 		pause.blocksRaycasts = true;
 
+		GameObject.Find("GameController").GetComponent<GameController>().GetCurrentState().CanRun = false;
+
 		GameObject[] audios = GameObject.FindGameObjectsWithTag("BackgroundAudio");
 		foreach (GameObject audio in audios) {
 			audio.GetComponent<AudioSource>().pitch = 0.7f;
@@ -26,6 +28,8 @@ public class InGameMenu : MonoBehaviour {
 	public void UnPause(){
 		Screen.showCursor = cursor;
 		Screen.lockCursor = !cursor;
+
+		GameObject.Find("GameController").GetComponent<GameController>().GetCurrentState().CanRun = true;
 
 		Time.timeScale = 1f;
 		this.GetComponent<Canvas> ().enabled = false;

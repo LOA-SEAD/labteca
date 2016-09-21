@@ -10,6 +10,7 @@ public abstract class GameStateBase : MonoBehaviour {
 
 	public GameObject interactBox;
 	protected bool canRun;
+	public bool CanRun{set{ canRun = value; }}
 	protected int indexState;
 	protected GameController gameController;
 
@@ -47,7 +48,6 @@ public abstract class GameStateBase : MonoBehaviour {
 	public void StartRun(){
 		if (interactBox != null)
 			interactBox.SetActive (false);
-		canRun = true;
 		if (!(this is InGameState)) {
 			gameController.GetComponent<HUDController> ().inventoryLocked = true;
 			gameController.GetComponent<HUDController> ().mapLocked = true;

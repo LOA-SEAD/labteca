@@ -37,6 +37,7 @@ public class FadeScript : MonoBehaviour {
 			if(fade.color.a>=1f){
 				fadeInTrigger = false;
 				fade.enabled = false;
+				GameObject.Find("GameController").GetComponent<GameController>().GetCurrentState().CanRun = true;
 			}
 		}
 		if (fadeOutTrigger) {
@@ -44,6 +45,7 @@ public class FadeScript : MonoBehaviour {
 			if (fade.color.a <= 0f) {
 				fadeOutTrigger = false;
 				fade.enabled = false;
+				GameObject.Find("GameController").GetComponent<GameController>().GetCurrentState().CanRun = true;
 			}
 		}
 	}

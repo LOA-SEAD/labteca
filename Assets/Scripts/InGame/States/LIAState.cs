@@ -93,8 +93,8 @@ public class LIAState : GameStateBase {
 	}
 	
 	//! Actions for when the State starts.
-	/*! Set the Camera inside the state to be Active, overlaying the Main Camera used at InGameState,
-     * close all dialogs that might be enabled. */
+	// Set the Camera inside the state to be Active, overlaying the Main Camera used at InGameState,
+    // close all dialogs that might be enabled.
 	public override void OnStartRun ()
 	{
 		GameObject.Find ("InventoryManager").GetComponent<InventoryManager> ().changeList (0);
@@ -122,15 +122,14 @@ public class LIAState : GameStateBase {
 		gameController.ChangeState(0);
 	}
 
+	//! Called when the verification action is triggered
+	// Calls upon the ResultVerifier class to compare the content of the Glassware with the
+	// expected result for the actual phase
 	public void VerifyPhase() {
-		/*if(ResultVerifier.GetInstance().VerifyResult(1, (GameObject.Find(currentIndex).GetComponent<Glassware>()).content)) {
-			gameController.sendAlert("Resultado correto! Parabens!");
-		}
-		else{
-			gameController.sendAlert("Resultado incorreto.");
-		}*/
+
 		if (currentIndex.Length > 0) { //Case there is a Glassware being verified
 			if ((GameObject.Find (currentIndex).GetComponent<Glassware> ()).content != null) { //Case there is a content
+				//TODO: The verification is done with the overload created to use until the correct way is working. Change it afterwards
 				if (ResultVerifier.GetInstance ().VerifyResult ((GameObject.Find (currentIndex).GetComponent<Glassware> ()).content)) { //Case Product is correct
 
 					//gameController.sendAlert ("Resultado correto! Parabéns!");

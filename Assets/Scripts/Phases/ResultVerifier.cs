@@ -53,31 +53,57 @@ public class ResultVerifier {
 					*/
 					//MANEIRA DE VERIFICAÇAO A SER MUDADA
 					foreach (string k in currentPhase.Keys) {
-						switch(k) {
-						case "productFormula":
-							if(currentPhase[k] == (content as Mixture).ProductFormula()) {
-								flag = true;
+						if(currentPhase[k] != "null") {
+							switch(k) {
+							case "productFormula":
+								if(currentPhase[k] == (content as Mixture).ProductFormula()) {
+									flag = true;
+								}
+								else {
+									return false;
+								}
+								break;
+							case "molarity":
+								if(float.Parse(currentPhase[k]) == (content as Mixture).ProductMolarity()) {
+									flag = true;
+								}
+								else {
+									return false;
+								}
+								break;
+							case "volume":
+								if(float.Parse (currentPhase[k]) == (content as Mixture).Volume) {
+									flag = true;
+								}
+								else {
+									return false;
+								}
+								break;
+							case "density":
+								if(float.Parse (currentPhase[k]) == (content as Mixture).Density) {
+									flag = true;
+								}
+								else {
+									return false;
+								}
+								break;
+							case "turbidity":
+								if(float.Parse (currentPhase[k]) == (content as Mixture).Turbidity) {
+									flag = true;
+								}
+								else {
+									return false;
+								}
+								break;
+							case "conductibility":
+								if(float.Parse (currentPhase[k]) == (content as Mixture).Conductibility) {
+									flag = true;
+								}
+								else {
+									return false;
+								}
+								break;
 							}
-							else {
-								return false;
-							}
-							break;
-						case "molarity":
-							if(float.Parse(currentPhase[k]) == (content as Mixture).ProductMolarity()) {
-								flag = true;
-							}
-							else {
-								return false;
-							}
-							break;
-						case "volume":
-							if(float.Parse (currentPhase[k]) == (content as Mixture).Volume) {
-								flag = true;
-							}
-							else {
-								return false;
-							}
-							break;
 						}
 					}
 					if(flag) {

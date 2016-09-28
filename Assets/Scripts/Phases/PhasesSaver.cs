@@ -27,6 +27,13 @@ public class PhasesSaver {
 				Dictionary<string, string> phaseValues = new Dictionary<string, string>();
 
 				phaseValues["productFormula"] = textLoad.GetString ("productFormula" + i.ToString()); //TODO: Needs testing
+				phaseValues["molarity"] = textLoad.GetString ("molarity" + i.ToString());
+				phaseValues["volume"] = textLoad.GetString ("volume" + i.ToString());
+				phaseValues["density"] = textLoad.GetString ("density" + i.ToString());
+				phaseValues["turbidity"] = textLoad.GetString ("turbidity" + i.ToString());
+				phaseValues["conductibility"] = textLoad.GetString ("conductibility" + i.ToString());
+
+
 
 				/*
 				READS ALL THE VALUES.

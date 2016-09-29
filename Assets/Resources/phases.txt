@@ -1,1 +1,7 @@
-numberOfPhases=0
+numberOfPhases=1
+productFormula0=NaCl
+molarity0=1.0
+minVolume0=25
+density0=null
+turbidity0=null
+conductibility0=null

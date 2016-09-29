@@ -41,22 +41,12 @@ public class ResultVerifier {
 					return false;
 				}
 				else {
-					/*TODO: A ideia base da verificaçao foi alterada, mas o codigo nao. Anteriormente, so os valores que contassem na fase seriam adiconados.
-							Agora, todos os valores devem ser adicionados, mas se possuirem o valor de "null" (ou qualquer outra string que defina que o valor nao diz respeito a fase)
-							nao devem ser verificados.
-
-
-					Algo como essa verificaçao deve ser feita
-					if(currentPhase[k] != "null") { //If the variable has null value, it's because the variable wansn't assigned for this phase.
-
-					}
-					*/
-					//MANEIRA DE VERIFICAÇAO A SER MUDADA
 					foreach (string k in currentPhase.Keys) {
 						if(currentPhase[k] != "null") {
 							switch(k) {
 							case "productFormula":
 								if(currentPhase[k] == (content as Mixture).ProductFormula()) {
+									Debug.Log ((content as Mixture).ProductFormula());
 									flag = true;
 								}
 								else {
@@ -64,15 +54,17 @@ public class ResultVerifier {
 								}
 								break;
 							case "molarity":
-								if(float.Parse(currentPhase[k]) == (content as Mixture).ProductMolarity()) {
+								if(((content as Mixture).ProductMolarity() < float.Parse (currentPhase[k]) + maxError) &&
+								   ((content as Mixture).ProductMolarity() > float.Parse (currentPhase[k]) - maxError)) {
 									flag = true;
 								}
 								else {
 									return false;
 								}
 								break;
-							case "volume":
-								if(float.Parse (currentPhase[k]) == (content as Mixture).Volume) {
+							case "minVolume":
+								if(((content as Mixture).Volume < float.Parse (currentPhase[k]) + maxError) &&
+								   ((content as Mixture).Volume > float.Parse (currentPhase[k]) - maxError)) {
 									flag = true;
 								}
 								else {
@@ -80,7 +72,8 @@ public class ResultVerifier {
 								}
 								break;
 							case "density":
-								if(float.Parse (currentPhase[k]) == (content as Mixture).Density) {
+								if(((content as Mixture).Density < float.Parse (currentPhase[k]) + maxError) &&
+								   ((content as Mixture).Density > float.Parse (currentPhase[k]) - maxError)) {
 									flag = true;
 								}
 								else {
@@ -88,7 +81,8 @@ public class ResultVerifier {
 								}
 								break;
 							case "turbidity":
-								if(float.Parse (currentPhase[k]) == (content as Mixture).Turbidity) {
+								if(((content as Mixture).Turbidity < float.Parse (currentPhase[k]) + maxError) &&
+								   ((content as Mixture).Turbidity > float.Parse (currentPhase[k]) - maxError)) {
 									flag = true;
 								}
 								else {
@@ -96,7 +90,8 @@ public class ResultVerifier {
 								}
 								break;
 							case "conductibility":
-								if(float.Parse (currentPhase[k]) == (content as Mixture).Conductibility) {
+								if(((content as Mixture).Conductibility < float.Parse (currentPhase[k]) + maxError) &&
+								   ((content as Mixture).Conductibility > float.Parse (currentPhase[k]) - maxError)) {
 									flag = true;
 								}
 								else {
@@ -116,7 +111,7 @@ public class ResultVerifier {
 	}
 
 	//Overload for testing the first phase
-	//TODO: DELETE THIS ONE, AFTER THE VERIFICATION IS WORKING CORRECTLY
+	//TODO: DELETE THIS ONE, WHEN THE VERIFICATION IS WORKING CORRECTLY
 	public bool VerifyResult (object content) {
 		bool flag = false;
 		float maxError = 0.1f;

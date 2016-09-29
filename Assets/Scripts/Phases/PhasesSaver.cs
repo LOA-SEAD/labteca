@@ -28,18 +28,13 @@ public class PhasesSaver {
 
 				phaseValues["productFormula"] = textLoad.GetString ("productFormula" + i.ToString()); //TODO: Needs testing
 				phaseValues["molarity"] = textLoad.GetString ("molarity" + i.ToString());
-				phaseValues["volume"] = textLoad.GetString ("volume" + i.ToString());
+				phaseValues["minVolume"] = textLoad.GetString ("minVolume" + i.ToString());
 				phaseValues["density"] = textLoad.GetString ("density" + i.ToString());
 				phaseValues["turbidity"] = textLoad.GetString ("turbidity" + i.ToString());
 				phaseValues["conductibility"] = textLoad.GetString ("conductibility" + i.ToString());
 
 
-
-				/*
-				READS ALL THE VALUES.
-
-				phaseValues.Add(textLoad.GetString([]what is before the "="[], i.ToString());
-				*/
+				Phases.Add(i, phaseValues);
 			}
 		}
 		return Phases;

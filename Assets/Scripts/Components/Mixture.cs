@@ -42,7 +42,7 @@ public class Mixture : IPhysicochemical {
 	private float volume = 0.0f;		//volume instantiated in the world [mL]
 
 	public float Volume { get { 
-		/*float resultingVolume = 0.0f;
+		float resultingVolume = 0.0f;
 			
 		if (product != null) {
 			resultingVolume += product.Volume;
@@ -56,8 +56,8 @@ public class Mixture : IPhysicochemical {
 			}
 		}
 		resultingVolume += waterVolume;
-		return resultingVolume;*/
-		return volume;
+		return resultingVolume;
+		//return volume;
 		} set{ volume = value; }}
 
 	private float waterVolume = 0.0f;
@@ -249,6 +249,7 @@ public class Mixture : IPhysicochemical {
 				}
 			}*/
 		} else { //There was no reaction
+			Debug.Log("falha");
 			product = null;
 
 			leftovers.Add (r1);

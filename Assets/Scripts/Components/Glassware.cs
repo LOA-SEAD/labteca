@@ -202,13 +202,14 @@ public class Glassware : ItemToInventory
 	}
 
 	public void RefreshSolid(){
-		float scaleValue = Mathf.Log10(((content as Compound).Volume*0.9f / maxVolume)*9+1f);
 
-		if((content as Compound)!=null&&(content as Compound).IsSolid)
-			solid.transform.localScale = new Vector3 (scaleValue*0.8f, 
-			                                          scaleValue*0.8f,
-			                                          scaleValue*0.9f);
 
+		if ((content as Compound) != null && (content as Compound).IsSolid) {
+			float scaleValue = Mathf.Log10 (((content as Compound).Volume * 0.9f / maxVolume) * 9 + 1f);
+			solid.transform.localScale = new Vector3 (scaleValue * 0.8f, 
+			                                          scaleValue * 0.8f,
+			                                          scaleValue * 0.9f);
+		}
 		/*if((content as Compound)!=null&&(content as Compound).IsSolid)
 			solid.transform.localScale = new Vector3 ((content as Compound).Volume*0.7f / maxVolume, 
 			                                          (content as Compound).Volume*0.7f / maxVolume, 
@@ -268,6 +269,7 @@ public class Glassware : ItemToInventory
 	//! Return the real mass of the glassware
 	public float GetMass() {
 		float actualMass = this.mass;
+
 		if (content != null) {
 			if(content is Mixture) {
 				actualMass += (content as Mixture).RealMass;

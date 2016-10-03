@@ -30,7 +30,7 @@ public class HUDController : MonoBehaviour {
 		RefreshKeys ();
 	}
 
-	void FixedUpdate(){
+	void Update(){
 		if (Input.GetKeyDown (KeyCode.Escape))
 			menu.Pause ();
 

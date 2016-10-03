@@ -27,7 +27,9 @@ public class AudioController : MonoBehaviour{
 		else
 			UpdateEffectsVolume (1f);
 
-		newAudio.enabled = false;
+		newAudio.enabled = true;
+		newAudio.volume = 0.0f;
+
 	}
 	void FixedUpdate() {
 		if (transition) {
@@ -45,13 +47,42 @@ public class AudioController : MonoBehaviour{
 
 				newAudio.enabled = false;
 			}
+			/*if(audioPlaying.volume > 0.2f) {
+				if(newAudio.volume > internVolume*.7f)
+					audioPlaying.volume=internVolume-((elapsedTime-time*.7f)/(.3f*time))*internVolume;
+				if(elapsedTime>time){
+					newAudio.volume = 0.3f;
+					transition=false;
+				}
+			}
+			else {
+				if(audioPlaying.volume > internVolume*.7f)
+					newAudio.volume=internVolume-((elapsedTime-time*.7f)/(.3f*time))*internVolume;
+				if(elapsedTime>time){
+					audioPlaying.volume = 0.3f;
+					transition=false;
+				}
+			}*/
 		}
 	}
 
 	public void crossFade(){
-		elapsedTime = 0;
+		/*elapsedTime = 0;
 		transition = true;
-		newAudio.enabled = true;
+		newAudio.enabled = true;*/
+		if (audioPlaying.volume > 0.2f) {
+			newAudio.volume = 0.3f;
+			audioPlaying.volume = 0.0f;
+		} else {
+			audioPlaying.volume = 0.3f;
+			newAudio.volume = 0.0f;
+		}
+	}
+
+	//! Makes sure that, when entering any working state, the correct song will be played
+	// If the correct song is being played already
+	public void PlayWorkingSong() {
+	
 	}
 
 	public void UpdateSoundVolume(float volume){

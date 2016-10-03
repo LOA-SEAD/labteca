@@ -12,9 +12,7 @@ public class PhasesSaver {
 	//Loads the reactions from a file, and returns a dictionary of phases
 	public static Dictionary<int, Dictionary<string, string>> LoadPhases()
 	{
-		TextAsset loadText = Resources.Load("phases") as TextAsset;
-		
-		TextEdit textLoad = new TextEdit(loadText);
+		TextEdit textLoad = new TextEdit ("Assets/Resources/phases.txt");
 		
 		int numberOfPhases = text.GetInt ("numberOfPhases");
 

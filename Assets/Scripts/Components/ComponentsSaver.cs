@@ -119,11 +119,7 @@ public class ComponentsSaver
 	//! Reads/Loads the dictionary from file.
 	public static Dictionary<string, Compound> LoadReagents()
 	{
-		TextAsset loadText = Resources.Load("components") as TextAsset;
-
-		TextEdit textLoad = new TextEdit(loadText);
-
-		//Debug.Log (loadText);
+		TextEdit textLoad = new TextEdit("Assets/Resources/components.txt");
 
 		int numberOfReagents = textLoad.GetInt ("numberOfReagents");
 
@@ -310,11 +306,7 @@ public class ComponentsSaver
 	//! Reads/Loads the dictionary from file.
 	public static Dictionary<string, Compound> LoadProducts()
 	{
-		TextAsset loadText = Resources.Load("products") as TextAsset;
-		
-		TextEdit textLoad = new TextEdit(loadText);
-		
-		//Debug.Log (loadText);
+		TextEdit textLoad = new TextEdit ("Assets/Resources/products.txt");
 		
 		int numberOfProducts = textLoad.GetInt ("numberOfProducts");
 		

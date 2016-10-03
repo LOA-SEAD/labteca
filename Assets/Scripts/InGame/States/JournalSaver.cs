@@ -43,9 +43,7 @@ public class JournalSaver{
 	public static Dictionary<int, JournalUIItem> LoadJournalUIItems(int expo)
 	{
 		text = new TextEdit("Assets/Resources/journalItems"+expo.ToString()+".txt");
-		TextAsset loadText = Resources.Load("journalItems"+expo.ToString()) as TextAsset;
-		
-		TextEdit textLoad = new TextEdit(loadText);
+		TextEdit textLoad = new TextEdit("Assets/Resources/journalItems"+expo.ToString()+".txt");
 		
 		int numberOfJournalItems = text.GetInt ("numberOfJournalItems");
 		

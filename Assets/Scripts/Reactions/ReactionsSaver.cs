@@ -70,9 +70,7 @@ public class ReactionsSaver
 	//Loads the reactions from a file, and returns a dictionary
 	public static Dictionary<string, ReactionClass> LoadReactions()
 	{
-		TextAsset loadText = Resources.Load("reactions") as TextAsset;
-		
-		TextEdit textLoad = new TextEdit(loadText);
+		TextEdit textLoad = new TextEdit("Assets/Resources/reactions.txt");
 		
 		int numberOfReactions = text.GetInt ("numberOfReactions");
 		

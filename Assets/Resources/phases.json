@@ -1,0 +1,17 @@
+{
+	"phases": [{
+		"productFormula": "NaCl",
+		"molarity": "1.0",
+		"minVolume": "25",
+		"density": "null",
+		"turbidity": "null",
+		"conductibility": "null"
+	}, {
+		"productFormula": "H2SO4",
+		"molarity": "2.0",
+		"minVolume": "25",
+		"density": "null",
+		"turbidity": "null",
+		"conductibility": "null"
+	}]
+}

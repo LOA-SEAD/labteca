@@ -37,4 +37,10 @@ public class PhasesSaver {
 		}
 		return Phases;
 	}
+
+	/*public static Dictionary<int, Dictionary<string, string>> LoadPhasesJSON () {
+		SimpleJSON.JSONNode json = JSONEdit.Read ("Assets/Resources/phases.json");
+
+		Dictionary<int, Dictionary<string, string>> Phases = new Dictionary<int, Dictionary<string, string>> ();
+	}*/
 }

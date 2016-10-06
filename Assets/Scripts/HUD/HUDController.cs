@@ -20,7 +20,7 @@ public class HUDController : MonoBehaviour {
 	public bool inventoryLocked=false,mapLocked = false,lockKey;
 	public List<Text> keysText;
 
-	public RectTransform hover;
+	public RectTransform hover; 
 
 	void Start(){
 		map.SetActive (false);
@@ -93,9 +93,13 @@ public class HUDController : MonoBehaviour {
 	}
 
 	public void CallInventoryTrigger(){
-		if(!lockKey)
+		if (!lockKey)
 			CallInventory(!inventoryUp);
 	}
+	/// <summary>
+	/// Calls the inventory.
+	/// </summary>
+	/// <param name="b">If set to <c>true</c> b.</param>
 	public void CallInventory(bool b){
 		if (!inventoryLocked) {
 			inventoryUp = b;
@@ -117,11 +121,14 @@ public class HUDController : MonoBehaviour {
 			Screen.lockCursor = true;
 		}
 	}
-
 	public void CallMapTrigger(){
 		if(!lockKey)
 			CallMap(!map.activeSelf);
 	}
+	/// <summary>
+	/// Calls the map.
+	/// </summary>
+	/// <param name="b">If set to <c>true</c> b.</param>
 	public void CallMap(bool b){
 		if (!mapLocked) {
 			if (inventoryUp)
@@ -147,7 +154,10 @@ public class HUDController : MonoBehaviour {
 		keysText [1].text = journalKey.ToString ();
 		keysText [2].text = mapKey.ToString ();
 	}
-
+	/// <summary>
+	/// Alternates the state of the player.
+	/// </summary>
+	/// <param name="asd"> teste </para>
 	public void changePlayerState(){
 		if (player.activeSelf) {
 			GameObject.Find("GameController").GetComponent<AudioController>().crossFade();

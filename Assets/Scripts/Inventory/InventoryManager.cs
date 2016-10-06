@@ -13,7 +13,7 @@ public class InventoryManager : MonoBehaviour {
 
 	private int count = 0;
 	public List<Text> tabValues;
-	public int[] indexButtons = new int[]{1,2};
+	public int[] indexButtons = {1,2};
 	public int listIndex;
 	public GameController gameController;
 	public GameObject itemPrefab;
@@ -37,9 +37,6 @@ public class InventoryManager : MonoBehaviour {
 
 	public Image inventoryImage,tabImage,scrollbar;
 
-
-	//private ArrayList SelectedList   = new ArrayList();
-
 	private ItemType[] itemType = new ItemType[2];
 	public RectTransform content;
 	public Transform limbo;
@@ -47,7 +44,7 @@ public class InventoryManager : MonoBehaviour {
     public ItemInventoryBase selectedItem = null;     /*!< Current selected item (game object). */
     private ItemStackableBehavior selectedUIItem = null;    /*!< Current selected item from inventory UI. */
 	private List<string> listOfIndexes = new List<string>();
-	///-----------REFACTOR-------------------
+
 	void Start(){
 		refreshTab (null,false);
 		itemType [0] = ItemType.Liquids;
@@ -57,7 +54,11 @@ public class InventoryManager : MonoBehaviour {
 		selectedIcon = backgroundIcons [1];
 		refreshGrid ();
 	}
-
+	/// <summary>
+	/// Generates the index for an ItemInventoryBase.
+	/// </summary>
+	/// <returns>The index generated.</returns>
+	/// <param name="item">Item to generate index.</param>
 	public string GenerateIndex(ref ItemInventoryBase item){
 		if (item.index == null) {
 			StringBuilder sb;
@@ -74,9 +75,14 @@ public class InventoryManager : MonoBehaviour {
 
 		return item.index;
 	}
-
+	/// <summary>
+	/// Adds the item to the inventory.
+	/// </summary>
+	/// <returns>The item or null .</returns>
+	/// <param name="item">Item.</param>
 	public GameObject addItem(ref ItemInventoryBase item){
 		GenerateIndex (ref item);
+		//If the item added is of current list type, adds it to the grid
 		if (item.getItemType () == itemType[0]||item.getItemType () == itemType[1]) {
 			GameObject aux = instantiateObject (item);
 
@@ -95,7 +101,7 @@ public class InventoryManager : MonoBehaviour {
 			refreshGrid ();
 
 			return aux;
-
+		//else, adds it to the List directly and changes the list
 		} else {
 			switch (item.getItemType ()) {
 			case ItemType.Glassware:
@@ -115,10 +121,13 @@ public class InventoryManager : MonoBehaviour {
 			return null;
 		}
 	}
-
+	/// <summary>
+	/// Changes the list to the index sent.
+	/// </summary>
+	/// <param name="index">Index.</param>
 	public void changeList(int index){
 		selectedItem = null;
-
+		//cleans the grid
 		for (int i = ObjectList.Count -1; i>=0; i--) {
 			ObjectList.Remove (ObjectList[i]);
 			Destroy(content.GetChild(i).gameObject);
@@ -127,24 +136,30 @@ public class InventoryManager : MonoBehaviour {
 		selectedObject = null;
 		refreshActionButton ();
 		count = 0;
-
+		//changes the current list and instantiantes the objects from the list
 		selectList (index);
 		foreach (ItemInventoryBase item in getCurrentList()) {
 			instantiateObject(item);
 		}
 		refreshGrid ();
 	}
-
+	/// <summary>
+	/// Changes the background image of the selected item.
+	/// </summary>
+	/// <param name="obj">GameObject of the selected item.</param>
 	public void changeImage(GameObject obj){
 		ItemInventoryBase item = obj.GetComponent<ItemInventoryBase> ();
 		Image icon = null;
 		Image[] img = obj.GetComponentsInChildren<Image> ();
+		//from images on obj, gets the Item Image
 		for (int i = 0; i < img.Length; i++) {
 			if(img[i].gameObject.name == "Item Image")
 				icon = img[i];
 		}
 
 		Text txt = obj.GetComponentInChildren<Text> ();
+		//chooses image depending on item
+		//if reagent, sets underneath text to obj formula
 		switch (item.getItemType ()) {
 		case ItemType.Liquids:
 			icon.sprite = icons[0];
@@ -252,29 +267,38 @@ public class InventoryManager : MonoBehaviour {
 			break;
 		}
 	}
-
+	/// <summary>
+	/// Instantiates the item on the grid.
+	/// </summary>
+	/// <returns>The GameObject.</returns>
+	/// <param name="item">The Item to instantiate.</param>
 	public GameObject instantiateObject(ItemInventoryBase item){
 		GameObject tempItem = Instantiate(itemPrefab) as GameObject;
-		tempItem.transform.SetParent(content.transform,false);
+		tempItem.transform.SetParent(content.transform,false); //adds item as child of the grid
 		tempItem.name = "InventoryItem"+count.ToString();
 		count++;
+		//copies the data from item to the ItemInventoryBase component
 		tempItem.GetComponent<ItemInventoryBase>().copyData(item);
 		ObjectList.Add(tempItem);
 		changeImage (tempItem);
-		tempItem.gameObject.GetComponent<Button> ().onClick.AddListener (() => this.setSelectedItem(tempItem.GetComponent<ItemInventoryBase>()));
+		tempItem.gameObject.GetComponent<Button> ().onClick.AddListener (() => this.setSelectedItem(tempItem.GetComponent<ItemInventoryBase>())); //adds click listener on runtime
 
 		if (item.getItemType() != ItemType.Glassware) {
-			if(item.getItemType()==ItemType.Others){}
+			if(item.getItemType()==ItemType.Others){
+				//TODO: Implement the triggers for products
+			}
 			else{
+				//if reagent, adds triggers for info tab
 				EventTrigger trigger = tempItem.gameObject.GetComponent<EventTrigger> ();
 				EventTrigger.Entry enter = new EventTrigger.Entry ();
 				enter.eventID = EventTriggerType.PointerEnter;
+				//trigger for entering
 				enter.callback.AddListener ((eventData) => { 
 					refreshTab (item,true); 
 					actionTab.transform.position = tempItem.GetComponent<ItemInventoryBase> ().posTab.position;
 				});
 				trigger.delegates.Add (enter);
-
+				//trigger for leaving
 				EventTrigger.Entry exit = new EventTrigger.Entry ();
 				exit.eventID = EventTriggerType.PointerExit;
 				exit.callback.AddListener ((eventData) => { 
@@ -283,9 +307,13 @@ public class InventoryManager : MonoBehaviour {
 				trigger.delegates.Add (exit);
 			}
 		}
+		//returns the instantiated object
 		return tempItem;
 	}
-
+	/// <summary>
+	/// Selects the list.
+	/// </summary>
+	/// <param name="index">Index.</param>
 	public void selectList(int index){
 		listIndex = index;
 		switch (index) {
@@ -302,29 +330,38 @@ public class InventoryManager : MonoBehaviour {
 			itemType[1]=ItemType.Glassware;
 			break;
 		}
+		//changes sprites to respective colors
 		inventoryImage.sprite = backgroundInventory [index];
 		tabImage.sprite = backgroundPanel [index];
 		selectedIcon = backgroundIcons [index];
 		refreshButtons ();
 	}
-
+	/// <summary>
+	/// Refreshs side buttons.
+	/// </summary>
 	public void refreshButtons(){
 		int aux = 0;
 		for(int i = 0; i < 3; i++){
+			//if the index isn't the current index, adds it to side buttons
 			if(i!=listIndex){
 				indexButtons[aux]=i;
 				listButton[aux++].GetComponent<Image>().sprite = backgroundButtons[i];
 			}
 		}
+
 		refreshActionButton ();
 	}
-
+	/// <summary>
+	/// Refreshs the tab with Item info.
+	/// </summary>
+	/// <param name="i">ItemInventoryBase to get info from.</param>
+	/// <param name="val">If set to <c>true</c>, activates tab. Else, deactivates.</param>
 	public void refreshTab(ItemInventoryBase i,bool val){
 		if (!val) {
 			actionTab.SetActive (false);
 			return;
 		}
-
+		//gets info from "i"
 		switch (i.getItemType ()) {
 		case ItemType.Glassware:
 			tabValues[0].text = i.gl.name;
@@ -342,13 +379,19 @@ public class InventoryManager : MonoBehaviour {
 		actionTab.SetActive (true);
 
 	}
-
+	/// <summary>
+	/// Aux method to click side button
+	/// </summary>
+	/// <param name="i">The index of index(indexception) of clicked button.</param>
 	public void auxSideButton(int i){
 		changeList (indexButtons [i]);
 	}
-
+	/// <summary>
+	/// Refreshs the action button.
+	/// </summary>
 	public void refreshActionButton(){
 		GameStateBase currentState = gameController.GetCurrentState ();
+		//refreshs action button depending on the current state and list index
 		if (currentState != null) {
 			listButton[2].interactable = true;
 			if (currentState.GetComponent<InGameState> () == null) {
@@ -379,63 +422,79 @@ public class InventoryManager : MonoBehaviour {
 			listButton [2].GetComponent<Image> ().sprite = backgroundAction [0];
 		}
 	}
-
+	/// <summary>
+	/// Refreshs the grid.
+	/// </summary>
 	public void refreshGrid(){
+		//calculates grid size based on number of items in list
 		content.sizeDelta = new Vector2(0f , (Mathf.Ceil (getCurrentList().Count / 3f)) * 90 - 10f);
 		int n = 0;
 		int top = (int)content.sizeDelta.y / 2 - 40;
+		//places instantiated objects in place
 		foreach (GameObject obj in ObjectList) {
 			int posX = 40 + 100*(n%3);
 			int posY = top-(n/3)*90;
 			obj.GetComponent<RectTransform>().anchoredPosition = new Vector2(posX,posY);
 			n++;
 		}
+		//if number of items is greater than 12, sets scrollbar visible
 		if (n > 12) {
 			scrollbar.color = new Color (1, 1, 1, 1);
 		} else {
 			scrollbar.color = new Color (1, 1, 1, 0);
 		}
 	}
-
+	/// <summary>
+	/// Removes the item from grid and list.
+	/// </summary>
+	/// <param name="item">Item to be removed.</param>
 	public void removeItem(GameObject item){
+		//gets item index and removes from index list and object list
 		string index = item.GetComponent<ItemInventoryBase> ().index;
 		listOfIndexes.Remove (index);
 		ObjectList.Remove (item);
 
 		int n = 0;
-
+		//search for item index in list
 		foreach (ItemInventoryBase it in getCurrentList()) {
-			//Debug.Log (it.index);
 			if (it.index == index) {
 				getCurrentList().RemoveAt(n);
-				/*foreach (ItemInventoryBase db in getCurrentList()){
-					Debug.Log("DEBUG: "+db.index);
-				}*/
 				break;
 			}
 			n++;
 		}
+
 		if (item == selectedObject)
 			selectedObject = null;
 		Destroy (item);
 		refreshButtons ();
 		refreshGrid ();
 	}
-
+	/// <summary>
+	/// Adds the glassware to inventory.
+	/// </summary>
+	/// <param name="gl">Glassware to be added.</param>
 	public void AddGlasswareToInventory(Glassware gl) {
 		ItemInventoryBase item = new ItemInventoryBase();
 		item.addGlassware(gl);
 		item.HoldItem (gl);
 		addItem(ref item);
 	}
-
+	/// <summary>
+	/// Adds the reagent to inventory.
+	/// </summary>
+	/// <param name="reagent">Reagent to be added.</param>
+	/// <param name="r">The component info.</param>
 	public void AddReagentToInventory(ReagentPot reagent, Compound r ) {
 		ItemInventoryBase item = new ItemInventoryBase();
 		item.HoldItem (reagent);
 		item.addReagent(r);
 		addItem(ref item);
 	}
-
+	/// <summary>
+	/// Adds the product to inventory.
+	/// </summary>
+	/// <param name="itm">Product to be added.</param>
 	public void AddProductToInventory(GameObject itm) {
 		ItemInventoryBase item = new ItemInventoryBase();
 		item.physicalObject = true;
@@ -444,10 +503,13 @@ public class InventoryManager : MonoBehaviour {
 		itm.name = item.index;
 
 		addItem(ref item);
-
+		//sends item to limbo
 		itm.transform.SetParent (limbo, false);
 	}
-
+	/// <summary>
+	/// Gets the current list.
+	/// </summary>
+	/// <returns>Current list.</returns>
 	public ArrayList getCurrentList(){
 		switch (listIndex) {
 		case 0:
@@ -459,19 +521,26 @@ public class InventoryManager : MonoBehaviour {
 		}
 		return null;
 	}
-
+	/// <summary>
+	/// Sets the selected item.
+	/// </summary>
+	/// <param name="i">The item to be set.</param>
 	public void setSelectedItem(ItemInventoryBase i)
 	{
+		//if there was a selected object, sets its background to default 
 		if (selectedObject != null) {
 			selectedObject.GetComponentInChildren<Image> ().sprite = backgroundIcons [3];
 		}
+		//sets "i" as selected item and changes its background
 		this.selectedItem = i;
 		selectedObject = GameObject.Find (selectedItem.gameObject.name);
 		selectedObject.GetComponentInChildren<Image>().sprite = selectedIcon;
 
 		refreshButtons ();
 	}
-	
+	/// <summary>
+	/// Determinates what to do when action button is clicked
+	/// </summary>
 	public void actionButtonClick(){
 		bool remove = true;
 		if (selectedItem != null) {
@@ -487,10 +556,13 @@ public class InventoryManager : MonoBehaviour {
 
 			if(remove)
 			removeItem (GameObject.Find (selectedItem.gameObject.name));
-
 		}
 	}
-
+	/// <summary>
+	/// Sends the object to workbench.
+	/// </summary>
+	/// <returns><c>true</c>, if object to workbench was sent, <c>false</c> otherwise.</returns>
+	/// <param name="item">Item to be sent.</param>
 	public bool SendObjectToWorkbench(ItemInventoryBase item) {
 		return gameController.GetCurrentState ().GetComponent<WorkBench> ().PutItemFromInventory (item);
 	}

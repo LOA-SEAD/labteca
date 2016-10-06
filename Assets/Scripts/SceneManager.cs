@@ -13,12 +13,13 @@ public class SceneManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//If ESC is pressed, goes to next scene
 		if (Input.GetKeyDown (KeyCode.Escape))
 			Application.LoadLevel ("DemoLabDev");
 		else if (Input.anyKeyDown&&currentTime>=5f) {
 			currentTime = 0f;
 		}
-
+		//If another key is pressed sets trigger for showing message
 		if (currentTime < 5) {
 			if(currentTime<.5f){
 				Color colorEscape = escape.color;

@@ -16,11 +16,12 @@ public class ExperimentMenu : TabletState
 	}
 
 	public void RefreshScroll(){
+		//Always clean the previous items
 		int child = content.childCount;
 		for (int i = 0; i < child; i++) {
 			Destroy(content.GetChild(i).gameObject);
 		}
-
+		//Generates new items
 		for (int i = 0; i <= lastExperiment; i++) {
 			GameObject tempItem = Instantiate (prefab.gameObject) as GameObject;
 			tempItem.name = "MenuButton"+i;
@@ -36,7 +37,10 @@ public class ExperimentMenu : TabletState
 			tempItem.transform.SetParent (content.transform, false);
 		}
 	}
-
+	/// <summary>
+	/// Goes to "i" experiment.
+	/// </summary>
+	/// <param name="i">The index.</param>
 	public void GoToExperiment(int i){
 		journalController.changeExperiment (i);
 		GetComponentInParent<TabletStateMachine> ().goToState (2);

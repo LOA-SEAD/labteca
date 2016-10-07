@@ -9,6 +9,13 @@ public class ExperimentMenu : TabletState
 	public int lastExperiment;
 	public Button prefab;
 	public JournalController journalController;
+
+	public override TabletStates StateType {
+		get {
+			return TabletStates.ExperimentsMenu;
+		}
+	}
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -43,6 +50,6 @@ public class ExperimentMenu : TabletState
 	/// <param name="i">The index.</param>
 	public void GoToExperiment(int i){
 		journalController.changeExperiment (i);
-		GetComponentInParent<TabletStateMachine> ().goToState (2);
+		GetComponentInParent<TabletStateMachine> ().goToState ((int)TabletStates.Experiments);
 	}
 }

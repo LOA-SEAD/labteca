@@ -6,6 +6,12 @@ public class GraphsMenu : TabletState {
 	public Transform content;
 	public Button prefab;
 
+	public override TabletStates StateType {
+		get {
+			return TabletStates.GraphsMenu;
+		}
+	}
+
 	public void AddButton(string txt, Sprite image){
 		GameObject tempItem = Instantiate (prefab.gameObject) as GameObject;
 		tempItem.name = "Graph Button";

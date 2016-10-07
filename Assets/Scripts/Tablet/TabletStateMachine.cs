@@ -9,22 +9,29 @@ public class TabletStateMachine : MonoBehaviour {
 	public List<TabletState> states;
 	public HUDController control;
 	public Text time;
-	public static GameObject notification;
+	public List<GameObject> localNotification;
+	public static List<GameObject> notification = new List<GameObject> (3);
 	
 	// Use this for initialization
 	void Start () {
-		notification = GameObject.Find ("Notification");
-		SendNotification ();
+		foreach (GameObject notificationObject in localNotification)
+			notification.Add (notificationObject);
+		SendNotification ((int)TabletStates.ExperimentsMenu);
 		resetState ();
 	}
 
-	public static void SendNotification(){
-		notification.SetActive (true);
+	public static void SendNotification(int i){
+		notification[i].SetActive (true);
+		notification[(int)TabletStates.Main].SetActive (true);
 	}
 
-	public static void CloseNotification(){
-		if (notification.activeSelf)
-			notification.SetActive (false);
+	public static void CloseNotification(int i){
+		Debug.Log ("closing");
+		if (notification [i].activeSelf)
+			notification [i].SetActive (false);
+		if (!notification [(int)TabletStates.ExperimentsMenu].activeSelf &&
+			!notification [(int)TabletStates.GraphsMenu].activeSelf)
+			notification [(int)TabletStates.Main].SetActive (false);
 	}
 
 	public void resetState(){
@@ -32,13 +39,16 @@ public class TabletStateMachine : MonoBehaviour {
 	}
 
 	public void goToState(int index){
+		if (index == (int)TabletStates.ExperimentsMenu || index == (int)TabletStates.GraphsMenu)
+			CloseNotification (index);
+
 		if ((int)TabletStates.Notes == index)
 			control.LockKeys (true);
 		else
 			control.LockKeys (false);
 
 		foreach (TabletState ts in states) {
-			if((int)ts.stateType!=index){
+			if((int)ts.StateType!=index){
 				ts.GetCanvasGroup().alpha = 0f;
 				ts.GetCanvasGroup().blocksRaycasts = false;
 				ts.GetCanvasGroup().interactable = false;
@@ -69,9 +79,9 @@ public class TabletStateMachine : MonoBehaviour {
 
 public enum TabletStates{
 	Main=0,
-	ExperimentsMenu,
-	Experiments,
-	Notes,
-	GraphsMenu,
+	ExperimentsMenu=1,
+	GraphsMenu=2,
+	Experiments=3,
+	Notes=4,
 	Graphs
 }

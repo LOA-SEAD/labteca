@@ -83,7 +83,6 @@ public class HUDController : MonoBehaviour {
 			map.SetActive (false);
 
 		if (tabletUp) {
-			TabletStateMachine.CloseNotification();
 			Screen.showCursor = true;
 			Screen.lockCursor = false;
 		}else if (!inventoryUp && !map.activeSelf) {

@@ -3,7 +3,12 @@ using System.Collections;
 
 public class TabletState : MonoBehaviour
 {
-	public TabletStates stateType;
+	public virtual TabletStates StateType {
+		get{
+			return TabletStates.Main;
+		}
+	}
+
 	private CanvasGroup canvasGroup;
 
 	public CanvasGroup GetCanvasGroup(){

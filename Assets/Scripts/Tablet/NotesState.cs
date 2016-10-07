@@ -7,6 +7,13 @@ public class NotesState : TabletState {
 	public Text notesText;
 	public Image handle;
 	private bool changed,backspace;
+
+	public override TabletStates StateType {
+		get {
+			return TabletStates.Notes;
+		}
+	}
+
 	// Use this for initialization
 	void Start () {
 		backspace = true;

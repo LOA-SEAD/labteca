@@ -17,6 +17,13 @@ public class JournalController : TabletState {
 	private int lastItemPos = 0;
 	private RectTransform contentRect, prefabRect;
 	private List<int> listOfJournalIndexes;
+
+	public override TabletStates StateType {
+		get {
+			return TabletStates.Experiments;
+		}
+	}
+
 	// Use this for initialization
 	void Start () {
 		UIScrollList = canvasObject.GetComponentInChildren<ScrollRect> ();

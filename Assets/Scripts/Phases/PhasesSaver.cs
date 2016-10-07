@@ -9,8 +9,8 @@ public class PhasesSaver {
 
 	private static TextEdit text = new TextEdit("Assets/Resources/phases.txt");
 	
-	//Loads the reactions from a file, and returns a dictionary of phases
-	public static Dictionary<int, Dictionary<string, string>> LoadPhases()
+	//Loads the reactions from a .txt file, and returns a dictionary of phases
+	/*public static Dictionary<int, Dictionary<string, string>> LoadPhases()
 	{
 		TextEdit textLoad = new TextEdit ("Assets/Resources/phases.txt");
 		
@@ -36,11 +36,29 @@ public class PhasesSaver {
 			}
 		}
 		return Phases;
-	}
-
-	/*public static Dictionary<int, Dictionary<string, string>> LoadPhasesJSON () {
-		SimpleJSON.JSONNode json = JSONEdit.Read ("Assets/Resources/phases.json");
-
-		Dictionary<int, Dictionary<string, string>> Phases = new Dictionary<int, Dictionary<string, string>> ();
 	}*/
+
+	//Loads the reactions from a .json file, and returns a dictionary of phases
+	public static Dictionary<int, Dictionary<string, string>> LoadPhases () {
+
+		SimpleJSON.JSONNode phases = JSONEdit.Read ("Assets/Resources/phases.json");
+
+		Dictionary<int, Dictionary<string, string>> allPhases = new Dictionary<int, Dictionary<string, string>> ();
+	
+		for (int i = 0; i < phases["phases"].Count; i++) {
+			Dictionary<string, string> phaseValues = new Dictionary<string, string> ();
+
+			phaseValues["productFormula"] = phases["phases"][i]["productFormula"].Value;
+			phaseValues["molarity"] = phases["phases"][i]["molarity"].Value;
+			phaseValues["minVolume"] = phases["phases"][i]["minVolume"].Value;
+			phaseValues["maxError"] = phases["phases"][i]["maxError"].Value;
+			phaseValues["density"] = phases["phases"][i]["density"].Value;
+			phaseValues["turbidity"] = phases["phases"][i]["turbidity"].Value;
+			phaseValues["conductibility"] = phases["phases"][i]["conductibility"].Value;
+
+			allPhases.Add (i, phaseValues);
+		}
+
+		return allPhases;
+	}
 }

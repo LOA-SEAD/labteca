@@ -21,4 +21,8 @@ public static class JSONEdit {
 			return JSON.Parse (content);
 		}
 	}
+
+	public static void Write(string path) {
+
+	}
 }

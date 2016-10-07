@@ -153,7 +153,10 @@ public class LIAState : GameStateBase {
 	public void EndGame() {
 		FadeScript.instance.FadeIn ();
 
-
-		Debug.Log ("Retorna ao menu");
+		#if UNITY_EDITOR
+		Application.LoadLevel ("MainMenu");
+		#else
+		Application.LoadLevel ("MainMenu");
+		#endif
 	}
 }

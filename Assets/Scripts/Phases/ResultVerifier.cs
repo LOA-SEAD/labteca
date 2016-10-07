@@ -31,7 +31,7 @@ public class ResultVerifier {
 	//! Returns whether the content of the glassware is correct or not
 	public bool VerifyResult (int lvl, object content) {
 		Dictionary<string, string> currentPhase = phases [lvl]; //Dictionary<name of variable, value.ToString()>
-		float maxError = 0.2f;
+		float maxError = currentPhase["maxError"];
 
 		bool flag = false;
 		//The "Parse" function is used in every comparison to convert the strings into the correct types

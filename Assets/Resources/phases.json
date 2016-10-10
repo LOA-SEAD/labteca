@@ -1,5 +1,5 @@
 {
-	"phases" : [ {
+	"objects" : [ {
 		"productFormula": "NaCl",
 		"molarity": "1.0",
 		"minVolume": "25",

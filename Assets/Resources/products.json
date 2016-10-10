@@ -1,5 +1,5 @@
 {
-	"products": [{
+	"objects": [{
 		"name": "Cloreto de Sódio",
 		"formula": "NaCl",
 		"isSolid": "True",

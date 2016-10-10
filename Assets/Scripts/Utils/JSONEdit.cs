@@ -4,7 +4,7 @@ using SimpleJSON;
 
 //! Loads a .json file.
 //  The class makes use of SimpleJSON namespace to handle JSON I/O
-public static class JSONEdit {
+/*public static class JSONEdit {
 
 	//! Reads the file
 	//  If the file doesn't exists, creates the file
@@ -24,5 +24,54 @@ public static class JSONEdit {
 
 	public static void Write(string path) {
 
+	}
+}*/
+
+public class JSONEdit {
+	
+	private JSONNode json;
+	
+	public JSONEdit (string path) {
+		json = this.Read (path);
+	}
+	
+	//! Reads the file
+	//  If the file doesn't exists, creates the file
+	private JSONNode Read(string path) {
+		if(!System.IO.File.Exists(path)) {
+			System.IO.File.Create(path);
+			return Read(path);
+		}
+		else {
+			System.IO.StreamReader sr = new System.IO.StreamReader (path);
+			string content = sr.ReadToEnd ();
+			sr.Close();
+			
+			return JSON.Parse (content);
+		}
+	}
+	
+	private void Write() {
+		
+	}
+
+	public bool GetBool(int numObject, string data) {
+		return json["objects"][numObject]["productFormula"].AsBool;
+	}
+
+	public string GetString(int numObject, string data) {
+		return json ["objects"] [numObject] [data].Value;
+	}
+
+	public int GetInt(int numObject, string data) {
+		return json ["objects"] [numObject] [data].AsInt;
+	}
+
+	public float GetFloat(int numObject, string data) {
+		return json ["objects"] [numObject] [data].AsFloat;
+	}
+
+	public int NumberOfObjects() {
+		return json ["objects"].Count;
 	}
 }

@@ -21,6 +21,8 @@ public class ItemInventoryBase : MonoBehaviour {
     public ItemType itemType;                   /*!< Enum to set this item type: 'solids', 'liquids', 'glassware' and 'others'. */
 	public Text underText;
 
+	public Queue<GlasswareCommands> commands;
+
 	public Transform posTab;
 	
 	public ItemToInventory itemBeingHeld;

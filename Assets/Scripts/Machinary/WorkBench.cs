@@ -86,7 +86,7 @@ public class WorkBench : GameStateBase{
 	public bool PutItemFromInventory(ItemInventoryBase item) {
 		foreach(Transform position in positionGlass) {
 			if(position.childCount == 0){
-				if(!item.physicalObject){
+				if(item.itemType!=ItemType.Others){
 					GameObject tempItem = Instantiate(item.itemBeingHeld.gameObject) as GameObject;
 					tempItem.transform.SetParent (position, false);
 					tempItem.transform.localPosition = Vector3.zero;
@@ -101,10 +101,23 @@ public class WorkBench : GameStateBase{
 						}
 					}
 				}else{
-					GameObject tempItem = GameObject.Find(item.index);
-					tempItem.SetActive(true);
+					GameObject tempItem = Instantiate(item.itemBeingHeld.gameObject) as GameObject;
 					tempItem.transform.SetParent (position, false);
 					tempItem.transform.localPosition = Vector3.zero;
+
+					foreach(GlasswareCommands glC in item.commands){
+						switch(glC.commandType){
+						case GlasswareCommandsEnum.Add:
+							tempItem.GetComponent<Glassware>().IncomingReagent(glC.compound,glC.volume);
+							break;
+						case GlasswareCommandsEnum.RemoveLiquid:
+							tempItem.GetComponent<Glassware>().RemoveLiquid(glC.volume);
+							break;
+						case GlasswareCommandsEnum.RemoveSolid:
+							tempItem.GetComponent<Glassware>().RemoveSolid(glC.volume);
+							break;
+						}
+					}
 				}
 				soundBeaker.Play();
 				return true;

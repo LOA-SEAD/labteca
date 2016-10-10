@@ -39,9 +39,10 @@ public class Glassware : ItemToInventory
 	private GameObject interactionBoxGlassware; //Interaction box when the object is clicked while on a Workbench
 	private bool onScale;	//The glassware is currently on a scale
 
+	private Queue<GlasswareCommands> commands = new Queue<GlasswareCommands>();
 
 	public bool hasReagents(){	
-		if (content == null && content == null) 
+		if (content == null) 
 			return false;
 		return true;
 	}
@@ -345,6 +346,7 @@ public class Glassware : ItemToInventory
 
 	//! Treatment of cases for when something is being put into the glassware
 	public bool IncomingReagent(Compound incomingCompound, float volumeFromTool) {
+		commands.Enqueue(new GlasswareCommands(GlasswareCommandsEnum.Add,volumeFromTool,incomingCompound));
 		Debug.Log (incomingCompound.Formula + " incoming!");
 		if (content != null) { //Case not empty
 			if (content is Mixture) { // Case: there's Mixture
@@ -418,8 +420,7 @@ public class Glassware : ItemToInventory
 	//! Remove liquids from the glassware
 	//  The liquid is removed into a pipette
 	public void RemoveLiquid(float volumeChosen) {
-		//currentVolume -= volumeChosen;
-		//totalMass -= volumeChosen * (compounds as IPhysicochemical).Density;
+		commands.Enqueue(new GlasswareCommands(GlasswareCommandsEnum.RemoveLiquid,volumeChosen,null));
 		(content as IPhysicochemical).RealMass = (content as IPhysicochemical).RealMass - volumeChosen * (content as IPhysicochemical).Density;
 		(content as IPhysicochemical).Volume = (content as IPhysicochemical).Volume - volumeChosen;
 		if((content as IPhysicochemical).Volume <= 0.07f) {
@@ -484,7 +485,7 @@ public class Glassware : ItemToInventory
 	public void RemoveSolid(float spatulaVolume) {
 		//currentVolume -= spatulaVolume;
 		//totalMass -= spatulaVolume * (compounds as IPhysicochemical).Density;
-
+		commands.Enqueue(new GlasswareCommands(GlasswareCommandsEnum.RemoveSolid,spatulaVolume,null));
 		(content as IPhysicochemical).RealMass = (content as IPhysicochemical).RealMass - spatulaVolume * (content as IPhysicochemical).Density;
 		(content as IPhysicochemical).Volume = (content as IPhysicochemical).Volume - spatulaVolume;
 		if((content as IPhysicochemical).Volume <= 0.07f) {
@@ -501,9 +502,7 @@ public class Glassware : ItemToInventory
 	}
 
 	//! Put the glassware back to the inventory
-	public void GlasswareToInventory() {
-		/*
-		 * GLASS TO INVENTORY();
-		 */
+	public Queue<GlasswareCommands> GlasswareToInventory() {
+		return commands;
 	}
 }

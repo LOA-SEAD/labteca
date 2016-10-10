@@ -37,18 +37,25 @@ public class OptionDialogBehaviour : MonoBehaviour {
 		if(item is Glassware){
 			switch (actualIDs[index]) {
 			case 0:
+
+				GameObject temp = null;
+				for(int i = 0; i < prefabs.Count; i ++){
+					if(((item as Glassware).gl.Contains(prefabs[i].GetComponent<Glassware>().name)))
+						temp = prefabs[i];
+				}
+
 				if(!item.GetComponent<Glassware>().hasReagents()){
-					GameObject temp = null;
-					for(int i = 0; i < prefabs.Count; i ++){
-						if(((item as Glassware).gl.Contains(prefabs[i].GetComponent<Glassware>().name)))
-							temp = prefabs[i];
-					}
+					Debug.Log("vazio");
 					GameObject.Find("InventoryManager").GetComponent<InventoryManager>().AddGlasswareToInventory(temp.GetComponent<Glassware>());
 					Destroy(item.gameObject);
 				}else{
-					if(GetComponentInParent<WorkBench>().equipmentController!=null)
+					/*if(GetComponentInParent<WorkBench>().equipmentController!=null)
 						GetComponentInParent<WorkBench>().equipmentController.RemoveObjectInEquipament(item.gameObject);
 					GameObject.Find("InventoryManager").GetComponent<InventoryManager>().AddProductToInventory(item.gameObject);
+					*/
+					Queue<GlasswareCommands> commands = item.GetComponent<Glassware>().GlasswareToInventory();
+					Destroy(item.gameObject);
+					GameObject.Find("InventoryManager").GetComponent<InventoryManager>().AddProductToInventory(temp.GetComponent<Glassware>(),commands);
 				}
 				break;
 			case 1:

@@ -85,7 +85,7 @@ public class InventoryManager : MonoBehaviour {
 		//If the item added is of current list type, adds it to the grid
 		if (item.getItemType () == itemType[0]||item.getItemType () == itemType[1]) {
 			GameObject aux = instantiateObject (item);
-
+			Debug.Log(item.getItemType());
 			switch (item.getItemType ()) {
 			case ItemType.Glassware:
 				Glassware.Add (item);
@@ -103,6 +103,7 @@ public class InventoryManager : MonoBehaviour {
 			return aux;
 		//else, adds it to the List directly and changes the list
 		} else {
+			Debug.Log(item.getItemType());
 			switch (item.getItemType ()) {
 			case ItemType.Glassware:
 				Glassware.Add (item);
@@ -206,7 +207,7 @@ public class InventoryManager : MonoBehaviour {
 			break;
 		case ItemType.Others:
 			txt.text = "";
-			string gl = GameObject.Find(item.index).GetComponent<Glassware>().gl;
+			string gl = item.gl.gl;
 			if(gl.Contains("Balão Vol.")){
 				if(GameObject.Find(item.index).GetComponent<Glassware>().hasSolid){
 					item.solid.sprite = productsIcons[0];
@@ -506,6 +507,23 @@ public class InventoryManager : MonoBehaviour {
 		//sends item to limbo
 		itm.transform.SetParent (limbo, false);
 	}
+
+	/// <summary>
+	/// Adds the product to inventory.
+	/// </summary>
+	/// <param name="itm">Product to be added.</param>
+	public void AddProductToInventory(Glassware gl, Queue<GlasswareCommands> commands) {
+		ItemInventoryBase item = new ItemInventoryBase();
+		GenerateIndex (ref item);
+		item.addGlassware (gl);
+		item.commands = commands;
+
+		item.itemType = ItemType.Others;
+		item.HoldItem (gl);
+		
+		addItem(ref item);
+	}
+
 	/// <summary>
 	/// Gets the current list.
 	/// </summary>

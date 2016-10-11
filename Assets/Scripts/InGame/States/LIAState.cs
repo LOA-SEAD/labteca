@@ -152,7 +152,7 @@ public class LIAState : GameStateBase {
 	//Ending animation TODO:This was created as a finisher for the SBGames Version
 	public void EndGame() {
 		FadeScript.instance.FadeIn ();
-
+		Application.LoadLevel (0);
 
 		Debug.Log ("Retorna ao menu");
 	}

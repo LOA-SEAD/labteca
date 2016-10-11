@@ -31,7 +31,7 @@ public class Glassware : ItemToInventory
 	public GameObject solid;
 	public bool hasLiquid;
 	public bool hasSolid;
-
+	
 	public GameStateBase stateInUse;
 
 	public GameController gameController;
@@ -39,7 +39,9 @@ public class Glassware : ItemToInventory
 	private GameObject interactionBoxGlassware; //Interaction box when the object is clicked while on a Workbench
 	private bool onScale;	//The glassware is currently on a scale
 
-
+	public RectTransform infoCanvas; //Canvas of information to be shown when mouse is hovering over when glass is on workbench
+	public List<Text> tabValues;	 //Values to be shown in the infoCanvas
+	
 	public bool hasReagents(){	
 		if (content == null && content == null) 
 			return false;
@@ -57,6 +59,9 @@ public class Glassware : ItemToInventory
 		currentVolume = 0.0f;
 
 		gameController = GameObject.Find ("GameController").GetComponent<GameController> ();
+		if (infoCanvas != null) {
+			infoCanvas.gameObject.SetActive (false);
+		}
 	}
 
 	// Use this for initialization
@@ -180,6 +185,23 @@ public class Glassware : ItemToInventory
 				break;
 			}
 		}
+	}
+
+	//! Handles actions when on hovering the mouse
+	public void OnHoverIn() {
+		if (content != null) {
+			infoCanvas.gameObject.SetActive (true);
+			if(content is Mixture) {
+				tabValues[0].text = (content as Mixture).Leftover1Formula() + " + " + (content as Mixture).Leftover2Formula();
+			}
+			else if(content is Compound) {
+				tabValues[0].text = (content as Compound).Formula;
+			}
+		}
+	}
+	//! Handles actions when hovering stops
+	public void OnHoverOut() {
+		infoCanvas.gameObject.SetActive (false);
 	}
 
 	public void RefreshLiquid(){
@@ -425,6 +447,7 @@ public class Glassware : ItemToInventory
 		if((content as IPhysicochemical).Volume <= 0.07f) {
 			content = null;
 			hasLiquid = false;
+			infoCanvas.gameObject.SetActive(false);
 		}
 		/*if ((compounds as IPhysicochemical).RealMass <= 0.0f) {
 			compounds = null;
@@ -490,6 +513,7 @@ public class Glassware : ItemToInventory
 		if((content as IPhysicochemical).Volume <= 0.07f) {
 			content = null;
 			hasSolid = false;
+			infoCanvas.gameObject.SetActive(false);
 		}
 
 		/*if ((compounds  as IPhysicochemical).Volume <= 0.0f) {
@@ -498,12 +522,5 @@ public class Glassware : ItemToInventory
 		}*/
 
 		RefreshContents();
-	}
-
-	//! Put the glassware back to the inventory
-	public void GlasswareToInventory() {
-		/*
-		 * GLASS TO INVENTORY();
-		 */
 	}
 }

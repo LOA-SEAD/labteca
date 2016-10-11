@@ -63,8 +63,7 @@ public class ResultVerifier {
 								}
 								break;
 							case "minVolume":
-								if(((content as Mixture).Volume < float.Parse (currentPhase[k]) + maxError) &&
-								   ((content as Mixture).Volume > float.Parse (currentPhase[k]) - maxError)) {
+								if(((content as Mixture).Volume > float.Parse (currentPhase[k]) - maxError)) {
 									flag = true;
 								}
 								else {

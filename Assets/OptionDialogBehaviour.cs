@@ -54,8 +54,8 @@ public class OptionDialogBehaviour : MonoBehaviour {
 					GameObject.Find("InventoryManager").GetComponent<InventoryManager>().AddProductToInventory(item.gameObject);
 					*/
 					Queue<GlasswareCommands> commands = item.GetComponent<Glassware>().GlasswareToInventory();
-					Destroy(item.gameObject);
 					GameObject.Find("InventoryManager").GetComponent<InventoryManager>().AddProductToInventory(temp.GetComponent<Glassware>(),commands);
+					Destroy(item.gameObject);
 				}
 				break;
 			case 1:

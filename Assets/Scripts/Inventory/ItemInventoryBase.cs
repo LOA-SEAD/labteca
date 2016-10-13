@@ -46,6 +46,7 @@ public class ItemInventoryBase : MonoBehaviour {
 		 this.index = item.index;
 		 this.underText = item.underText;
 		this.physicalObject = item.physicalObject;
+		this.commands = item.commands;
 	}
 
 	public void addReagent(Compound r){

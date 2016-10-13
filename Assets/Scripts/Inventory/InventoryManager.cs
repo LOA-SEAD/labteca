@@ -209,14 +209,14 @@ public class InventoryManager : MonoBehaviour {
 			txt.text = "";
 			string gl = item.gl.gl;
 			if(gl.Contains("Balão Vol.")){
-				if(GameObject.Find(item.index).GetComponent<Glassware>().hasSolid){
+				/*if(GameObject.Find(item.index).GetComponent<Glassware>().hasSolid){
 					item.solid.sprite = productsIcons[0];
 					item.solid.enabled = true;
 				}
 				if(GameObject.Find(item.index).GetComponent<Glassware>().hasLiquid){
 					item.liquid.sprite = productsIcons[1];
 					item.liquid.enabled = true;
-				}
+				}*/
 
 				if(gl.Contains("25")){
 					icon.sprite = icons[2];
@@ -232,26 +232,26 @@ public class InventoryManager : MonoBehaviour {
 				}
 			}
 			if(gl.Contains("Béquer")){
-				if(GameObject.Find(item.index).GetComponent<Glassware>().hasSolid){
+				/*if(GameObject.Find(item.index).GetComponent<Glassware>().hasSolid){
 					item.solid.sprite = productsIcons[2];
 					item.solid.enabled = true;
 				}
 				if(GameObject.Find(item.index).GetComponent<Glassware>().hasLiquid){
 					item.liquid.sprite = productsIcons[3];
 					item.liquid.enabled = true;
-				}
+				}*/
 				icon.sprite = icons[5];
 				break;
 			}
 			if(gl.Contains("Erlenmeyer")){
-				if(GameObject.Find(item.index).GetComponent<Glassware>().hasSolid){
+				/*if(GameObject.Find(item.index).GetComponent<Glassware>().hasSolid){
 					item.solid.sprite = productsIcons[4];
 					item.solid.enabled = true;
 				}
 				if(GameObject.Find(item.index).GetComponent<Glassware>().hasLiquid){
 					item.liquid.sprite = productsIcons[5];
 					item.liquid.enabled = true;
-				}
+				}*/
 				if(gl.Contains(" 50ml")){
 					icon.sprite = icons[6];
 					break;

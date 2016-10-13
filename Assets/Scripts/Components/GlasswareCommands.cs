@@ -7,7 +7,6 @@ public class GlasswareCommands
 	public GlasswareCommandsEnum commandType;
 	public float volume;
 	public Compound compound;
-	public bool isSolid;
 
 	public GlasswareCommands(GlasswareCommandsEnum type, float v, Compound c){
 		this.commandType = type;

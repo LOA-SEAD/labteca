@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public  class FumeHoodState : GameStateBase {
 	
 	// camera and interactive area
-	public Camera cameraState;                  /*!< Camera for this state. */
+	//public Camera cameraState;                  /*!< Camera for this state. */
 	
 	public void Start () {
 		cameraState.gameObject.SetActive(false);

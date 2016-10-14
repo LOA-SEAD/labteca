@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class LIAState : GameStateBase {
 	
 	// camera and interactive area
-	public Camera cameraState;                  /*!< Camera for this state. */
+	//public Camera cameraState;                  /*!< Camera for this state. */
 	public GameObject interactiveCanvas;		//Interactive canvas of the state
 
 	public GameObject correctAnswer;			//Canva with the answer for the correct results

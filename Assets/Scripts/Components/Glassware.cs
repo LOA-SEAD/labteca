@@ -41,6 +41,8 @@ public class Glassware : ItemToInventory
 
 	public RectTransform infoCanvas; //Canvas of information to be shown when mouse is hovering over when glass is on workbench
 	public List<Text> tabValues;	 //Values to be shown in the infoCanvas
+	public float otherX;
+	public float otherZ;
 	
 	public bool hasReagents(){	
 		if (content == null && content == null) 
@@ -189,19 +191,28 @@ public class Glassware : ItemToInventory
 
 	//! Handles actions when on hovering the mouse
 	public void OnHoverIn() {
+
+		//Checking where the infoCanvas is, and depending on that, sets it to a pre-defined position to make sure it's not out of the screen
 		if (content != null) {
-			infoCanvas.gameObject.SetActive (true);
+			if(gameController.GetCurrentState().cameraState.WorldToScreenPoint(infoCanvas.position).x > (gameController.GetCurrentState().cameraState.pixelWidth / 2)) {
+				infoCanvas.localPosition = new Vector3 (otherX, infoCanvas.localPosition.y, infoCanvas.localPosition.z);
+			}
+			if(gameController.GetCurrentState().cameraState.WorldToScreenPoint(infoCanvas.position).y > gameController.GetCurrentState().cameraState.pixelHeight / 3) {
+				infoCanvas.localPosition = new Vector3 (infoCanvas.localPosition.x, infoCanvas.localPosition.y, otherZ);
+			}
 			if(content is Mixture) {
 				tabValues[0].text = (content as Mixture).Leftover1Formula() + " + " + (content as Mixture).Leftover2Formula();
 			}
 			else if(content is Compound) {
 				tabValues[0].text = (content as Compound).Formula;
 			}
+			infoCanvas.gameObject.SetActive (true);
 		}
 	}
 	//! Handles actions when hovering stops
 	public void OnHoverOut() {
 		infoCanvas.gameObject.SetActive (false);
+		infoCanvas.GetComponent<RectTransform>().localPosition = Vector3.zero;
 	}
 
 	public void RefreshLiquid(){

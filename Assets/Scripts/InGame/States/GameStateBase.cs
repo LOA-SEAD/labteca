@@ -13,6 +13,7 @@ public abstract class GameStateBase : MonoBehaviour {
 	public bool CanRun{set{ canRun = value; }}
 	protected int indexState;
 	protected GameController gameController;
+	public Camera cameraState;
 
 	private Vector3 worldLocation;
 	public Vector3 WorldLocation{

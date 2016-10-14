@@ -23,7 +23,7 @@ public class GameController : MonoBehaviour {
 	public AlertDialogBehaviour alertDialog;
 
 	public CanvasGroup exitButton;
-
+	
 	void Start () {
 
 		player = FindObjectOfType(typeof(CharacterController)) as CharacterController;

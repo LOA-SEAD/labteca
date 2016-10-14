@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public  class ScaleState : GameStateBase {
 
     // camera and interactive area
-    public Camera cameraState;                  /*!< Camera for this state. */
+    //public Camera cameraState;                  /*!< Camera for this state. */
 
 	public EquipmentControllerBase equipmentController;	/*!< Equipment controller for this state */
 

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 //! Manages all 'types' of Inventory Controller.
 /*! It has information of all of the four types of InventoryController ( Solid, Liquid, Glassware and Others ). */
+// Buttons are define as: 0-Products, 1-Reagents, 2-Glassware
 using UnityEngine.EventSystems;
 
 
@@ -13,7 +14,7 @@ public class InventoryManager : MonoBehaviour {
 
 	private int count = 0;
 	public List<Text> tabValues;
-	public int[] indexButtons = {1,2};
+	public int[] indexButtons = {1,2,3};
 	public int listIndex;
 	public GameController gameController;
 	public GameObject itemPrefab;
@@ -311,7 +312,7 @@ public class InventoryManager : MonoBehaviour {
 		return tempItem;
 	}
 	/// <summary>
-	/// Selects the list.
+	/// Selects the list, changing the sprite to the respective colour.
 	/// </summary>
 	/// <param name="index">Index.</param>
 	public void selectList(int index){
@@ -340,12 +341,23 @@ public class InventoryManager : MonoBehaviour {
 	/// Refreshs side buttons.
 	/// </summary>
 	public void refreshButtons(){
-		int aux = 0;
+		//To swap the buttons
+		/*int aux = 0;
 		for(int i = 0; i < 3; i++){
 			//if the index isn't the current index, adds it to side buttons
 			if(i!=listIndex){
 				indexButtons[aux]=i;
 				listButton[aux++].GetComponent<Image>().sprite = backgroundButtons[i];
+			}
+		}*/
+
+		for (int i = 0; i < 3; i++) {
+			if(i == listIndex) {
+				//Activate using sprite
+				listButton[i].image.color = Color.grey;
+			}
+			else {
+				listButton[i].image.color = Color.white;
 			}
 		}
 
@@ -393,33 +405,33 @@ public class InventoryManager : MonoBehaviour {
 		GameStateBase currentState = gameController.GetCurrentState ();
 		//refreshs action button depending on the current state and list index
 		if (currentState != null) {
-			listButton[2].interactable = true;
+			listButton[3].interactable = true;
 			if (currentState.GetComponent<InGameState> () == null) {
 				if ((currentState.GetComponent<GetGlasswareState> () != null && listIndex == 2) 
 				    || (currentState.GetComponent<GetReagentState> () != null && listIndex == 1))
-						listButton [2].GetComponent<Image> ().sprite = backgroundAction [2];
+						listButton [3].GetComponent<Image> ().sprite = backgroundAction [2];
 				else {
 					if (currentState.GetComponent<WorkBench> () != null || 
 					   (currentState.GetComponent<LIAState> () != null && listIndex == 0)){
-						listButton [2].GetComponent<Image> ().sprite = backgroundAction [1];
+						listButton [3].GetComponent<Image> ().sprite = backgroundAction [1];
 					}
 					else{
-						listButton[2].interactable = false;
-						listButton [2].GetComponent<Image> ().sprite = backgroundAction [0];
+						listButton[3].interactable = false;
+						listButton [3].GetComponent<Image> ().sprite = backgroundAction [0];
 					}
 				}
 			} else {
-				listButton[2].interactable = false;
-				listButton [2].GetComponent<Image> ().sprite = backgroundAction [0];
+				listButton[3].interactable = false;
+				listButton [3].GetComponent<Image> ().sprite = backgroundAction [0];
 			}
 		} else {
-			listButton[2].interactable = false;
-			listButton [2].GetComponent<Image> ().sprite = backgroundAction [0];
+			listButton[3].interactable = false;
+			listButton [3].GetComponent<Image> ().sprite = backgroundAction [0];
 		}
 
 		if (selectedObject == null) {
-			listButton[2].interactable = false;
-			listButton [2].GetComponent<Image> ().sprite = backgroundAction [0];
+			listButton[3].interactable = false;
+			listButton [3].GetComponent<Image> ().sprite = backgroundAction [0];
 		}
 	}
 	/// <summary>

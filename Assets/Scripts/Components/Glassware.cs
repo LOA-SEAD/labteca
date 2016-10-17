@@ -238,7 +238,7 @@ public class Glassware : ItemToInventory
 
 
 		if ((content as Compound) != null && (content as Compound).IsSolid) {
-			float scaleValue = Mathf.Log10 (((content as Compound).Volume * 0.9f / maxVolume) * 9 + 1f);
+			float scaleValue = Mathf.Log10 (((content as Compound).Volume * 0.9f / maxVolume) * 8 + 1f) + (1 - Mathf.Log10 (0.9f * 8 + 1f));
 			solid.transform.localScale = new Vector3 (scaleValue * 0.8f, 
 			                                          scaleValue * 0.8f,
 			                                          scaleValue * 0.9f);

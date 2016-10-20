@@ -55,28 +55,31 @@ public class WashBottle : WorkbenchInteractive {
 
 	//! Holds the events for when the interactive wash bottle on the Workbench is clicked
 	public override void OnClick() {
-		MouseState currentState = CursorManager.GetCurrentState ();
+		if (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () !=
+			GameObject.Find ("GameController").GetComponent<GameController> ().gameStates [0]) {
+			MouseState currentState = CursorManager.GetCurrentState ();
 		
-		switch (currentState) {
-		case MouseState.ms_default: 		//Default -> Wash Bottle: prepares the washe bottle for use
-			OnStartInteraction();
-			break;
-		case MouseState.ms_pipette: 		//Pipette -> Wash Bottle: change to wash bottle state
-			OnStartInteraction();
-			break;
-		case MouseState.ms_filledPipette: 	// Filled Spatula -> Wash Bottle: nothing
-			break;
-		case MouseState.ms_spatula: 		// Spatula -> Wash Bottle: change to wash bottle state
-			OnStartInteraction();
-			break;
-		case MouseState.ms_filledSpatula: 	// Filled Spatula -> Wash Bottle: nothing
-			break;
-		case MouseState.ms_washBottle: 		// Wash Bottle -> Wash Bottle: put back the wash bottle
-			CursorManager.SetMouseState(MouseState.ms_default);
-			CursorManager.SetCursorToDefault();
-			break;
-		case MouseState.ms_interacting:  	// Unable to click somewhere else
-			break;
+			switch (currentState) {
+			case MouseState.ms_default: 		//Default -> Wash Bottle: prepares the washe bottle for use
+				OnStartInteraction ();
+				break;
+			case MouseState.ms_pipette: 		//Pipette -> Wash Bottle: change to wash bottle state
+				OnStartInteraction ();
+				break;
+			case MouseState.ms_filledPipette: 	// Filled Spatula -> Wash Bottle: nothing
+				break;
+			case MouseState.ms_spatula: 		// Spatula -> Wash Bottle: change to wash bottle state
+				OnStartInteraction ();
+				break;
+			case MouseState.ms_filledSpatula: 	// Filled Spatula -> Wash Bottle: nothing
+				break;
+			case MouseState.ms_washBottle: 		// Wash Bottle -> Wash Bottle: put back the wash bottle
+				CursorManager.SetMouseState (MouseState.ms_default);
+				CursorManager.SetCursorToDefault ();
+				break;
+			case MouseState.ms_interacting:  	// Unable to click somewhere else
+				break;
+			}
 		}
 	}
 

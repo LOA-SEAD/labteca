@@ -129,68 +129,69 @@ public class Glassware : ItemToInventory
 
 	//! Holds the events for when the interactive spatula on the Workbench is clicked
 	public void OnClick() {
-		MouseState currentState = CursorManager.GetCurrentState ();
+		if (gameController.GetCurrentState () != gameController.gameStates [0]) {
+			MouseState currentState = CursorManager.GetCurrentState ();
 
-		if (content is Mixture) { //TODO:PROVISORIO!
-			if (currentState == MouseState.ms_default) {
-				(GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).stateUIManager.OpenOptionDialog (this);
-			}
-			else {
-				gameController.sendAlert("Este tipo de interação não está habilitada após uma possível reação");
-			}
-		} else {
-			switch (currentState) {
-			case MouseState.ms_default: 		//Default -> Glassware: show the interaction options
-				(GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).stateUIManager.OpenOptionDialog (this);
-				break;
-			case MouseState.ms_pipette: 		//Pipette -> Glassware: gets the liquid, if there's only liquid inside. So, opens the pipette's interaction box.
-				Pipette pipette = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).pipette;
-				if (hasLiquid) {
-					if (pipette.graduated) {
-						pipette.OpenGraduatedFillingBox (currentVolume, this);
-						RefreshContents ();
-					} else {
-						pipette.FillVolumetricPipette (this);
-						RefreshContents ();
-					}
+			if (content is Mixture) { //TODO:PROVISORIO!
+				if (currentState == MouseState.ms_default) {
+					(GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).stateUIManager.OpenOptionDialog (this);
+				} else {
+					gameController.sendAlert ("Este tipo de interação não está habilitada após uma possível reação");
 				}
-				break;
-			case MouseState.ms_filledPipette: 	// Filled Pipette -> Glassware: pours the pipette's contents into the glassware
-				Pipette filledPipette = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).pipette;
+			} else {
+				switch (currentState) {
+				case MouseState.ms_default: 		//Default -> Glassware: show the interaction options
+					(GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).stateUIManager.OpenOptionDialog (this);
+					break;
+				case MouseState.ms_pipette: 		//Pipette -> Glassware: gets the liquid, if there's only liquid inside. So, opens the pipette's interaction box.
+					Pipette pipette = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).pipette;
+					if (hasLiquid) {
+						if (pipette.graduated) {
+							pipette.OpenGraduatedFillingBox (currentVolume, this);
+							RefreshContents ();
+						} else {
+							pipette.FillVolumetricPipette (this);
+							RefreshContents ();
+						}
+					}
+					break;
+				case MouseState.ms_filledPipette: 	// Filled Pipette -> Glassware: pours the pipette's contents into the glassware
+					Pipette filledPipette = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).pipette;
 			//filledPipette.UnfillPipette(this);
-				if (filledPipette.graduated) {
-					filledPipette.OpenGraduatedUnfillingBox (maxVolume - currentVolume, this);
-				} else {
-					filledPipette.UnfillVolumetricPipette (this);
-					RefreshContents ();
-				}
-				break;
-			case MouseState.ms_spatula: 		// Spatula -> Glassware: gets the solids, if there's only solid inside. So, opens the spatula's interaction box
-				Spatula spatula = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).spatula;
-				Debug.Log ("Spatula clickou no Glassware");
-				if (content != null) {
-					Debug.Log ("Glassware nao esta vazio");
-					if (content is Compound && (content as Compound).IsSolid) {
-						Debug.Log ("Enchendo a espatula");
-						spatula.FillSpatula (this);
+					if (filledPipette.graduated) {
+						filledPipette.OpenGraduatedUnfillingBox (maxVolume - currentVolume, this);
+					} else {
+						filledPipette.UnfillVolumetricPipette (this);
+						RefreshContents ();
 					}
-				}
-				break;
-			case MouseState.ms_filledSpatula: 	// Filled Spatula -> Glassware: unloads the spatula into the glassare
-				Spatula filledSpatula = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).spatula;
+					break;
+				case MouseState.ms_spatula: 		// Spatula -> Glassware: gets the solids, if there's only solid inside. So, opens the spatula's interaction box
+					Spatula spatula = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).spatula;
+					Debug.Log ("Spatula clickou no Glassware");
+					if (content != null) {
+						Debug.Log ("Glassware nao esta vazio");
+						if (content is Compound && (content as Compound).IsSolid) {
+							Debug.Log ("Enchendo a espatula");
+							spatula.FillSpatula (this);
+						}
+					}
+					break;
+				case MouseState.ms_filledSpatula: 	// Filled Spatula -> Glassware: unloads the spatula into the glassare
+					Spatula filledSpatula = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).spatula;
 			//filledSpatula.OpenInteractionBox(maxVolume - currentVolume, this);
-				filledSpatula.UnfillSpatula (maxVolume - currentVolume, this);
-				break;
-			case MouseState.ms_washBottle: 		// Washe Bottle -> Glassware: pours water into the glassware
-				if (this.precisionGlass) {
+					filledSpatula.UnfillSpatula (maxVolume - currentVolume, this);
+					break;
+				case MouseState.ms_washBottle: 		// Washe Bottle -> Glassware: pours water into the glassware
+					if (this.precisionGlass) {
 
-				} else {
-					WashBottle washBottle = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).washBottle;
-					washBottle.ActivateWashBottle (maxVolume - currentVolume, this);
+					} else {
+						WashBottle washBottle = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).washBottle;
+						washBottle.ActivateWashBottle (maxVolume - currentVolume, this);
+					}
+					break;
+				case MouseState.ms_interacting:  		// Unable to click somewhere else
+					break;
 				}
-				break;
-			case MouseState.ms_interacting:  		// Unable to click somewhere else
-				break;
 			}
 		}
 	}
@@ -199,72 +200,75 @@ public class Glassware : ItemToInventory
 	//  Shows the infoCanvas (setting its position correctly), and makes the object glow when interaction is possible
 	public void OnHoverIn() {
 		//Checking where the infoCanvas is, and depending on that, sets it to a pre-defined position to make sure it's not out of the screen
-		if (CursorManager.GetCurrentState () != MouseState.ms_interacting) {
-			if (content != null) {
-				if (gameController.GetCurrentState ().cameraState.WorldToScreenPoint (infoCanvas.position).x > (2 * gameController.GetCurrentState ().cameraState.pixelWidth / 3)) {
-					infoCanvas.localPosition = new Vector3 (otherX, infoCanvas.localPosition.y, infoCanvas.localPosition.z);
-				}
-				if (gameController.GetCurrentState ().cameraState.WorldToScreenPoint (infoCanvas.position).y > gameController.GetCurrentState ().cameraState.pixelHeight / 3) {
-					infoCanvas.localPosition = new Vector3 (infoCanvas.localPosition.x, infoCanvas.localPosition.y, otherZ);
-				}
-				if (content is Mixture) {
-					tabValues [0].text = (content as Mixture).Leftover1Formula () + " + " + (content as Mixture).Leftover2Formula ();
-					tabValues [1].text = "Massa Molar: ??";
-				} else if (content is Compound) {
-					tabValues [0].text = (content as Compound).Formula;
+		if (gameController.GetCurrentState () != gameController.gameStates [0]) {
+			if (CursorManager.GetCurrentState () != MouseState.ms_interacting) {
+				if (content != null) {
+					if (gameController.GetCurrentState ().cameraState.WorldToScreenPoint (infoCanvas.position).x > (2 * gameController.GetCurrentState ().cameraState.pixelWidth / 3)) {
+						infoCanvas.localPosition = new Vector3 (otherX, infoCanvas.localPosition.y, infoCanvas.localPosition.z);
+					}
+					if (gameController.GetCurrentState ().cameraState.WorldToScreenPoint (infoCanvas.position).y > gameController.GetCurrentState ().cameraState.pixelHeight / 3) {
+						infoCanvas.localPosition = new Vector3 (infoCanvas.localPosition.x, infoCanvas.localPosition.y, otherZ);
+					}
+					if (content is Mixture) {
+						tabValues [0].text = (content as Mixture).Leftover1Formula () + " + " + (content as Mixture).Leftover2Formula ();
+						tabValues [1].text = "Massa Molar: ??";
+					} else if (content is Compound) {
+						tabValues [0].text = (content as Compound).Formula;
 
-					tabValues [1].gameObject.SetActive(true);
-					tabValues [1].text = "Massa Molar: " + string.Format("{0:0.00}", (content as Compound).MolarMass);
+						tabValues [1].gameObject.SetActive (true);
+						tabValues [1].text = "Massa Molar: " + string.Format ("{0:0.00}", (content as Compound).MolarMass);
+					}
+					infoCanvas.gameObject.SetActive (true);
 				}
-				infoCanvas.gameObject.SetActive (true);
-			}
 
-			//Glowing state machine
-			switch (CursorManager.GetCurrentState ()) {
-			case MouseState.ms_default: 		//Default -> Glassware
-				glasswareMesh.renderer.material.color = Color.white;
-				break;
-			case MouseState.ms_pipette: 		//Pipette -> Glassware
-				if (hasLiquid) {
-					//glow
+				//Glowing state machine
+				switch (CursorManager.GetCurrentState ()) {
+				case MouseState.ms_default: 		//Default -> Glassware
 					glasswareMesh.renderer.material.color = Color.white;
+					break;
+				case MouseState.ms_pipette: 		//Pipette -> Glassware
+					if (hasLiquid) {
+						//glow
+						glasswareMesh.renderer.material.color = Color.white;
+					}
+					break;
+				case MouseState.ms_filledPipette: 	// Filled Pipette -> Glassware.
+					if (currentVolume < maxVolume) {
+						//glow
+						glasswareMesh.renderer.material.color = Color.white;
+					}
+					break;
+				case MouseState.ms_spatula: 		// Spatula -> Glassware.
+					if (hasSolid) {
+						glasswareMesh.renderer.material.color = Color.white;
+					}
+					break;
+				case MouseState.ms_filledSpatula: 	// Filled Spatula -> Glassware.
+					if (currentVolume < maxVolume) {
+						//glow
+						glasswareMesh.renderer.material.color = Color.white;
+					}
+					break;
+				case MouseState.ms_washBottle: 		// Washe Bottle -> Glassware.
+					if (currentVolume < maxVolume) {
+						//glow
+						glasswareMesh.renderer.material.color = Color.white;
+					}
+					break;
+				default:
+					break;		
 				}
-				break;
-			case MouseState.ms_filledPipette: 	// Filled Pipette -> Glassware.
-				if(currentVolume <  maxVolume) {
-					//glow
-					glasswareMesh.renderer.material.color = Color.white;
-				}
-				break;
-			case MouseState.ms_spatula: 		// Spatula -> Glassware.
-				if(hasSolid) {
-					glasswareMesh.renderer.material.color = Color.white;
-				}
-				break;
-			case MouseState.ms_filledSpatula: 	// Filled Spatula -> Glassware.
-				if(currentVolume <  maxVolume) {
-					//glow
-					glasswareMesh.renderer.material.color = Color.white;
-				}
-				break;
-			case MouseState.ms_washBottle: 		// Washe Bottle -> Glassware.
-				if(currentVolume <  maxVolume) {
-					//glow
-					glasswareMesh.renderer.material.color = Color.white;
-				}
-				break;
-			default:
-				break;		
 			}
 		}
 	}
 	//! Handles actions when hovering stops
 	public void OnHoverOut() {
-		infoCanvas.gameObject.SetActive (false);
-		infoCanvas.GetComponent<RectTransform>().localPosition = Vector3.zero;
+		if (gameController.GetCurrentState () != gameController.gameStates [0]) {
+			infoCanvas.gameObject.SetActive (false);
+			infoCanvas.GetComponent<RectTransform> ().localPosition = Vector3.zero;
 
-		//not glow
-		glasswareMesh.renderer.material.color = defaultColour;
+			glasswareMesh.renderer.material.color = defaultColour;
+		}
 	}
 
 	public void RefreshLiquid(){

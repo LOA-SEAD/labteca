@@ -63,28 +63,31 @@ public class Spatula : WorkbenchInteractive {
 
 	//! Holds the events for when the interactive spatula on the Workbench is clicked
 	public override void OnClick() {
-		MouseState currentState = CursorManager.GetCurrentState ();
+		if (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () !=
+			GameObject.Find ("GameController").GetComponent<GameController> ().gameStates [0]) {
+			MouseState currentState = CursorManager.GetCurrentState ();
 		
-		switch (currentState) {
-		case MouseState.ms_default: 		//Default -> Spatula: prepares the spatula for use
-			OnStartInteraction();
-			break;
-		case MouseState.ms_pipette: 		//Pipette -> Spatula: change to spatula state
-			OnStartInteraction();
-			break;
-		case MouseState.ms_filledPipette: 	// Filled Spatula -> Spatula: nothing
-			break;
-		case MouseState.ms_spatula: 		// Spatula -> Spatula: put back the spatula
-			CursorManager.SetMouseState(MouseState.ms_default);
-			CursorManager.SetCursorToDefault();
-			break;
-		case MouseState.ms_filledSpatula: 	// Filled Spatula -> Spatula: nothing
-			break;
-		case MouseState.ms_washBottle: 		// Washe Bottle -> Spatula: change to spatula state
-			OnStartInteraction();
-			break;
-		case MouseState.ms_interacting:  		// Unable to click somewhere else TODO:is it necessary?
-			break;
+			switch (currentState) {
+			case MouseState.ms_default: 		//Default -> Spatula: prepares the spatula for use
+				OnStartInteraction ();
+				break;
+			case MouseState.ms_pipette: 		//Pipette -> Spatula: change to spatula state
+				OnStartInteraction ();
+				break;
+			case MouseState.ms_filledPipette: 	// Filled Spatula -> Spatula: nothing
+				break;
+			case MouseState.ms_spatula: 		// Spatula -> Spatula: put back the spatula
+				CursorManager.SetMouseState (MouseState.ms_default);
+				CursorManager.SetCursorToDefault ();
+				break;
+			case MouseState.ms_filledSpatula: 	// Filled Spatula -> Spatula: nothing
+				break;
+			case MouseState.ms_washBottle: 		// Washe Bottle -> Spatula: change to spatula state
+				OnStartInteraction ();
+				break;
+			case MouseState.ms_interacting:  		// Unable to click somewhere else TODO:is it necessary?
+				break;
+			}
 		}
 	}
 

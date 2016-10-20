@@ -62,29 +62,32 @@ public class Pipette : WorkbenchInteractive {
 
 	//! Holds the events for when the interactive pipette on the Workbench is clicked
 	public override void OnClick() {
-		MouseState currentState = CursorManager.GetCurrentState ();
+		if (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () !=
+			GameObject.Find ("GameController").GetComponent<GameController> ().gameStates [0]) {
+			MouseState currentState = CursorManager.GetCurrentState ();
 
-		switch (currentState) {
-		case MouseState.ms_default: 		//Default -> Pipette: prepares the pipette for use
+			switch (currentState) {
+			case MouseState.ms_default: 		//Default -> Pipette: prepares the pipette for use
 			//ChoosePipetteBox
-			OnStartInteraction();
-			break;
-		case MouseState.ms_pipette: 		//Pipette -> Pipette: put back the pipette
-			CursorManager.SetMouseState(MouseState.ms_default);
-			CursorManager.SetCursorToDefault();
-			break;
-		case MouseState.ms_filledPipette: 	// Filled Pipette -> Pipette: nothing
-			break;
-		case MouseState.ms_spatula: 		// Spatula -> Piepette: change to pipette state
-			OnStartInteraction();
-			break;
-		case MouseState.ms_filledSpatula: 	// Filled Spatula -> Pipette: nothing
-			break;
-		case MouseState.ms_washBottle: 		// Wash Bottle -> Pipette: change to pipette state
-			OnStartInteraction();
-			break;
-		case MouseState.ms_interacting:  		// Unable to click somewhere else
-			break;
+				OnStartInteraction ();
+				break;
+			case MouseState.ms_pipette: 		//Pipette -> Pipette: put back the pipette
+				CursorManager.SetMouseState (MouseState.ms_default);
+				CursorManager.SetCursorToDefault ();
+				break;
+			case MouseState.ms_filledPipette: 	// Filled Pipette -> Pipette: nothing
+				break;
+			case MouseState.ms_spatula: 		// Spatula -> Piepette: change to pipette state
+				OnStartInteraction ();
+				break;
+			case MouseState.ms_filledSpatula: 	// Filled Spatula -> Pipette: nothing
+				break;
+			case MouseState.ms_washBottle: 		// Wash Bottle -> Pipette: change to pipette state
+				OnStartInteraction ();
+				break;
+			case MouseState.ms_interacting:  		// Unable to click somewhere else
+				break;
+			}
 		}
 	}
 

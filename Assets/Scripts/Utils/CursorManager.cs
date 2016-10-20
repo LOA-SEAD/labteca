@@ -19,8 +19,6 @@ public enum MouseState {
 	ms_interacting		/*The player is using a tool.
 	               		  interaction box is open, so the player
 	               		  is unable to click anywhere else */
-						/*TODO: Maybe there's a better way of blocking the player's clicks
-						 * 		as this is only blocking the clicks on equipments	*/
 };
 
 public class CursorManager : MonoBehaviour {

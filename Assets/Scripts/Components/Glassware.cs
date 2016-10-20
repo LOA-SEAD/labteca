@@ -25,7 +25,8 @@ public class Glassware : ItemToInventory
 	//[SerializeField]
 	public object content;	//public Mixture mixture = null;
 
-	//Mesh of liquids and solids
+	//Mesh of glassware, liquids and solids
+	public GameObject glasswareMesh;
 	public GameObject liquid;
 	public GameObject originalLiquid;
 	public GameObject solid;
@@ -44,6 +45,8 @@ public class Glassware : ItemToInventory
 	public float otherX;
 	public float otherZ;
 	
+	private Color defaultColour;
+
 	public bool hasReagents(){	
 		if (content == null && content == null) 
 			return false;
@@ -94,6 +97,9 @@ public class Glassware : ItemToInventory
 		hasSolid = false;
 
 		content = null;
+
+		//defaultColour = glasswareMesh.GetComponent<MeshRenderer>().materials[0].color;
+		defaultColour = glasswareMesh.renderer.material.color;
 	}
 	
 	// Update is called once per frame
@@ -190,29 +196,71 @@ public class Glassware : ItemToInventory
 	}
 
 	//! Handles actions when on hovering the mouse
+	//  Shows the infoCanvas (setting its position correctly), and makes the object glow when interaction is possible
 	public void OnHoverIn() {
-
 		//Checking where the infoCanvas is, and depending on that, sets it to a pre-defined position to make sure it's not out of the screen
-		if (content != null) {
-			if(gameController.GetCurrentState().cameraState.WorldToScreenPoint(infoCanvas.position).x > (2*gameController.GetCurrentState().cameraState.pixelWidth / 3)) {
-				infoCanvas.localPosition = new Vector3 (otherX, infoCanvas.localPosition.y, infoCanvas.localPosition.z);
+		if (CursorManager.GetCurrentState () != MouseState.ms_interacting) {
+			if (content != null) {
+				if (gameController.GetCurrentState ().cameraState.WorldToScreenPoint (infoCanvas.position).x > (2 * gameController.GetCurrentState ().cameraState.pixelWidth / 3)) {
+					infoCanvas.localPosition = new Vector3 (otherX, infoCanvas.localPosition.y, infoCanvas.localPosition.z);
+				}
+				if (gameController.GetCurrentState ().cameraState.WorldToScreenPoint (infoCanvas.position).y > gameController.GetCurrentState ().cameraState.pixelHeight / 3) {
+					infoCanvas.localPosition = new Vector3 (infoCanvas.localPosition.x, infoCanvas.localPosition.y, otherZ);
+				}
+				if (content is Mixture) {
+					tabValues [0].text = (content as Mixture).Leftover1Formula () + " + " + (content as Mixture).Leftover2Formula ();
+				} else if (content is Compound) {
+					tabValues [0].text = (content as Compound).Formula;
+				}
+				infoCanvas.gameObject.SetActive (true);
 			}
-			if(gameController.GetCurrentState().cameraState.WorldToScreenPoint(infoCanvas.position).y > gameController.GetCurrentState().cameraState.pixelHeight / 3) {
-				infoCanvas.localPosition = new Vector3 (infoCanvas.localPosition.x, infoCanvas.localPosition.y, otherZ);
+
+			//Glowing state machine
+			switch (CursorManager.GetCurrentState ()) {
+			case MouseState.ms_default: 		//Default -> Glassware
+				glasswareMesh.renderer.material.color = Color.white;
+				break;
+			case MouseState.ms_pipette: 		//Pipette -> Glassware
+				if (hasLiquid) {
+					//glow
+					glasswareMesh.renderer.material.color = Color.white;
+				}
+				break;
+			case MouseState.ms_filledPipette: 	// Filled Pipette -> Glassware.
+				if(currentVolume <  maxVolume) {
+					//glow
+					glasswareMesh.renderer.material.color = Color.white;
+				}
+				break;
+			case MouseState.ms_spatula: 		// Spatula -> Glassware.
+				if(hasSolid) {
+					glasswareMesh.renderer.material.color = Color.white;
+				}
+				break;
+			case MouseState.ms_filledSpatula: 	// Filled Spatula -> Glassware.
+				if(currentVolume <  maxVolume) {
+					//glow
+					glasswareMesh.renderer.material.color = Color.white;
+				}
+				break;
+			case MouseState.ms_washBottle: 		// Washe Bottle -> Glassware.
+				if(currentVolume <  maxVolume) {
+					//glow
+					glasswareMesh.renderer.material.color = Color.white;
+				}
+				break;
+			default:
+				break;		
 			}
-			if(content is Mixture) {
-				tabValues[0].text = (content as Mixture).Leftover1Formula() + " + " + (content as Mixture).Leftover2Formula();
-			}
-			else if(content is Compound) {
-				tabValues[0].text = (content as Compound).Formula;
-			}
-			infoCanvas.gameObject.SetActive (true);
 		}
 	}
 	//! Handles actions when hovering stops
 	public void OnHoverOut() {
 		infoCanvas.gameObject.SetActive (false);
 		infoCanvas.GetComponent<RectTransform>().localPosition = Vector3.zero;
+
+		//not glow
+		glasswareMesh.renderer.material.color = defaultColour;
 	}
 
 	public void RefreshLiquid(){

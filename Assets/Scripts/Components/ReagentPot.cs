@@ -10,6 +10,9 @@ public class ReagentPot : ItemToInventory {
 	public bool isSolid;
 	public List<Text> tabValues;
 
+	public GameObject potMesh;
+	private Color defaultColour;
+
 	// Use this for initialization
 	void Start () {
 		tabValues[0].text = reagent.Name;
@@ -17,6 +20,8 @@ public class ReagentPot : ItemToInventory {
 		tabValues[2].text = reagent.Density+ " g/ml";
 		tabValues[3].text = CompoundFactory.GetInstance().GetCompound(reagent.Name).Purity*100+ "%";
 		tabValues[4].text = reagent.Solubility+ " g/1g";
+
+		defaultColour = potMesh.renderer.material.color;
 	}
 	
 	// Update is called once per frame
@@ -89,5 +94,49 @@ public class ReagentPot : ItemToInventory {
 		case MouseState.ms_interacting:  		// Unable to click somewhere else TODO:is this necessary?
 			break;
 		}
+	}
+
+	//! Handles actions when on hovering the mouse
+	//  Shows the infoCanvas (setting its position correctly), and makes the object glow when interaction is possible
+	public void OnHoverIn() {
+		//Glowing state machine
+		if (CursorManager.GetCurrentState () != MouseState.ms_interacting) {
+			switch (CursorManager.GetCurrentState ()) {
+			case MouseState.ms_default: 		//Default -> Pot
+				potMesh.renderer.material.color = Color.white;
+				break;
+			case MouseState.ms_pipette: 		//Pipette -> Pot
+				if (!isSolid) {
+					//glow
+					potMesh.renderer.material.color = Color.white;
+				}
+				break;
+			case MouseState.ms_filledPipette: 	// Filled Pipette -> Pot.
+				if (!isSolid && (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).pipette.reagentInPipette == this.reagent) {
+					//glow
+					potMesh.renderer.material.color = Color.white;
+				}
+				break;
+			case MouseState.ms_spatula: 		// Spatula -> Pot.
+				if (isSolid) {
+					potMesh.renderer.material.color = Color.white;
+				}
+				break;
+			case MouseState.ms_filledSpatula: 	// Filled Spatula -> Pot.
+				if (isSolid && (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).spatula.reagentInSpatula == this.reagent) {
+					//glow
+					potMesh.renderer.material.color = Color.white;
+				}
+				break;
+			default:
+				break;		
+			}
+		}
+	}
+	//! Handles actions when hovering stops
+	public void OnHoverOut() {
+		infoCanvas.gameObject.SetActive (false);
+
+		potMesh.renderer.material.color = defaultColour;
 	}
 }

@@ -70,7 +70,6 @@ public class Compound : IPhysicochemical {
 	//! Constructor for generating a Compound that is yet not used in the real World
 	public Compound(string _name,string _formula, bool _isSolid, float _molarMass, float _purity, float _density, float _solubility, Texture2D _irSpecter, Texture2D _uvSpecter,
 	                float _pH, float _conducdibility, float _turbidity, float _polarizability, float _refratometer, float _flameSpecter, Texture2D _hplc, bool _fumeHood) {
-
 		Name = _name;
 		Formula = _formula;
 		isSolid = _isSolid;
@@ -92,7 +91,6 @@ public class Compound : IPhysicochemical {
 		//realMass = concentration * molarMass + (1 - concentration)*waterMolarMass;
 		molarity = ((purity * density) / molarMass) * 1000; // number of mols / volume 
 		originalMolarity = molarity;
-
 	}
 
 	//! Empty constructor

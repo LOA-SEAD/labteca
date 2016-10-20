@@ -29,6 +29,7 @@ public class WashBottle : WorkbenchInteractive {
 		hoverName = "Pisseta";
 		interactionBoxWashBottle.SetActive (false);
 
+		Water.MolarMass = Compound.waterMolarMass;
 	/*	Water.Name = "H2O";
 		Water.IsSolid = false;
 		Water.MolarMass = 18.01f;

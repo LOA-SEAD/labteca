@@ -99,6 +99,8 @@ public class ReagentPot : ItemToInventory {
 	//! Handles actions when on hovering the mouse
 	//  Shows the infoCanvas (setting its position correctly), and makes the object glow when interaction is possible
 	public void OnHoverIn() {
+		infoCanvas.gameObject.SetActive (true);
+
 		//Glowing state machine
 		if (CursorManager.GetCurrentState () != MouseState.ms_interacting) {
 			switch (CursorManager.GetCurrentState ()) {

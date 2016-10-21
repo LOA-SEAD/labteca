@@ -35,7 +35,7 @@ public class ExperimentMenu : TabletState
 			//tempItem.GetComponentInChildren<Text> ().text = tempItem.GetComponentInChildren<Text> ().text + (i+1); //The name is based on the prefab's text
 			string name = "";
 			if(i == 0) {
-				name = "Preparo de solução - NaCl";
+				name = "Solução de NaCl 1 mol/litro";
 			} else {
 				tempItem.GetComponentInChildren<Text> ().text = tempItem.GetComponentInChildren<Text> ().text + (i+1); //The name is based on the prefab's text
 			}

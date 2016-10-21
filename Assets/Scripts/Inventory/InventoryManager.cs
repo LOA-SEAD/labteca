@@ -351,13 +351,27 @@ public class InventoryManager : MonoBehaviour {
 			}
 		}*/
 
-		for (int i = 0; i < 3; i++) {
+		/*	Changin colors
+		 * for (int i = 0; i < 3; i++) {
 			if(i == listIndex) {
 				//Activate using sprite
 				listButton[i].image.color = Color.grey;
 			}
 			else {
 				listButton[i].image.color = Color.white;
+			}
+		}*/
+
+		//Swapping sprites
+		for (int i = 0; i < 3; i++) {
+			if(i == listIndex) {
+				//Activate using sprite
+				listButton[i].interactable = false; //listButton[i].spriteState.highlightedSprite;
+
+			}
+			else {
+				//listButton[i].image.;
+				listButton[i].interactable = true;
 			}
 		}
 

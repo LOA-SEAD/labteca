@@ -223,9 +223,9 @@ public class Glassware : ItemToInventory
 
 				//Glowing state machine
 				switch (CursorManager.GetCurrentState ()) {
-				case MouseState.ms_default: 		//Default -> Glassware
+				/*case MouseState.ms_default: 		//Default -> Glassware
 					glasswareMesh.renderer.material.color = Color.white;
-					break;
+					break;*/
 				case MouseState.ms_pipette: 		//Pipette -> Glassware
 					if (hasLiquid) {
 						//glow

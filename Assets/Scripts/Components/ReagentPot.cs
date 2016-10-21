@@ -107,9 +107,9 @@ public class ReagentPot : ItemToInventory {
 			//Glowing state machine
 			if (CursorManager.GetCurrentState () != MouseState.ms_interacting) {
 				switch (CursorManager.GetCurrentState ()) {
-				case MouseState.ms_default: 		//Default -> Pot
+				/*case MouseState.ms_default: 		//Default -> Pot
 					potMesh.renderer.material.color = Color.white;
-					break;
+					break;*/
 				case MouseState.ms_pipette: 		//Pipette -> Pot
 					if (!isSolid) {
 						//glow

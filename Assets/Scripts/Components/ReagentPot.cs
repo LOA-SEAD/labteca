@@ -117,7 +117,7 @@ public class ReagentPot : ItemToInventory {
 					}
 					break;
 				case MouseState.ms_filledPipette: 	// Filled Pipette -> Pot.
-					if (!isSolid && (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).pipette.reagentInPipette == this.reagent) {
+					if (!isSolid && (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).pipette.reagentInPipette.Formula == this.reagent.Formula) {
 						//glow
 						potMesh.renderer.material.color = Color.white;
 					}
@@ -128,7 +128,7 @@ public class ReagentPot : ItemToInventory {
 					}
 					break;
 				case MouseState.ms_filledSpatula: 	// Filled Spatula -> Pot.
-					if (isSolid && (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).spatula.reagentInSpatula == this.reagent) {
+					if (isSolid && (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).spatula.reagentInSpatula.Formula == this.reagent.Formula) {
 						//glow
 						potMesh.renderer.material.color = Color.white;
 					}

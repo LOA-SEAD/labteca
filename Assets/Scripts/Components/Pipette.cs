@@ -296,23 +296,26 @@ public class Pipette : WorkbenchInteractive {
 					                                 (interactingGlassware.maxVolume - interactingGlassware.currentVolume) * reagentInPipette.Density, reagentInPipette);*/
 					ok = interactingGlassware.IncomingReagent(reagentInPipette, interactingGlassware.maxVolume - interactingGlassware.currentVolume);
 				}
-				if(ok)
+				if(ok) {
 					volumeHeld -= u_volumeSelected;
+				}
 			}
 			else if(interactingReagent != null) {
 				volumeHeld -= u_volumeSelected;
 			}
 		}
-
-		if (volumeHeld <= u_volumeSelected) { //If all the liquid is taken out of the pipette, the pipette is put down and come back to a default state
+		if (volumeHeld <= graduatedError) { //If all the liquid is taken out of the pipette, the pipette is put down and come back to a default state
 			volumeHeld = 0.0f;
 			reagentInPipette = null;
-
+			
 			CursorManager.SetMouseState (MouseState.ms_default);
 			CursorManager.SetCursorToDefault ();
 			GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().cannotEndState = false;
+		} else {
+			CursorManager.SetMouseState (MouseState.ms_filledPipette);
+			CursorManager.SetNewCursor (filledPipette_CursorTexture, hotSpot);
 		}
-	
+
 		u_volumeSelected = 0.0f;
 		interactingGlassware = null;
 		interactingReagent = null;
@@ -374,8 +377,11 @@ public class Pipette : WorkbenchInteractive {
 			reagentInPipette = null;
 
 			CursorManager.SetMouseState (MouseState.ms_default);
-			CursorManager.SetCursorToDefault();
-			GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().cannotEndState = false;
+			CursorManager.SetCursorToDefault ();
+			GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().cannotEndState = false;
+		} else {
+			CursorManager.SetMouseState (MouseState.ms_filledPipette);
+			CursorManager.SetNewCursor (filledPipette_CursorTexture, hotSpot);
 		}
 	}
 	public void UnfillVolumetricPipette() { //OK

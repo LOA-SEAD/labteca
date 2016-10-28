@@ -66,9 +66,7 @@ public class TurbidimeterController : EquipmentControllerBase {
 	
 	public void ResetTurbidimeter()
 	{
-		PlayerPrefs.SetFloat ("setupBalance", 0);
-		RefreshEquipament ();
-		
+		RefreshEquipament ();	
 	}
 	
 	//! Get Glassware that is on Phmeter.

@@ -1,53 +1,50 @@
 using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
 //! Scale Controller
-/*! This is the controller for the Scale, it has all the methods that allows the Scale to work with 
- * the Glassware and Reagents, calculating their mass together and displaying it.
- */
-using System;
-
+//  This is the controller for the Scale, it has all the methods that allows the Scale to work with 
+//  the Glassware, calculating its mass - together with its content - and displaying the value.
 
 public class ScaleController : EquipmentControllerBase 
 {
-	public float previousMass;
-    public float realMass;  /*!< Real mass that is on the scale. */
+    public float valueToShow;  		// Mass to be shown on scale. 
+	private float taredValue;		// Tared value
 
-	private bool changed;
+	public float previousMass;		// Value to control the flicking effect
+	private bool changed;			// Used to control the flicking effect on display.
 
-	public TextMesh balanceText;    /*!< Text display of Scale. */
+	public TextMesh balanceText;    // Text display of Scale.
 
-	public float timeConstant;
+	public float timeConstant;		// Maximum time of flicling effect
 	private float timeElapsed;
 
-	public GameObject activeMass;   /*!< List of GameObjects that composes the mass. */
+	public GameObject activeMass;   // List of GameObjects that composes the mass.
 
-    public WorkBench workbench;       /*!< BalanceState component. */
+    public WorkBench workbench;       // BalanceState component.
 
     // Awake happens before all Start()
 	void Awake()
 	{
-		PlayerPrefs.SetFloat ("setupBalance", 0);
 	}
 
-	void Start () 
-	{
+	void Start () {
+		taredValue = 0.00f;
 		previousMass = 0;
 		timeElapsed = 0;
 	}
 
-	void Update () 
-	{
-		RefreshEquipament ();
+	void Update () {
+		RefreshEquipment ();
 
 		if (changed) {
-			balanceText.text = BalanceTextToString(UnityEngine.Random.Range(-1f+timeElapsed/timeConstant,1f-timeElapsed/timeConstant) + realMass);
+			balanceText.text = BalanceTextToString(UnityEngine.Random.Range(-1f+timeElapsed/timeConstant,1f-timeElapsed/timeConstant) + valueToShow);
 			timeElapsed += Time.fixedDeltaTime;
 			if(timeConstant<timeElapsed){
 				timeElapsed = 0;
 				changed = false;
-				balanceText.text = BalanceTextToString(realMass);
+				balanceText.text = BalanceTextToString(valueToShow);
 			}
 		} 
 	}
@@ -59,18 +56,22 @@ public class ScaleController : EquipmentControllerBase
 		return txt;
 	}
     
-    //! Set PlayerPrefs "setupBalance" to realMass.
-	public void SetupBalance()
-	{
-		PlayerPrefs.SetFloat ("setupBalance", realMass);
+    //! Set the taring value to the mass value on the scale.
+	//	If there's no mass, the taring value becomes zero
+	public void SetupBalance() {
+		if (activeMass != null) {
+			taredValue = activeMass.GetComponent<Glassware> ().GetMass ();
+		} else {
+			taredValue = 0.00f;
+		}
 		workbench.GetComponentInChildren<StateUIManager> ().CloseAll ();
 	}
 
     //! Set PlayerPrefs "setupBalance" to zero.
 	public void ResetBalance()
 	{
-		PlayerPrefs.SetFloat ("setupBalance", 0);
-		RefreshEquipament ();
+		taredValue = 0.00f;
+		RefreshEquipment ();
 		workbench.GetComponentInChildren<StateUIManager> ().CloseAll ();
 	}
 
@@ -87,29 +88,28 @@ public class ScaleController : EquipmentControllerBase
     //! Add a GameObject to be measured on Scale.
 	public override void AddObjectInEquipament(GameObject objectToAdd){
 		activeMass = objectToAdd;
-		RefreshEquipament();
+		RefreshEquipment();
 	}
 
     //! Remove a GameObject from being measured on Scale.
 	public override void RemoveObjectInEquipament(GameObject objectToRemove){
 		activeMass = null;
-		balanceText.text = BalanceTextToString (0f);
-		RefreshEquipament();
+		RefreshEquipment();
 	}
 
     //! Update Real Mass to the mass of all GameObjects on ActiveMass.
-	private void RefreshEquipament(){
+	private void RefreshEquipment(){
 
 		if (workbench.IsRunning ()) {
-			float tempMass = 0.00f;
-
-			if (activeMass != null)
-				tempMass += activeMass.GetComponent<Glassware> ().GetMass ();		
+			valueToShow = 0.00f;
+			if (activeMass != null) {
+				valueToShow = activeMass.GetComponent<Glassware> ().GetMass ();		
+			}
 			
-			realMass = tempMass - PlayerPrefs.GetFloat ("setupBalance");
+			valueToShow -= taredValue;
 
-			if(previousMass!=realMass){
-				previousMass = realMass;
+			if(previousMass!=valueToShow){
+				previousMass = valueToShow;
 				changed = true;
 			}
 		}

@@ -287,14 +287,14 @@ public class Pipette : WorkbenchInteractive {
 		if (u_volumeSelected > 0.0f) { //If some liquid is selected, the amount is poured into the glassware
 			bool ok;
 			if (interactingGlassware != null) {
-				if(u_volumeSelected <= (interactingGlassware.maxVolume - interactingGlassware.currentVolume)){ //
+				if(u_volumeSelected <= (interactingGlassware.maxVolume - interactingGlassware.GetLiquidVolume())){ //
 					//interactingGlassware.PourLiquid (volumeHeld, volumeHeld * reagentInPipette.Density, reagentInPipette);
 					ok = interactingGlassware.IncomingReagent(reagentInPipette, u_volumeSelected);
 				}
 				else {
 					/*interactingGlassware.PourLiquid ((interactingGlassware.maxVolume - interactingGlassware.currentVolume),
 					                                 (interactingGlassware.maxVolume - interactingGlassware.currentVolume) * reagentInPipette.Density, reagentInPipette);*/
-					ok = interactingGlassware.IncomingReagent(reagentInPipette, interactingGlassware.maxVolume - interactingGlassware.currentVolume);
+					ok = interactingGlassware.IncomingReagent(reagentInPipette, interactingGlassware.maxVolume - interactingGlassware.GetLiquidVolume());
 				}
 				if(ok) {
 					volumeHeld -= u_volumeSelected;
@@ -337,13 +337,13 @@ public class Pipette : WorkbenchInteractive {
 	/* END OF GRADUATED PIPETTE */
 
 	public void FillVolumetricPipette(Glassware glassware) { //Ok
-		if (glassware.currentVolume < maxVolume) { //Case volume on glass < pipette's max volume
-			volumeHeld = glassware.currentVolume;
+		if (glassware.currentVolume < this.maxVolume) { //Case volume on glass < pipette's max volume
+			this.volumeHeld = glassware.currentVolume;
 			reagentInPipette = (Compound)(glassware.content as Compound).Clone (volumeHeld);
 			glassware.RemoveLiquid(glassware.currentVolume);
 		} else {
-			volumeHeld = maxVolume;
-			reagentInPipette = (Compound)(glassware.content as Compound).Clone (volumeHeld);
+			this.volumeHeld = this.maxVolume;
+			this.reagentInPipette = (Compound)(glassware.content as Compound).Clone (volumeHeld);
 			glassware.RemoveLiquid (volumeHeld);
 		}
 		if (volumeHeld > 0.0f) {
@@ -353,21 +353,21 @@ public class Pipette : WorkbenchInteractive {
 		}
 	}
 	public void FillVolumetricPipette(string reagent) { //OK
-		volumeHeld = maxVolume;
+		this.volumeHeld = this.maxVolume;
 
-		reagentInPipette = (Compound)CompoundFactory.GetInstance ().GetCompound ((reagent)).Clone (volumeHeld);
+		this.reagentInPipette = (Compound)CompoundFactory.GetInstance ().GetCompound ((reagent)).Clone (volumeHeld);
 		CursorManager.SetMouseState (MouseState.ms_filledPipette);
 		CursorManager.SetNewCursor (filledPipette_CursorTexture, hotSpot);
 
 		GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetComponent<WorkBench>().cannotEndState = true;
-
 	}
 
 	public void UnfillVolumetricPipette(Glassware glassware) { //Ok
-		if ((glassware.maxVolume - glassware.currentVolume) < this.maxVolume) { //Case volume on pipette > volume available
-			float previousVolume = glassware.currentVolume;
-			if(glassware.IncomingReagent (reagentInPipette, glassware.maxVolume - glassware.currentVolume)) //If poured, takes out the volume from the pipette
-				volumeHeld -= (glassware.maxVolume - previousVolume);
+		if ((glassware.maxVolume - glassware.GetLiquidVolume()) < this.maxVolume) { //Case volume on pipette > volume available
+			float previousVolume = glassware.GetLiquidVolume();
+			if(glassware.IncomingReagent (this.reagentInPipette, glassware.maxVolume - glassware.GetLiquidVolume())) {//If poured, takes out the volume from the pipette
+				this.volumeHeld -= (glassware.maxVolume - previousVolume);
+			}
 		} else { //Case volume available in glass > volume on pipette
 			if(glassware.IncomingReagent (reagentInPipette, volumeHeld))
 				volumeHeld = 0.0f;

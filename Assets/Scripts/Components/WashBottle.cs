@@ -15,10 +15,11 @@ public class WashBottle : WorkbenchInteractive {
 	public Slider boxSlider;  					//Interaction box's slider
 	public Text washBottleValueText; 			//Text showing the slider's value
 	public float volumeSelected;				//Amount selected in the slider
+	public GameObject fillUpWithWater; 		//Interaction box for the WashBottle with precision glasses
 
 	//For the cursor
 	public Texture2D washBottle_CursorTexture;
-	public Vector2 hotSpot = Vector2.zero;
+	public Vector2 hotSpot;
 
 	public Compound Water = new Compound ("Water", "H2O", false, 18.01f, 1.0f, 1.0f, 1.0f, null, null, 7.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, null, false); // = new Compound();			//Defining H2O reagent
 
@@ -100,6 +101,8 @@ public class WashBottle : WorkbenchInteractive {
 		volumeSelected = 0.0f;
 		interactingGlassware = null;
 
+		fillUpWithWater.SetActive (false);
+
 		if (CursorManager.GetCurrentState () == MouseState.ms_interacting) {
 			CursorManager.SetMouseState(MouseState.ms_default);
 			CursorManager.SetCursorToDefault();
@@ -112,10 +115,20 @@ public class WashBottle : WorkbenchInteractive {
 		CursorManager.SetMouseState(MouseState.ms_interacting);
 	}
 
+	//! Open the interaction box for precision Glassware
+	public void OpenPrecisionGlassBox() {
+		fillUpWithWater.SetActive (true);
+		CursorManager.SetMouseState(MouseState.ms_interacting);
+	}
+
 	//! The wash bottle is being put to work
-	public void ActivateWashBottle(float valueForSlider, Glassware glassware) {
-		this.OpenInteractionBox (valueForSlider);
+	public void ActivateWashBottle(float volumeLeft, Glassware glassware) {
 		interactingGlassware = glassware;
+		if (interactingGlassware.precisionGlass) {
+			this.OpenPrecisionGlassBox();
+		} else {
+			this.OpenInteractionBox (volumeLeft);
+		}
 	}
 
 	//! Set value of volume currently set by the slider.
@@ -126,9 +139,13 @@ public class WashBottle : WorkbenchInteractive {
 	
 	//! Pours the water into the vessel (mostly glasswares).
 	public void PourWater() { //BasicallyDone
-		if (volumeSelected > 0.0f) {
-			//interactingGlassware.PourLiquid(volumeSelected, volumeSelected * Water.Density, Water);
-			interactingGlassware.IncomingReagent(Water, volumeSelected);
+		if (interactingGlassware.precisionGlass) {
+			interactingGlassware.IncomingReagent(Water, interactingGlassware.maxVolume - interactingGlassware.GetLiquidVolume());
+		} else {
+			if (volumeSelected > 0.0f) {
+				//interactingGlassware.PourLiquid(volumeSelected, volumeSelected * Water.Density, Water);
+				interactingGlassware.IncomingReagent (Water, volumeSelected);
+			}
 		}
 		CloseInteractionBox ();
 	}

@@ -182,12 +182,8 @@ public class Glassware : ItemToInventory
 					filledSpatula.UnfillSpatula (maxVolume - currentVolume, this);
 					break;
 				case MouseState.ms_washBottle: 		// Washe Bottle -> Glassware: pours water into the glassware
-					if (this.precisionGlass) {
-
-					} else {
-						WashBottle washBottle = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).washBottle;
-						washBottle.ActivateWashBottle (maxVolume - currentVolume, this);
-					}
+					WashBottle washBottle = (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).washBottle;
+					washBottle.ActivateWashBottle (this.maxVolume - this.GetLiquidVolume(), this);
 					break;
 				case MouseState.ms_interacting:  		// Unable to click somewhere else
 					break;
@@ -233,7 +229,7 @@ public class Glassware : ItemToInventory
 					}
 					break;
 				case MouseState.ms_filledPipette: 	// Filled Pipette -> Glassware.
-					if (currentVolume < maxVolume) {
+					if (this.GetLiquidVolume() < maxVolume) {
 						//glow
 						glasswareMesh.renderer.material.color = Color.white;
 					}
@@ -250,7 +246,7 @@ public class Glassware : ItemToInventory
 					}
 					break;
 				case MouseState.ms_washBottle: 		// Washe Bottle -> Glassware.
-					if (currentVolume < maxVolume) {
+					if (this.GetLiquidVolume() < maxVolume) {
 						//glow
 						glasswareMesh.renderer.material.color = Color.white;
 					}
@@ -414,6 +410,22 @@ public class Glassware : ItemToInventory
 			}
 			else {
 				actualVolume += (content as Compound).Volume;
+			}
+		}
+		return actualVolume;
+	}
+
+	//! Get method to be used by tools to decide the maximum amount of liquid that can be poured
+	public float GetLiquidVolume() {
+		float actualVolume = 0.0f;
+		if (content != null) {
+			if(content is Mixture) {
+				actualVolume += (content as Mixture).Volume;
+			}
+			else {
+				if(!(content as Compound).IsSolid) {
+					actualVolume += (content as Compound).Volume;
+				}
 			}
 		}
 		return actualVolume;

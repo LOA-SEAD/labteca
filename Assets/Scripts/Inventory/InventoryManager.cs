@@ -46,6 +46,9 @@ public class InventoryManager : MonoBehaviour {
     private ItemStackableBehavior selectedUIItem = null;    /*!< Current selected item from inventory UI. */
 	private List<string> listOfIndexes = new List<string>();
 
+	private RectTransform labelRect;
+	private string hoverName;
+
 	void Start(){
 		refreshTab (null,false);
 		itemType [0] = ItemType.Liquids;
@@ -54,6 +57,8 @@ public class InventoryManager : MonoBehaviour {
 		changeList(listIndex);
 		selectedIcon = backgroundIcons [1];
 		refreshGrid ();
+
+		labelRect = GameObject.Find ("GameController").GetComponent<HUDController>().hover;
 	}
 	/// <summary>
 	/// Generates the index for an ItemInventoryBase.
@@ -287,6 +292,32 @@ public class InventoryManager : MonoBehaviour {
 		if (item.getItemType() != ItemType.Glassware) {
 			if(item.getItemType()==ItemType.Others){
 				//TODO: Implement the triggers for products
+				EventTrigger trigger = tempItem.gameObject.GetComponent<EventTrigger> ();
+				EventTrigger.Entry enter = new EventTrigger.Entry ();
+				enter.eventID = EventTriggerType.PointerEnter;
+				//trigger for entering
+				enter.callback.AddListener ((eventData) => {
+					if (limbo.FindChild(item.index).GetComponent<Glassware>() != null) {
+						if (limbo.FindChild (item.index).GetComponent<Glassware> ().label.Length != 0) {
+							labelRect.gameObject.SetActive (true);
+							labelRect.rotation = Quaternion.Euler (0f, 0f, 0f);
+							labelRect.GetComponentInChildren<Text> ().rectTransform.localRotation = Quaternion.Euler (0f, 0f, 0f);
+							labelRect.GetComponentInChildren<Text> ().text = limbo.FindChild (item.index).GetComponent<Glassware> ().label;
+							labelRect.transform.position = tempItem.GetComponent<ItemInventoryBase> ().posTab.position;
+						}
+					}
+					/*refreshLabel (item,true); 
+					glasswareLabel.transform.position = tempItem.GetComponent<ItemInventoryBase> ().posTab.position;*/
+				});
+				trigger.delegates.Add (enter);
+				//trigger for leaving
+				EventTrigger.Entry exit = new EventTrigger.Entry ();
+				exit.eventID = EventTriggerType.PointerExit;
+				exit.callback.AddListener ((eventData) => { 
+					//refreshLabel (null,false);
+					labelRect.gameObject.SetActive (false);
+				});
+				trigger.delegates.Add (exit);
 			}
 			else{
 				//if reagent, adds triggers for info tab

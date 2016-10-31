@@ -14,11 +14,12 @@ public class Glassware : ItemToInventory
 	public float currentVolume;		//Current volume used
 	public float mass;				//Mass of the glassware itself [g]
 	public float totalMass;
-
-	//public float uncalibrateVolume; ?
+	
 	public bool precisionGlass;		//The glassware is a precision one
 	public string gl;
 
+
+	public string label;
 	//! The compounds inside
 	//Water is a valid reagent, but it is only seem when it's the only thing inside, otherwise it's associated with the reagent's concentration.
 	//public Compound[] compounds = new Compound[2];
@@ -100,6 +101,8 @@ public class Glassware : ItemToInventory
 
 		//defaultColour = glasswareMesh.GetComponent<MeshRenderer>().materials[0].color;
 		defaultColour = glasswareMesh.renderer.material.color;
+
+		label = "";
 	}
 	
 	// Update is called once per frame

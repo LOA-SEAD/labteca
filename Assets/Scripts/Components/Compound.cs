@@ -121,7 +121,7 @@ public class Compound : IPhysicochemical {
 		this.realMass = r.realMass;
 		this.volume = r.volume;
 		this.compoundColor = r.compoundColor;
-		this.originalMolarity = r.originalMolarity; //TODO: Leo, certeza que este nao vai dar pau?
+		this.originalMolarity = r.originalMolarity;
 	}
 
 	//! Set all the values to the ones of an existing compound
@@ -147,31 +147,6 @@ public class Compound : IPhysicochemical {
 		this.compoundColor = r.compoundColor;
 		originalMolarity = molarity;
 	}
-	
-	//! Set all the values to the ones of an existing compound
-	/*public void CopyCompound(Compound baseCompound) {
-
-		System.Reflection.FieldInfo[] fields = baseCompound.GetType().GetFields(); 
-		foreach (System.Reflection.FieldInfo field in fields)
-		{
-			field.SetValue(this, field.GetValue(baseCompound));
-		}
-		/*name = baseCompound.name;
-		isSolid = baseCompound.isSolid;
-		molarMass = baseCompound.molarMass;
-		purity = baseCompound.purity;
-		density = baseCompound.density;
-		solubility = baseCompound.solubility;
-		irSpecter = baseCompound.irSpecter;
-		uvSpecter = baseCompound.uvSpecter;
-		pH = baseCompound.pH;
-		conductibility = baseCompound.conductibility;
-		turbidity = baseCompound.turbidity;
-		polarizability = baseCompound.polarizability;
-		refratometer = baseCompound.refratometer;
-		flameSpecter = baseCompound.flameSpecter;
-		hplc = baseCompound.hplc;*/
-	//}
 
 	public virtual object Clone() {
 		return new Compound (this);

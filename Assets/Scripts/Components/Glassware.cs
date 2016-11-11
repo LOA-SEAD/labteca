@@ -17,9 +17,7 @@ public class Glassware : ItemToInventory
 	
 	public bool precisionGlass;		//The glassware is a precision one
 	public string gl;
-
-
-	public string label;
+	
 	//! The compounds inside
 	//Water is a valid reagent, but it is only seem when it's the only thing inside, otherwise it's associated with the reagent's concentration.
 	//public Compound[] compounds = new Compound[2];
@@ -41,6 +39,9 @@ public class Glassware : ItemToInventory
 	private GameObject interactionBoxGlassware; //Interaction box when the object is clicked while on a Workbench
 	private bool onScale;	//The glassware is currently on a scale
 
+	private GameObject interactonBoxLabel; //Interaction box for editing the label
+	public string label;	//Label written by the player
+
 	public RectTransform infoCanvas; //Canvas of information to be shown when mouse is hovering over when glass is on workbench
 	public List<Text> tabValues;	 //Values to be shown in the infoCanvas
 	public float otherX;
@@ -49,7 +50,7 @@ public class Glassware : ItemToInventory
 	private Color defaultColour;
 
 	public bool hasReagents(){	
-		if (content == null && content == null) 
+		if (content == null) 
 			return false;
 		return true;
 	}
@@ -605,4 +606,17 @@ public class Glassware : ItemToInventory
 
 		RefreshContents();
 	}
+
+	//! Opens the box for writing the label
+	public void OpenLabelEditor () {
+		this.CloseInteractionBox ();
+		interactionBoxGlassware.SetActive (true);
+	}
+
+	//! Saves the confirm the label name
+	public void SaveLabelName() {
+		label = interactonBoxLabel.GetComponentInChildren<Text> ().text;
+		//interactonBoxLabel.GetComponentInChildren<Text> ().text = "";
+	}
+
 }

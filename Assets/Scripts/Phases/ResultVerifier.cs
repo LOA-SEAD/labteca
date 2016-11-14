@@ -31,7 +31,7 @@ public class ResultVerifier {
 	//! Returns whether the content of the glassware is correct or not
 	public bool VerifyResult (int lvl, object content) {
 		Dictionary<string, string> currentPhase = phases [lvl]; //Dictionary<name of variable, value.ToString()>
-		float maxError = 0.2f;
+		float maxError = float.Parse(currentPhase["maxError"]);
 
 		bool flag = false;
 		//The "Parse" function is used in every comparison to convert the strings into the correct types
@@ -107,54 +107,5 @@ public class ResultVerifier {
 			}
 		}
 		return false;
-	}
-
-	//Overload for testing the first phase
-	//TODO: DELETE THIS ONE, WHEN THE VERIFICATION IS WORKING CORRECTLY
-	public bool VerifyResult (object content) {
-		bool flag = false;
-		float maxError = 0.1f;
-		float desiredMolarity = 1.0f;
-		float minimumSolutionVolume = 24.7f;
-
-		if ((content is Mixture)) {
-			if ((content as Mixture).ProductFormula () == "NaCl") {
-				flag = true;
-			} else {
-				return false;
-			}
-
-			if (((content as Mixture).ProductMolarity () < desiredMolarity + maxError) && ((content as Mixture).ProductMolarity () > desiredMolarity - maxError)) {
-				flag = true;
-			} else {
-				return false;
-			}
-
-			if (((content as Mixture).Leftover1Molarity () < 0.0f + maxError) && ((content as Mixture).Leftover1Molarity () > 0.0f - maxError)) {
-				flag = true;
-			} else {
-				return false;
-			}
-
-			if (((content as Mixture).Leftover2Molarity () < 0.0f + maxError) && ((content as Mixture).Leftover2Molarity () > 0.0f - maxError)) {
-				flag = true;
-			} else {
-				return false;
-			}
-
-			if ((content as Mixture).Volume > minimumSolutionVolume) {
-				flag = true;
-			} else {
-				return false;
-			}
-
-			if (flag) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
 	}
 }

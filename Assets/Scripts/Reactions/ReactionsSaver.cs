@@ -70,9 +70,9 @@ public class ReactionsSaver
 	//Loads the reactions from a file, and returns a dictionary
 	public static Dictionary<string, ReactionClass> LoadReactions()
 	{
-		TextEdit textLoad = new TextEdit("Assets/Resources/reactions.txt");
+		JSONEdit json = new JSONEdit("Assets/Resources/reactions.txt");
 		
-		int numberOfReactions = text.GetInt ("numberOfReactions");
+		int numberOfReactions = json.NumberOfObjects ();
 		
 		Dictionary<string, ReactionClass> Reagents = new Dictionary<string, ReactionClass>();
 		
@@ -82,17 +82,17 @@ public class ReactionsSaver
 			{
 				ReactionClass reaction = new ReactionClass();
 
-				reaction.name = textLoad.GetString("name" + i.ToString ());
+				reaction.name = json.GetString(i,"name");
 
-				reaction.reagent1 = textLoad.GetString("aName" + i.ToString ());
-				reaction.reagent2 = textLoad.GetString("bName" + i.ToString ());
-				reaction.mainProduct = textLoad.GetString("cName" + i.ToString ());
-				reaction.subProduct = textLoad.GetString("dName" + i.ToString ());
+				reaction.reagent1 = json.GetString(i, "aName");
+				reaction.reagent2 = json.GetString(i, "bName");
+				reaction.mainProduct = json.GetString(i, "cName");
+				reaction.subProduct = json.GetString(i, "dName");
 
-				reaction.stoichiometryR1 = textLoad.GetInt("aMultiply" + i.ToString());
-				reaction.stoichiometryR2 = textLoad.GetInt("bMultiply" + i.ToString());
-				reaction.stoichiometryMainProduct = textLoad.GetInt("cMultiply" + i.ToString());
-				reaction.stoichiometrySubProduct = textLoad.GetInt("dMultiply" + i.ToString());
+				reaction.stoichiometryR1 = json.GetInt(i, "aMultiply" + i.ToString());
+				reaction.stoichiometryR2 = json.GetInt(i, "bMultiply" + i.ToString());
+				reaction.stoichiometryMainProduct = json.GetInt(i, "cMultiply" + i.ToString());
+				reaction.stoichiometrySubProduct = json.GetInt(i, "dMultiply" + i.ToString());
 
 				Reagents.Add(reaction.name, reaction);
 			}

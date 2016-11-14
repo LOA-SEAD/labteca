@@ -154,9 +154,9 @@ public class LIAState : GameStateBase {
 		FadeScript.instance.FadeIn ();
 
 		#if UNITY_EDITOR
-		Application.LoadLevel ("MainMenu");
+		Application.LoadLevel ("Menu");
 		#else
-		Application.LoadLevel ("MainMenu");
+		Application.LoadLevel ("Menu");
 		#endif
 	}
 }

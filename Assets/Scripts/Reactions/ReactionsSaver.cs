@@ -89,10 +89,10 @@ public class ReactionsSaver
 				reaction.mainProduct = json.GetString(i, "cName");
 				reaction.subProduct = json.GetString(i, "dName");
 
-				reaction.stoichiometryR1 = json.GetInt(i, "aMultiply" + i.ToString());
-				reaction.stoichiometryR2 = json.GetInt(i, "bMultiply" + i.ToString());
-				reaction.stoichiometryMainProduct = json.GetInt(i, "cMultiply" + i.ToString());
-				reaction.stoichiometrySubProduct = json.GetInt(i, "dMultiply" + i.ToString());
+				reaction.stoichiometryR1 = json.GetInt(i, "aMultiply");
+				reaction.stoichiometryR2 = json.GetInt(i, "bMultiply");
+				reaction.stoichiometryMainProduct = json.GetInt(i, "cMultiply");
+				reaction.stoichiometrySubProduct = json.GetInt(i, "dMultiply");
 
 				Reagents.Add(reaction.name, reaction);
 			}

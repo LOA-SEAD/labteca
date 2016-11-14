@@ -9,6 +9,7 @@ public class JournalSaver{
 	private static TextEdit text;
 
 	private static int numberOfJournals;
+	private static JSONEdit json;
 
 	public static void AddJournalUIItem(JournalUIItem journalItem,int expo){
 		Dictionary<int, JournalUIItem> JournalItems = JournalSaver.LoadJournalUIItems (expo);
@@ -40,7 +41,7 @@ public class JournalSaver{
 		}
 	}
 	//Loads the reactions from a file, and returns a dictionary
-	public static Dictionary<int, JournalUIItem> LoadJournalUIItems(int expo)
+	/*public static Dictionary<int, JournalUIItem> LoadJournalUIItems(int expo)
 	{
 		text = new TextEdit("Assets/Resources/journalItems"+expo.ToString()+".txt");
 		TextEdit textLoad = new TextEdit("Assets/Resources/journalItems"+expo.ToString()+".txt");
@@ -62,6 +63,36 @@ public class JournalSaver{
 				journalItem.prerequisites.Clear();
 				for(int n = 0;n < textLoad.GetInt("numberOfPrerequisites" + i.ToString ()); n++){
 					int indexOfPre=textLoad.GetInt("indexPrerequisiteOf"+i.ToString()+"_"+n.ToString());
+					journalItem.prerequisites.Add(indexOfPre);
+				}
+				journalItem.prerequisitesDone=false;
+				journalUIItems.Add(journalItem.index, journalItem);
+			}
+		}
+		return journalUIItems;
+	}*/
+
+	public static Dictionary<int, JournalUIItem> LoadJournalUIItems(int expo)
+	{
+		json = new JSONEdit("Assets/Resources/journalItems.json");
+		
+		int numberOfJournalItems = json.NumberOfFields (expo);
+		
+		Dictionary<int, JournalUIItem> journalUIItems = new Dictionary<int, JournalUIItem>();
+		
+		if (numberOfJournalItems > 0) 
+		{
+			for (int i = 0; i < numberOfJournalItems; i++) 
+			{
+				JournalUIItem journalItem = new JournalUIItem();
+				
+				journalItem.index = json.GetInt(i, "index");
+				
+				journalItem.name = json.GetString(i, "name");
+				journalItem.isDone = json.GetBool(i, "isDone");
+				journalItem.prerequisites.Clear();
+				for(int n = 0;n < json.GetInt(i, "numberOfPrerequisites"); n++){
+					int indexOfPre = int.Parse(json.GetSubValue(i, "indexPrerequisiteOf", n));
 					journalItem.prerequisites.Add(indexOfPre);
 				}
 				journalItem.prerequisitesDone=false;

@@ -49,14 +49,6 @@ public class PhasesSaver {
 		for (int i = 0; i < jsonEditor.NumberOfObjects(); i++) {
 			Dictionary<string, string> phaseValues = new Dictionary<string, string> ();
 
-			/*phaseValues["productFormula"] = phases["phases"][i]["productFormula"].Value;
-			phaseValues["molarity"] = phases["phases"][i]["molarity"].Value;
-			phaseValues["minVolume"] = phases["phases"][i]["minVolume"].Value;
-			phaseValues["maxError"] = phases["phases"][i]["maxError"].Value;
-			phaseValues["density"] = phases["phases"][i]["density"].Value;
-			phaseValues["turbidity"] = phases["phases"][i]["turbidity"].Value;
-			phaseValues["conductibility"] = phases["phases"][i]["conductibility"].Value;*/
-
 			phaseValues["productFormula"] = jsonEditor.GetString(i, "productFormula");
 			phaseValues["molarity"] = jsonEditor.GetString(i, "molarity");
 			phaseValues["minVolume"] = jsonEditor.GetString(i, "minVolume");

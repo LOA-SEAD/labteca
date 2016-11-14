@@ -56,7 +56,7 @@ public class JSONEdit {
 	}
 
 	public bool GetBool(int numObject, string data) {
-		return json["objects"][numObject]["productFormula"].AsBool;
+		return json["objects"][numObject][data].AsBool;
 	}
 
 	public string GetString(int numObject, string data) {
@@ -73,5 +73,13 @@ public class JSONEdit {
 
 	public int NumberOfObjects() {
 		return json ["objects"].Count;
+	}
+
+	public int NumberOfFields(int numObject) {
+		return json["objects"] [numObject].Count;
+	}
+	//Returns the string value of a sub-item
+	public string GetSubValue(int numObject, string data, int position) {
+		return json ["objects"] [numObject] [data][position].Value;
 	}
 }

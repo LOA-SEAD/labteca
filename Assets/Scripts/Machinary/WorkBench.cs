@@ -18,6 +18,7 @@ public class WorkBench : GameStateBase{
 	//end of GameStateBase variables
 
 	public bool cannotEndState;					//The player is holding a filled tool, so can't quit the state
+	public bool writingLabel;					//No inputs are valid if the writing interaction is happening
 
 	public AudioSource soundBeaker;				/*!< Audio for the workbench. */
 
@@ -29,6 +30,7 @@ public class WorkBench : GameStateBase{
 	public WashBottle washBottle;
 	
 	public void Start () {
+		writingLabel = false;
 		cameraState.enabled = false;
 		cameraState.GetComponent<AudioListener> ().enabled = false;
 	}
@@ -44,10 +46,12 @@ public class WorkBench : GameStateBase{
 		
 		//Pressing Esc will exit the state
 		if(Input.GetKeyDown(KeyCode.E)){
-			if(cannotEndState)
-				gameController.sendAlert("Não é possível sair com reagente na mão\nColoque de volta no seu pote");
-			else{
-				ExitState();
+			if(!writingLabel) {
+				if(cannotEndState)
+					gameController.sendAlert("Não é possível sair com reagente na mão\nColoque de volta no seu pote");
+				else{
+					ExitState();
+					}
 			}
 		}
 	}

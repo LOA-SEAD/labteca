@@ -82,13 +82,16 @@ public class OptionDialogBehaviour : MonoBehaviour {
 	public void onClickLabelButton() {
 		ui_manager.CloseAll ();
 		ui_manager.glasswareLabelEditor.SetActive (true);
+		GameObject.Find ("GameController").GetComponent<HUDController> ().LockKeys (true);
+		GetComponentInParent<WorkBench> ().writingLabel = true;
 		ui_manager.glasswareLabelEditor.GetComponentInChildren<InputField> ().text = item.GetComponent<Glassware> ().label;
 	}
 
 	//! Saves the label name
 	public void SaveLabelName() {
 		item.GetComponent<Glassware>().label = ui_manager.glasswareLabelEditor.GetComponentInChildren<InputField> ().text;
+		GameObject.Find ("GameController").GetComponent<HUDController> ().LockKeys (false);
+		GetComponentInParent<WorkBench> ().writingLabel = false;
 		ui_manager.CloseAll ();
-		//interactonBoxLabel.GetComponentInChildren<Text> ().text = "";
 	}
 }

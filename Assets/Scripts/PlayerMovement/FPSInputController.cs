@@ -20,6 +20,9 @@ public class FPSInputController : MonoBehaviour
 	private Vector3 lastPosition;
 	private RaycastHit lastHit;
 
+	private GameController gameController;
+	private HUDController hudController;
+
 	void Start(){
 		//if interactText is null, sets the text to a default one
 		if (interactText == "")
@@ -27,6 +30,9 @@ public class FPSInputController : MonoBehaviour
 
 		Ray cameraRay = Camera.main.ScreenPointToRay(new Vector3(Screen.width/2, Screen.height/2,  200));
 		Physics.Raycast (cameraRay, out lastHit, Mathf.Infinity);
+
+		gameController = GameObject.Find ("GameController").GetComponent<GameController> ();
+		hudController = gameController.GetComponent<HUDController> ();
 	}
 
     void Awake()
@@ -114,8 +120,24 @@ public class FPSInputController : MonoBehaviour
 		}
 
 
+		//State Machine for the different uses of input
+		//HUD components:
+		/*if (Input.GetKeyDown (KeyCode.Escape)) {
+			hudController.menu.Pause ();
+		}
+		if(Input.GetKeyDown(hudController.journalKey)&&!hudController.lockKey){
+			hudController.CallTabletTrigger();
+		}
+		if ((Input.GetKeyDown (hudController.inventoryKey))&&!hudController.lockKey) {
+			hudController.CallInventoryTrigger();
+		}
+		if((Input.GetKeyDown(hudController.mapKey))&&!hudController.lockKey){
+			hudController.CallMapTrigger();
+		}
 
-
-
+		//End of states
+		if (gameController.GetCurrentState () == gameController.gameStates [0]) {
+		
+		}*/
     }
 }

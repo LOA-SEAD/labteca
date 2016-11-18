@@ -6,6 +6,7 @@ public class StateUIManager : MonoBehaviour {
 
 	public GameObject optionDialogGlass;        /*!< Dialog. */
 	public GameObject optionDialogReagent;      /*!< Dialog. */
+	public GameObject glasswareLabelEditor;		// Interaction box for editing the glassware label.
 	public GameObject optionDialogEquipment;    /*!< Should only be linked when there's an equipment in the state */
 	public WorkBench currentWorkbench;
 	
@@ -25,6 +26,7 @@ public class StateUIManager : MonoBehaviour {
 		optionDialogGlass.SetActive(false);
 		optionDialogReagent.SetActive(false);
 		optionDialogEquipment.SetActive(false);
+		glasswareLabelEditor.SetActive (false);
 
 		if (CursorManager.GetCurrentState () == MouseState.ms_interacting) {
 			CursorManager.SetMouseState(MouseState.ms_default);
@@ -52,7 +54,7 @@ public class StateUIManager : MonoBehaviour {
 				}
 				optionDialogGlass.SetActive (true);
 				optionDialogGlass.GetComponent<OptionDialogBehaviour> ().setCurrentItem (item);
-
+				glasswareLabelEditor.GetComponent<OptionDialogBehaviour> ().setCurrentItem (item);
 				return;
 			}
 

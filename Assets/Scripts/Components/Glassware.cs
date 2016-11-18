@@ -606,17 +606,4 @@ public class Glassware : ItemToInventory
 
 		RefreshContents();
 	}
-
-	//! Opens the box for writing the label
-	public void OpenLabelEditor () {
-		this.CloseInteractionBox ();
-		interactionBoxGlassware.SetActive (true);
-	}
-
-	//! Saves the confirm the label name
-	public void SaveLabelName() {
-		label = interactonBoxLabel.GetComponentInChildren<Text> ().text;
-		//interactonBoxLabel.GetComponentInChildren<Text> ().text = "";
-	}
-
 }

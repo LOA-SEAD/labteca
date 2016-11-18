@@ -9,6 +9,7 @@ public class OptionDialogBehaviour : MonoBehaviour {
 	public List<Image> optionsImages;
 	public List<GameObject> prefabs;
 	public ItemToInventory item;
+	private StateUIManager ui_manager;
 
 	void Start(){
 		changeIDs (actualIDs);
@@ -18,6 +19,7 @@ public class OptionDialogBehaviour : MonoBehaviour {
 				prefabs.Add(g.gameObject);
 			}
 		}
+		ui_manager = GetComponentInParent<StateUIManager> ();
 	}
 
 	public void changeIDs(List<int> newIDs){
@@ -74,6 +76,19 @@ public class OptionDialogBehaviour : MonoBehaviour {
 			}
 		}
 
-		GetComponentInParent<StateUIManager> ().CloseAll ();
-	}	
+		ui_manager.CloseAll ();
+	}
+
+	public void onClickLabelButton() {
+		ui_manager.CloseAll ();
+		ui_manager.glasswareLabelEditor.SetActive (true);
+		ui_manager.glasswareLabelEditor.GetComponentInChildren<InputField> ().text = item.GetComponent<Glassware> ().label;
+	}
+
+	//! Saves the label name
+	public void SaveLabelName() {
+		item.GetComponent<Glassware>().label = ui_manager.glasswareLabelEditor.GetComponentInChildren<InputField> ().text;
+		ui_manager.CloseAll ();
+		//interactonBoxLabel.GetComponentInChildren<Text> ().text = "";
+	}
 }

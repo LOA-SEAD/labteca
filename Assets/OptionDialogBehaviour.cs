@@ -11,6 +11,8 @@ public class OptionDialogBehaviour : MonoBehaviour {
 	public ItemToInventory item;
 	private StateUIManager ui_manager;
 
+	public Button editLabelButton; //TODO:refactor later. Using for enabling/disabling on StateUIManager
+
 	void Start(){
 		changeIDs (actualIDs);
 		if (gameObject.name == "OptionDialogGlass"){

@@ -40,7 +40,7 @@ public class Glassware : ItemToInventory
 	private bool onScale;	//The glassware is currently on a scale
 
 	private GameObject interactonBoxLabel; //Interaction box for editing the label
-	public string label;	//Label written by the player
+	public string label = "";	//Label written by the player
 
 	public RectTransform infoCanvas; //Canvas of information to be shown when mouse is hovering over when glass is on workbench
 	public List<Text> tabValues;	 //Values to be shown in the infoCanvas
@@ -102,8 +102,6 @@ public class Glassware : ItemToInventory
 
 		//defaultColour = glasswareMesh.GetComponent<MeshRenderer>().materials[0].color;
 		defaultColour = glasswareMesh.renderer.material.color;
-
-		label = "";
 	}
 	
 	// Update is called once per frame

@@ -54,6 +54,13 @@ public class StateUIManager : MonoBehaviour {
 				}
 				optionDialogGlass.SetActive (true);
 				optionDialogGlass.GetComponent<OptionDialogBehaviour> ().setCurrentItem (item);
+				if(item.GetComponent<Glassware>().content == null) { //Enabling or disabling the edit label button. TODO: Refactor later
+					optionDialogGlass.GetComponent<OptionDialogBehaviour> ().editLabelButton.enabled = false;
+					optionDialogGlass.GetComponent<OptionDialogBehaviour> ().editLabelButton.image.color = Color.grey;
+				} else {
+					optionDialogGlass.GetComponent<OptionDialogBehaviour> ().editLabelButton.enabled = true;
+					optionDialogGlass.GetComponent<OptionDialogBehaviour> ().editLabelButton.image.color = Color.white;
+				}
 				glasswareLabelEditor.GetComponent<OptionDialogBehaviour> ().setCurrentItem (item);
 				return;
 			}

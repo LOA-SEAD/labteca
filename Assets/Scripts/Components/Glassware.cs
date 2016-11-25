@@ -200,7 +200,7 @@ public class Glassware : ItemToInventory
 		//Checking where the infoCanvas is, and depending on that, sets it to a pre-defined position to make sure it's not out of the screen
 		if (gameController.GetCurrentState () != gameController.gameStates [0]) {
 			if (CursorManager.GetCurrentState () != MouseState.ms_interacting) {
-				if (content != null) {
+				if (content != null && (gameController.GetCurrentState() == gameController.gameStates [1] || gameController.GetCurrentState() == gameController.gameStates [4] )) {
 					if (gameController.GetCurrentState ().cameraState.WorldToScreenPoint (infoCanvas.position).x > (2 * gameController.GetCurrentState ().cameraState.pixelWidth / 3)) {
 						infoCanvas.localPosition = new Vector3 (otherX, infoCanvas.localPosition.y, infoCanvas.localPosition.z);
 					}

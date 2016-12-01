@@ -34,11 +34,12 @@ public class ExperimentMenu : TabletState
 			tempItem.name = "MenuButton"+i;
 			//tempItem.GetComponentInChildren<Text> ().text = tempItem.GetComponentInChildren<Text> ().text + (i+1); //The name is based on the prefab's text
 			string name = "";
-			if(i == 0) {
+			/*if(i == 0) {
 				name = "Solução de NaCl 1 mol/litro";
 			} else {
 				tempItem.GetComponentInChildren<Text> ().text = tempItem.GetComponentInChildren<Text> ().text + (i+1); //The name is based on the prefab's text
-			}
+			}*/
+			name = JournalSaver.GetExperimentName(i);
 			tempItem.GetComponentInChildren<Text> ().text = name;
 			tempItem.gameObject.GetComponent<Button> ().onClick.AddListener (() => GoToExperiment(int.Parse(tempItem.name.Substring(10))));
 			tempItem.transform.SetParent (content.transform, false);

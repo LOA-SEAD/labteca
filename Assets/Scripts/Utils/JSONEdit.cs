@@ -82,4 +82,7 @@ public class JSONEdit {
 	public string GetSubValue(int numObject, string data, int position) {
 		return json ["objects"] [numObject] [data][position].Value;
 	}
+	public string GetName(string data) {
+		return json ["name"].Value;
+	}
 }

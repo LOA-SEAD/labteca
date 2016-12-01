@@ -1,0 +1,39 @@
+{
+	"name" : "Solução NaCl 1mol/litro",
+	"objects": [{
+		"index": "0",
+		"name": "Busque as VIDRARIAS necessárias no ARMÁRIO DE VIDRARIAS",
+		"isDone": "False",
+		"numberOfPrerequisites0": "0"
+	}, {
+		"index": "1",
+		"name": "Busque os reagentes NaOH e HCl no ARMÁRIO DE REAGENTES",
+		"isDone": "False",
+		"numberOfPrerequisites0": "0"
+	}, {
+		"index": "2",
+		"name": "Prepare soluções diluídas de HCl e NaOH",
+		"isDone": "False",
+		"numberOfPrerequisites": "2",
+		"indexPrerequisiteOf": {
+			"0": "0",
+			"1": "1"
+		}
+	}, {
+		"index": "3",
+		"name": "Misture as soluções preparadas para obter uma solução final de NaCl de concentração 1 mol por litro",
+		"isDone": "False",
+		"numberOfPrerequisites": "1",
+		"indexPrerequisiteOf": {
+			"0": "2"
+		}
+	}, {
+		"index": "4",
+		"name": "Entregue a solução de NaCl à LIA (no mínimo 25mL)",
+		"isDone": "False",
+		"numberOfPrerequisites": "1",
+		"indexPrerequisiteOf": {
+			"0": "3"
+		}
+	}]
+}

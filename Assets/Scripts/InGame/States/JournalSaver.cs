@@ -74,9 +74,9 @@ public class JournalSaver{
 
 	public static Dictionary<int, JournalUIItem> LoadJournalUIItems(int expo)
 	{
-		json = new JSONEdit("Assets/Resources/journalItems.json");
+		json = new JSONEdit("Assets/Resources/journalItems"+expo.ToString()+".json");
 		
-		int numberOfJournalItems = json.NumberOfFields (expo);
+		int numberOfJournalItems = json.NumberOfFields (0);
 		
 		Dictionary<int, JournalUIItem> journalUIItems = new Dictionary<int, JournalUIItem>();
 		
@@ -100,5 +100,9 @@ public class JournalSaver{
 			}
 		}
 		return journalUIItems;
+	}
+	public static string GetExperimentName(int experimentNumber) {
+		json = new JSONEdit("Assets/Resources/journalItems"+experimentNumber.ToString()+".json");
+		return json.GetName ("name");
 	}
 }

@@ -1,17 +1,18 @@
 {
+	"name" : "Preparo de solução NaOH",
 	"objects": [{
 		"index": "0",
-		"name": "Busque as VIDRARIAS necessárias no ARMÁRIO DE VIDRARIAS",
+		"name": "Busque um BALÃO VOLUMÉTRICO 50mL do ARMÁRIO DE VIDRARIAS",
 		"isDone": "False",
 		"numberOfPrerequisites0": "0"
 	}, {
 		"index": "1",
-		"name": "Busque os reagentes NaOH e HCl no ARMÁRIO DE REAGENTES",
+		"name": "Dirija-se à CAPELA",
 		"isDone": "False",
 		"numberOfPrerequisites0": "0"
 	}, {
 		"index": "2",
-		"name": "Prepare soluções diluídas de HCl e NaOH",
+		"name": "Use a PIPETA para adicionar 50mL da SOLUÇÃO DE HCl, previamente preparada, ao BALÃO VOLUMÉTRICO",
 		"isDone": "False",
 		"numberOfPrerequisites": "2",
 		"indexPrerequisiteOf": {
@@ -20,7 +21,7 @@
 		}
 	}, {
 		"index": "3",
-		"name": "Misture as soluções preparadas para obter uma solução final de NaCl de concentração 1 mol por litro",
+		"name": "Use a PIPETA para adicionar 50mL da SOLUÇÃO DE NaOH, previamente preparada, ao BALÃO VOLUMÉTRICO",
 		"isDone": "False",
 		"numberOfPrerequisites": "1",
 		"indexPrerequisiteOf": {
@@ -28,7 +29,7 @@
 		}
 	}, {
 		"index": "4",
-		"name": "Entregue a solução de NaCl à LIA (no mínimo 25mL)",
+		"name": "Entregue a solução à LIA",
 		"isDone": "False",
 		"numberOfPrerequisites": "1",
 		"indexPrerequisiteOf": {

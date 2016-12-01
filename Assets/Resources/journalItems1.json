@@ -1,0 +1,39 @@
+{
+	"name" : "Preparo de solução HCl",
+	"objects": [{
+		"index": "0",
+		"name": "Busque um BÉQUER no ARMÁRIO DE VIDRARIAS",
+		"isDone": "False",
+		"numberOfPrerequisites0": "0"
+	}, {
+		"index": "1",
+		"name": "Busque o reagente HCl no ARMÁRIO DE REAGENTES",
+		"isDone": "False",
+		"numberOfPrerequisites0": "0"
+	}, {
+		"index": "2",
+		"name": "Dirija-se à CAPELA",
+		"isDone": "False",
+		"numberOfPrerequisites": "2",
+		"indexPrerequisiteOf": {
+			"0": "0",
+			"1": "1"
+		}
+	}, {
+		"index": "3",
+		"name": "Use a PIPETA para adicionar 18mL de HCl ao BÉQUER",
+		"isDone": "False",
+		"numberOfPrerequisites": "1",
+		"indexPrerequisiteOf": {
+			"0": "2"
+		}
+	}, {
+		"index": "4",
+		"name": "Use a PISSETA para adicionar 90mL de H2O ao BÉQUER",
+		"isDone": "False",
+		"numberOfPrerequisites": "1",
+		"indexPrerequisiteOf": {
+			"0": "3"
+		}
+	}]
+}

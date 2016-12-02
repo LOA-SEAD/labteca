@@ -21,7 +21,7 @@ public class WashBottle : WorkbenchInteractive {
 	public Texture2D washBottle_CursorTexture;
 	public Vector2 hotSpot;
 
-	public Compound Water = new Compound ("Water", "H2O", false, 18.01f, 1.0f, 1.0f, 1.0f, null, null, 7.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, null, false); // = new Compound();			//Defining H2O reagent
+	public static Compound Water = new Compound ("Water", "H2O", false, 18.01f, 1.0f, 1.0f, 1.0f, null, null, 7.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, null, false); // = new Compound();			//Defining H2O reagent
 
 	public Glassware interactingGlassware; 		//Glassware which the wash bottle is interacting with
 

@@ -58,12 +58,40 @@ public class Glassware : ItemToInventory
 	//!  Is called when the script instance is being loaded.
 	void Awake()
 	{
+		this.rigidbody.mass = mass;
+		totalMass = mass;
+		currentVolume = 0.0f;
+		onScale = false;
+		hasLiquid = false;
+		hasSolid = false;
+		
+		content = null;
+
+		MeshRenderer liquidRenderer = liquid.GetComponent<MeshRenderer> ();
+		MeshRenderer solidRenderer = solid.GetComponent<MeshRenderer> ();
+		
+		Material newliquidMaterial = new Material(liquidRenderer.material);
+		Material newsolidMaterial = new Material(solidRenderer.material);
+		
+		liquidRenderer.material = newliquidMaterial;
+		liquidRenderer.material.SetColor ("_Color", new Color32(0,255,255,130)); 
+		solidRenderer.material = newsolidMaterial;
+		solidRenderer.material.SetColor ("_Color", Color.red);
+		
+		originalLiquid = Instantiate (liquid) as GameObject;
+		originalLiquid.transform.SetParent (transform, false);
+		originalLiquid.transform.position = liquid.transform.position;
+		originalLiquid.transform.rotation = liquid.transform.rotation;
+		originalLiquid.SetActive (false);
+
 		if(solid!=null)
 			solid.SetActive(false);
 		if(liquid!=null)
 			liquid.SetActive(false);
 
-		currentVolume = 0.0f;
+		//defaultColour = glasswareMesh.GetComponent<MeshRenderer>().materials[0].color;
+		defaultColour = glasswareMesh.renderer.material.color;
+
 
 		gameController = GameObject.Find ("GameController").GetComponent<GameController> ();
 		if (infoCanvas != null) {
@@ -75,33 +103,6 @@ public class Glassware : ItemToInventory
 	//! Sets a mass to rigidbody
 	void Start ()
 	{
-		MeshRenderer liquidRenderer = liquid.GetComponent<MeshRenderer> ();
-		MeshRenderer solidRenderer = solid.GetComponent<MeshRenderer> ();
-		
-		Material newliquidMaterial = new Material(liquidRenderer.material);
-		Material newsolidMaterial = new Material(solidRenderer.material);
-
-		liquidRenderer.material = newliquidMaterial;
-		liquidRenderer.material.SetColor ("_Color", new Color32(0,255,255,130)); 
-		solidRenderer.material = newsolidMaterial;
-		solidRenderer.material.SetColor ("_Color", Color.red);
-
-		originalLiquid = Instantiate (liquid) as GameObject;
-		originalLiquid.transform.SetParent (transform, false);
-		originalLiquid.transform.position = liquid.transform.position;
-		originalLiquid.transform.rotation = liquid.transform.rotation;
-		originalLiquid.SetActive (false);
-
-		this.rigidbody.mass = mass;
-		totalMass = mass;
-		onScale = false;
-		hasLiquid = false;
-		hasSolid = false;
-
-		content = null;
-
-		//defaultColour = glasswareMesh.GetComponent<MeshRenderer>().materials[0].color;
-		defaultColour = glasswareMesh.renderer.material.color;
 	}
 	
 	// Update is called once per frame
@@ -501,19 +502,11 @@ public class Glassware : ItemToInventory
 	//! Pours a liquid into the glassware
 	//	The liquid might come from pipettes or wash bottles (H2O)
 	public void PourLiquid(float volumeFromTool, float liquidMass, Compound reagentFromTool) {
-		//currentVolume += volumeFromTool;
-
-		//totalMass += liquidMass;
-
 		Compound liquidCompound = (Compound)reagentFromTool.Clone (volumeFromTool);
-		//liquid.realMass = volumeFromTool * liquid.
-	//	Reagent liquid = (Reagent)reagentFromTool.Clone ();
-	//	liquid.realMass = liquidMass;
-	//	liquid.volume = volumeFromTool;
-		//liquid.CopyCompound(liquid);
 
 		content = liquidCompound;
-		//compounds.Insert (0, (Compound)reagentFromTool.Clone (volumeFromTool));
+		hasLiquid = true;
+		hasSolid = false;
 
 		RefreshContents ();
 	}
@@ -521,8 +514,6 @@ public class Glassware : ItemToInventory
 	//! Remove liquids from the glassware
 	//  The liquid is removed into a pipette
 	public void RemoveLiquid(float volumeChosen) {
-		//currentVolume -= volumeChosen;
-		//totalMass -= volumeChosen * (compounds as IPhysicochemical).Density;
 		(content as IPhysicochemical).RealMass = (content as IPhysicochemical).RealMass - volumeChosen * (content as IPhysicochemical).Density;
 		(content as IPhysicochemical).Volume = (content as IPhysicochemical).Volume - volumeChosen;
 		if((content as IPhysicochemical).Volume <= 0.07f) {
@@ -534,7 +525,6 @@ public class Glassware : ItemToInventory
 			compounds = null;
 			hasLiquid = false;
 		}*/
-
 
 		RefreshContents();
 	}
@@ -579,7 +569,7 @@ public class Glassware : ItemToInventory
 		//totalMass += solidMass;
 
 		content= (Compound)reagentFromTool.Clone(volumeFromTool);
-
+		hasSolid = true;
 		RefreshContents ();
 	}
 

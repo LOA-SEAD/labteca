@@ -86,49 +86,53 @@ public class WorkBench : GameStateBase{
 
 		return true;
 	}
-
+	//! Put into workbench position an item from the inventory
 	public bool PutItemFromInventory(ItemInventoryBase item) {
-		foreach(Transform position in positionGlass) {
-			if(position.childCount == 0){
-				if(!item.physicalObject){
-					GameObject tempItem = Instantiate(item.itemBeingHeld.gameObject) as GameObject;
-					tempItem.transform.SetParent (position, false);
-					tempItem.transform.localPosition = Vector3.zero;
-					if(tempItem.GetComponent<ReagentPot>()!=null){
-						if(item.reagent.Length!=0){
-							Compound reagent = CompoundFactory.GetInstance ().GetCompound (item.reagent);
-
-							if(tempItem.GetComponent<ReagentPot>().isSolid)
-								tempItem.GetComponent<ReagentPot>().reagent.setValues(reagent as Compound);
-							else
-								tempItem.GetComponent<ReagentPot>().reagent.setValues(reagent as Compound);
-						}
+		bool worked = false;
+		if(!item.physicalObject){
+			GameObject tempItem = Instantiate(item.itemBeingHeld.gameObject) as GameObject;
+			if(!TryPutIntoPosition(tempItem)) {
+				Destroy(tempItem);
+				worked = false;
+			}
+			else {
+				if(tempItem.GetComponent<ReagentPot>()!=null){
+					if(item.reagent.Length!=0){
+						Compound reagent = CompoundFactory.GetInstance ().GetCompound (item.reagent);
+						
+						if(tempItem.GetComponent<ReagentPot>().isSolid)
+							tempItem.GetComponent<ReagentPot>().reagent.setValues(reagent as Compound);
+						else
+							tempItem.GetComponent<ReagentPot>().reagent.setValues(reagent as Compound);
 					}
-				}else{
-					GameObject tempItem = GameObject.Find(item.index);
-					tempItem.SetActive(true);
-					tempItem.transform.SetParent (position, false);
-					tempItem.transform.localPosition = Vector3.zero;
 				}
-				soundBeaker.Play();
-				return true;
+				worked = true;
+			}
+		} else {
+			GameObject tempItem = GameObject.Find(item.index);
+			if(TryPutIntoPosition(tempItem)) {
+				tempItem.SetActive(true);
+				worked = true;
+			}
+			else {
+				worked = false;
 			}
 		}
-		Debug.Log ("erro");
-		gameController.sendAlert("A Bancada está cheia!");
-		return false;
-	}
 
-	public bool PutItemFromEquip(GameObject tempItem){
-		foreach(Transform position in positionGlass) {
-			if(position.childCount == 0){
-				tempItem.transform.SetParent (position, false);
-				tempItem.transform.localPosition = Vector3.zero;
-				equipmentController.RemoveObjectInEquipament(tempItem);
-				return true;
-			}
+		if (worked) {
+			soundBeaker.Play ();
+			return true;
+		} else {
+			gameController.sendAlert ("A Bancada está cheia!");
+			return false;
 		}
-		Debug.Log ("erro");
+	}
+	// Put into free workbench position the item currently on the equipment
+	public bool PutItemFromEquip(GameObject tempItem){
+		if (TryPutIntoPosition (tempItem)) {
+			equipmentController.RemoveObjectInEquipament(tempItem);
+			return true;
+		}
 		gameController.sendAlert("A Bancada está cheia!");
 		return false;
 	}
@@ -137,6 +141,19 @@ public class WorkBench : GameStateBase{
 	public bool HaveGlassInEquipment(){
 		if(positionGlassEquipament.childCount > 0){
 			return true;
+		}
+		return false;
+	}
+	//! Try to put an item into a free workbench position
+	//  Returns true if succeded
+	public bool TryPutIntoPosition(GameObject tempItem) {
+		foreach (Transform position in positionGlass) {
+			if(position.childCount == 0) {
+				tempItem.transform.SetParent (position, false);
+				tempItem.transform.localPosition = Vector3.zero;
+				
+				return true;
+			}
 		}
 		return false;
 	}

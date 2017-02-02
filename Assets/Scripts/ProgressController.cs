@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 // Enum to indicate the types of verification
-public enum TypeOfQuest {
+public enum TypeOfStep {
 	none,				//There's no verification yet
 	CompoundClass,		//The class of the compound will be checked
 	WhatCompound,		//What compound is in the glassware
@@ -17,8 +17,10 @@ public enum TypeOfQuest {
 // and also help defines the number of tabs in the tablet
 public class ProgressController : MonoBehaviour {
 
-	TypeOfQuest questType;
-	TypeOfQuest QuestType { get; set; }
+	TypeOfStep stepType;
+	TypeOfStep StepType { get; set; }
+
+	private string customPhaseDir = "Assets/Resources/customPhase.json";
 
 	private Dictionary<int, Dictionary<string, string>> currentPhase;
 	private Dictionary<string, string> currentStep;
@@ -28,13 +30,13 @@ public class ProgressController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		questType = TypeOfQuest.none;
+		stepType = TypeOfStep.none;
 	}
 
 	void Awake() {
 
 
-		questType = TypeOfQuest.none;
+		stepType = TypeOfStep.none;
 	}
 
 	/*void SceneLoadOnStart() {
@@ -48,15 +50,22 @@ public class ProgressController : MonoBehaviour {
 
 	// Start CustomkMode, triggering all the other entities to read the needed information.
 	private void StartCustomMode() {
-		//Read file using PhaseSaver
+		currentPhase = PhasesSaver.LoadPhases ("Assets/Resources/customPhases.json");
+		NewPhase();
 
-		//LoadNewPhase();
+		numberOfSteps = currentPhase.Count;
+		actualStep = 0;
+
+
+		/*switch(currentPhase[0].["typeOfStep"] = "0")
+		StepType = TypeOfStep*/
+		NewPhase();
 
 	}
 	// Called to load a new phase
 	private void NewPhase(){
 		//Check how to start the phase
-		//if(glasswareStart)
+		//if(currentPhase[0].glasswareStart == "1")
 		/*
 		 * Instaciar vidraria
 		 * Adionar reagente a vidraria
@@ -73,7 +82,7 @@ public class ProgressController : MonoBehaviour {
 	}
 	// Called to load the subsequent step of a phase
 	private void NewStep(){
-		//ResultVerifier.SetVerificationSteps(TypeOfQuest, Dic<string, string>));
+		//ResultVerifier.SetVerificationSteps(TypeOfStep, Dic<string, string>));
 
 		//Play starting dialogue according to type of quest, if needed
 	}

@@ -2,27 +2,32 @@
 using System.Collections;
 using System.Collections.Generic;
 
-// Enum to indicate the types of verification
+/// <summary>
+/// Enum to indicate the types of verification
+/// </summary>
 public enum TypeOfStep {
 	none,				//There's no verification yet
 	CompoundClass,		//The class of the compound will be checked
 	WhatCompound,		//What compound is in the glassware
 	MolarityCheck,		//The amount of compound will be asked
-	Diluting			//A dilution will be done
+	GlasswareCheck		//It will check the glassware as a whole
 };
 
-
-// The class is responsible for every phase transition, and every step within the phase
-// It sends the information for the ResultVerifier class for which interface to set and what to check,
-// and also help defines the number of tabs in the tablet
+/// <summary>
+/// The class is responsible for every phase transition, and every step within the phase
+/// It sends the information for the ResultVerifier class for which interface to set and what to check,
+/// and also help defines the number of tabs in the tablet
+/// </summary>
 public class ProgressController : MonoBehaviour {
 
 	TypeOfStep stepType;
 	TypeOfStep StepType { get; set; }
 
 	private string customPhaseDir = "Assets/Resources/customPhase.json";
-
-	private Dictionary<int, Dictionary<string, string>> currentPhase;
+	
+	// The dictionary for phases uses the index as a key to access the step dictionary, which has all values for the current step.
+	// The values of the steps are all in string, the conversion has to be done when comparing the values
+	private Dictionary<int, Dictionary<string, string>> currentPhase; // < index of step, Dictionary< name of variable, variable's value as a string > >
 	private Dictionary<string, string> currentStep;
 	private int numberOfSteps;
 	private int actualStep;
@@ -47,47 +52,58 @@ public class ProgressController : MonoBehaviour {
 	// Load the scene according to what was selected on the Menu
 	public void LoadScene() {
 	}
-
-	// Start CustomkMode, triggering all the other entities to read the needed information.
+	
+	/// <summary>
+	/// Start CustomMode, triggering all the other entities to read the needed information.
+	/// </summary>
 	private void StartCustomMode() {
-		currentPhase = PhasesSaver.LoadPhases ("Assets/Resources/customPhases.json");
-		NewPhase();
+		bool glasswareStart = false;
+		currentPhase = PhasesSaver.LoadPhases (customPhaseDir, ref glasswareStart);
 
 		numberOfSteps = currentPhase.Count;
 		actualStep = 0;
 
-
 		/*switch(currentPhase[0].["typeOfStep"] = "0")
 		StepType = TypeOfStep*/
-		NewPhase();
 
+		NewPhase(glasswareStart);
 	}
-	// Called to load a new phase
-	private void NewPhase(){
+
+	/// <summary>
+	/// Called to load a new phase
+	/// </summary>
+	/// <param name="glasswareStart">Glassware start.</param>
+	private void NewPhase(bool glasswareStart){
 		//Check how to start the phase
-		//if(currentPhase[0].glasswareStart == "1")
-		/*
-		 * Instaciar vidraria
-		 * Adionar reagente a vidraria
-		 * Adicionar vidraria ao inventario
-		 */
-		//else
-		/*
-		 * Pote de reagente
-		 */
+		if (glasswareStart) {
+			/*
+		 	* Instaciar vidraria
+		 	* Adionar reagente a vidraria
+		 	* Adicionar vidraria ao inventario
+		 	*/
+		} else {
+			/*
+			 * Pote de reagente
+			 */
+		}
 		
 		//Add steps to Experiment Menu on Tablet
 
-		//NewStep();
+		NewStep();
 	}
-	// Called to load the subsequent step of a phase
+
+	/// <summary>
+	/// Called to load the subsequent step of a phase
+	/// </summary>
 	private void NewStep(){
-		//ResultVerifier.SetVerificationSteps(TypeOfStep, Dic<string, string>));
+		ResultVerifier.GetInstance().SetVerificationStep(StepType, currentStep);
 
 		//Play starting dialogue according to type of quest, if needed
 	}
-
-	// Is called when a step is completed, transiting to the next step, or next phase
+	
+	/// <summary>
+	/// Is called when a step is completed, transiting to the next step, or next phase
+	/// </summary>
 	public void CompleteStep() {
 		//Write on .json the answers
 
@@ -103,7 +119,9 @@ public class ProgressController : MonoBehaviour {
 		 */
 	}
 
-	// Makes the transition to the next phase
+	/// <summary>
+	/// Makes the transition to the next phase
+	/// </summary>
 	private void PhaseTransition(){
 		//if(customMode)
 		/*

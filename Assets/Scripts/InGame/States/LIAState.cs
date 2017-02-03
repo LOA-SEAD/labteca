@@ -159,4 +159,12 @@ public class LIAState : GameStateBase {
 		Application.LoadLevel ("Menu");
 		#endif
 	}
+
+	/// <summary>
+	/// Sets the verification interface.
+	/// </summary>
+	/// <param name="type">The type of the current step</param>
+	public void SetVerificationInterface(TypeOfStep type){
+
+	}
 }

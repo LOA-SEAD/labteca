@@ -85,4 +85,8 @@ public class JSONEdit {
 	public string GetName(string data) {
 		return json ["name"].Value;
 	}
+	public string GetMainValue(string data) {
+		return json [data].Value;
+	}
+
 }

@@ -64,7 +64,7 @@ public class PhasesSaver {
 	}
 
 	//Loads the phase from a .json file, and returns a dictionary of phases
-	public static Dictionary<int, Dictionary<string, string>> LoadPhases (string directory, bool glasswareStart) {
+	public static Dictionary<int, Dictionary<string, string>> LoadPhases (string directory, ref bool glasswareStart) {
 		JSONEdit jsonEditor = new JSONEdit(directory);
 		
 		Dictionary<int, Dictionary<string, string>> phase = new Dictionary<int, Dictionary<string, string>> ();
@@ -72,7 +72,7 @@ public class PhasesSaver {
 		for (int i = 0; i < jsonEditor.NumberOfObjects(); i++) {
 			phase.Add (i, PhasesSaver.LoadStep(jsonEditor, i));
 		}
-		//glasswareStart = jsonEditor.GetBool()
+		glasswareStart = bool.Parse(jsonEditor.GetMainValue("glasswareStart"));
 		return phase;
 	}
 

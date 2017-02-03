@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
-//! Holds the values of expected results of each phase, to be compared in the LIA State
+//! Holds the values of expected results of each step, to be compared in the LIA State
 public class ResultVerifier {
 
-	// The phases dictionary uses the index as a key to access the dictionary of values for that phase.
-	// The values of the phases are all in string, the conversion has to be done when comparing the values
-	private Dictionary<int, Dictionary<string, string>> phases; // < index of phase, Dictionary< name of variable, variable's value as a string > >
-	
+
+	private Dictionary<string, string> step;
+	private TypeOfStep currentType;
+	//ProgressController progressController;
+
 	// Singleton
 	private static ResultVerifier instance;		
 	public static ResultVerifier GetInstance () {
@@ -21,17 +22,19 @@ public class ResultVerifier {
 
 	//Constructor
 	private ResultVerifier () {
-		//
-		phases = new Dictionary<int, Dictionary<string, string>> ();
-		
-		//Load the phases from file into memory
-		phases = PhasesSaver.LoadPhases ();
+		//progressController = GameObject.Find ("ProgressController").GetComponent<ProgressController> ();
+	}
+
+	public void SetVerificationStep(TypeOfStep stepType, Dictionary<string, string> newStep) {
+		step = newStep;
+		currentType = stepType;
+
+		//LIAState.SetVerificationInterface();
 	}
 	
 	//! Returns whether the content of the glassware is correct or not
 	public bool VerifyResult (int lvl, object content) {
-		Dictionary<string, string> currentPhase = phases [lvl]; //Dictionary<name of variable, value.ToString()>
-		float maxError = float.Parse(currentPhase["maxError"]);
+		float maxError = float.Parse(step["maxError"]);
 
 		bool flag = false;
 		//The "Parse" function is used in every comparison to convert the strings into the correct types
@@ -41,11 +44,11 @@ public class ResultVerifier {
 					return false;
 				}
 				else {
-					foreach (string k in currentPhase.Keys) {
-						if(currentPhase[k] != "null") {
+					foreach (string k in step.Keys) {
+						if(step[k] != "null") {
 							switch(k) {
 							case "productFormula":
-								if(currentPhase[k] == (content as Mixture).ProductFormula()) {
+								if(step[k] == (content as Mixture).ProductFormula()) {
 									Debug.Log ((content as Mixture).ProductFormula());
 									flag = true;
 								}
@@ -54,8 +57,8 @@ public class ResultVerifier {
 								}
 								break;
 							case "molarity":
-								if(((content as Mixture).ProductMolarity() < float.Parse (currentPhase[k]) + maxError) &&
-								   ((content as Mixture).ProductMolarity() > float.Parse (currentPhase[k]) - maxError)) {
+								if(((content as Mixture).ProductMolarity() < float.Parse (step[k]) + maxError) &&
+								   ((content as Mixture).ProductMolarity() > float.Parse (step[k]) - maxError)) {
 									flag = true;
 								}
 								else {
@@ -63,7 +66,7 @@ public class ResultVerifier {
 								}
 								break;
 							case "minVolume":
-								if(((content as Mixture).Volume > float.Parse (currentPhase[k]) - maxError)) {
+								if(((content as Mixture).Volume > float.Parse (step[k]) - maxError)) {
 									flag = true;
 								}
 								else {
@@ -71,8 +74,8 @@ public class ResultVerifier {
 								}
 								break;
 							case "density":
-								if(((content as Mixture).Density < float.Parse (currentPhase[k]) + maxError) &&
-								   ((content as Mixture).Density > float.Parse (currentPhase[k]) - maxError)) {
+								if(((content as Mixture).Density < float.Parse (step[k]) + maxError) &&
+								   ((content as Mixture).Density > float.Parse (step[k]) - maxError)) {
 									flag = true;
 								}
 								else {
@@ -80,8 +83,8 @@ public class ResultVerifier {
 								}
 								break;
 							case "turbidity":
-								if(((content as Mixture).Turbidity < float.Parse (currentPhase[k]) + maxError) &&
-								   ((content as Mixture).Turbidity > float.Parse (currentPhase[k]) - maxError)) {
+								if(((content as Mixture).Turbidity < float.Parse (step[k]) + maxError) &&
+								   ((content as Mixture).Turbidity > float.Parse (step[k]) - maxError)) {
 									flag = true;
 								}
 								else {
@@ -89,8 +92,8 @@ public class ResultVerifier {
 								}
 								break;
 							case "conductibility":
-								if(((content as Mixture).Conductibility < float.Parse (currentPhase[k]) + maxError) &&
-								   ((content as Mixture).Conductibility > float.Parse (currentPhase[k]) - maxError)) {
+								if(((content as Mixture).Conductibility < float.Parse (step[k]) + maxError) &&
+								   ((content as Mixture).Conductibility > float.Parse (step[k]) - maxError)) {
 									flag = true;
 								}
 								else {
@@ -107,5 +110,64 @@ public class ResultVerifier {
 			}
 		}
 		return false;
+	}
+
+	/// <summary>
+	/// Returns whether the content of the glassware is correct or not.
+	/// The function handles the type of verification according to the 
+	/// </summary>
+	/// <returns> True, if correct. False otherwise. </returns>
+	/// <param name="glassware">Glassware.</param>
+	/*public bool VerifyResult(ref Glassware glassware) {
+		switch(currentType) {
+		case TypeOfStep.CompoundClass:
+			
+			break;
+		case TypeOfStep.WhatCompound:
+			
+			break;
+		case TypeOfStep.MolarityCheck:
+			
+			break;
+		case TypeOfStep.GlasswareCheck:
+			
+			break;
+		}
+	}
+*/
+	public bool VerifyCheckBox(string option){
+		bool answer;
+		if (option == step ["answer"]) {
+			answer = true;
+		} else {
+			answer = false;
+		}
+		return answer;
+	}
+	public bool VerifyTextBox(string textAnswer){
+		bool answer;
+
+		if (currentType == TypeOfStep.WhatCompound) {
+			if (textAnswer == step ["answer"]) {
+				answer = true;
+			} else {
+				answer = false;
+			}
+		} else { //MolarityCheck
+			if ( (float.Parse(textAnswer) <= (float.Parse(step["answer"]) + float.Parse(step["maxError"])))
+			  || (float.Parse(textAnswer) >= (float.Parse(step["answer"]) - float.Parse(step["maxError"]))) ) {
+				answer = true;
+			}
+			else
+				answer = false;
+		}
+		return answer;
+	}
+	public bool VerifyGlassware(Glassware glassware) {
+		/*
+		 * 
+		 * 
+		 */
+		return true;
 	}
 }

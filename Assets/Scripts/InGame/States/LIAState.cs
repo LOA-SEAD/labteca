@@ -149,7 +149,17 @@ public class LIAState : GameStateBase {
 		}
 	}
 
-	//Ending animation TODO:This was created as a finisher for the SBGames Version
+	/// <summary>
+	/// Called when the verification action is triggered
+	/// </summary>
+	/// Calls upon the ResultVerifier class to compare the content of the Glassware with the
+	/// expected result for the actual phase
+	public void VerifyPhase(int overload) {
+		
+
+	}
+
+	//Ending animation TODO:sThis was created as a finisher for the SBGames Version
 	public void EndGame() {
 		FadeScript.instance.FadeIn ();
 

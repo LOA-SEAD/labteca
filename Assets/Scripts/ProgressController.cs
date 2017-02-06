@@ -57,6 +57,7 @@ public class ProgressController : MonoBehaviour {
 	/// Start CustomMode, triggering all the other entities to read the needed information.
 	/// </summary>
 	private void StartCustomMode() {
+
 		bool glasswareStart = false;
 		currentPhase = PhasesSaver.LoadPhases (customPhaseDir, ref glasswareStart);
 
@@ -75,6 +76,20 @@ public class ProgressController : MonoBehaviour {
 	/// <param name="glasswareStart">Glassware start.</param>
 	private void NewPhase(bool glasswareStart){
 		//Check how to start the phase
+
+		//For testing
+		#if UNITY_EDITOR
+			// Glassware test
+		   /*
+		 	* Instaciar vidraria
+		 	* Adionar reagente a vidraria
+		 	* Adicionar vidraria ao inventario
+		 	*/
+			// Cupboard test
+			/*
+			 * Pote de reagente
+			 */
+		#else
 		if (glasswareStart) {
 			/*
 		 	* Instaciar vidraria
@@ -86,6 +101,8 @@ public class ProgressController : MonoBehaviour {
 			 * Pote de reagente
 			 */
 		}
+		#endif
+
 		
 		//Add steps to Experiment Menu on Tablet
 

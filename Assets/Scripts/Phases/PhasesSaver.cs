@@ -81,7 +81,7 @@ public class PhasesSaver {
 		
 		Dictionary<string, string> step = new Dictionary<string, string> ();
 			
-		//stepValues["typeOfStep"] = josnEdito.GetString(i, "typeOfStep");
+		step.Add("typeOfStep", jsonEditor.GetString(i, "typeOfStep"));
 
 		step.Add("productFormula", jsonEditor.GetString(i, "productFormula"));
 		step.Add("molarity", jsonEditor.GetString(i, "molarity"));

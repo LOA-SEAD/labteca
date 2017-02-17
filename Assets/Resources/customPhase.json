@@ -1,13 +1,26 @@
 {
 	"glasswareStart" : "true",
-	"objects" : [ {
-		"typeOfStep" : "0",
+	"objects" : [ 
+	{
+		"typeOfStep" : "1",
+		"productFormula" : "H2SO4",
+		"correctAnswer" : "3"
+	},
+	{
+		"typeOfStep" : "2",
+		"productFormula": "NaCl",
+	},
+	{
+		"typeOfStep" : "3",
+		"productFormula": "NaCl",
+		"molarity" : "1.0",
+		"maxError" : "0.2"
+	},
+	{
+		"typeOfStep" : "4",
 		"productFormula": "NaCl",
 		"molarity": "1.0",
 		"minVolume": "25",
-		"maxError": "0.2",
-		"density": "null",
-		"turbidity": "null",
-		"conductibility": "null"
+		"maxError": "0.2"
 	}]
 }

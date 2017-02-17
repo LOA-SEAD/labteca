@@ -20,8 +20,8 @@ public enum TypeOfStep {
 /// </summary>
 public class ProgressController : MonoBehaviour {
 
-	TypeOfStep stepType;
-	TypeOfStep StepType { get; set; }
+	private TypeOfStep stepType;
+	public TypeOfStep StepType { get{ return stepType; }}
 
 	private string customPhaseDir = "Assets/Resources/customPhase.json";
 	

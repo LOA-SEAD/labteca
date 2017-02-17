@@ -8,8 +8,16 @@ public class LIAState : GameStateBase {
 	//public Camera cameraState;                  /*!< Camera for this state. */
 	public GameObject interactiveCanvas;		//Interactive canvas of the state
 
-	public GameObject correctAnswer;			//Canva with the answer for the correct results
-	public GameObject wrongAnswer;				//Canva with the answer for the wrong results   TODO:Take this out. It's only here for SBGames
+	public GameObject checkCompoundClassCanvas;	//CheckBox Canvas for compound class check
+	public GameObject checkWhatCompoundCanvas;	//TextBox Canvas for checking what compound
+	public GameObject checkMolarityValueCanvas;	//TextBox canvas for molarity value check
+	public GameObject checkGlasswareCanvas;		//Interactive canvas for glassware check
+	private int checkBoxSelected;				//Variable to hold the checkbox that was selected
+
+	public ProgressController progressController; //Instance of ProgressController
+	
+	public GameObject correctAnswer;			//Canvas with the answer for the correct results
+	public GameObject wrongAnswer;				//Canvas with the answer for the wrong results   TODO:Take this out. It's only here for SBGames
 
 	public Light LIALight;
 	public Image glassware,solid,liquid;
@@ -29,6 +37,7 @@ public class LIAState : GameStateBase {
 		wrongAnswer.SetActive (false);
 
 		ResultVerifier.GetInstance ();
+		progressController = GameObject.Find ("ProgressController").GetComponent<ProgressController> ();
 	}
 	
 	protected override void UpdateState ()
@@ -155,8 +164,32 @@ public class LIAState : GameStateBase {
 	/// Calls upon the ResultVerifier class to compare the content of the Glassware with the
 	/// expected result for the actual phase
 	public void VerifyPhase(int overload) {
-		
+		switch (progressController.StepType) {
+		case TypeOfStep.CompoundClass:
+			checkCompoundClassCanvas.SetActive (false);
+			ResultVerifier.GetInstance().VerifyCheckBox(checkBoxSelected);
+			break;
+		case TypeOfStep.WhatCompound:
+			checkWhatCompoundCanvas.SetActive(false);
+			//ResultVerifier.GetInstance().VerifyTextBox();
+			break;
+		case TypeOfStep.MolarityCheck:
+			checkMolarityValueCanvas.SetActive(false);
+			//ResultVerifier.GetInstance().VerifyTextBox();
+			break;
+		case TypeOfStep.GlasswareCheck:
+			checkGlasswareCanvas.SetActive(false);
+			ResultVerifier.GetInstance().VerifyGlassware(GameObject.Find (currentIndex).GetComponent<Glassware>());
+			break;
+		}
+	}
 
+	/// <summary>
+	/// Sets in a variable which checkbox was selected.
+	/// </summary>
+	/// <returns>The index of the box.</returns>
+	public void TextBoxAnswer(int answer) {
+		checkBoxSelected = answer;
 	}
 
 	//Ending animation TODO:sThis was created as a finisher for the SBGames Version
@@ -171,10 +204,23 @@ public class LIAState : GameStateBase {
 	}
 
 	/// <summary>
-	/// Sets the verification interface.
+	/// Sets the verification interface based on the type of the current step.
 	/// </summary>
 	/// <param name="type">The type of the current step</param>
-	public void SetVerificationInterface(TypeOfStep type){
-
+	public void SetVerificationInterface(TypeOfStep type){ //TODO: check in the future if it should receive this indeed, or just use ProgressController.StepType;
+		switch (type) {
+		case TypeOfStep.CompoundClass:
+			checkCompoundClassCanvas.SetActive (true);
+			break;
+		case TypeOfStep.WhatCompound:
+			checkWhatCompoundCanvas.SetActive(true);
+			break;
+		case TypeOfStep.MolarityCheck:
+			checkMolarityValueCanvas.SetActive(true);
+			break;
+		case TypeOfStep.GlasswareCheck:
+			checkGlasswareCanvas.SetActive(true);
+			break;
+		}
 	}
 }

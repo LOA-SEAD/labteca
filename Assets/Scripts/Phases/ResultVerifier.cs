@@ -135,9 +135,9 @@ public class ResultVerifier {
 		}
 	}
 */
-	public bool VerifyCheckBox(string option){
+	public bool VerifyCheckBox(int option){ //TODO:check exactly how the answer will be defined
 		bool answer;
-		if (option == step ["answer"]) {
+		if (option == int.Parse(step ["answer"])) {
 			answer = true;
 		} else {
 			answer = false;

@@ -24,14 +24,14 @@ public class ProgressController : MonoBehaviour {
 	public TypeOfStep StepType { get{ return stepType; }}
 
 	private string customPhaseDir = "Assets/Resources/customPhase.json";
-	
+	private bool customMode;
+
 	// The dictionary for phases uses the index as a key to access the step dictionary, which has all values for the current step.
 	// The values of the steps are all in string, the conversion has to be done when comparing the values
 	private Dictionary<int, Dictionary<string, string>> currentPhase; // < index of step, Dictionary< name of variable, variable's value as a string > >
 	private Dictionary<string, string> currentStep;
 	private int numberOfSteps;
 	private int actualStep;
-
 
 	// Use this for initialization
 	void Start () {
@@ -64,14 +64,11 @@ public class ProgressController : MonoBehaviour {
 		numberOfSteps = currentPhase.Count;
 		actualStep = 0;
 
-		/*switch(currentPhase[0].["typeOfStep"] = "0")
-		StepType = TypeOfStep*/
-
 		NewPhase(glasswareStart);
 	}
 
 	/// <summary>
-	/// Called to load a new phase
+	/// The method is called to load a new phase
 	/// </summary>
 	/// <param name="glasswareStart">Glassware start.</param>
 	private void NewPhase(bool glasswareStart){
@@ -110,44 +107,82 @@ public class ProgressController : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Called to load the subsequent step of a phase
+	/// It is called to load the subsequent step of a phase
 	/// </summary>
 	private void NewStep(){
 		ResultVerifier.GetInstance().SetVerificationStep(StepType, currentStep);
 
 		//Play starting dialogue according to type of quest, if needed
+		switch (StepType) {
+		case TypeOfStep.CompoundClass:
+			//compoundClassStartAnimation.Show();
+			break;
+		case TypeOfStep.WhatCompound:
+			//whatCompoundStartAnimation.Show();
+			break;
+		case TypeOfStep.MolarityCheck:
+			//molarityCheckStartAnimation.Show();
+			break;
+		case TypeOfStep.GlasswareCheck:
+			//glasswareCheckStartAnimation.Show();
+			break;
+		}
 	}
 	
 	/// <summary>
-	/// Is called when a step is completed, transiting to the next step, or next phase
+	/// It is called when a step is completed, transiting to the next step, or next phase
 	/// </summary>
 	public void CompleteStep() {
 		//Write on .json the answers
 
-		//if(numberOfSteps == actualStep)
-		/*
-		 * PhaseTransition();
-		 */
-		//else
-		/*
-		 * Play ending dialogue accoding to step, if needed;
-		 * actualStep++;
-		 * NewStep();
-		 */
+		switch (StepType) {
+		case TypeOfStep.CompoundClass:
+			//compoundClassFinishAnimation.Show();
+			break;
+		case TypeOfStep.WhatCompound:
+			//whatCompoundFinishAnimation.Show();
+			break;
+		case TypeOfStep.MolarityCheck:
+			//molarityCheckFinishAnimation.Show();
+			break;
+		case TypeOfStep.GlasswareCheck:
+			//glasswareCheckFinishAnimation.Show();
+			break;
+		}
+
+		if (numberOfSteps == actualStep) {
+			this.PhaseTransition ();
+		} else {
+		   /*
+		 	* Play ending dialogue accoding to step, if needed;
+		 	*/
+			actualStep++;
+			this.NewStep ();
+		}
 	}
 
 	/// <summary>
-	/// Makes the transition to the next phase
+	/// The method is called when a wrong answer is given.
+	/// It triggers the animation for wrong answer, and writes the wrong answer that was given.
 	/// </summary>
-	private void PhaseTransition(){
-		//if(customMode)
-		/*
-		 * EndGame
-		 */
-		//else
-		/*
-		 * LoadNextPhase();
-		 */
+	public void WrongAnswer(){
+
+	}
+
+
+	/// <summary>
+	/// It makes the transition to the next phase
+	/// </summary>
+	private void PhaseTransition() {
+		if (customMode) { 
+			/*
+			 * EndGame
+			 */
+		} else {
+			/*
+			 * LoadNextPhase();
+			 */
+		}
 	}
 
 	/* CREATION TEST

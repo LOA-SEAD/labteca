@@ -103,6 +103,6 @@ public class JournalSaver{
 	}
 	public static string GetExperimentName(int experimentNumber) {
 		json = new JSONEdit("Assets/Resources/journalItems"+experimentNumber.ToString()+".json");
-		return json.GetName ("name");
+		return json.GetMainValue ("name");
 	}
 }

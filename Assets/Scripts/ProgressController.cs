@@ -6,11 +6,11 @@ using System.Collections.Generic;
 /// Enum to indicate the types of verification
 /// </summary>
 public enum TypeOfStep {
-	none,				//There's no verification yet
-	CompoundClass,		//The class of the compound will be checked
-	WhatCompound,		//What compound is in the glassware
-	MolarityCheck,		//The amount of compound will be asked
-	GlasswareCheck		//It will check the glassware as a whole
+	none = 0,				//There's no verification yet
+	CompoundClass = 1,		//The class of the compound will be checked
+	WhatCompound = 2,		//What compound is in the glassware
+	MolarityCheck = 3,		//The amount of compound will be asked
+	GlasswareCheck = 4		//It will check the glassware as a whole
 };
 
 /// <summary>
@@ -24,6 +24,7 @@ public class ProgressController : MonoBehaviour {
 	public TypeOfStep StepType { get{ return stepType; }}
 
 	private string customPhaseDir = "Assets/Resources/customPhase.json";
+	private Dictionary<string,string> phaseDefinitions;
 	private bool customMode;
 
 	// The dictionary for phases uses the index as a key to access the step dictionary, which has all values for the current step.
@@ -39,9 +40,15 @@ public class ProgressController : MonoBehaviour {
 	}
 
 	void Awake() {
+	}
 
-
-		stepType = TypeOfStep.none;
+	void OnLevelWasLoaded(int lvlNum) {
+		//For testing
+		#if UNITY_EDITOR
+			if(Application.loadedLevelName == "DemoLabDev"){
+				StartCustomMode();
+			}
+		#endif
 	}
 
 	/*void SceneLoadOnStart() {
@@ -49,22 +56,24 @@ public class ProgressController : MonoBehaviour {
 		}
 	}*/
 
-	// Load the scene according to what was selected on the Menu
-	public void LoadScene() {
+	/// <summary>
+	/// Starts the campaign mode.
+	/// </summary>
+	public void StartCampaignMode() {
 	}
 	
 	/// <summary>
 	/// Start CustomMode, triggering all the other entities to read the needed information.
 	/// </summary>
 	private void StartCustomMode() {
-
 		bool glasswareStart = false;
-		currentPhase = PhasesSaver.LoadPhases (customPhaseDir, ref glasswareStart);
+		currentPhase = PhasesSaver.LoadPhases (customPhaseDir);
+		phaseDefinitions = PhasesSaver.GetPhaseLibrary (customPhaseDir);
 
 		numberOfSteps = currentPhase.Count;
 		actualStep = 0;
 
-		NewPhase(glasswareStart);
+		this.NewPhase (bool.Parse (phaseDefinitions ["glasswareStart"]));
 	}
 
 	/// <summary>
@@ -74,34 +83,25 @@ public class ProgressController : MonoBehaviour {
 	private void NewPhase(bool glasswareStart){
 		//Check how to start the phase
 
-		//For testing
-		#if UNITY_EDITOR
-			// Glassware test
-		   /*
-		 	* Instaciar vidraria
-		 	* Adionar reagente a vidraria
-		 	* Adicionar vidraria ao inventario
-		 	*/
+		if (glasswareStart) {
+			GameObject bequer = Instantiate ((GameObject.Find ("GameController").GetComponent<GameController> ().gameStates [3] as GetGlasswareState).glasswareList [0].gameObject) as GameObject;
+			Compound compound = new Compound ();
+			compound = CompoundFactory.GetInstance ().GetProduct (phaseDefinitions ["compoundFormula"]);
+
+			/*
+			 * Changes on properties according to float.Parse(phaseDefinitions["molarity"])
+			 */
+				bequer.GetComponent<Glassware> ().IncomingReagent (compound.Clone (float.Parse(phaseDefinitions ["volume"])) as Compound, float.Parse(phaseDefinitions ["volume"]));
+		} else {
 			// Cupboard test
 			/*
 			 * Pote de reagente
 			 */
-		#else
-		if (glasswareStart) {
-			/*
-		 	* Instaciar vidraria
-		 	* Adionar reagente a vidraria
-		 	* Adicionar vidraria ao inventario
-		 	*/
-		} else {
-			/*
-			 * Pote de reagente
-			 */
-		}
-		#endif
-
 		
+		}
+
 		//Add steps to Experiment Menu on Tablet
+
 
 		NewStep();
 	}
@@ -110,6 +110,8 @@ public class ProgressController : MonoBehaviour {
 	/// It is called to load the subsequent step of a phase
 	/// </summary>
 	private void NewStep(){
+		actualStep++;
+		stepType = (TypeOfStep) int.Parse(currentStep ["stepType"]);
 		ResultVerifier.GetInstance().SetVerificationStep(StepType, currentStep);
 
 		//Play starting dialogue according to type of quest, if needed
@@ -134,29 +136,12 @@ public class ProgressController : MonoBehaviour {
 	/// </summary>
 	public void CompleteStep() {
 		//Write on .json the answers
-
-		switch (StepType) {
-		case TypeOfStep.CompoundClass:
-			//compoundClassFinishAnimation.Show();
-			break;
-		case TypeOfStep.WhatCompound:
-			//whatCompoundFinishAnimation.Show();
-			break;
-		case TypeOfStep.MolarityCheck:
-			//molarityCheckFinishAnimation.Show();
-			break;
-		case TypeOfStep.GlasswareCheck:
-			//glasswareCheckFinishAnimation.Show();
-			break;
-		}
-
 		if (numberOfSteps == actualStep) {
 			this.PhaseTransition ();
 		} else {
 		   /*
 		 	* Play ending dialogue accoding to step, if needed;
 		 	*/
-			actualStep++;
 			this.NewStep ();
 		}
 	}
@@ -166,7 +151,7 @@ public class ProgressController : MonoBehaviour {
 	/// It triggers the animation for wrong answer, and writes the wrong answer that was given.
 	/// </summary>
 	public void WrongAnswer(){
-
+		//wrongAnswerCanvas.SetActive(true);
 	}
 
 
@@ -175,9 +160,16 @@ public class ProgressController : MonoBehaviour {
 	/// </summary>
 	private void PhaseTransition() {
 		if (customMode) { 
-			/*
+			/* FinalAnimation.Show()
 			 * EndGame
 			 */
+
+			#if UNITY_EDITOR
+			Application.LoadLevel ("Menu");
+			#else
+			Application.LoadLevel ("Menu");
+			#endif
+
 		} else {
 			/*
 			 * LoadNextPhase();

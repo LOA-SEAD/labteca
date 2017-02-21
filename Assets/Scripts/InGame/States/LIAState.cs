@@ -9,12 +9,13 @@ public class LIAState : GameStateBase {
 	public GameObject interactiveCanvas;		//Interactive canvas of the state
 
 	public GameObject checkCompoundClassCanvas;	//CheckBox Canvas for compound class check
+	private int checkBoxSelected;				//Variable to hold the checkbox that was selected
 	public GameObject checkWhatCompoundCanvas;	//TextBox Canvas for checking what compound
 	public Text whatCompoundAnswer;				//Text of WhatCompoundCanvas answer
 	public GameObject checkMolarityValueCanvas;	//TextBox canvas for molarity value check
 	public Text molarityAnswer;					//Text of MolarityCheckCanvas answer
 	public GameObject checkGlasswareCanvas;		//Interactive canvas for glassware check
-	private int checkBoxSelected;				//Variable to hold the checkbox that was selected
+	public Button verifyButton;
 
 	public ProgressController progressController; //Instance of ProgressController
 	
@@ -40,6 +41,8 @@ public class LIAState : GameStateBase {
 
 		ResultVerifier.GetInstance ();
 		progressController = GameObject.Find ("ProgressController").GetComponent<ProgressController> ();
+
+		verifyButton.interactable = false;
 	}
 	
 	protected override void UpdateState ()
@@ -60,6 +63,7 @@ public class LIAState : GameStateBase {
 					liquid.sprite = item.liquid.sprite;
 					liquid.color = new Color32(255,255,255,255);
 				}
+				verifyButton.interactable = true;
 				return true;
 			} else {
 				Debug.Log ("n recebi");
@@ -78,6 +82,7 @@ public class LIAState : GameStateBase {
 			solid.color = new Color32(255,255,255,0);
 			liquid.color = new Color32(255,255,255,0);
 			currentIndex = "";
+			verifyButton.interactable = false;
 		} else {
 			gameController.sendAlert("Não há nenhum produto");
 		}

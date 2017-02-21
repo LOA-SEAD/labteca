@@ -194,22 +194,14 @@ public class Compound : IPhysicochemical {
 	//! Checks if there would be precipitate on the compound
 	//  Returns true if precipitation should happen. False otherwise
 	public bool CheckPrecipitate(Compound water) {
-
-		if (this.Solubility < ((this.MolarMass * this.MolarMass * this.Volume) / water.RealMass)) {
-			return true;
-		} else {
-			return false;
-		}
-
+		return CheckPrecipitate (water.Volume);
 	}
 	public bool CheckPrecipitate(float water) {
-		
 		if (this.Solubility < ((this.MolarMass * this.MolarMass * this.Volume) / water * waterMolarMass)) {
 			return true;
 		} else {
 			return false;
 		}
-		
 	}
 
 	public void RefreshColor(){

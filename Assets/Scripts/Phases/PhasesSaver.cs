@@ -64,7 +64,7 @@ public class PhasesSaver {
 	}
 
 	//Loads the phase from a .json file, and returns a dictionary of phases
-	public static Dictionary<int, Dictionary<string, string>> LoadPhases (string directory, ref bool glasswareStart) {
+	public static Dictionary<int, Dictionary<string, string>> LoadPhases (string directory) {
 		JSONEdit jsonEditor = new JSONEdit(directory);
 		
 		Dictionary<int, Dictionary<string, string>> phase = new Dictionary<int, Dictionary<string, string>> ();
@@ -72,7 +72,6 @@ public class PhasesSaver {
 		for (int i = 0; i < jsonEditor.NumberOfObjects(); i++) {
 			phase.Add (i, PhasesSaver.LoadStep(jsonEditor, i));
 		}
-		glasswareStart = bool.Parse(jsonEditor.GetMainValue("glasswareStart"));
 		return phase;
 	}
 
@@ -92,5 +91,18 @@ public class PhasesSaver {
 		step.Add("conductibility", jsonEditor.GetString(i, "conductibility"));
 				
 		return step;
+	}
+
+	public static Dictionary<string, string> GetPhaseLibrary(string directory) {
+		JSONEdit jsonEditor = new JSONEdit(directory);
+		
+		Dictionary<string, string> library = new Dictionary<string, string> ();
+
+		library.Add("glasswareStart", jsonEditor.GetMainValue("glasswareStart"));
+		library.Add("compoundFormula", jsonEditor.GetMainValue("compoundFormula"));
+		library.Add("volume", jsonEditor.GetMainValue("volume"));
+		library.Add("molarity", jsonEditor.GetMainValue("molarity"));
+
+		return library;
 	}
 }

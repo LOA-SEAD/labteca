@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -35,7 +35,7 @@ public  class GetReagentState : GameStateBase, GetInterface {
 	public void Start () {
         cameraState.gameObject.SetActive(false);
 		Compound actualReagent;
-		reagents = CompoundFactory.GetInstance().Collection;
+		reagents = CompoundFactory.GetInstance().CupboardCollection;
 
         // Set-up components
         if (canvasUI == null)   

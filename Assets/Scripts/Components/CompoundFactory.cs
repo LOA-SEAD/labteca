@@ -5,10 +5,10 @@ using System.Collections.Generic;
 //! Receives the dictionary of reagents, and clone instances when needed
 public class CompoundFactory {
 	
-	private Dictionary<string, Compound> collection; //Collection of reagents
-	public Dictionary<string, Compound> Collection{ get{ return collection; }}
-	private Dictionary<string, Compound> products; //Collection of products
-	public Dictionary<string, Compound> Products { get { return products; } }
+	private Dictionary<string, Compound> cupboardCollection; //Collection of reagents
+	public Dictionary<string, Compound> CupboardCollection{ get{ return cupboardCollection; }}
+	private Dictionary<string, Compound> collection; //Collection of products
+	public Dictionary<string, Compound> Collection { get { return collection; } }
 	
 	// Singleton
 	private static CompoundFactory instance;
@@ -20,24 +20,24 @@ public class CompoundFactory {
 	}
 
 	private CompoundFactory () {
-		collection = new Dictionary<string, Compound> ();
-		collection = ComponentsSaver.LoadReagents ();
+		cupboardCollection = new Dictionary<string, Compound> ();
+		cupboardCollection = ComponentsSaver.LoadCupboardCompounds ();
 
-		products = new Dictionary<string, Compound> ();
-		products = ComponentsSaver.LoadProducts ();
+		collection = new Dictionary<string, Compound> ();
+		collection = ComponentsSaver.LoadBackgroundCompounds ();
 	}
 
 	//! Returns a clone of the given compound
 	public Compound GetCompound (string formula) {
-		if (collection.ContainsKey (formula))
-			return (Compound)collection [formula].Clone ();
+		if (cupboardCollection.ContainsKey (formula))
+			return (Compound)cupboardCollection [formula].Clone ();
 		else
 			return null;
 	}														
 
 	public Compound GetProduct (string formula) {
-		if (products.ContainsKey (formula))
-			return (Compound)products [formula].Clone ();
+		if (collection.ContainsKey (formula))
+			return (Compound)collection [formula].Clone ();
 		else
 			return null;
 	}

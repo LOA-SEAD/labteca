@@ -28,7 +28,7 @@ public class CheckProduct : EditorWindow
 		
 		EditorGUILayout.LabelField("Checar Produto:");
 		
-		Dictionary<string, Compound> products = CompoundFactory.GetInstance().Products;
+		Dictionary<string, Compound> products = CompoundFactory.GetInstance().Collection;
 		string[] names = new string[products.Count];
 		
 		int counter = 0;

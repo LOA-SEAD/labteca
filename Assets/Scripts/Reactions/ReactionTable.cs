@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -48,7 +48,7 @@ public class ReactionTable {
 		//Load the reagents from file into memory
 		reactions = ReactionsSaver.LoadReactions ();
 
-		foreach (Compound c in CompoundFactory.GetInstance().Collection.Values) {
+		foreach (Compound c in CompoundFactory.GetInstance().CupboardCollection.Values) {
 			foreach (ReactionClass re in reactions.Values) {
 				if(re.reagent1 == c.Formula) {
 					table[re.reagent1, re.reagent2] = re.name;

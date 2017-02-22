@@ -16,7 +16,7 @@ public class ComponentsSaver
 	                                         float solubility, float turbidity, Texture2D hplc, float refratometer, bool fumeHoodOnly, Texture2D texture, Color32 color)
 	{
 
-		Dictionary<string, Compound> reagents = LoadReagents ();
+		Dictionary<string, Compound> reagents = LoadCupboardCompounds ();
 
 
 		Compound reagent = new Compound();
@@ -187,7 +187,7 @@ public class ComponentsSaver
 		return reagents;
 	}*/
 	//! Reads/Loads the dictionary from .json file.
-	public static Dictionary<string, Compound> LoadReagents()
+	public static Dictionary<string, Compound> LoadCupboardCompounds()
 	{
 		JSONEdit jsonEditor = new JSONEdit("Assets/Resources/components.json");
 		
@@ -260,7 +260,7 @@ public class ComponentsSaver
 	                                         float solubility, float turbidity, Texture2D hplc, float refratometer, bool fumeHoodOnly, Texture2D texture, Color32 color)
 	{
 		
-		Dictionary<string, Compound> products = LoadProducts ();
+		Dictionary<string, Compound> products = LoadBackgroundCompounds ();
 		
 		
 		Compound product = new Compound();
@@ -368,7 +368,7 @@ public class ComponentsSaver
 	}
 	
 	//! Reads/Loads the dictionary from file.
-	public static Dictionary<string, Compound> LoadProducts()
+	public static Dictionary<string, Compound> LoadBackgroundCompounds()
 	{
 		JSONEdit jsonEditor = new JSONEdit("Assets/Resources/products.json");
 		

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
 
@@ -28,7 +28,7 @@ public class CheckComponent : EditorWindow
 
 		EditorGUILayout.LabelField("Checar Reagente:");
 
-		Dictionary<string, Compound> reagents = CompoundFactory.GetInstance().Collection;
+		Dictionary<string, Compound> reagents = CompoundFactory.GetInstance().CupboardCollection;
 		string[] names = new string[reagents.Count];
 
 		int counter = 0;

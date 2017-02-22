@@ -63,7 +63,7 @@ public class CreateReaction : EditorWindow
 
 		EditorGUILayout.Space();
 
-		Dictionary<string, Compound> reagents = CompoundFactory.GetInstance ().Collection;
+		Dictionary<string, Compound> reagents = CompoundFactory.GetInstance ().CupboardCollection;
 
 		EditorGUILayout.Space();
 

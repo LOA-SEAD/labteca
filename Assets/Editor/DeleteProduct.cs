@@ -29,7 +29,7 @@ public class DeleteProduct : EditorWindow
 		
 		EditorGUILayout.LabelField("Deletar Produto:");
 		
-		Dictionary<string, Compound> products = CompoundFactory.GetInstance ().Products;
+		Dictionary<string, Compound> products = CompoundFactory.GetInstance ().Collection;
 		
 		string[] names = new string[products.Count];
 		
@@ -119,7 +119,7 @@ public class DeleteProduct : EditorWindow
 				EditorGUILayout.LabelField("Deletar?");
 				if(GUILayout.Button("Sim"))
 				{
-					Dictionary<string, Compound> allProducts = CompoundFactory.GetInstance().Collection;
+					Dictionary<string, Compound> allProducts = CompoundFactory.GetInstance().CupboardCollection;
 					
 					allProducts.Remove(names[indexOfProduct]);
 					ComponentsSaver.SaveProducts(allProducts);

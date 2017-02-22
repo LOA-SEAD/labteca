@@ -8,7 +8,7 @@ using System.Collections.Generic;
  *  a list of the reagents that were reacted, plus the reagents leftover.
  */
 
-public class Mixture : IPhysicochemical {
+public class Mixture : IPhysicochemical { //TODO: Add changes of collections in CompoundFactory
 
 	private string name;
 	public string Name { get{ return name; } set{ name = value; }}
@@ -156,7 +156,7 @@ public class Mixture : IPhysicochemical {
 				reaction.stoichiometryR1 = reaction.stoichiometryR2;
 				reaction.stoichiometryR2 = auxSt;
 			}
-			product = CompoundFactory.GetInstance ().GetProduct (reaction.mainProduct);
+			product = CompoundFactory.GetInstance ().GetCompound (reaction.mainProduct);
 
 			//Calculates the limiting reagent
 			float limitingFactor1 = ( (r1.Molarity / 1000) * r1.Volume) / reaction.stoichiometryR1;
@@ -207,7 +207,7 @@ public class Mixture : IPhysicochemical {
 			float massOfReagent = (leftovers[1].Molarity * (leftovers[1].Volume / 1000) * leftovers[1].MolarMass)
 				- (((trueLimiting * limitingStoichiometry) * (reaction.stoichiometryR2 / limitingStoichiometry)) * leftovers[1].MolarMass); // Mass = previous mass of reagent - mass consumed;
 
-			leftovers[1].setValues(CompoundFactory.GetInstance().GetCompound (leftovers[1].Name));
+			leftovers[1].setValues(CompoundFactory.GetInstance().GetCupboardCompound (leftovers[1].Name));
 			leftovers[1].Purity = 1.0f;
 			leftovers[1].RealMass = massOfReagent;
 			if(leftovers[1].IsSolid) {

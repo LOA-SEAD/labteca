@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -98,7 +98,7 @@ public class WorkBench : GameStateBase{
 			else {
 				if(tempItem.GetComponent<ReagentPot>()!=null){
 					if(item.reagent.Length!=0){
-						Compound reagent = CompoundFactory.GetInstance ().GetCompound (item.reagent);
+						Compound reagent = CompoundFactory.GetInstance ().GetCupboardCompound (item.reagent);
 						
 						if(tempItem.GetComponent<ReagentPot>().isSolid)
 							tempItem.GetComponent<ReagentPot>().reagent.setValues(reagent as Compound);

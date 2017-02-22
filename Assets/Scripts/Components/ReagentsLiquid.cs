@@ -113,6 +113,6 @@ public class ReagentsLiquid : MonoBehaviour
 	//! Loads reagentsLiquid
 	public void GetInfo(string reagent)
 	{
-		info = CompoundFactory.GetInstance().GetCompound(reagent) as Compound;
+		info = CompoundFactory.GetInstance().GetCupboardCompound(reagent) as Compound;
 	}
 }

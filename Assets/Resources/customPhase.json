@@ -1,6 +1,6 @@
 {
 	"glasswareStart" : "true",
-	"compoundFormula" : "NaCl",
+	"compoundFormula" : "HCl",
 	"volume" : "100",
 	"molarity" : "1.0",
 	"objects" : [ 
@@ -15,17 +15,17 @@
 	},
 	{
 		"typeOfStep" : "2",
-		"compoundFormula": "NaCl",
+		"compoundFormula": "HCl",
 	},
 	{
 		"typeOfStep" : "3",
-		"compoundFormula": "NaCl",
+		"compoundFormula": "HCl",
 		"molarity" : "1.0",
 		"maxError" : "0.2"
 	},
 	{
 		"typeOfStep" : "4",
-		"compoundFormula": "NaCl",
+		"compoundFormula": "HCl",
 		"molarity": "0.5",
 		"minVolume": "25",
 		"maxError": "0.2"

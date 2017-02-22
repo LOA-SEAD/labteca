@@ -40,15 +40,15 @@ public class ProgressController : MonoBehaviour {
 	}
 
 	void Awake() {
+		//For testing
+		#if UNITY_EDITOR
+		if(Application.loadedLevelName == "DemoLabDev"){
+			StartCustomMode();
+		}
+		#endif
 	}
 
 	void OnLevelWasLoaded(int lvlNum) {
-		//For testing
-		#if UNITY_EDITOR
-			if(Application.loadedLevelName == "DemoLabDev"){
-				StartCustomMode();
-			}
-		#endif
 	}
 
 	/*void SceneLoadOnStart() {
@@ -85,13 +85,16 @@ public class ProgressController : MonoBehaviour {
 
 		if (glasswareStart) {
 			GameObject bequer = Instantiate ((GameObject.Find ("GameController").GetComponent<GameController> ().gameStates [3] as GetGlasswareState).glasswareList [0].gameObject) as GameObject;
-			Compound compound = new Compound ();
-			compound = CompoundFactory.GetInstance ().GetProduct (phaseDefinitions ["compoundFormula"]);
+			if((GameObject.Find ("GameController").GetComponent<GameController> ().gameStates [1] as WorkBench).TryPutIntoPosition(bequer)) {
+				Compound compound = new Compound ();
+				compound = CompoundFactory.GetInstance ().GetCompound (phaseDefinitions ["compoundFormula"]);
 
-			/*
-			 * Changes on properties according to float.Parse(phaseDefinitions["molarity"])
-			 */
+				/*
+				 * Changes on properties according to float.Parse(phaseDefinitions["molarity"])
+				 */
 				bequer.GetComponent<Glassware> ().IncomingReagent (compound.Clone (float.Parse(phaseDefinitions ["volume"])) as Compound, float.Parse(phaseDefinitions ["volume"]));
+				GameObject.Find("InventoryManager").GetComponent<InventoryManager>().AddProductToInventory(bequer.gameObject);
+			}
 		} else {
 			// Cupboard test
 			/*

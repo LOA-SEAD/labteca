@@ -247,7 +247,7 @@ public class Spatula : WorkbenchInteractive {
 
 
 		volumeHeld = Random.Range (spatulaCapacity - capacityError, spatulaCapacity + capacityError);
-		reagentInSpatula = (Compound)CompoundFactory.GetInstance ().GetCompound ((reagent)).Clone (volumeHeld);
+		reagentInSpatula = (Compound)CompoundFactory.GetInstance ().GetCupboardCompound ((reagent)).Clone (volumeHeld);
 
 		CloseInteractionBox();
 	}

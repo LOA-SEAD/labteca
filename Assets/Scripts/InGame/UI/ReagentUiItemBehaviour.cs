@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -54,7 +54,7 @@ public class ReagentUiItemBehaviour : MonoBehaviour {
 		//Debug.Log ("Add " + nameReagent.text);
 		//inventoryManager.AddItemToInventory (GameObject.Find ("GetReagents").GetComponent<GetReagentState>().ReagentInstantiation(nameReagent.text));
 		Compound reagent;
-		reagent = CompoundFactory.GetInstance ().GetCompound (nameReagent.text);
+		reagent = CompoundFactory.GetInstance ().GetCupboardCompound (nameReagent.text);
 		inventoryManager.AddReagentToInventory (prefabReagentPot,reagent);
 	}
 

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -88,7 +88,7 @@ public class MachineBehaviour : MonoBehaviour
 	//! Setup of reagent liquid in all machines.
 	public void Setup(string reagent, float concentration)
 	{
-		Compound realReagent = CompoundFactory.GetInstance ().GetCompound (reagent) as Compound;
+		Compound realReagent = CompoundFactory.GetInstance ().GetCupboardCompound (reagent) as Compound;
 
 		if (realReagent==null)
 		{
@@ -182,7 +182,7 @@ public class MachineBehaviour : MonoBehaviour
 	//! Uses of reagent liquid in all machines.
 	public void Use(string reagent, float concentration)
 	{
-		Compound realReagent = CompoundFactory.GetInstance ().GetCompound (reagent) as Compound;
+		Compound realReagent = CompoundFactory.GetInstance ().GetCupboardCompound (reagent) as Compound;
 		
 		if (realReagent==null)
 		{

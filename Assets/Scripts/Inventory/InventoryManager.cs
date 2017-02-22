@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -169,11 +169,11 @@ public class InventoryManager : MonoBehaviour {
 		switch (item.getItemType ()) {
 		case ItemType.Liquids:
 			icon.sprite = icons[0];
-			txt.text = CompoundFactory.GetInstance().GetCompound(item.reagent).Formula;
+			txt.text = CompoundFactory.GetInstance().GetCupboardCompound(item.reagent).Formula;
 			break;
 		case ItemType.Solids:
 			icon.sprite = icons[1];
-			txt.text = CompoundFactory.GetInstance().GetCompound(item.reagent).Formula;
+			txt.text = CompoundFactory.GetInstance().GetCupboardCompound(item.reagent).Formula;
 			break;
 		case ItemType.Glassware:
 			txt.text = "";
@@ -426,10 +426,10 @@ public class InventoryManager : MonoBehaviour {
 		case ItemType.Liquids:
 		case ItemType.Solids:
 			tabValues[0].text = i.reagent;
-			tabValues[1].text = CompoundFactory.GetInstance().GetCompound(i.reagent).MolarMass + " g/mol";
-			tabValues[2].text = CompoundFactory.GetInstance().GetCompound(i.reagent).Density+ " g/ml";
-			tabValues[3].text = CompoundFactory.GetInstance().GetCompound(i.reagent).Purity*100+ "%";
-			tabValues[4].text = CompoundFactory.GetInstance().GetCompound(i.reagent).Solubility+ " g/1g";
+			tabValues[1].text = CompoundFactory.GetInstance().GetCupboardCompound(i.reagent).MolarMass + " g/mol";
+			tabValues[2].text = CompoundFactory.GetInstance().GetCupboardCompound(i.reagent).Density+ " g/ml";
+			tabValues[3].text = CompoundFactory.GetInstance().GetCupboardCompound(i.reagent).Purity*100+ "%";
+			tabValues[4].text = CompoundFactory.GetInstance().GetCupboardCompound(i.reagent).Solubility+ " g/1g";
 			break;
 		}
 

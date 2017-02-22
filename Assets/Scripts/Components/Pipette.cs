@@ -231,7 +231,7 @@ public class Pipette : WorkbenchInteractive {
 				CursorManager.SetNewCursor (filledPipette_CursorTexture, hotSpot);
 
 				GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState ().GetComponent<WorkBench> ().cannotEndState = true;
-				reagentInPipette = (Compound)CompoundFactory.GetInstance ().GetCompound ((interactingReagent.Name)).Clone (volumeHeld);
+				reagentInPipette = (Compound)CompoundFactory.GetInstance ().GetCupboardCompound ((interactingReagent.Name)).Clone (volumeHeld);
 			}
 		} 
 
@@ -355,7 +355,7 @@ public class Pipette : WorkbenchInteractive {
 	public void FillVolumetricPipette(string reagent) { //OK
 		this.volumeHeld = this.maxVolume;
 
-		this.reagentInPipette = (Compound)CompoundFactory.GetInstance ().GetCompound ((reagent)).Clone (volumeHeld);
+		this.reagentInPipette = (Compound)CompoundFactory.GetInstance ().GetCupboardCompound ((reagent)).Clone (volumeHeld);
 		CursorManager.SetMouseState (MouseState.ms_filledPipette);
 		CursorManager.SetNewCursor (filledPipette_CursorTexture, hotSpot);
 

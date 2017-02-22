@@ -18,7 +18,7 @@ public class ReagentPot : ItemToInventory {
 		tabValues[0].text = reagent.Name;
 		tabValues[1].text = reagent.MolarMass + " g/mol";
 		tabValues[2].text = reagent.Density+ " g/ml";
-		tabValues[3].text = CompoundFactory.GetInstance().GetCompound(reagent.Name).Purity*100+ "%";
+		tabValues[3].text = CompoundFactory.GetInstance().GetCupboardCompound(reagent.Name).Purity*100+ "%";
 		tabValues[4].text = reagent.Solubility+ " g/1g";
 
 		defaultColour = potMesh.renderer.material.color;

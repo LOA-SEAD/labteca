@@ -43,7 +43,7 @@ public class JournalController : TabletState {
 		deleteContent ();
 		Compound reagent;
 
-		reagent=CompoundFactory.GetInstance ().GetCompound (name);
+		reagent=CompoundFactory.GetInstance ().GetCupboardCompound (name);
 
 		//adds the infoUI to content
 		prefabRect = infoPrefab.GetComponent<RectTransform> ();

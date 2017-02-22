@@ -28,14 +28,14 @@ public class CompoundFactory {
 	}
 
 	//! Returns a clone of the given compound
-	public Compound GetCompound (string formula) {
+	public Compound GetCupboardCompound (string formula) {
 		if (cupboardCollection.ContainsKey (formula))
 			return (Compound)cupboardCollection [formula].Clone ();
 		else
 			return null;
 	}														
 
-	public Compound GetProduct (string formula) {
+	public Compound GetCompound (string formula) {
 		if (collection.ContainsKey (formula))
 			return (Compound)collection [formula].Clone ();
 		else

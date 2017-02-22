@@ -429,6 +429,13 @@ public class ComponentsSaver
 			Debug.Log (productAcc.Formula + ".Molarity = " + productAcc.Molarity);
 			products.Add(productAcc.Formula, productAcc);
 		}
+
+		Dictionary<string, Compound> cupboard = ComponentsSaver.LoadCupboardCompounds();
+
+		foreach (string name in cupboard.Keys) {
+			products.Add(cupboard[name].Formula, cupboard[name]);
+		}
+
 		return products;
 	}
 

@@ -28,7 +28,7 @@ public class ResultVerifier {
 	public void SetVerificationStep(TypeOfStep stepType, Dictionary<string, string> newStep) {
 		step = newStep;
 		currentType = stepType;
-
+		Debug.Log ("Settando step = " + currentType);
 		//LIAState.SetVerificationInterface();
 	}
 	
@@ -137,7 +137,7 @@ public class ResultVerifier {
 */
 	public bool VerifyCheckBox(int option){ //TODO:check exactly how the answer will be defined
 		bool answer;
-		if (option == int.Parse(step ["answer"])) {
+		if (option == int.Parse(step ["correctAnswer"])) {
 			answer = true;
 		} else {
 			answer = false;
@@ -148,14 +148,14 @@ public class ResultVerifier {
 		bool answer;
 
 		if (currentType == TypeOfStep.WhatCompound) {
-			if (textAnswer == step ["answer"]) {
+			if (textAnswer == step ["correctAnswer"]) {
 				answer = true;
 			} else {
 				answer = false;
 			}
 		} else { //MolarityCheck
-			if ( (float.Parse(textAnswer) <= (float.Parse(step["answer"]) + float.Parse(step["maxError"])))
-			  || (float.Parse(textAnswer) >= (float.Parse(step["answer"]) - float.Parse(step["maxError"]))) ) {
+			if ( (float.Parse(textAnswer) <= (float.Parse(step["correctAnswer"]) + float.Parse(step["maxError"])))
+			  || (float.Parse(textAnswer) >= (float.Parse(step["correctAnswer"]) - float.Parse(step["maxError"]))) ) {
 				answer = true;
 			}
 			else
@@ -164,14 +164,19 @@ public class ResultVerifier {
 		return answer;
 	}
 	public bool VerifyGlassware(Glassware glassware) {
+		Debug.Log ("Verifying glassware");
 		bool flag = false;
 		float maxError = float.Parse (step ["maxError"]);
 
 		if (glassware.content is Mixture) { //TODO: Check if this is not checked before already
+			Debug.Log ("Entrou mixture");
 			if ((glassware.content as Mixture).ProductFormula () != "") { //Making sure the product exists
+				Debug.Log ("Entrou formula");
 				if ((glassware.content as Mixture).Leftover1Molarity () > maxError || (glassware.content as Mixture).Leftover2Molarity () > maxError) { //There's too much leftover to be correct
+					Debug.Log ("Entrou leftover");
 					return false;
 				} else {
+					Debug.Log ("Else leftover");
 					foreach (string k in step.Keys) {
 						if (step [k] != "null") {
 							switch (k) {
@@ -198,7 +203,7 @@ public class ResultVerifier {
 									return false;
 								}
 								break;
-							case "density":
+							/*case "density":
 								if (((glassware.content as Mixture).Density < float.Parse (step [k]) + maxError) &&
 									((glassware.content as Mixture).Density > float.Parse (step [k]) - maxError)) {
 									flag = true;
@@ -221,22 +226,26 @@ public class ResultVerifier {
 								} else {
 									return false;
 								}
-								break;
+								break;*/
 							}
 						}
 					}
+					Debug.Log("Sera que deu bom?");
 					if (flag) {
+						Debug.Log ("Deu booom!");
 						return true;
 					}
 				}
 			}
 		}
-
 		else {
+			Debug.Log ("Entrou nao mistura");
 			foreach (string k in step.Keys) {
 				if (step [k] != "null") {
+					Debug.Log ("Pre switch");
 					switch (k) {
-					case "formula":
+					case "compoundFormula":
+						Debug.Log ("Caso formula");
 						if (step [k] == (glassware.content as Compound).Formula) {
 							Debug.Log ((glassware.content as Compound).Formula);
 							flag = true;
@@ -244,22 +253,26 @@ public class ResultVerifier {
 							return false;
 							}
 						break;
-					case "molarity":
+					/*case "molarity": //TODO: reativar isso depois que tivermos as informaçoes da Teca
+						Debug.Log ("Caso molaridade");
 						if (((glassware.content as Compound).Molarity < float.Parse (step [k]) + maxError) &&
 						    ((glassware.content as Compound).Molarity > float.Parse (step [k]) - maxError)) {
+							Debug.Log ("Caso molaridade true");
 							flag = true;
 						} else {
+							Debug.Log ("Caso molaridade false");
 							return false;
 							}
-						break;
+						break;*/
 					case "minVolume":
+						Debug.Log ("Caso min volume");
 						if (((glassware.content as Compound).Volume > float.Parse (step [k]) - maxError)) {
 							flag = true;
 						} else {
 							return false;
 						}
 						break;
-					case "density":
+					/*case "density":
 						if (((glassware.content as Compound).Density < float.Parse (step [k]) + maxError) &&
 						    ((glassware.content as Compound).Density > float.Parse (step [k]) - maxError)) {
 							flag = true;
@@ -282,11 +295,13 @@ public class ResultVerifier {
 						} else {
 							return false;
 						}
-						break;
+						break;*/
 					}
 				}
 			}
+			Debug.Log("Sera que deu bom no composto?");
 			if (flag) {
+				Debug.Log ("Deu booom!");
 				return true;
 			}
 		}

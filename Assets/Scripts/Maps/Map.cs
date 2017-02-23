@@ -12,12 +12,12 @@ public class Map : MonoBehaviour {
 	public GameObject markerPrefab;
 	// Use this for initialization
 	void Start () {
-		Debug.Log("X: "+pos0.position.x+" Y: "+pos0.position.y+" Z: "+pos0.position.z);
-		Debug.Log("X: "+pos1.position.x+" Y: "+pos1.position.y+" Z: "+pos1.position.z);
+//		Debug.Log("X: "+pos0.position.x+" Y: "+pos0.position.y+" Z: "+pos0.position.z);
+//		Debug.Log("X: "+pos1.position.x+" Y: "+pos1.position.y+" Z: "+pos1.position.z);
 		YCenter = (pos1.position.z + pos0.position.z) / 2;
 		XCenter = (pos1.position.x + pos0.position.x) / 2;
 
-		Debug.Log("Player X: "+player.position.x+" Y: "+player.position.y+" Z: "+player.position.z);
+//		Debug.Log("Player X: "+player.position.x+" Y: "+player.position.y+" Z: "+player.position.z);
 		GenerateMarkers ();
 	}
 	

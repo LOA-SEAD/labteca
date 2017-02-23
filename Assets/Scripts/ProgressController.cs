@@ -36,10 +36,11 @@ public class ProgressController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		stepType = TypeOfStep.none;
+		//stepType = TypeOfStep.none;
 	}
 
 	void Awake() {
+		stepType = TypeOfStep.none;
 		//For testing
 		#if UNITY_EDITOR
 		if(Application.loadedLevelName == "DemoLabDev"){
@@ -67,11 +68,15 @@ public class ProgressController : MonoBehaviour {
 	/// </summary>
 	private void StartCustomMode() {
 		bool glasswareStart = false;
+		customMode = true;
 		currentPhase = PhasesSaver.LoadPhases (customPhaseDir);
 		phaseDefinitions = PhasesSaver.GetPhaseLibrary (customPhaseDir);
 
+		for(int i = 0; i < currentPhase.Count; i++) {
+			Debug.Log ("PC.CurrentPhase " + i + " = " + currentPhase[i]["typeOfStep"]);
+		}
+
 		numberOfSteps = currentPhase.Count;
-		actualStep = 0;
 
 		this.NewPhase (bool.Parse (phaseDefinitions ["glasswareStart"]));
 	}
@@ -82,7 +87,7 @@ public class ProgressController : MonoBehaviour {
 	/// <param name="glasswareStart">Glassware start.</param>
 	private void NewPhase(bool glasswareStart){
 		//Check how to start the phase
-
+		actualStep = 0;
 		if (glasswareStart) {
 			GameObject bequer = Instantiate ((GameObject.Find ("GameController").GetComponent<GameController> ().gameStates [3] as GetGlasswareState).glasswareList [0].gameObject) as GameObject;
 			if((GameObject.Find ("GameController").GetComponent<GameController> ().gameStates [1] as WorkBench).TryPutIntoPosition(bequer)) {
@@ -113,9 +118,21 @@ public class ProgressController : MonoBehaviour {
 	/// It is called to load the subsequent step of a phase
 	/// </summary>
 	private void NewStep(){
-		actualStep++;
-		stepType = (TypeOfStep) int.Parse(currentStep ["stepType"]);
-		ResultVerifier.GetInstance().SetVerificationStep(StepType, currentStep);
+		stepType = (TypeOfStep) int.Parse(currentPhase[actualStep]["typeOfStep"]);
+		ResultVerifier.GetInstance().SetVerificationStep(StepType, currentPhase[actualStep]);
+
+		if (StepType == TypeOfStep.CompoundClass) {
+			Debug.Log ("1 = CompoundClass");
+		}
+		if (StepType == TypeOfStep.WhatCompound) {
+			Debug.Log ("2 = WhatCompound");
+		}
+		if (StepType == TypeOfStep.MolarityCheck) {
+			Debug.Log ("3 = MolarityCheck");
+		}
+		if (StepType == TypeOfStep.GlasswareCheck) {
+			Debug.Log ("4 = GlasswareCheck");
+		}
 
 		//Play starting dialogue according to type of quest, if needed
 		switch (StepType) {
@@ -138,10 +155,13 @@ public class ProgressController : MonoBehaviour {
 	/// It is called when a step is completed, transiting to the next step, or next phase
 	/// </summary>
 	public void CompleteStep() {
+		Debug.Log ("Completing step");
 		//Write on .json the answers
-		if (numberOfSteps == actualStep) {
+		if ((numberOfSteps - 1) == actualStep) {
+			Debug.Log("PhaseTransition will be called");
 			this.PhaseTransition ();
 		} else {
+			actualStep++;
 		   /*
 		 	* Play ending dialogue accoding to step, if needed;
 		 	*/
@@ -162,10 +182,12 @@ public class ProgressController : MonoBehaviour {
 	/// It makes the transition to the next phase
 	/// </summary>
 	private void PhaseTransition() {
+		Debug.Log ("PhaseTransition");
 		if (customMode) { 
 			/* FinalAnimation.Show()
 			 * EndGame
 			 */
+			Debug.Log ("Phase Transition for custom mode");
 
 			#if UNITY_EDITOR
 			Application.LoadLevel ("Menu");

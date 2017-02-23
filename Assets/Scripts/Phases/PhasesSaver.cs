@@ -68,9 +68,11 @@ public class PhasesSaver {
 		JSONEdit jsonEditor = new JSONEdit(directory);
 		
 		Dictionary<int, Dictionary<string, string>> phase = new Dictionary<int, Dictionary<string, string>> ();
-		
+
+		Debug.Log ("Number of steps = " + jsonEditor.NumberOfObjects ());
 		for (int i = 0; i < jsonEditor.NumberOfObjects(); i++) {
 			phase.Add (i, PhasesSaver.LoadStep(jsonEditor, i));
+			Debug.Log("Adicionando step = " + phase[i]["typeOfStep"]);
 		}
 		return phase;
 	}
@@ -82,14 +84,31 @@ public class PhasesSaver {
 			
 		step.Add("typeOfStep", jsonEditor.GetString(i, "typeOfStep"));
 
-		step.Add("productFormula", jsonEditor.GetString(i, "productFormula"));
-		step.Add("molarity", jsonEditor.GetString(i, "molarity"));
-		step.Add("minVolume", jsonEditor.GetString(i, "minVolume"));
-		step.Add("maxError", jsonEditor.GetString(i, "maxError"));
-		step.Add("density", jsonEditor.GetString(i, "density"));
-		step.Add("turbidity", jsonEditor.GetString(i, "turbidity"));
-		step.Add("conductibility", jsonEditor.GetString(i, "conductibility"));
-				
+		switch (step ["typeOfStep"]) {
+		case "1":
+			step.Add("option1", jsonEditor.GetString(i, "option1"));
+			step.Add("option2", jsonEditor.GetString(i, "option2"));
+			step.Add("option3", jsonEditor.GetString(i, "option3"));
+			step.Add("option4", jsonEditor.GetString(i, "option4"));
+			step.Add("option5", jsonEditor.GetString(i, "option5"));
+			step.Add("correctAnswer", jsonEditor.GetString(i, "correctAnswer"));
+			break;
+		case "2":
+			step.Add("correctAnswer", jsonEditor.GetString(i, "correctAnswer")); //Compound Formula
+			break;
+		case "3":
+			step.Add("compoundFormula", jsonEditor.GetString(i, "compoundFormula"));
+			step.Add("correctAnswer", jsonEditor.GetString(i, "correctAnswer")); //Molarity
+			step.Add("maxError", jsonEditor.GetString(i, "maxError"));
+			break;
+		case "4":
+			step.Add("compoundFormula", jsonEditor.GetString(i, "compoundFormula"));
+			step.Add("molarity", jsonEditor.GetString(i, "molarity"));
+			step.Add("minVolume", jsonEditor.GetString(i, "minVolume"));
+			step.Add("maxError", jsonEditor.GetString(i, "maxError"));
+			break;
+		}
+						
 		return step;
 	}
 

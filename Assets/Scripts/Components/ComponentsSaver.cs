@@ -246,7 +246,7 @@ public class ComponentsSaver
 			}
 				
 			reagentAcc.Molarity = ((reagentAcc.Purity * reagentAcc.Density) / reagentAcc.MolarMass) * 1000; // number of mols / volume
-			Debug.Log (reagentAcc.Formula + ".Molarity = " + reagentAcc.Molarity);
+//			Debug.Log (reagentAcc.Formula + ".Molarity = " + reagentAcc.Molarity);
 			reagents.Add(reagentAcc.Name, reagentAcc);
 		}
 		return reagents;

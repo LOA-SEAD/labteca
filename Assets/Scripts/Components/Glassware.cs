@@ -314,8 +314,8 @@ public class Glassware : ItemToInventory
 			if(content is IPhysicochemical) {
 				Color32 thisColor;
 				if(!(content is Mixture)) {
-					Debug.Log ("Molarity of " +(content as Compound).Formula + " = " + (content as Compound).Molarity);
-					Debug.Log ("Volume of " +(content as Compound).Formula + " = " + (content as Compound).Volume);
+//					Debug.Log ("Molarity of " +(content as Compound).Formula + " = " + (content as Compound).Molarity);
+//					Debug.Log ("Volume of " +(content as Compound).Formula + " = " + (content as Compound).Volume);
 					if(!(content as Compound).Formula.Contains("H2O"))
 						thisColor = (content as Compound).compoundColor;
 					else
@@ -449,7 +449,7 @@ public class Glassware : ItemToInventory
 
 	//! Treatment of cases for when something is being put into the glassware
 	public bool IncomingReagent(Compound incomingCompound, float volumeFromTool) {
-		Debug.Log (incomingCompound.Formula + " incoming!");
+//		Debug.Log (incomingCompound.Formula + " incoming!");
 		if (content != null) { //Case not empty
 			if (content is Mixture) { // Case: there's Mixture
 				if (incomingCompound.Formula == "H2O") {

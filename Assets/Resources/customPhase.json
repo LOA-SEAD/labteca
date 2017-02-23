@@ -15,18 +15,18 @@
 	},
 	{
 		"typeOfStep" : "2",
-		"compoundFormula": "HCl",
+		"correctAnswer": "HCl",
 	},
 	{
 		"typeOfStep" : "3",
 		"compoundFormula": "HCl",
-		"molarity" : "1.0",
+		"correctAnswer" : "1.0",
 		"maxError" : "0.2"
 	},
 	{
 		"typeOfStep" : "4",
 		"compoundFormula": "HCl",
-		"molarity": "0.5",
+		"molarity": "1.0",
 		"minVolume": "25",
 		"maxError": "0.2"
 	}]

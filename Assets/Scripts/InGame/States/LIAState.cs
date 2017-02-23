@@ -120,6 +120,10 @@ public class LIAState : GameStateBase {
 		cameraState.depth = 2;
 		//interactiveCanvas.SetActive (true); //TODO: Tirar isso qq
 
+		Debug.Log ("Startando LIA");
+
+		Debug.Log ("Tipo = " + progressController.StepType);
+
 		switch (progressController.StepType) {
 		case TypeOfStep.CompoundClass:
 			checkCompoundClassCanvas.SetActive (true);
@@ -242,6 +246,7 @@ public class LIAState : GameStateBase {
 	/// </summary>
 	/// <returns>The index of the box.</returns>
 	public void CheckBoxAnswer(int answer) {
+		Debug.Log ("Opçao selecionada = " + answer);
 		checkBoxSelected = answer;
 	}
 

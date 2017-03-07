@@ -109,7 +109,7 @@ public class ProgressController : MonoBehaviour {
 		}
 
 		//Add steps to Experiment Menu on Tablet
-
+		GameObject.Find ("Tablet").GetComponentInChildren<NotesState> ().LoadNotes ();
 
 		NewStep();
 	}

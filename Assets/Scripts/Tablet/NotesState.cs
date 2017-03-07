@@ -43,4 +43,15 @@ public class NotesState : TabletState {
 			changed = false;
 		}
 	}
+
+	/// <summary>
+	/// Triggers the NotesSaver class to load the notes.
+	/// If there was a note to be loaded, sets it to the tablet's notes.
+	/// </summary>
+	public void LoadNotes() {
+		string loadedNotes = NotesSaver.LoadNotes ();
+		if (loadedNotes != "") {
+			notesText.text = loadedNotes;
+		}
+	}
 }

@@ -120,10 +120,10 @@ public class GameController : MonoBehaviour {
 	/// Calls the Journal Saver.
 	/// </summary>
 	/// <param name="journalUI">Journal user interface.</param>
-	public void CallJSaver(JournalUIItem journalUI){
+	/*public void CallJSaver(JournalUIItem journalUI){
 		int expo = GameObject.Find ("Journal").GetComponent<JournalController> ().experimentNumber;
 		JournalSaver.AddJournalUIItem (journalUI,expo);
-	}
+	}*/
 	/// <summary>
 	/// Sends a alert.
 	/// </summary>

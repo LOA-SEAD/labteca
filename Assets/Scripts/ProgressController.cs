@@ -33,6 +33,7 @@ public class ProgressController : MonoBehaviour {
 	private Dictionary<string, string> currentStep;
 	private int numberOfSteps;
 	private int actualStep;
+	public int ActualStep { get { return actualStep; } }
 
 	// Use this for initialization
 	void Start () {
@@ -110,7 +111,7 @@ public class ProgressController : MonoBehaviour {
 
 		//Add steps to Experiment Menu on Tablet
 		GameObject.Find ("Tablet").GetComponentInChildren<NotesState> ().LoadNotes ();
-
+		GameObject.Find ("Experiments Menu").GetComponent<ExperimentMenu> ().RefreshScroll (numberOfSteps);
 		NewStep();
 	}
 
@@ -120,6 +121,8 @@ public class ProgressController : MonoBehaviour {
 	private void NewStep(){
 		stepType = (TypeOfStep) int.Parse(currentPhase[actualStep]["typeOfStep"]);
 		ResultVerifier.GetInstance().SetVerificationStep(StepType, currentPhase[actualStep]);
+
+		GameObject.Find ("Experiments Menu").GetComponent<ExperimentMenu> ().ActivateStepTab (actualStep);
 
 		if (StepType == TypeOfStep.CompoundClass) {
 			Debug.Log ("1 = CompoundClass");

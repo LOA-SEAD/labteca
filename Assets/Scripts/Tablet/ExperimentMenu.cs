@@ -10,6 +10,8 @@ public class ExperimentMenu : TabletState
 	public Button prefab;
 	public JournalController journalController;
 
+	public GameObject[] stepTabs;
+
 	public override TabletStates StateType {
 		get {
 			return TabletStates.ExperimentsMenu;
@@ -17,22 +19,23 @@ public class ExperimentMenu : TabletState
 	}
 
 	// Use this for initialization
-	void Start ()
+	/*void Start ()
 	{
 		RefreshScroll ();
-	}
+	}*/
 
-	public void RefreshScroll(){
+	public void RefreshScroll(int numberOfSteps){
 		//Always clean the previous items
 		int child = content.childCount;
 		for (int i = 0; i < child; i++) {
 			Destroy(content.GetChild(i).gameObject);
 		}
+
+		stepTabs = new GameObject[numberOfSteps];
 		//Generates new items
 		for (int i = 0; i <= lastExperiment; i++) {
 			GameObject tempItem = Instantiate (prefab.gameObject) as GameObject;
 			tempItem.name = "MenuButton"+i;
-			//tempItem.GetComponentInChildren<Text> ().text = tempItem.GetComponentInChildren<Text> ().text + (i+1); //The name is based on the prefab's text
 			string name = "";
 			/*if(i == 0) {
 				name = "Solução de NaCl 1 mol/litro";
@@ -43,7 +46,10 @@ public class ExperimentMenu : TabletState
 			tempItem.GetComponentInChildren<Text> ().text = name;
 			tempItem.gameObject.GetComponent<Button> ().onClick.AddListener (() => GoToExperiment(int.Parse(tempItem.name.Substring(10))));
 			tempItem.transform.SetParent (content.transform, false);
-		}
+
+			stepTabs[i] = tempItem;
+			tempItem.SetActive(false);
+			}
 	}
 	/// <summary>
 	/// Goes to "i" experiment.
@@ -52,5 +58,14 @@ public class ExperimentMenu : TabletState
 	public void GoToExperiment(int i){
 		journalController.changeExperiment (i);
 		GetComponentInParent<TabletStateMachine> ().goToState ((int)TabletStates.Experiments);
+	}
+
+	/// <summary>
+	/// Activates the step tab.
+	/// </summary>
+	/// <param name="numberOfStep">Number of actual step.</param>
+	public void ActivateStepTab(int numberOfStep){
+		//Debug.Log (stepTabs.
+		stepTabs[numberOfStep].SetActive (true);
 	}
 }

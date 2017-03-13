@@ -30,7 +30,7 @@ public class JournalController : TabletState {
 		contentRect = UIScrollList.content;
 	}
 	public void changeExperiment(int expo){
-		experimentText.text = "Experimento " +(expo+1); //TODO: FOR THE TIME BEING, AS THERE'S ONLY ONE PHASE, WE CAN USE IT AS 3 PARTS
+		experimentText.text = "Etapa " +(expo+1); //TODO: FOR THE TIME BEING, AS THERE'S ONLY ONE PHASE, WE CAN USE IT AS 3 PARTS
 		LoadExperiment (expo);
 		SaveExperiment (experimentNumber);
 		if (experimentNumber != expo) {
@@ -85,12 +85,12 @@ public class JournalController : TabletState {
 			DestroyImmediate (deletable [i]);
 	}
 
-	public void LoadExperiment(int exp){
-		if (!experimentDictionary.ContainsKey (exp)&&exp!=-1) {
+	public void LoadExperiment(int stepNumber){
+		if (!experimentDictionary.ContainsKey (stepNumber)&&stepNumber!=-1) {
 			Dictionary<int, JournalUIItem> tempDictionary = new Dictionary<int, JournalUIItem>();
-			tempDictionary = JournalSaver.LoadJournalUIItems (exp);
+			tempDictionary = JournalSaver.LoadJournalUIItems (stepNumber);
 		
-			experimentDictionary.Add (exp, tempDictionary);
+			experimentDictionary.Add (stepNumber, tempDictionary);
 		}
 	}
 

@@ -1,0 +1,15 @@
+{
+	"name" : "Diluição da solução pra 1Mol/L",
+	"objects": [{
+		"index": "0",
+		"name": "Utilize um BALÃO VOLUMÉTRICO presente no ARMÁRIO DE VIDRARIAS para realizar a diluição",
+		"isDone": "False",
+		"numberOfPrerequisites0": "0"
+	},
+	{
+		"index": "1",
+		"name": "Se necessário, utilize a BALANÇA para aferir valores de massa para alcançar o valor de 1 mol por litro",
+		"isDone": "False",
+		"numberOfPrerequisites0": "0"
+	}]
+}

@@ -1,47 +1,9 @@
 {
-	"name" : "Preparo de solução NaOH",
+	"name" : "Descobrir Classe do Composto",
 	"objects": [{
 		"index": "0",
-		"name": "Busque um BÉQUER no ARMÁRIO DE VIDRARIAS",
+		"name": "Utilize os equipamentos pra descobrir a classe do composto",
 		"isDone": "False",
 		"numberOfPrerequisites0": "0"
-	}, {
-		"index": "1",
-		"name": "Busque o reagente NaOH no ARMÁRIO DE REAGENTES",
-		"isDone": "False",
-		"numberOfPrerequisites0": "0"
-	}, {
-		"index": "2",
-		"name": "Dirija-se à BALANÇA",
-		"isDone": "False",
-		"numberOfPrerequisites": "2",
-		"indexPrerequisiteOf": {
-			"0": "0",
-			"1": "1"
-		}
-	}, {
-		"index": "3",
-		"name": "Coloque o BÉQUER na BALANÇA e tare-a",
-		"isDone": "False",
-		"numberOfPrerequisites": "1",
-		"indexPrerequisiteOf": {
-			"0": "2"
-		}
-	}, {
-		"index": "4",
-		"name": "Use a ESPÁTULA para adicionar 8g de NaOH ao BÉQUER",
-		"isDone": "False",
-		"numberOfPrerequisites": "1",
-		"indexPrerequisiteOf": {
-			"0": "3"
-		}
-	}, {
-		"index": "5",
-		"name": "Use a PISSETA para adicionar 100mL de H2O ao BÉQUER",
-		"isDone": "False",
-		"numberOfPrerequisites": "1",
-		"indexPrerequisiteOf": {
-			"0": "4"
-		}
 	}]
 }

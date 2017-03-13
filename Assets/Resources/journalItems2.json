@@ -1,39 +1,9 @@
 {
-	"name" : "Preparo de solução NaOH",
+	"name" : "Descobrir a molaridade da solução",
 	"objects": [{
 		"index": "0",
-		"name": "Busque um BALÃO VOLUMÉTRICO 50mL do ARMÁRIO DE VIDRARIAS",
+		"name": "Valendo-se dos equipamentos e de seus conhecimentos de análise química, descubra a molaridade da solução",
 		"isDone": "False",
 		"numberOfPrerequisites0": "0"
-	}, {
-		"index": "1",
-		"name": "Dirija-se à CAPELA",
-		"isDone": "False",
-		"numberOfPrerequisites0": "0"
-	}, {
-		"index": "2",
-		"name": "Use a PIPETA para adicionar 50mL da SOLUÇÃO DE HCl, previamente preparada, ao BALÃO VOLUMÉTRICO",
-		"isDone": "False",
-		"numberOfPrerequisites": "2",
-		"indexPrerequisiteOf": {
-			"0": "0",
-			"1": "1"
-		}
-	}, {
-		"index": "3",
-		"name": "Use a PIPETA para adicionar 50mL da SOLUÇÃO DE NaOH, previamente preparada, ao BALÃO VOLUMÉTRICO",
-		"isDone": "False",
-		"numberOfPrerequisites": "1",
-		"indexPrerequisiteOf": {
-			"0": "2"
-		}
-	}, {
-		"index": "4",
-		"name": "Entregue a solução à LIA",
-		"isDone": "False",
-		"numberOfPrerequisites": "1",
-		"indexPrerequisiteOf": {
-			"0": "3"
-		}
 	}]
 }

@@ -96,7 +96,9 @@ public class JournalSaver{
 					journalItem.prerequisites.Add(indexOfPre);
 				}
 				journalItem.prerequisitesDone=false;
-				journalUIItems.Add(journalItem.index, journalItem);
+
+				if(!journalUIItems.ContainsKey(journalItem.index))
+					journalUIItems.Add(journalItem.index, journalItem);	
 			}
 		}
 		return journalUIItems;

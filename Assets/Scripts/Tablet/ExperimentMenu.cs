@@ -33,7 +33,7 @@ public class ExperimentMenu : TabletState
 
 		stepTabs = new GameObject[numberOfSteps];
 		//Generates new items
-		for (int i = 0; i <= lastExperiment; i++) {
+		for (int i = 0; i < numberOfSteps; i++) {
 			GameObject tempItem = Instantiate (prefab.gameObject) as GameObject;
 			tempItem.name = "MenuButton"+i;
 			string name = "";

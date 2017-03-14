@@ -17,12 +17,12 @@ public class ScaleController : EquipmentControllerBase
 
 	public TextMesh balanceText;    // Text display of Scale.
 
-	public float timeConstant;		// Maximum time of flicling effect
+	public float timeConstant;		// Maximum time of flicking effect
 	private float timeElapsed;
 
 	public GameObject activeMass;   // List of GameObjects that composes the mass.
 
-    public WorkBench workbench;       // BalanceState component.
+    public WorkBench workbench;		// BalanceState component.
 
     // Awake happens before all Start()
 	void Awake()
@@ -39,26 +39,32 @@ public class ScaleController : EquipmentControllerBase
 		RefreshEquipment ();
 
 		if (changed) {
-			balanceText.text = BalanceTextToString(UnityEngine.Random.Range(-1f+timeElapsed/timeConstant,1f-timeElapsed/timeConstant) + valueToShow);
+			balanceText.text = ScaleValueToString(UnityEngine.Random.Range(-1f+timeElapsed/timeConstant,1f-timeElapsed/timeConstant) + valueToShow);
 			timeElapsed += Time.fixedDeltaTime;
 			if(timeConstant<timeElapsed){
 				timeElapsed = 0;
 				changed = false;
-				balanceText.text = BalanceTextToString(valueToShow);
+				balanceText.text = ScaleValueToString(valueToShow);
 			}
 		} 
 	}
 
-	private string BalanceTextToString(float value){
+	/// <summary>
+	/// Converts the float value to formated text for the scale
+	/// </summary>
+	/// <returns>Formated string.</returns>
+	/// <param name="value">Float value to be converted.</param>
+	private string ScaleValueToString(float value){
 		string txt;
 		txt = String.Format("{0:F2}", value);
 
 		return txt;
 	}
-    
-    //! Set the taring value to the mass value on the scale.
-	//	If there's no mass, the taring value becomes zero
-	public void SetupBalance() {
+
+	/// <summary>
+	/// Set up the taring value of the scale.
+	/// </summary>
+	public void SetTaredValue() {
 		if (activeMass != null) {
 			taredValue = activeMass.GetComponent<Glassware> ().GetMass ();
 		} else {
@@ -67,8 +73,10 @@ public class ScaleController : EquipmentControllerBase
 		workbench.GetComponentInChildren<StateUIManager> ().CloseAll ();
 	}
 
-    //! Set PlayerPrefs "setupBalance" to zero.
-	public void ResetBalance()
+    /// <summary>
+    /// Resets the scale, setting the tared value to 0.0.
+    /// </summary>
+	public void ResetScale()
 	{
 		taredValue = 0.00f;
 		RefreshEquipment ();
@@ -99,7 +107,6 @@ public class ScaleController : EquipmentControllerBase
 
     //! Update Real Mass to the mass of all GameObjects on ActiveMass.
 	private void RefreshEquipment(){
-
 		if (workbench.IsRunning ()) {
 			valueToShow = 0.00f;
 			if (activeMass != null) {

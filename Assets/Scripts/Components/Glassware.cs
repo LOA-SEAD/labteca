@@ -370,41 +370,30 @@ public class Glassware : ItemToInventory
 	}
 
 	public float GetPH() {
-	
 		float actualPH = 7.0f;
 
 		return actualPH;
-
 	}
 
 
 	public float GetConductivity() {
-	
 		float actualConductivity = 0.5f;
 
 		return actualConductivity;
-
 	}
 
 	public float GetPolarity() {
-	
 		float actualPolarity = 1.0f;
 
 		return actualPolarity;
-
 	}
 
 	public float GetTurbidity() {
-		
 		float actualTurbidity = 8.0f;
 		
 		return actualTurbidity;
-		
 	}
-
-
-
-
+	
 	public float GetVolume() {
 		float actualVolume = 0.0f;
 		if (content != null) {

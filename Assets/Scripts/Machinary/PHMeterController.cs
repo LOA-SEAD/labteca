@@ -9,8 +9,6 @@ using System.Collections.Generic;
  */
 public class PHMeterController : EquipmentControllerBase {
 
-	public float ph;
-
 	public float valueToShow;			// Mass to be shown on scale. 	
 
 	public float previousValue;			// Value to controle the flicking effect
@@ -28,33 +26,27 @@ public class PHMeterController : EquipmentControllerBase {
 	public WorkBench workbench;			// BalanceState component.
 
 
-	void Awake()
-	{
+	void Awake() {
 		// PlayerPrefs.SetFloat ("setupBalance", 0);
 	}
 
-	void Start () 
-	{
-		ph = 0;
+	void Start () {
 		timeElapsed = 0;
 	}
 
 
-	void Update () 
-	{
-	
+	void Update () {
 		RefreshEquipament ();
 
 		if (changed) {
-			phmeterText.text = PhmeterTextToString(UnityEngine.Random.Range(-1f,1f) + ph);
+			phmeterText.text = PhmeterTextToString(UnityEngine.Random.Range(-1f+timeElapsed/timeConstant,1f-timeElapsed/timeConstant) + valueToShow);
 			timeElapsed += Time.fixedDeltaTime;
 			if(timeConstant<timeElapsed){
 				timeElapsed = 0;
 				changed = false;
-				phmeterText.text = PhmeterTextToString(ph);
+				phmeterText.text = PhmeterTextToString(valueToShow);
 			}
-		} 
-
+		}
 	}
 
 	private string PhmeterTextToString(float value){
@@ -67,7 +59,7 @@ public class PHMeterController : EquipmentControllerBase {
 
 	public void ResetPhmeter()
 	{
-		PlayerPrefs.SetFloat ("setupBalance", 0);
+		//PlayerPrefs.SetFloat ("setupBalance", 0);
 		RefreshEquipament ();
 
 	}
@@ -97,10 +89,12 @@ public class PHMeterController : EquipmentControllerBase {
 
 	//! Update Real Mass to the mass of all GameObjects on ActiveMass.
 	private void RefreshEquipament(){
-		if (workbench.IsRunning () && activeGlassware!=null && equipmentOn && measure) {
-			valueToShow = 0.00f;
+		if (workbench.IsRunning () && equipmentOn && measure) {
 			if (activeGlassware != null) {
 				valueToShow = activeGlassware.GetComponent<Glassware> ().GetPH ();
+			}
+			else{
+				valueToShow = 0.0f;
 			}
 
 			if(previousValue !=  valueToShow){
@@ -125,8 +119,9 @@ public class PHMeterController : EquipmentControllerBase {
 	/// Triggers the events when the power button pressed.
 	/// </summary>
 	public void OnClickMeasure(){
-		if (equipmentOn)
+		if (equipmentOn && !measure) {
 			phmeterText.text = PhmeterTextToString (0.00f);
 			measure = true;
+		}
 	}
 }

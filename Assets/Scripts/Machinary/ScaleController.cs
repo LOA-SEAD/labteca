@@ -15,7 +15,7 @@ public class ScaleController : EquipmentControllerBase
 	public float previousMass;		// Value to control the flicking effect
 	private bool changed;			// Used to control the flicking effect on display.
 
-	public TextMesh balanceText;    // Text display of Scale.
+	public TextMesh scaleText;    // Text display of Scale.
 
 	public float timeConstant;		// Maximum time of flicking effect
 	private float timeElapsed;
@@ -39,12 +39,12 @@ public class ScaleController : EquipmentControllerBase
 		RefreshEquipment ();
 
 		if (changed) {
-			balanceText.text = ScaleValueToString(UnityEngine.Random.Range(-1f+timeElapsed/timeConstant,1f-timeElapsed/timeConstant) + valueToShow);
+			scaleText.text = ScaleValueToString(UnityEngine.Random.Range(-1f+timeElapsed/timeConstant,1f-timeElapsed/timeConstant) + valueToShow);
 			timeElapsed += Time.fixedDeltaTime;
 			if(timeConstant<timeElapsed){
 				timeElapsed = 0;
 				changed = false;
-				balanceText.text = ScaleValueToString(valueToShow);
+				scaleText.text = ScaleValueToString(valueToShow);
 			}
 		} 
 	}

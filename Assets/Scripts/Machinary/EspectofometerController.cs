@@ -1,78 +1,69 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-using System;
-
+//TODO: Implement the different buttons for Li, Na and K concentration.
 public class EspectofometerController : EquipmentControllerBase {
 
+	public float valueToShow;			// Value to be shown on scale. 	
 	
-	public float light;  // nao sei se eh o melhor nome
+	public float previousValue;			// Value to controle the flicking effect
+	bool changed;						// Used to control the flicking effect on display.
+	bool equipmentOn;
+	bool measure;
 	
-	bool changed,equipmentOn,measure;
+	public TextMesh phmeterText;		// Text display of Scale.
 	
-	public TextMesh espectofometerText;
-	
-	public float timeConstant;
+	public float timeConstant;			// Maximum time of flicking effect
 	private float timeElapsed;
 	
-	public GameObject activeGlassware;   
+	public GameObject activeGlassware;	// List of GameObjects that composes the mass.
 	
-	public WorkBench workbench;
+	public WorkBench workbench;			// BalanceState component.
 	
-	
-	void Awake()
-	{
-		// PlayerPrefs.SetFloat ("setupBalance", 0);
-	}
-	void Start () 
-	{
-		light = 0;
+	void Start () {
 		timeElapsed = 0;
 	}
 	
-	
-	void Update () 
-	{
+	void Update () {
 		RefreshEquipament ();
 		
 		if (changed) {
-			espectofometerText.text = EspectofometerTextoToString(UnityEngine.Random.Range(-1f,1f) + light);
+			phmeterText.text = EquipmentTextToString(UnityEngine.Random.Range(-1f+timeElapsed/timeConstant,1f-timeElapsed/timeConstant) + valueToShow);
 			timeElapsed += Time.fixedDeltaTime;
 			if(timeConstant<timeElapsed){
 				timeElapsed = 0;
 				changed = false;
-				espectofometerText.text = EspectofometerTextoToString(light);
+				phmeterText.text = EquipmentTextToString(valueToShow);
 			}
-		} 
-		
+		}
 	}
 	
-	private string EspectofometerTextoToString(float value){
+	/// <summary>
+	/// Converts the float value to formated text for the equipment.
+	/// </summary>
+	/// <returns>Formated string.</returns>
+	/// <param name="value">Float value to be converted.</param>
+	private string EquipmentTextToString(float value){
 		string txt;
 		txt = String.Format("{0:F2}", value);
 		
 		return txt;
 	}
 	
-	//! Set PlayerPrefs "setupBalance" to realMass.
-	//
-	//	public void SetupBalance()
-	//	{
-	//		PlayerPrefs.SetFloat ("setupBalance", realMass);
-	//	}
-	
-	//! Set PlayerPrefs "setupBalance" to zero.
-	
-	public void ResetEspectofometer()
-	{
-		PlayerPrefs.SetFloat ("setupBalance", 0);
+	/// <summary>
+	/// Resets the equipment.
+	/// </summary>
+	public void ResetEquipment() {
 		RefreshEquipament ();
-		
 	}
 	
-	//! Get Glassware that is on polaritymeter.
 	
+	/// <summary>
+	/// Gets the glassware currently in the equipment position.
+	/// </summary>
+	/// <returns>The glassware currently in equipment.</returns>
 	public Glassware GetGlassInEquipament(){
 		Glassware glassToReturn = null;
 		
@@ -82,58 +73,62 @@ public class EspectofometerController : EquipmentControllerBase {
 		return glassToReturn;
 	}
 	
-	
-	
+	/// <summary>
+	/// Adds a glassware to be measured by the equipment.
+	/// </summary>
+	/// <param name="objectToAdd">Object to be added.</param>
 	public override void AddObjectInEquipament(GameObject objectToAdd){
-		
 		activeGlassware = objectToAdd;
 		RefreshEquipament();
-		
 	}
 	
-	//! Remove a GameObject from being measured on Scale.
+	/// <summary>
+	/// Removes a GameObject from the equipment position.
+	/// </summary>
+	/// <param name="objectToRemove">Object to be removed.</param>
 	public override void RemoveObjectInEquipament(GameObject objectToRemove){
-		
 		activeGlassware = null;
 		RefreshEquipament();
-
-		
 	}
 	
 	//! Update Real Mass to the mass of all GameObjects on ActiveMass.
-	
+	/// <summary>
+	/// Refreshs the equipament, checking if the flicking effect will be triggered.
+	/// </summary>
 	private void RefreshEquipament(){
-		
-		if (workbench.IsRunning ()&& activeGlassware!=null && equipmentOn && measure) {
+		if (workbench.IsRunning () && equipmentOn && measure) {
+			if (activeGlassware != null) {
+				valueToShow = activeGlassware.GetComponent<Glassware> ().GetMass();
+			}
+			else{
+				valueToShow = 0.0f;
+			}
 			
-			float tempMass = 0.00f;
-			
-			if (activeGlassware != null)
-				tempMass += activeGlassware.GetComponent<Glassware> ().GetPolarity ();
-		
-			
-			
-			light = tempMass - PlayerPrefs.GetFloat ("setupBalance");
-			
-			if(light!=0){
+			if(previousValue !=  valueToShow){
+				previousValue = valueToShow;
 				changed = true;
 			}
+			//measure=false;
 		}
-
 	}
-
-		public void onClickRun(){
-			
-			espectofometerText.text = EspectofometerTextoToString (0f);
+	
+	/// <summary>
+	/// Triggers the events when the power button pressed.
+	/// </summary>
+	public void OnClickPower(){
+		if (!equipmentOn) {
+			phmeterText.text = "--.--";
 			equipmentOn = true;
 		}
-		
-		public void onClickMeasure(){
-			if(equipmentOn)
-				measure = true;
+	}
+	
+	/// <summary>
+	/// Triggers the events when the power button pressed.
+	/// </summary>
+	public void OnClickMeasure(){
+		if (equipmentOn && !measure) {
+			phmeterText.text = EquipmentTextToString (0.00f);
+			measure = true;
 		}
-
-	
-	
-	
+	}
 }

@@ -2,7 +2,7 @@
 	"name" : "2. Descobrir o composto",
 	"objects": [{
 		"index": "0",
-		"name": "Utilize os equipamentos e seus conhecimentos de química analítica para descobrir qual é o composto presente no béquer",
+		"name": "Com o auxílio dos equipamentos, descobra qual é o composto presente na solução.",
 		"isDone": "False",
 		"numberOfPrerequisites0": "0"
 	}]

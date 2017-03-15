@@ -169,6 +169,7 @@ public class ProgressController : MonoBehaviour {
 		 	* Play ending dialogue accoding to step, if needed;
 		 	*/
 			this.NewStep ();
+
 		}
 	}
 

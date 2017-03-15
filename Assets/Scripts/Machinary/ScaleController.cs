@@ -39,22 +39,22 @@ public class ScaleController : EquipmentControllerBase
 		RefreshEquipment ();
 
 		if (changed) {
-			scaleText.text = ScaleValueToString(UnityEngine.Random.Range(-1f+timeElapsed/timeConstant,1f-timeElapsed/timeConstant) + valueToShow);
+			scaleText.text = EquipmentValueToString(UnityEngine.Random.Range(-1f+timeElapsed/timeConstant,1f-timeElapsed/timeConstant) + valueToShow);
 			timeElapsed += Time.fixedDeltaTime;
 			if(timeConstant<timeElapsed){
 				timeElapsed = 0;
 				changed = false;
-				scaleText.text = ScaleValueToString(valueToShow);
+				scaleText.text = EquipmentValueToString(valueToShow);
 			}
 		} 
 	}
 
 	/// <summary>
-	/// Converts the float value to formated text for the scale
+	/// Converts the float value to formated text for the equipment.
 	/// </summary>
 	/// <returns>Formated string.</returns>
 	/// <param name="value">Float value to be converted.</param>
-	private string ScaleValueToString(float value){
+	private string EquipmentValueToString(float value){
 		string txt;
 		txt = String.Format("{0:F2}", value);
 

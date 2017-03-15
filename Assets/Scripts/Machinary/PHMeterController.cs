@@ -24,12 +24,7 @@ public class PHMeterController : EquipmentControllerBase {
 	public GameObject activeGlassware;	// List of GameObjects that composes the mass.
 	
 	public WorkBench workbench;			// BalanceState component.
-
-
-	void Awake() {
-		// PlayerPrefs.SetFloat ("setupBalance", 0);
-	}
-
+	
 	void Start () {
 		timeElapsed = 0;
 	}
@@ -39,33 +34,40 @@ public class PHMeterController : EquipmentControllerBase {
 		RefreshEquipament ();
 
 		if (changed) {
-			phmeterText.text = PhmeterTextToString(UnityEngine.Random.Range(-1f+timeElapsed/timeConstant,1f-timeElapsed/timeConstant) + valueToShow);
+			phmeterText.text = EquipmentTextToString(UnityEngine.Random.Range(-1f+timeElapsed/timeConstant,1f-timeElapsed/timeConstant) + valueToShow);
 			timeElapsed += Time.fixedDeltaTime;
 			if(timeConstant<timeElapsed){
 				timeElapsed = 0;
 				changed = false;
-				phmeterText.text = PhmeterTextToString(valueToShow);
+				phmeterText.text = EquipmentTextToString(valueToShow);
 			}
 		}
 	}
 
-	private string PhmeterTextToString(float value){
+	/// <summary>
+	/// Converts the float value to formated text for the equipment.
+	/// </summary>
+	/// <returns>Formated string.</returns>
+	/// <param name="value">Float value to be converted.</param>
+	private string EquipmentTextToString(float value){
 		string txt;
 		txt = String.Format("{0:F2}", value);
 		
 		return txt;
 	}
 
-
-	public void ResetPhmeter()
-	{
-		//PlayerPrefs.SetFloat ("setupBalance", 0);
+	/// <summary>
+	/// Resets the equipment.
+	/// </summary>
+	public void ResetEquipment() {
 		RefreshEquipament ();
-
 	}
 
 
-	//! Get Glassware that is on Phmeter.
+	/// <summary>
+	/// Gets the glassware currently in the equipment position.
+	/// </summary>
+	/// <returns>The glassware currently in equipment.</returns>
 	public Glassware GetGlassInEquipament(){
 		Glassware glassToReturn = null;
 		
@@ -75,19 +77,28 @@ public class PHMeterController : EquipmentControllerBase {
 		return glassToReturn;
 	}
 
-	//! Add a GameObject to be measured on the equipment.
+	/// <summary>
+	/// Adds a glassware to be measured by the equipment.
+	/// </summary>
+	/// <param name="objectToAdd">Object to be added.</param>
 	public override void AddObjectInEquipament(GameObject objectToAdd){
 		activeGlassware = objectToAdd;
 		RefreshEquipament();
 	}
-	
-	//! Remove a GameObject from being measure by the equipment
+
+	/// <summary>
+	/// Removes a GameObject from the equipment position.
+	/// </summary>
+	/// <param name="objectToRemove">Object to be removed.</param>
 	public override void RemoveObjectInEquipament(GameObject objectToRemove){
 		activeGlassware = null;
 		RefreshEquipament();
 	}
 
 	//! Update Real Mass to the mass of all GameObjects on ActiveMass.
+	/// <summary>
+	/// Refreshs the equipament, checking if the flicking effect will be triggered.
+	/// </summary>
 	private void RefreshEquipament(){
 		if (workbench.IsRunning () && equipmentOn && measure) {
 			if (activeGlassware != null) {
@@ -120,7 +131,7 @@ public class PHMeterController : EquipmentControllerBase {
 	/// </summary>
 	public void OnClickMeasure(){
 		if (equipmentOn && !measure) {
-			phmeterText.text = PhmeterTextToString (0.00f);
+			phmeterText.text = EquipmentTextToString (0.00f);
 			measure = true;
 		}
 	}

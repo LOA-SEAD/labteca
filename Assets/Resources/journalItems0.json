@@ -2,7 +2,7 @@
 	"name" : "1. Classe do composto",
 	"objects": [{
 		"index": "0",
-		"name": "Utilize os equipamentos pra descobrir a classe do composto",
+		"name": "Utilize os equipamentos e seus conhecimentos de química analítica para descobrir a classe do composto presente na solução.",
 		"isDone": "False",
 		"numberOfPrerequisites0": "0"
 	}]

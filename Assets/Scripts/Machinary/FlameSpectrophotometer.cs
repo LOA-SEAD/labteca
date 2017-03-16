@@ -3,8 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-//TODO: Implement the different buttons for Li, Na and K concentration.
-public class EspectofometerController : EquipmentControllerBase {
+public class FlameSpectrophotometer : EquipmentControllerBase {
 
 	public float valueToShow;			// Value to be shown on scale. 	
 	
@@ -13,29 +12,40 @@ public class EspectofometerController : EquipmentControllerBase {
 	bool equipmentOn;
 	bool measure;
 	
-	public TextMesh phmeterText;		// Text display of Scale.
+	public TextMesh displayValue;		// Text to display the value being read.
+	public TextMesh waveLengthDisplay;	// Text to display the wave length being read.
 	
 	public float timeConstant;			// Maximum time of flicking effect
 	private float timeElapsed;
 	
 	public GameObject activeGlassware;	// List of GameObjects that composes the mass.
 	
-	public WorkBench workbench;			// BalanceState component.
-	
+	public WorkBench workbench;			// Workbench component
+
+	public enum WaveLengthTypes {		// Wave lengths measured by the photometer
+		Na = 0,
+		K = 1,
+		Li = 2
+	};
+	public WaveLengthTypes waveMode;
+
+
+
 	void Start () {
 		timeElapsed = 0;
+		waveMode = WaveLengthTypes.Na;
 	}
 	
 	void Update () {
 		RefreshEquipament ();
 		
 		if (changed) {
-			phmeterText.text = EquipmentTextToString(UnityEngine.Random.Range(-1f+timeElapsed/timeConstant,1f-timeElapsed/timeConstant) + valueToShow);
+			displayValue.text = EquipmentTextToString(UnityEngine.Random.Range(-1f+timeElapsed/timeConstant,1f-timeElapsed/timeConstant) + valueToShow);
 			timeElapsed += Time.fixedDeltaTime;
 			if(timeConstant<timeElapsed){
 				timeElapsed = 0;
 				changed = false;
-				phmeterText.text = EquipmentTextToString(valueToShow);
+				displayValue.text = EquipmentTextToString(valueToShow);
 			}
 		}
 	}
@@ -98,7 +108,17 @@ public class EspectofometerController : EquipmentControllerBase {
 	private void RefreshEquipament(){
 		if (workbench.IsRunning () && equipmentOn && measure) {
 			if (activeGlassware != null) {
-				valueToShow = activeGlassware.GetComponent<Glassware> ().GetMass();
+				switch (waveMode) { //TODO: Change for correct values
+				case WaveLengthTypes.Na:
+					valueToShow = activeGlassware.GetComponent<Glassware> ().GetMass();
+					break;
+				case WaveLengthTypes.K:
+					valueToShow = activeGlassware.GetComponent<Glassware> ().GetPH();
+					break;
+				case WaveLengthTypes.Li:
+					valueToShow = activeGlassware.GetComponent<Glassware> ().GetConductivity();
+					break;
+				}
 			}
 			else{
 				valueToShow = 0.0f;
@@ -117,7 +137,7 @@ public class EspectofometerController : EquipmentControllerBase {
 	/// </summary>
 	public void OnClickPower(){
 		if (!equipmentOn) {
-			phmeterText.text = "--.--";
+			displayValue.text = "--.--";
 			equipmentOn = true;
 		}
 	}
@@ -126,9 +146,38 @@ public class EspectofometerController : EquipmentControllerBase {
 	/// Triggers the events when the power button pressed.
 	/// </summary>
 	public void OnClickMeasure(){
-		if (equipmentOn && !measure) {
-			phmeterText.text = EquipmentTextToString (0.00f);
-			measure = true;
+		if (equipmentOn) {
+			if(!measure) {
+				displayValue.text = EquipmentTextToString (0.00f);
+				waveLengthDisplay.text = "Na";
+				measure = true;
+			}
+			else {
+				NextWaveLength();
+			}
+		}
+	}
+
+	/// <summary>
+	/// Change for the next the wave length value.
+	/// </summary>
+	public void NextWaveLength() {
+		if (waveMode == WaveLengthTypes.Li) {
+			waveMode = WaveLengthTypes.Na;
+		} else {
+			waveMode++;
+		}
+
+		switch (waveMode) {
+		case WaveLengthTypes.Na:
+			waveLengthDisplay.text = "Na";
+			break;
+		case WaveLengthTypes.K:
+			waveLengthDisplay.text = "K";
+			break;
+		case WaveLengthTypes.Li:
+			waveLengthDisplay.text = "Li";
+			break;
 		}
 	}
 }

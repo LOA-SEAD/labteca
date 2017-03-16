@@ -27,10 +27,8 @@ public class FlameSpectrophotometer : EquipmentControllerBase {
 		K = 1,
 		Li = 2
 	};
-	public WaveLengthTypes waveMode;
-
-
-
+	public WaveLengthTypes waveMode;	// Actual wave length being measured
+	
 	void Start () {
 		timeElapsed = 0;
 		waveMode = WaveLengthTypes.Na;
@@ -128,7 +126,6 @@ public class FlameSpectrophotometer : EquipmentControllerBase {
 				previousValue = valueToShow;
 				changed = true;
 			}
-			//measure=false;
 		}
 	}
 	

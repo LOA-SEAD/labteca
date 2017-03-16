@@ -32,7 +32,10 @@ public class JSONEdit {
 	private JSONNode json;
 	
 	public JSONEdit (string path) {
+
 		json = this.Read (path);
+		//json = ReadFromWeb(path);
+		//Debug.Log (json.Value);
 	}
 	
 	//! Reads the file
@@ -49,6 +52,18 @@ public class JSONEdit {
 			
 			return JSON.Parse (content);
 		}
+	}
+
+	private JSONNode ReadFromWeb(string path) {
+		string url = "http://200.133.228.213/LabTecA/"+path;
+		Debug.Log (url);
+		var myWWW = new WWW(url);
+
+		/*while (!myWWW.isDone) {
+			Debug.Log (myWWW.error);
+			Debug.Log (myWWW.bytesDownloaded);
+		}*/
+		return JSON.Parse (myWWW.text);
 	}
 	
 	private void Write() {

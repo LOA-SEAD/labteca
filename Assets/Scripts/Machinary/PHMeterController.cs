@@ -9,9 +9,9 @@ using System.Collections.Generic;
  */
 public class PHMeterController : EquipmentControllerBase {
 
-	public float valueToShow;			// Mass to be shown on scale. 	
+	public float valueToShow;			// Value to be shown on scale. 	
 
-	public float previousValue;			// Value to controle the flicking effect
+	public float previousValue;			// Value to control the flicking effect
 	bool changed;						// Used to control the flicking effect on display.
 	bool equipmentOn;
 	bool measure;
@@ -28,7 +28,6 @@ public class PHMeterController : EquipmentControllerBase {
 	void Start () {
 		timeElapsed = 0;
 	}
-
 
 	void Update () {
 		RefreshEquipament ();

@@ -40,7 +40,7 @@ public class PhasesSaver : MonoBehaviour {
 
 	//Loads the phase from a .json file, and returns a dictionary of phases
 	public static Dictionary<int, Dictionary<string, string>> LoadPhases () {
-		JSONEdit jsonEditor = new JSONEdit("Assets/Resources/phases.json");
+		JSONEditor jsonEditor = JSONEdit.NewJSONEditor("Assets/Resources/phases.json"); //new JSONEdit("Assets/Resources/phases.json");
 		
 		Dictionary<int, Dictionary<string, string>> phase = new Dictionary<int, Dictionary<string, string>> ();
 		
@@ -65,7 +65,7 @@ public class PhasesSaver : MonoBehaviour {
 
 	//Loads the phase from a .json file, and returns a dictionary of phases
 	public static Dictionary<int, Dictionary<string, string>> LoadPhases (string directory) {
-		JSONEdit jsonEditor = new JSONEdit(directory);
+		JSONEditor jsonEditor = JSONEdit.NewJSONEditor (directory);//new JSONEdit(directory);
 		
 		Dictionary<int, Dictionary<string, string>> phase = new Dictionary<int, Dictionary<string, string>> ();
 
@@ -77,8 +77,11 @@ public class PhasesSaver : MonoBehaviour {
 		return phase;
 	}
 
+	public static Dictionary<int, Dictionary<string, string>> ProcessPhases(JSONEditor jsonEditor) {
+	}
+
 	//Load the step, putting it into a Dictironary
-	private static Dictionary<string, string> LoadStep(JSONEdit jsonEditor, int i) {
+	private static Dictionary<string, string> LoadStep(JSONEditor jsonEditor, int i) {
 		
 		Dictionary<string, string> step = new Dictionary<string, string> ();
 			
@@ -113,7 +116,7 @@ public class PhasesSaver : MonoBehaviour {
 	}
 
 	public static Dictionary<string, string> GetPhaseLibrary(string directory) {
-		JSONEdit jsonEditor = new JSONEdit(directory);
+		JSONEditor jsonEditor = JSONEdit.NewJSONEditor (directory);//new JSONEdit(directory);
 		
 		Dictionary<string, string> library = new Dictionary<string, string> ();
 

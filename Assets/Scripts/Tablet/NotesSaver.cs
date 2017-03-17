@@ -10,7 +10,7 @@ public class NotesSaver : MonoBehaviour {
 	public static string LoadNotes() {
 		string loadedNotes;
 
-		JSONEdit jsonEditor = new JSONEdit("Assets/Resources/tabletNotes.json");
+		JSONEditor jsonEditor = JSONEdit.NewJSONEditor("Assets/Resources/tabletNotes.json"); //new JSONEdit("Assets/Resources/tabletNotes.json");
 		loadedNotes = jsonEditor.GetMainValue ("notes");
 
 		if (loadedNotes == null) {

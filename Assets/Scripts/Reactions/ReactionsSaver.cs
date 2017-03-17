@@ -70,7 +70,7 @@ public class ReactionsSaver
 	//Loads the reactions from a file, and returns a dictionary
 	public static Dictionary<string, ReactionClass> LoadReactions()
 	{
-		JSONEdit json = new JSONEdit("Assets/Resources/reactions.txt");
+		JSONEditor json = JSONEdit.NewJSONEditor("Assets/Resources/reactions.txt"); //new JSONEdit("Assets/Resources/reactions.txt");
 		
 		int numberOfReactions = json.NumberOfObjects ();
 		

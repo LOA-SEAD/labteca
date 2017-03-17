@@ -189,7 +189,7 @@ public class ComponentsSaver : MonoBehaviour
 	//! Reads/Loads the dictionary from .json file.
 	public static Dictionary<string, Compound> LoadCupboardCompounds()
 	{
-		JSONEdit jsonEditor = new JSONEdit("Assets/Resources/components.json");
+		JSONEditor jsonEditor = JSONEdit.NewJSONEditor("Assets/Resources/components.json"); //new JSONEdit("Assets/Resources/components.json");
 		
 		Dictionary<string, Compound> reagents = new Dictionary<string, Compound>();
 		
@@ -370,7 +370,7 @@ public class ComponentsSaver : MonoBehaviour
 	//! Reads/Loads the dictionary from file.
 	public static Dictionary<string, Compound> LoadBackgroundCompounds()
 	{
-		JSONEdit jsonEditor = new JSONEdit("Assets/Resources/products.json");
+		JSONEditor jsonEditor = JSONEdit.NewJSONEditor ("Assets/Resources/products.json");//new JSONEdit("Assets/Resources/products.json");
 		
 		Dictionary<string, Compound> products = new Dictionary<string, Compound>();
 

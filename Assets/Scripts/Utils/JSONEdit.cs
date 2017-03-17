@@ -27,20 +27,77 @@ using SimpleJSON;
 	}
 }*/
 
-public class JSONEdit {
-	
-	private JSONNode json;
-	
-	public JSONEdit (string path) {
 
-		json = this.Read (path);
-		//json = ReadFromWeb(path);
+public class JSONEditor {
+	
+	public JSONNode json;
+	
+	public JSONEditor (string path) {
+		
+		#if UNITY_WEBPLAYER
+		JSONEdit.ReadFromWeb(path, this);
+		#endif
+		
+		/*#if UNITY_EDITOR
+		json = JSONEdit.Read (path);
+		#endif*/
+		
+		#if UNITY_STANDALONE_WIN
+		json = JSONEdit.Read (path);
+		#endif
+		
 		//Debug.Log (json.Value);
 	}
+
+	public void SetJSON(JSONNode jsonRead) {
+		json = jsonRead;
+	}
+
+	public bool GetBool(int numObject, string data) {
+		return json["objects"][numObject][data].AsBool;
+	}
 	
+	public string GetString(int numObject, string data) {
+		return json ["objects"] [numObject] [data].Value;
+	}
+	
+	public int GetInt(int numObject, string data) {
+		return json ["objects"] [numObject] [data].AsInt;
+	}
+	
+	public float GetFloat(int numObject, string data) {
+		return json ["objects"] [numObject] [data].AsFloat;
+	}
+	
+	public int NumberOfObjects() {
+		return json ["objects"].Count;
+	}
+	
+	public int NumberOfFields(int numObject) {
+		return json["objects"] [numObject].Count;
+	}
+	//Returns the string value of a sub-item
+	public string GetSubValue(int numObject, string data, int position) {
+		return json ["objects"] [numObject] [data][position].Value;
+	}
+	public string GetMainValue(string data) {
+		return json [data].Value;
+	}
+}
+
+public class JSONEdit : MonoBehaviour {
+	
+	public static JSONEditor NewJSONEditor(string path) {
+		return new JSONEditor (path);
+	}
+
+	/*IEnumerator StartJSON(string path) {
+	//	json = this.Read (path);
+	}
+*/
 	//! Reads the file
 	//  If the file doesn't exists, creates the file
-	private JSONNode Read(string path) {
+	public static JSONNode Read(string path) {
 		if(!System.IO.File.Exists(path)) {
 			System.IO.File.Create(path);
 			return Read(path);
@@ -54,50 +111,23 @@ public class JSONEdit {
 		}
 	}
 
-	private JSONNode ReadFromWeb(string path) {
-		string url = "http://200.133.228.213/LabTecA/"+path;
+	public static IEnumerator ReadFromWeb(string path, JSONEditor editor) {
+		string url = "http://localhost/LabTecA/"+path;
 		Debug.Log (url);
-		var myWWW = new WWW(url);
+		WWW myWWW = new WWW(url);
 
-		/*while (!myWWW.isDone) {
-			Debug.Log (myWWW.error);
-			Debug.Log (myWWW.bytesDownloaded);
-		}*/
-		return JSON.Parse (myWWW.text);
+		Debug.Log (myWWW.text);
+		yield return myWWW;
+
+		if (myWWW.error == null) {
+			editor.SetJSON(JSON.Parse (myWWW.text));
+			//json = JSON.Parse (myWWW.text);
+		} else {
+			Debug.Log ("ERROR: " + myWWW.error);
+		}
 	}
-	
+
 	private void Write() {
 		
-	}
-
-	public bool GetBool(int numObject, string data) {
-		return json["objects"][numObject][data].AsBool;
-	}
-
-	public string GetString(int numObject, string data) {
-		return json ["objects"] [numObject] [data].Value;
-	}
-
-	public int GetInt(int numObject, string data) {
-		return json ["objects"] [numObject] [data].AsInt;
-	}
-
-	public float GetFloat(int numObject, string data) {
-		return json ["objects"] [numObject] [data].AsFloat;
-	}
-
-	public int NumberOfObjects() {
-		return json ["objects"].Count;
-	}
-
-	public int NumberOfFields(int numObject) {
-		return json["objects"] [numObject].Count;
-	}
-	//Returns the string value of a sub-item
-	public string GetSubValue(int numObject, string data, int position) {
-		return json ["objects"] [numObject] [data][position].Value;
-	}
-	public string GetMainValue(string data) {
-		return json [data].Value;
 	}
 }

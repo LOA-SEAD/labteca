@@ -5,7 +5,7 @@ using System.Collections.Generic;
 /// <summary>
 /// I/O class for the Tablet notes
 /// </summary>
-public class NotesSaver {
+public class NotesSaver : MonoBehaviour {
 
 	public static string LoadNotes() {
 		string loadedNotes;

@@ -8,7 +8,7 @@ using System.Collections.Generic;
  * and load the dictionary from file.
  */
 
-public class ComponentsSaver
+public class ComponentsSaver : MonoBehaviour
 {
 	//! Saves the component information in a Dictionary. 
 	public static void SaveReagentFromEditor(string name,string formula ,bool isSolid, float molarMass, float purity, float density, float pH, float polarizability, 

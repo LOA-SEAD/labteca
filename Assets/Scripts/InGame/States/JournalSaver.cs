@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 
 //! Saves a Reaction and it's properties in a text file.
-
-public class JournalSaver{
+/// <summary>
+/// Controls I/O of journal items (phase step descriptions)
+/// </summary>
+public class JournalSaver : MonoBehaviour {
 
 	private static TextEdit text;
 

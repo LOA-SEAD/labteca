@@ -5,7 +5,7 @@ using System.Collections.Generic;
 //! I/O class for the Phases.
 // The phases have all variables. If any variable was not assigned, the value will be saved as "null"
 // and ignored in the comparison.
-public class PhasesSaver {
+public class PhasesSaver : MonoBehaviour {
 
 	private static TextEdit text = new TextEdit("Assets/Resources/phases.txt");
 	

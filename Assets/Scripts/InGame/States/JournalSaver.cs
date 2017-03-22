@@ -77,7 +77,7 @@ public class JournalSaver : MonoBehaviour {
 
 	public static Dictionary<int, JournalUIItem> LoadJournalUIItems(int expo)
 	{
-		json = JSONEdit.NewJSONEditor("Assets/Resources/journalItems"+expo.ToString()+".json"); //new JSONEdit("Assets/Resources/journalItems"+expo.ToString()+".json");
+		json = new JSONEditor("journalItems"+expo.ToString());
 		
 		int numberOfJournalItems = json.NumberOfFields (0);
 		
@@ -107,7 +107,7 @@ public class JournalSaver : MonoBehaviour {
 		return journalUIItems;
 	}
 	public static string GetExperimentName(int experimentNumber) {
-		json = JSONEdit.NewJSONEditor("Assets/Resources/journalItems"+experimentNumber.ToString()+".json"); //new JSONEdit("Assets/Resources/journalItems"+experimentNumber.ToString()+".json");
+		json = new JSONEditor("journalItems"+experimentNumber.ToString());
 		return json.GetMainValue ("name");
 	}
 }

@@ -23,7 +23,7 @@ public class ProgressController : MonoBehaviour {
 	private TypeOfStep stepType;
 	public TypeOfStep StepType { get{ return stepType; }}
 
-	private string customPhaseDir = "Assets/Resources/customPhase.json";
+	private string customPhaseDir = "customPhase";
 	private Dictionary<string,string> phaseDefinitions;
 	private bool customMode;
 
@@ -43,11 +43,11 @@ public class ProgressController : MonoBehaviour {
 	void Awake() {
 		stepType = TypeOfStep.none;
 		//For testing
-		#if UNITY_EDITOR
+//		#if UNITY_EDITOR
 		if(Application.loadedLevelName == "DemoLabDev"){
 			StartCustomMode();
+//		#endif
 		}
-		#endif
 	}
 
 	void OnLevelWasLoaded(int lvlNum) {

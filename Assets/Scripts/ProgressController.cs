@@ -43,10 +43,8 @@ public class ProgressController : MonoBehaviour {
 	void Awake() {
 		stepType = TypeOfStep.none;
 		//For testing
-//		#if UNITY_EDITOR
 		if(Application.loadedLevelName == "DemoLabDev"){
 			StartCustomMode();
-//		#endif
 		}
 	}
 

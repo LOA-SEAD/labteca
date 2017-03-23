@@ -122,7 +122,7 @@ public class DeleteComponent : EditorWindow
 					Dictionary<string, Compound> allReagents = CompoundFactory.GetInstance().CupboardCollection;
 
 					allReagents.Remove(names[indexOfComponent]);
-					ComponentsSaver.SaveReagents(allReagents);
+//					ComponentsSaver.SaveReagents(allReagents);
 
 					Debug.Log("Reagente " + names[indexOfComponent] + " Removido com sucesso!");
 

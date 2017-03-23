@@ -8,8 +8,6 @@ using System.Collections.Generic;
 /// </summary>
 public class JournalSaver : MonoBehaviour {
 
-	private static TextEdit text;
-
 	private static int numberOfJournals;
 	private static JSONEditor json;
 
@@ -19,11 +17,11 @@ public class JournalSaver : MonoBehaviour {
 		   JournalItems.Remove(journalItem.index);
 		JournalItems.Add (journalItem.index
 		                  , journalItem);
-		SaveJournalUIItems (JournalItems,expo);
+		//SaveJournalUIItems (JournalItems,expo);
 	}
 
 	//Saves the reactions from a dictionary to the text file
-	public static void SaveJournalUIItems(Dictionary<int, JournalUIItem> JournalItems,int expo)
+	/*public static void SaveJournalUIItems(Dictionary<int, JournalUIItem> JournalItems,int expo)
 	{
 		text = new TextEdit("Assets/Resources/journalItems"+expo.ToString()+".txt");
 		text.ClearFile ();
@@ -42,7 +40,7 @@ public class JournalSaver : MonoBehaviour {
 			}
 			counter++;
 		}
-	}
+	}*/
 	//Loads the reactions from a file, and returns a dictionary
 	/*public static Dictionary<int, JournalUIItem> LoadJournalUIItems(int expo)
 	{

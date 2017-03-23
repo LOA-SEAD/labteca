@@ -342,7 +342,7 @@ public class CreateReaction : EditorWindow
 		}*/
 
 		if (GUILayout.Button ("Salvar")) {
-			ReactionsSaver.SaveReactionsFromEditor (name, aMultipler, aName, bMultipler, bName, cMultipler, cName, dMultipler, dName);
+			//ReactionsSaver.SaveReactionsFromEditor (name, aMultipler, aName, bMultipler, bName, cMultipler, cName, dMultipler, dName);
 			this.Close ();
 		} 
 

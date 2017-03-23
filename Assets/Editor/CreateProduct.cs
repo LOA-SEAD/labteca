@@ -117,7 +117,7 @@ public class CreateProduct : EditorWindow
 		
 		if (GUILayout.Button ("SALVAR")) 
 		{
-			ComponentsSaver.SaveProductFromEditor(name, formula, isSolid, molarMass, purity, density, ph, polarizability, uvSpecter, irSpecter, flameSpecter, conductibility, solubility, turbidity, hplc, refratometer, fumeHoodOnly, texture, color);
+			//ComponentsSaver.SaveProductFromEditor(name, formula, isSolid, molarMass, purity, density, ph, polarizability, uvSpecter, irSpecter, flameSpecter, conductibility, solubility, turbidity, hplc, refratometer, fumeHoodOnly, texture, color);
 			this.Close();
 		}
 		

@@ -122,7 +122,7 @@ public class DeleteProduct : EditorWindow
 					Dictionary<string, Compound> allProducts = CompoundFactory.GetInstance().CupboardCollection;
 					
 					allProducts.Remove(names[indexOfProduct]);
-					ComponentsSaver.SaveProducts(allProducts);
+//					ComponentsSaver.SaveProducts(allProducts);
 					
 					Debug.Log("Produto " + names[indexOfProduct] + " Removido com sucesso!");
 					

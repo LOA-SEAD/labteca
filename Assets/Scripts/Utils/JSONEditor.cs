@@ -33,11 +33,7 @@ public class JSONEditor {
 		#if UNITY_WEBPLAYER
 		json = ReadFromWeb(file);
 		#endif
-		
-		/*#if UNITY_EDITOR
-		json = Read (file);
-		#endif*/
-		
+
 		#if UNITY_STANDALONE_WIN
 		json = Read (file);
 		#endif

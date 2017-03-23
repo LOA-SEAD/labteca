@@ -117,7 +117,7 @@ public class CreateComponent : EditorWindow
 
 		if (GUILayout.Button ("SALVAR")) 
 		{
-			ComponentsSaver.SaveReagentFromEditor(name, formula, isSolid, molarMass, purity, density, ph, polarizability, uvSpecter, irSpecter, flameSpecter, conductibility, solubility, turbidity, hplc, refratometer, fumeHoodOnly, texture, color);
+			//ComponentsSaver.SaveReagentFromEditor(name, formula, isSolid, molarMass, purity, density, ph, polarizability, uvSpecter, irSpecter, flameSpecter, conductibility, solubility, turbidity, hplc, refratometer, fumeHoodOnly, texture, color);
 			this.Close();
 		}
 

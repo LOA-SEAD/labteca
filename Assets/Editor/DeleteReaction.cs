@@ -100,7 +100,7 @@ public class DeleteReaction : EditorWindow
 					Dictionary<string, ReactionClass> allReactions = ReactionsSaver.LoadReactions();
 					
 					allReactions.Remove(names[indexOfReactions]);
-					ReactionsSaver.SaveReactions(allReactions);
+//					ReactionsSaver.SaveReactions(allReactions);
 					
 					Debug.Log("Reaçao " + names[indexOfReactions] + " Removida com sucesso!");
 					

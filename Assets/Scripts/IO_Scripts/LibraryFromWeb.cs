@@ -16,7 +16,7 @@ public class LibraryFromWeb : MonoBehaviour {
 	}
 
 	IEnumerator Start() {
-		string url = "http://200.133.228.213/LabTecA/Assets/Resources/";
+		string url = "http://192.168.1.101/LabTecA/Assets/Resources/";
 		WWW cP = new WWW(url+"customPhase.json");
 		WWW jI0 = new WWW(url+"journalItems0.json");
 		WWW jI1 = new WWW(url+"journalItems1.json");

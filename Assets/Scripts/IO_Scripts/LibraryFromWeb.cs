@@ -16,7 +16,7 @@ public class LibraryFromWeb : MonoBehaviour {
 	}
 
 	IEnumerator Start() {
-		string url = "http://192.168.1.101/LabTecA/Assets/Resources/";
+		string url = "http://localhost/Assets/Resources/";
 		WWW cP = new WWW(url+"customPhase.json");
 		WWW jI0 = new WWW(url+"journalItems0.json");
 		WWW jI1 = new WWW(url+"journalItems1.json");
@@ -49,6 +49,7 @@ public class LibraryFromWeb : MonoBehaviour {
 		jsons.Add("tabletNotes", tN.text);
 
 		Debug.Log("Pular cena = true");
+		FindObjectOfType<SceneManager> ().GetComponent<SceneManager> ().EnableTransition ();
 	}
 
 	public string GetData(string fileName) {

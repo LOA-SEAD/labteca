@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class SceneManager : MonoBehaviour {
 	public Text escape, shadow;
 	public float currentTime=5f;
+	private bool transitionEnabled = false;
 	// Use this for initialization
 	void Start () {
 		Screen.lockCursor = true;
@@ -13,11 +14,13 @@ public class SceneManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//If ESC is pressed, goes to next scene
-		if (Input.GetKeyDown (KeyCode.Escape))
-			Application.LoadLevel ("DemoLabDev");
-		else if (Input.anyKeyDown&&currentTime>=5f) {
-			currentTime = 0f;
+		if (transitionEnabled) {
+			//If ESC is pressed, goes to next scene
+			if (Input.GetKeyDown (KeyCode.Escape))
+				Application.LoadLevel ("DemoLabDev");
+			else if (Input.anyKeyDown && currentTime >= 5f) {
+				currentTime = 0f;
+			}
 		}
 		//If another key is pressed sets trigger for showing message
 		if (currentTime < 5) {
@@ -52,6 +55,13 @@ public class SceneManager : MonoBehaviour {
 			}
 
 			currentTime+=Time.deltaTime;
+
+			//Control de loading icon
 		}
+	}
+
+	public void EnableTransition() {
+		transitionEnabled = true;
+		//change loading icon to complete icon
 	}
 }

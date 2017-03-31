@@ -2,21 +2,48 @@
 using System.Collections;
 using System.Collections.Generic;
 
+/// <summary>
+/// Class to manage the file access for the WebPlayer.
+/// </summary>
+/// The .josn files must on a directory "/Assets/Resources/" parting from the .html directory.
+/// The following function has to be added to the game's .html for the class to work
+/*
+	<script type="text/javascript" language="javascript">
+	<!--
+	var u = new UnityObject2();
+	u.initPlugin(jQuery("#unityPlayer")[0], "LabTecA.unity3d");
+	function Awake() {
+		console.log("Awake chamado");
+		u.getUnity().SendMessage("LibraryFromWeb", "SetURL", window.location.href);
+	}
+	-->
+	</script>
+ */
 public class LibraryFromWeb : MonoBehaviour {
 
 	private Dictionary<string, string> jsons;
+	private string url;
 
 	void Awake() {
 		#if UNITY_WEBPLAYER
 		DontDestroyOnLoad(this);
+		Application.ExternalCall("Awake");
 		#else
 		Destroy (this);
 		#endif
-
 	}
 
-	IEnumerator Start() {
-		string url = "http://localhost/Assets/Resources/";
+	/// <summary>
+	/// Called by the WebPlayer javascript to set the dynamic URL
+	/// </summary>
+	/// <param name="value">The URL.</param>
+	public void SetURL(string value) {
+		string name = @"LabTecA.html";
+		url = value.Replace (name, string.Empty) + "Assets/Resources/";
+		StartCoroutine(Download ());
+	}
+
+	public IEnumerator Download() {
 		WWW cP = new WWW(url+"customPhase.json");
 		WWW jI0 = new WWW(url+"journalItems0.json");
 		WWW jI1 = new WWW(url+"journalItems1.json");
@@ -48,7 +75,6 @@ public class LibraryFromWeb : MonoBehaviour {
 		jsons.Add("products", prd.text);
 		jsons.Add("tabletNotes", tN.text);
 
-		Debug.Log("Pular cena = true");
 		FindObjectOfType<SceneManager> ().GetComponent<SceneManager> ().EnableTransition ();
 	}
 

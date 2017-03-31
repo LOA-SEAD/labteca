@@ -133,6 +133,11 @@ public class Glassware : ItemToInventory
 	//! Holds the events for when the interactive spatula on the Workbench is clicked
 	public void OnClick() {
 		if (gameController.GetCurrentState () != gameController.gameStates [0]) {
+
+			if (gameController.GetCurrentState () == gameController.gameStates[7] ) {
+		
+			}
+
 			MouseState currentState = CursorManager.GetCurrentState ();
 
 			if (content is Mixture) { //TODO:PROVISORIO!

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 //! Phmeter Controller
 /*! This is the controller for the PHmeter, it has all the methods that allows the Phmeter to work with 
- * the Glassware and Reagents, calculating their PH displaying it.
+ * the Glassware and Reagents, calculating their PH and displaying it.
  */
 public class PHMeterController : EquipmentControllerBase {
 
@@ -26,6 +26,8 @@ public class PHMeterController : EquipmentControllerBase {
 	public WorkBench workbench;			// BalanceState component.
 	
 	void Start () {
+		equipmentOn = true;
+		measure = true;
 		timeElapsed = 0;
 	}
 

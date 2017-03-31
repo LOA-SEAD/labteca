@@ -96,4 +96,9 @@ public class OptionDialogBehaviour : MonoBehaviour {
 		GetComponentInParent<WorkBench> ().writingLabel = false;
 		ui_manager.CloseAll ();
 	}
+
+	public void onClickPrepareTurbidimeter() {
+		(GetComponentInParent<WorkBench> ().equipmentController as TurbidimeterController).PrepareGlassware (item as Glassware);
+	}
+
 }

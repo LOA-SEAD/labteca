@@ -113,23 +113,6 @@ public class Glassware : ItemToInventory
 			liquid.SetActive (false);*/
 	}
 
-	public void OnClickTurbidimeter() {
-
-		MouseState currentState = CursorManager.GetCurrentState ();
-
-		
-		if (content is Mixture) { //TODO:PROVISORIO!
-			if (currentState == MouseState.ms_default) {
-				(GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).stateUIManager.OpenOptionDialog (this);
-			}
-			else {
-				gameController.sendAlert("Este tipo de interação não está habilitada apás uma possável reação");
-			}
-		}
-
-
-	}
-
 	//! Holds the events for when the interactive spatula on the Workbench is clicked
 	public void OnClick() {
 		if (gameController.GetCurrentState () != gameController.gameStates [0]) {
@@ -192,6 +175,10 @@ public class Glassware : ItemToInventory
 					break;
 				}
 			}
+
+			if(gameController.GetCurrentState () == gameController.gameStates[7]) {
+				(gameController.GetCurrentState().GetEquipmentController() as TurbidimeterController).bucketCanvas.SetActive(false);
+			}
 		}
 	}
 
@@ -201,7 +188,7 @@ public class Glassware : ItemToInventory
 		//Checking where the infoCanvas is, and depending on that, sets it to a pre-defined position to make sure it's not out of the screen
 		if (gameController.GetCurrentState () != gameController.gameStates [0]) {
 			if (CursorManager.GetCurrentState () != MouseState.ms_interacting) {
-				if (content != null && (gameController.GetCurrentState() == gameController.gameStates [1] || gameController.GetCurrentState() == gameController.gameStates [4] )) {
+				if (content != null && (gameController.GetCurrentState() == gameController.gameStates [1] || gameController.GetCurrentState() == gameController.gameStates [4] ) && infoCanvas != null) {
 					if (gameController.GetCurrentState ().cameraState.WorldToScreenPoint (infoCanvas.position).x > (2 * gameController.GetCurrentState ().cameraState.pixelWidth / 3)) {
 						infoCanvas.localPosition = new Vector3 (otherX, infoCanvas.localPosition.y, infoCanvas.localPosition.z);
 					}
@@ -263,8 +250,10 @@ public class Glassware : ItemToInventory
 	//! Handles actions when hovering stops
 	public void OnHoverOut() {
 		if (gameController.GetCurrentState () != gameController.gameStates [0]) {
-			infoCanvas.gameObject.SetActive (false);
-			infoCanvas.GetComponent<RectTransform> ().localPosition = Vector3.zero;
+			if(infoCanvas != null) {
+				infoCanvas.gameObject.SetActive (false);
+				infoCanvas.GetComponent<RectTransform> ().localPosition = Vector3.zero;
+			}
 
 			glasswareMesh.renderer.material.color = defaultColour;
 		}
@@ -508,7 +497,9 @@ public class Glassware : ItemToInventory
 		if((content as IPhysicochemical).Volume <= 0.07f) {
 			content = null;
 			hasLiquid = false;
-			infoCanvas.gameObject.SetActive(false);
+			if(infoCanvas != null) {
+				infoCanvas.gameObject.SetActive(false);
+			}
 		}
 		/*if ((compounds as IPhysicochemical).RealMass <= 0.0f) {
 			compounds = null;
@@ -573,7 +564,9 @@ public class Glassware : ItemToInventory
 		if((content as IPhysicochemical).Volume <= 0.07f) {
 			content = null;
 			hasSolid = false;
-			infoCanvas.gameObject.SetActive(false);
+			if(infoCanvas != null) {
+				infoCanvas.gameObject.SetActive(false);
+			}
 		}
 
 		/*if ((compounds  as IPhysicochemical).Volume <= 0.0f) {

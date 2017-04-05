@@ -24,13 +24,22 @@ public class TurbidimeterController : EquipmentControllerBase {
 	
 	public GameObject activeGlassware;	// Glassware that is being measured
 	public Glassware cubeta;			// Glassware to be used on the equipment
-	public GameObject bucketPosition;	// Default position for the bucket
+	public Transform bucketPosition;	// Default position for the bucket
+
+	public GameObject bucketCanvas;
 	public Button bucketButton;			// Button to remove solution from bucket
+	public Text destinationText;
+	private string equipmentButton = "Colocar na bancada";
+	private string workbenchButton = "Colocar no equipamento";
+	public Button glasswareButton;		// Button to prepare the bucket
 
 	public WorkBench workbench;			// BalanceState component.
 
 	void Start () {
 		timeElapsed = 0;
+		equipmentOn = true;
+		measure = true;
+		destinationText.text = workbenchButton;
 	}
 	
 	
@@ -46,8 +55,19 @@ public class TurbidimeterController : EquipmentControllerBase {
 				displayText.text = EquipmentTextToString(valueToShow);
 			}
 		}
-		if (workbench.positionGlass [0].childCount > 0 && cubeta.content != null) {
-			bucketButton.interactable = true;
+		if (workbench.positionGlass [0].childCount > 0 && bucketPosition.childCount > 0) {
+			if (cubeta.content != null) {
+				bucketButton.interactable = true;
+				glasswareButton.interactable = false;
+			} else {
+				bucketButton.interactable = false;
+				if (workbench.positionGlass [0].GetComponentInChildren<Glassware> ().content != null) {
+					glasswareButton.interactable = true;
+				}
+			}
+		} else {
+			bucketButton.interactable = false;
+			glasswareButton.interactable = false;
 		}
 	}
 	
@@ -74,10 +94,10 @@ public class TurbidimeterController : EquipmentControllerBase {
 	/// Gets the glassware currently in the equipment position.
 	/// </summary>
 	/// <returns>The glassware currently in equipment.</returns>
-	public Glassware GetGlassInEquipament(){
+	public Glassware GetGlassInEquipment(){
 		Glassware glassToReturn = null;
 		
-		if(activeGlassware.GetComponent<Glassware>() != null){
+		if(activeGlassware != null){
 			glassToReturn = activeGlassware.GetComponent<Glassware>();
 		}
 		return glassToReturn;
@@ -89,6 +109,7 @@ public class TurbidimeterController : EquipmentControllerBase {
 	/// <param name="objectToAdd">Object to be added.</param>
 	public override void AddObjectInEquipament(GameObject objectToAdd){
 		activeGlassware = objectToAdd;
+		destinationText.text = equipmentButton;
 		RefreshEquipament();
 	}
 
@@ -98,6 +119,7 @@ public class TurbidimeterController : EquipmentControllerBase {
 	/// <param name="objectToRemove">Object to be removed.</param>
 	public override void RemoveObjectInEquipament(GameObject objectToRemove){
 		activeGlassware = null;
+		destinationText.text = workbenchButton;
 		RefreshEquipament();
 	}
 	
@@ -108,7 +130,7 @@ public class TurbidimeterController : EquipmentControllerBase {
 	private void RefreshEquipament(){
 		if (workbench.IsRunning () && equipmentOn && measure) {
 			if (activeGlassware != null) {
-				valueToShow = activeGlassware.GetComponent<Glassware> ().GetPH ();
+				valueToShow = activeGlassware.GetComponent<Glassware> ().GetTurbidity ();
 			}
 			else{
 				valueToShow = 0.0f;
@@ -127,21 +149,33 @@ public class TurbidimeterController : EquipmentControllerBase {
 	/// </summary>
 	/// <param name="glass">The glassware to be prepared.</param>
 	public void PrepareGlassware(Glassware glass) {
-		Compound sample = (glass.content as Compound).Clone (50) as Compound;
-		glass.RemoveLiquid (50);
+		float value = Mathf.Min ((glass.content as Compound).Volume, cubeta.maxVolume);
+		Compound sample = (glass.content as Compound).Clone (value) as Compound;
+		glass.RemoveLiquid (value);
 
-		cubeta.IncomingReagent (sample, 50);
+		cubeta.IncomingReagent (sample, value);
 	}
 
 	/// <summary>
 	/// Returns the volume in the bucket to the glassware to be analyzed.
 	/// </summary>
 	public void GiveBackReagent() {
-		Compound sample = (cubeta.content as Compound).Clone (50) as Compound;
-		cubeta.RemoveLiquid (50);
+		if ((cubeta.content as Compound).Formula == (workbench.positionGlass [0].GetComponentInChildren<Glassware> ().content as Compound).Formula) {
+			float value = (cubeta.content as Compound).Volume;
+			Compound sample = (cubeta.content as Compound).Clone (value) as Compound;
+			cubeta.RemoveLiquid (value);
 
-		if (workbench.positionGlass [0].childCount > 0) {
-			workbench.positionGlass[0].GetComponentInChildren<Glassware>().IncomingReagent (sample, 50);
+			if (workbench.positionGlass [0].childCount > 0) {
+				workbench.positionGlass [0].GetComponentInChildren<Glassware> ().IncomingReagent (sample, value);
+			}
+		} else {
+			//Send alert
 		}
+	}
+
+	public void PutBackBucket() {
+		cubeta.transform.SetParent(bucketPosition,false);
+		cubeta.transform.localPosition = Vector3.zero;
+		this.RemoveObjectInEquipament(cubeta.gameObject);
 	}
 }

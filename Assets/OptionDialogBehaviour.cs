@@ -53,7 +53,7 @@ public class OptionDialogBehaviour : MonoBehaviour {
 					GameObject.Find("InventoryManager").GetComponent<InventoryManager>().AddGlasswareToInventory(temp.GetComponent<Glassware>());
 					Destroy(item.gameObject);
 				}else{
-					if(GetComponentInParent<WorkBench>().equipmentController!=null)
+					if(GetComponentInParent<WorkBench>().equipmentController!=null && item.transform.parent == GetComponentInParent<WorkBench>().positionGlassEquipament)
 						GetComponentInParent<WorkBench>().equipmentController.RemoveObjectInEquipament(item.gameObject);
 					GameObject.Find("InventoryManager").GetComponent<InventoryManager>().AddProductToInventory(item.gameObject);
 				}
@@ -102,6 +102,8 @@ public class OptionDialogBehaviour : MonoBehaviour {
 
 	public void onClickPrepareTurbidimeter() {
 		(GetComponentInParent<WorkBench> ().equipmentController as TurbidimeterController).PrepareGlassware (item as Glassware);
+		//gameObject.SetActive (false);
+		ui_manager.CloseAll ();
 	}
 
 	/// <summary>
@@ -109,13 +111,15 @@ public class OptionDialogBehaviour : MonoBehaviour {
 	/// </summary>
 	/// <param name="button">Button that was pressed.</param>
 	public void onClickBucket(int button) {
-		if (button == 0) { //Colocar no equipamento
-			GetComponentInParent<WorkBench> ().PutGlassInEquip (item.gameObject);
+		if (button == 0) { 
+			if ((GameObject.Find ("GameController").GetComponent<GameController>().GetCurrentState().GetEquipmentController() as TurbidimeterController).GetGlassInEquipment() != null) { //Colocar na bancada
+				(GetComponentInParent<WorkBench>().equipmentController as TurbidimeterController).PutBackBucket();
+			} else { //Colocar no equipamento
+				GetComponentInParent<WorkBench>().PutGlassInEquip(item.gameObject);
+			}
 		} else if (button == 1) { //Retornar soluçao a vidraria
 			(GetComponentInParent<WorkBench> ().equipmentController as TurbidimeterController).GiveBackReagent ();
-		} else if (button == 2) { //Colocar na bancada
-			GetComponentInParent<WorkBench>().PutItemFromEquip(item.gameObject);
 		}
+		gameObject.SetActive (false);
 	}
-
 }

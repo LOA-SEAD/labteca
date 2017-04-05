@@ -27,10 +27,13 @@ public class OptionDialogBehaviour : MonoBehaviour {
 	public void changeIDs(List<int> newIDs){
 		int index = 0;
 		foreach (int id in newIDs) {
-			actualIDs[index] = id;
-			optionsImages[index].sprite = optionsSprites[id];
-			index++;
+			if(index < actualIDs.Count) { 
+				actualIDs [index] = id;
+				optionsImages [index].sprite = optionsSprites [id];
+				index++;
+			}
 		}
+
 	}
 
 	public void setCurrentItem(ItemToInventory i){
@@ -99,6 +102,20 @@ public class OptionDialogBehaviour : MonoBehaviour {
 
 	public void onClickPrepareTurbidimeter() {
 		(GetComponentInParent<WorkBench> ().equipmentController as TurbidimeterController).PrepareGlassware (item as Glassware);
+	}
+
+	/// <summary>
+	/// Method to control the interaction with the bucket interaction canvas
+	/// </summary>
+	/// <param name="button">Button that was pressed.</param>
+	public void onClickBucket(int button) {
+		if (button == 0) { //Colocar no equipamento
+			GetComponentInParent<WorkBench> ().PutGlassInEquip (item.gameObject);
+		} else if (button == 1) { //Retornar soluçao a vidraria
+			(GetComponentInParent<WorkBench> ().equipmentController as TurbidimeterController).GiveBackReagent ();
+		} else if (button == 2) { //Colocar na bancada
+			GetComponentInParent<WorkBench>().PutItemFromEquip(item.gameObject);
+		}
 	}
 
 }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,7 +24,8 @@ public class TurbidimeterController : EquipmentControllerBase {
 	
 	public GameObject activeGlassware;	// Glassware that is being measured
 	public Glassware cubeta;			// Glassware to be used on the equipment
-
+	public GameObject bucketPosition;	// Default position for the bucket
+	public Button bucketButton;			// Button to remove solution from bucket
 
 	public WorkBench workbench;			// BalanceState component.
 
@@ -43,6 +45,9 @@ public class TurbidimeterController : EquipmentControllerBase {
 				changed = false;
 				displayText.text = EquipmentTextToString(valueToShow);
 			}
+		}
+		if (workbench.positionGlass [0].childCount > 0 && cubeta.content != null) {
+			bucketButton.interactable = true;
 		}
 	}
 	
@@ -118,7 +123,7 @@ public class TurbidimeterController : EquipmentControllerBase {
 	}
 
 	/// <summary>
-	/// Correctly prepares the glassware to be analyzed, already putting it on the equipment position.
+	/// Correctly prepares the glassware to be analyzed.
 	/// </summary>
 	/// <param name="glass">The glassware to be prepared.</param>
 	public void PrepareGlassware(Glassware glass) {
@@ -126,5 +131,17 @@ public class TurbidimeterController : EquipmentControllerBase {
 		glass.RemoveLiquid (50);
 
 		cubeta.IncomingReagent (sample, 50);
+	}
+
+	/// <summary>
+	/// Returns the volume in the bucket to the glassware to be analyzed.
+	/// </summary>
+	public void GiveBackReagent() {
+		Compound sample = (cubeta.content as Compound).Clone (50) as Compound;
+		cubeta.RemoveLiquid (50);
+
+		if (workbench.positionGlass [0].childCount > 0) {
+			workbench.positionGlass[0].GetComponentInChildren<Glassware>().IncomingReagent (sample, 50);
+		}
 	}
 }

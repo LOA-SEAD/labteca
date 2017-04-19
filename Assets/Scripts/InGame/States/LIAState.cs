@@ -205,6 +205,7 @@ public class LIAState : GameStateBase {
 	/// The call is made by the different methods associated with the different types of steps
 	public void VerifyStep() {
 		bool complete = false;
+
 		switch (progressController.StepType) {
 		case TypeOfStep.CompoundClass:
 			checkCompoundClassCanvas.SetActive (false);
@@ -230,6 +231,7 @@ public class LIAState : GameStateBase {
 			break;
 		}
 		//Completes the step or shows the wrong-answer animation
+		//TODO: Add verification is currentIndex.Length > 0
 		if (complete == true) {
 			progressController.CompleteStep();
 		} else {

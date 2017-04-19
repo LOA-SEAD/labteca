@@ -10,6 +10,10 @@ public class SceneManager : MonoBehaviour {
 	void Start () {
 		Screen.lockCursor = true;
 		Screen.showCursor = false;
+
+		#if UNITY_STANDALONE
+		transitionEnabled = true;
+		#endif
 	}
 	
 	// Update is called once per frame

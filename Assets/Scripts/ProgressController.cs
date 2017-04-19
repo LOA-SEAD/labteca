@@ -23,9 +23,11 @@ public class ProgressController : MonoBehaviour {
 	private TypeOfStep stepType;
 	public TypeOfStep StepType { get{ return stepType; }}
 
-	private string customPhaseDir = "customPhase";
+	private string customPhaseDirectory = "customPhase";
 	private Dictionary<string,string> phaseDefinitions;
 	private bool customMode;
+
+	public CustomModeAnimationsController cutsceneController; //Cutscene controller associated with the CustomMode
 
 	// The dictionary for phases uses the index as a key to access the step dictionary, which has all values for the current step.
 	// The values of the steps are all in string, the conversion has to be done when comparing the values
@@ -45,6 +47,7 @@ public class ProgressController : MonoBehaviour {
 		//For testing
 		if(Application.loadedLevelName == "DemoLabDev"){
 			StartCustomMode();
+			cutsceneController = GameObject.Find ("CustomModeAnimations").GetComponent<CustomModeAnimationsController> ();
 		}
 	}
 
@@ -68,8 +71,8 @@ public class ProgressController : MonoBehaviour {
 	private void StartCustomMode() {
 		bool glasswareStart = false;
 		customMode = true;
-		currentPhase = PhasesSaver.LoadPhases (customPhaseDir);
-		phaseDefinitions = PhasesSaver.GetPhaseLibrary (customPhaseDir);
+		currentPhase = PhasesSaver.LoadPhases (customPhaseDirectory);
+		phaseDefinitions = PhasesSaver.GetPhaseLibrary (customPhaseDirectory);
 
 		for(int i = 0; i < currentPhase.Count; i++) {
 			Debug.Log ("PC.CurrentPhase " + i + " = " + currentPhase[i]["typeOfStep"]);
@@ -136,20 +139,7 @@ public class ProgressController : MonoBehaviour {
 		}
 
 		//Play starting dialogue according to type of quest, if needed
-		switch (StepType) {
-		case TypeOfStep.CompoundClass:
-			//compoundClassStartAnimation.Show();
-			break;
-		case TypeOfStep.WhatCompound:
-			//whatCompoundStartAnimation.Show();
-			break;
-		case TypeOfStep.MolarityCheck:
-			//molarityCheckStartAnimation.Show();
-			break;
-		case TypeOfStep.GlasswareCheck:
-			//glasswareCheckStartAnimation.Show();
-			break;
-		}
+		cutsceneController.PlayTransitionCutscene ();
 	}
 	
 	/// <summary>
@@ -159,8 +149,9 @@ public class ProgressController : MonoBehaviour {
 		Debug.Log ("Completing step");
 		//Write on .json the answers
 		if ((numberOfSteps - 1) == actualStep) {
-			Debug.Log("PhaseTransition will be called");
-			this.PhaseTransition ();
+			cutsceneController.PlayEndingScene();
+			//Debug.Log("PhaseTransition will be called");
+			//this.PhaseTransition ();
 		} else {
 			actualStep++;
 		   /*
@@ -176,14 +167,14 @@ public class ProgressController : MonoBehaviour {
 	/// It triggers the animation for wrong answer, and writes the wrong answer that was given.
 	/// </summary>
 	public void WrongAnswer(){
-		//wrongAnswerCanvas.SetActive(true);
+		cutsceneController.PlayWrongAnswerScene ();
 	}
 
 
 	/// <summary>
 	/// It makes the transition to the next phase
 	/// </summary>
-	private void PhaseTransition() {
+	public void PhaseTransition() {
 		Debug.Log ("PhaseTransition");
 		if (customMode) { 
 			/* FinalAnimation.Show()

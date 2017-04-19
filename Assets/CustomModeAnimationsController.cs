@@ -70,14 +70,14 @@ public class CustomModeAnimationsController : MonoBehaviour {
 	/// Actions to be taken when the cutscene is starting.
 	/// </summary>
 	public void OnStartAnimation() {
-		//lock all buttons
+		GameObject.Find ("Player").GetComponent<FPSInputController> ().LockKeys();
 	}
 
 	/// <summary>
 	/// Actions to be taken when the cutscene is over.
 	/// </summary>
 	public void OnEndAnimation() {
-		// unlock all buttons
+		GameObject.Find ("Player").GetComponent<FPSInputController> ().UnlockKeys ();
 		if (!ending) {
 			// set state back to first state
 			GameObject.Find ("GameController").GetComponent<GameController> ().GoToDefaultState ();

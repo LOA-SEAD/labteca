@@ -23,6 +23,8 @@ public class FPSInputController : MonoBehaviour
 	private GameController gameController;
 	private HUDController hudController;
 
+	public bool keysLocked = false;
+
 	void Start(){
 		//if interactText is null, sets the text to a default one
 		if (interactText == "")
@@ -75,8 +77,10 @@ public class FPSInputController : MonoBehaviour
         }
 
         // Apply the direction to the CharacterMotor
-        motor.inputMoveDirection = transform.rotation * directionVector;
-        motor.inputJump = Input.GetButton("Jump");
+		if (!keysLocked) {
+			motor.inputMoveDirection = transform.rotation * directionVector;
+			motor.inputJump = Input.GetButton ("Jump");
+		}
 
         // Implements Raycast to get which object is being Hit and how to interact with it.
 		Ray cameraRay = Camera.main.ScreenPointToRay(new Vector3(Screen.width/2, Screen.height/2,  Mathf.Infinity));
@@ -140,4 +144,18 @@ public class FPSInputController : MonoBehaviour
 		
 		}*/
     }
+
+	public void LockKeys() {
+		keysLocked = true;
+		this.gameObject.GetComponent<MouseLook> ().enabled = false;
+		GameObject.Find("Main Camera").GetComponent<MouseLook> ().enabled = false;
+		GameObject.Find ("GameController").GetComponent<HUDController> ().LockKeys (true);
+	}
+
+	public void UnlockKeys() {
+		keysLocked = false;
+		this.gameObject.GetComponent<MouseLook> ().enabled = true;
+		GameObject.Find("Main Camera").GetComponent<MouseLook> ().enabled = true;
+		GameObject.Find ("GameController").GetComponent<HUDController> ().LockKeys (false);
+	}
 }

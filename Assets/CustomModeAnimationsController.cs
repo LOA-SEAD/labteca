@@ -7,7 +7,7 @@ using System.Collections;
 /// </summary>
 public class CustomModeAnimationsController : MonoBehaviour {
 
-	ProgressController prgController;
+	public ProgressController prgController;
 	bool ending = false;
 
 	//	Each cutscene is a different cutscene behaviour

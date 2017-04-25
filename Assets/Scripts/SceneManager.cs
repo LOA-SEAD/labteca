@@ -6,6 +6,10 @@ public class SceneManager : MonoBehaviour {
 	public Text escape, shadow;
 	public float currentTime=5f;
 	private bool transitionEnabled = false;
+
+	public GameObject loadingSprite;
+	public GameObject skipButton;
+
 	// Use this for initialization
 	void Start () {
 		Screen.lockCursor = true;
@@ -13,6 +17,13 @@ public class SceneManager : MonoBehaviour {
 
 		#if UNITY_STANDALONE
 		transitionEnabled = true;
+		loadingSprite.SetActive(false);
+		skipButton.SetActive(true);
+		#endif
+		#if UNITY_WEBPLAYER
+		transitionEnabled = false;
+		loadingSprite.SetActive(true);
+		skipButton.SetActive(false);
 		#endif
 	}
 	
@@ -21,7 +32,7 @@ public class SceneManager : MonoBehaviour {
 		if (transitionEnabled) {
 			//If ESC is pressed, goes to next scene
 			if (Input.GetKeyDown (KeyCode.Escape))
-				Application.LoadLevel ("DemoLabDev");
+				Transition();
 			else if (Input.anyKeyDown && currentTime >= 5f) {
 				currentTime = 0f;
 			}
@@ -66,6 +77,12 @@ public class SceneManager : MonoBehaviour {
 
 	public void EnableTransition() {
 		transitionEnabled = true;
+		loadingSprite.SetActive(false);
+		skipButton.SetActive(true);
 		//change loading icon to complete icon
+	}
+
+	public void Transition() {
+		Application.LoadLevel ("DemoLabDev");
 	}
 }

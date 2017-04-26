@@ -38,14 +38,15 @@ public class HandbookSaver : MonoBehaviour {
 
 		reagentValues.Add("formula", 		jsonEditor.GetString(i, "formula"));
 		reagentValues.Add("name", 			jsonEditor.GetString(i, "name"));
-		reagentValues.Add("density",		jsonEditor.GetString(i, "density"));
+		/*reagentValues.Add("density",		jsonEditor.GetString(i, "density"));
 		reagentValues.Add("pH", 			jsonEditor.GetString(i, "pH"));
 		reagentValues.Add("conductibility", jsonEditor.GetString(i, "conductibility"));
 		reagentValues.Add("turbidity", 		jsonEditor.GetString(i, "turbidity"));
 		reagentValues.Add("polarizability", jsonEditor.GetString(i, "polarizability"));
 		reagentValues.Add("NaConcentration",jsonEditor.GetString(i, "NaConcentration"));
 		reagentValues.Add("KConcentration", jsonEditor.GetString(i, "KConcentration"));
-		reagentValues.Add("LiConcentration",jsonEditor.GetString(i, "LiConcentration"));
+		reagentValues.Add("LiConcentration",jsonEditor.GetString(i, "LiConcentration"));*/
+		reagentValues.Add("description", 	jsonEditor.GetString (i, "description"));
 		
 		return reagentValues;
 	}

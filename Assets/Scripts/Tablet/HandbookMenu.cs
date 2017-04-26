@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class HandbookMenu : TabletState {
@@ -8,7 +9,7 @@ public class HandbookMenu : TabletState {
 	public Button prefab;
 	public JournalController journalController;
 	
-	public GameObject[] stepTabs;
+	public GameObject[] handbookTabs;
 	
 	public override TabletStates StateType {
 		get {
@@ -22,39 +23,36 @@ public class HandbookMenu : TabletState {
 		RefreshScroll ();
 	}*/
 	
-	public void RefreshScroll(int numberOfSteps){
+	public void RefreshScroll(){
 		//Always clean the previous items
 		int child = content.childCount;
 		for (int i = 0; i < child; i++) {
 			Destroy(content.GetChild(i).gameObject);
 		}
-		
-		stepTabs = new GameObject[numberOfSteps];
+
+		Dictionary<string, Dictionary<string, string>> handbookDictionary = HandbookSaver.GetHandbook ();
+
+		handbookTabs = new GameObject[handbookDictionary.Count];
+		int m = 0;
 		//Generates new items
-		for (int i = 0; i < numberOfSteps; i++) {
-			GameObject tempItem = Instantiate (prefab.gameObject) as GameObject;
-			tempItem.name = "MenuButton"+i;
-			string name = "";
-			/*if(i == 0) {
-				name = "Solução de NaCl 1 mol/litro";
-			} else {
-				tempItem.GetComponentInChildren<Text> ().text = tempItem.GetComponentInChildren<Text> ().text + (i+1); //The name is based on the prefab's text
-			}*/
-			name = JournalSaver.GetExperimentName(i);
-			tempItem.GetComponentInChildren<Text> ().text = name;
-			tempItem.gameObject.GetComponent<Button> ().onClick.AddListener (() => GoToExperiment(int.Parse(tempItem.name.Substring(10))));
-			tempItem.transform.SetParent (content.transform, false);
-			
-			stepTabs[i] = tempItem;
+		foreach (string formula in handbookDictionary.Keys) {
+			GameObject handbookItem = Instantiate (prefab.gameObject) as GameObject;
+			handbookItem.name = "Tab"+formula;
+
+			handbookItem.GetComponentInChildren<Text>().text = handbookDictionary[formula]["name"];
+			handbookItem.gameObject.GetComponent<Button> ().onClick.AddListener (() => Debug.Log ("lu"));
+			handbookItem.transform.SetParent (content.transform, false);
+			handbookTabs[m] = handbookItem;
+			m++;
 		}
 	}
 	/// <summary>
 	/// Goes to "i" experiment.
 	/// </summary>
 	/// <param name="i">The index.</param>
-	public void GoToExperiment(int i){
+	public void GoToReagent(int i){
 		journalController.changeExperiment (i);
-		GetComponentInParent<TabletStateMachine> ().goToState ((int)TabletStates.Experiments);
+		//GetComponentInParent<TabletStateMachine> ().goToState ((int)TabletStates.Experiments);
 	}
 	
 	/// <summary>
@@ -63,6 +61,6 @@ public class HandbookMenu : TabletState {
 	/// <param name="numberOfStep">Number of actual step.</param>
 	public void ActivateStepTab(int numberOfStep){
 		//Debug.Log (stepTabs.
-		stepTabs[numberOfStep].SetActive (true);
+		handbookTabs[numberOfStep].SetActive (true);
 	}
 }

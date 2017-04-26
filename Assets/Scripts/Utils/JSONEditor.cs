@@ -42,7 +42,6 @@ public class JSONEditor {
 
 	public JSONEditor (string file, bool difference) {
 		json = ReadFromResources (file);
-		Debug.Log (json);
 	}
 
 	//! Reads the file

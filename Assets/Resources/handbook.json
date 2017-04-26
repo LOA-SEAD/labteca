@@ -2,6 +2,7 @@
 	"objects": [{
 		"name": "Ácido Clorídrico",
 		"formula": "HCl",
+		"description" : "",
 		"density": "1.18",
 		"pH": "0",
 		"conductibility": "1",

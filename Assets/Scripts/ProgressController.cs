@@ -48,7 +48,7 @@ public class ProgressController : MonoBehaviour {
 		if(Application.loadedLevelName == "DemoLabDev"){
 			StartCustomMode();
 			cutsceneController = GameObject.Find ("CustomModeAnimations").GetComponent<CustomModeAnimationsController> ();
-			GameObject.Find ("Handbook Menu").GetComponent<HandbookMenu> ().RefreshScroll (numberOfSteps);
+			GameObject.Find ("Handbook Menu").GetComponent<HandbookMenu> ().RefreshScroll ();
 		}
 	}
 

@@ -49,7 +49,7 @@ public class PhasesSaver : MonoBehaviour {
 	/*public static Dictionary<int, Dictionary<string, string>> ProcessPhases(JSONEditor jsonEditor) {
 	}*/
 
-	//Load the step, putting it into a Dictironary
+	//Load the step, putting it into a Dictionary
 	private static Dictionary<string, string> LoadStep(JSONEditor jsonEditor, int i) {
 		
 		Dictionary<string, string> step = new Dictionary<string, string> ();

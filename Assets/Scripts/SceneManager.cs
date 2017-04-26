@@ -79,7 +79,6 @@ public class SceneManager : MonoBehaviour {
 		transitionEnabled = true;
 		loadingSprite.SetActive(false);
 		skipButton.SetActive(true);
-		//change loading icon to complete icon
 	}
 
 	public void Transition() {

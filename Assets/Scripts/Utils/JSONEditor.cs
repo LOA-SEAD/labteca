@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.IO;
 using SimpleJSON;
 
-//! Loads a .json file.
-//  The class makes use of SimpleJSON namespace to handle JSON I/O
 /*public static class JSONEdit {
 	//! Reads the file
 	//  If the file doesn't exists, creates the file
@@ -24,6 +23,8 @@ using SimpleJSON;
 	}
 }*/
 
+//! Loads a .json file.
+//  The class makes use of SimpleJSON namespace to handle JSON I/O
 public class JSONEditor {
 	
 	private JSONNode json;
@@ -37,10 +38,13 @@ public class JSONEditor {
 		#if UNITY_STANDALONE_WIN
 		json = Read (file);
 		#endif
-		
-		//Debug.Log (json.Value);
 	}
-	
+
+	public JSONEditor (string file, bool difference) {
+		json = ReadFromResources (file);
+		Debug.Log (json);
+	}
+
 	//! Reads the file
 	//  If the file doesn't exists, creates the file
 	private JSONNode Read(string file) {
@@ -57,11 +61,26 @@ public class JSONEditor {
 			return JSON.Parse (content);
 		}
 	}
-	
+
+	/// <summary>
+	/// Reads the files from the LibraryFromWeb class, that previously downloaded the values during game introduction.
+	/// </summary>
+	/// <returns>Returns .json read in form of JSONNode.</returns>
+	/// <param name="file">Name of file to be loaded.</param>
 	private JSONNode ReadFromWeb(string file) {
 		return JSON.Parse (GameObject.Find ("LibraryFromWeb").GetComponent<LibraryFromWeb>().GetData (file));
 	}
-	
+
+	/// <summary>
+	/// Reads a file from the resources folder resources, integrated in the .exe.
+	/// </summary>
+	/// <param name="file">The file to be read.</param>
+	private JSONNode ReadFromResources(string file) {
+		//string filePath = "SetupData/" + file;
+		TextAsset asset = Resources.Load(file) as TextAsset;
+		return JSON.Parse (asset.text);
+	}
+
 	private void Write() {
 		
 	}

@@ -1,0 +1,15 @@
+{
+	"objects": [{
+		"name": "Ácido Clorídrico",
+		"formula": "HCl",
+		"density": "1.18",
+		"pH": "0",
+		"conductibility": "1",
+		"turbidity": "0.5",
+		"polarizability": "0",
+		"NaConcentration": "0",
+		"KConcentration": "0",
+		"LiConcentration": "0"
+
+	}]
+}

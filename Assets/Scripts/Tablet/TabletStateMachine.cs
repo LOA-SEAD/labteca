@@ -84,5 +84,6 @@ public enum TabletStates{
 	Experiments=3,
 	Notes=4,
 	HandbookMenu=5,
-	Graphs=6
+	Graphs=6,
+	ReagentInfo=7
 }

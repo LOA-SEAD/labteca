@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class HandbookMenu : TabletState {
 	public RectTransform content;
 	public int lastExperiment;
-	public Button prefab;
-	public JournalController journalController;
+	public Button reagentButtonPrefab;
+	public ReagentInfoState reagentState;
 	
 	public GameObject[] handbookTabs;
 	
@@ -36,31 +36,22 @@ public class HandbookMenu : TabletState {
 		int m = 0;
 		//Generates new items
 		foreach (string formula in handbookDictionary.Keys) {
-			GameObject handbookItem = Instantiate (prefab.gameObject) as GameObject;
-			handbookItem.name = "Tab"+formula;
+			GameObject handbookItem = Instantiate (reagentButtonPrefab.gameObject) as GameObject;
+			handbookItem.name = "Reagent"+formula;
 
-			handbookItem.GetComponentInChildren<Text>().text = handbookDictionary[formula]["name"];
-			handbookItem.gameObject.GetComponent<Button> ().onClick.AddListener (() => Debug.Log ("lu"));
+			handbookItem.GetComponentInChildren<Text>().text = handbookDictionary[formula]["formula"];
+			handbookItem.gameObject.GetComponent<Button> ().onClick.AddListener (() => GoToReagent(formula));
 			handbookItem.transform.SetParent (content.transform, false);
 			handbookTabs[m] = handbookItem;
 			m++;
 		}
 	}
 	/// <summary>
-	/// Goes to "i" experiment.
+	/// Go to reagent info of given button "i"
 	/// </summary>
 	/// <param name="i">The index.</param>
-	public void GoToReagent(int i){
-		journalController.changeExperiment (i);
-		//GetComponentInParent<TabletStateMachine> ().goToState ((int)TabletStates.Experiments);
-	}
-	
-	/// <summary>
-	/// Activates the step tab.
-	/// </summary>
-	/// <param name="numberOfStep">Number of actual step.</param>
-	public void ActivateStepTab(int numberOfStep){
-		//Debug.Log (stepTabs.
-		handbookTabs[numberOfStep].SetActive (true);
+	public void GoToReagent(string formula){
+		reagentState.OpenReagentInfo (formula);
+		GetComponentInParent<TabletStateMachine> ().goToState ((int)TabletStates.ReagentInfo);
 	}
 }

@@ -52,6 +52,8 @@ public class ReagentInfoState: TabletState {
 	public void OpenReagentInfo(string formula) {
 		Dictionary<string, Dictionary<string, string>> handbookDictionary = HandbookSaver.GetHandbook ();
 
+
+		Debug.Log ("Opening info of " + formula);
 		if (formula != "") {
 			reagentFormula.text = formula;
 			reagentDescription.text = handbookDictionary [formula] ["description"];

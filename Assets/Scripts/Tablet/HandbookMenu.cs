@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class HandbookMenu : TabletState {
 	public RectTransform content;
-	public int lastExperiment;
 	public Button reagentButtonPrefab;
 	public ReagentInfoState reagentState;
 	
@@ -16,13 +15,11 @@ public class HandbookMenu : TabletState {
 			return TabletStates.HandbookMenu;
 		}
 	}
-	
-	// Use this for initialization
-	/*void Start ()
-	{
-		RefreshScroll ();
-	}*/
-	
+
+	/// <summary>
+	/// Refreshes the content canvas.
+	/// </summary>
+	/// The method is used to initilize all the buttons.
 	public void RefreshScroll(){
 		//Always clean the previous items
 		int child = content.childCount;
@@ -37,10 +34,10 @@ public class HandbookMenu : TabletState {
 		//Generates new items
 		foreach (string formula in handbookDictionary.Keys) {
 			GameObject handbookItem = Instantiate (reagentButtonPrefab.gameObject) as GameObject;
-			handbookItem.name = "Reagent"+formula;
+			handbookItem.name = formula;
 
 			handbookItem.GetComponentInChildren<Text>().text = handbookDictionary[formula]["formula"];
-			handbookItem.gameObject.GetComponent<Button> ().onClick.AddListener (() => GoToReagent(formula));
+			handbookItem.gameObject.GetComponent<Button> ().onClick.AddListener (() => GoToReagent(handbookItem.name));
 			handbookItem.transform.SetParent (content.transform, false);
 			handbookTabs[m] = handbookItem;
 			m++;

@@ -24,6 +24,7 @@ public class FPSInputController : MonoBehaviour
 	private HUDController hudController;
 
 	public bool keysLocked = false;
+	public Camera mainCamera;
 
 	void Start(){
 		//if interactText is null, sets the text to a default one
@@ -148,14 +149,14 @@ public class FPSInputController : MonoBehaviour
 	public void LockKeys() {
 		keysLocked = true;
 		this.gameObject.GetComponent<MouseLook> ().enabled = false;
-		GameObject.Find("Main Camera").GetComponent<MouseLook> ().enabled = false;
+		mainCamera.gameObject.GetComponent<MouseLook> ().enabled = false;
 		GameObject.Find ("GameController").GetComponent<HUDController> ().LockKeys (true);
 	}
 
 	public void UnlockKeys() {
 		keysLocked = false;
 		this.gameObject.GetComponent<MouseLook> ().enabled = true;
-		GameObject.Find("Main Camera").GetComponent<MouseLook> ().enabled = true;
+		mainCamera.gameObject.GetComponent<MouseLook> ().enabled = true;
 		GameObject.Find ("GameController").GetComponent<HUDController> ().LockKeys (false);
 	}
 }

@@ -8,6 +8,7 @@ using System.Collections;
 public class CustomModeAnimationsController : MonoBehaviour {
 
 	public ProgressController prgController;
+	public FPSInputController player;
 	bool ending = false;
 
 	//	Each cutscene is a different cutscene behaviour
@@ -70,14 +71,14 @@ public class CustomModeAnimationsController : MonoBehaviour {
 	/// Actions to be taken when the cutscene is starting.
 	/// </summary>
 	public void OnStartAnimation() {
-		GameObject.Find ("Player").GetComponent<FPSInputController> ().LockKeys();
+		player.LockKeys();
 	}
 
 	/// <summary>
 	/// Actions to be taken when the cutscene is over.
 	/// </summary>
 	public void OnEndAnimation() {
-		GameObject.Find ("Player").GetComponent<FPSInputController> ().UnlockKeys ();
+		player.UnlockKeys ();
 		if (!ending) {
 			// set state back to first state
 			GameObject.Find ("GameController").GetComponent<GameController> ().GoToDefaultState ();

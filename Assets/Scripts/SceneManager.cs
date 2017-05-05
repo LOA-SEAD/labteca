@@ -17,8 +17,8 @@ public class SceneManager : MonoBehaviour {
 
 		#if UNITY_STANDALONE
 		transitionEnabled = true;
-		loadingSprite.SetActive(false);
-		skipButton.SetActive(true);
+		/*loadingSprite.SetActive(false);
+		skipButton.SetActive(true);*/
 		#endif
 		#if UNITY_WEBPLAYER
 		transitionEnabled = false;
@@ -77,8 +77,8 @@ public class SceneManager : MonoBehaviour {
 
 	public void EnableTransition() {
 		transitionEnabled = true;
-		loadingSprite.SetActive(false);
-		skipButton.SetActive(true);
+		/*loadingSprite.SetActive(false);
+		skipButton.SetActive(true);*/
 	}
 
 	public void Transition() {

@@ -7,8 +7,11 @@ using System.Collections;
 /// </summary>
 public class CutsceneBehaviour : MonoBehaviour {
 
+	public HUDController hudController;
+
 	// Update is called once per frame
 	void Update () {
+		hudController.LockKeys (true);
 		if (this.gameObject.GetComponent<Animator> ().GetCurrentAnimatorStateInfo (0).IsName ("Transition")) {
 			OnEndCutscene();
 		}

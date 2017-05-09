@@ -204,7 +204,7 @@ public class Glassware : ItemToInventory
 						tabValues [1].gameObject.SetActive (true);
 						tabValues [1].text = "Massa Molar: " + string.Format ("{0:0.00}", (content as Compound).MolarMass);
 					}
-					infoCanvas.gameObject.SetActive (true);
+					//infoCanvas.gameObject.SetActive (true);
 				}
 
 				//Glowing state machine

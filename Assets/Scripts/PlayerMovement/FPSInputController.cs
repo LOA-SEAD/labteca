@@ -80,7 +80,7 @@ public class FPSInputController : MonoBehaviour
         // Apply the direction to the CharacterMotor
 		if (!keysLocked) {
 			motor.inputMoveDirection = transform.rotation * directionVector;
-			motor.inputJump = Input.GetButton ("Jump");
+			//motor.inputJump = Input.GetButton ("Jump");
 		}
 
         // Implements Raycast to get which object is being Hit and how to interact with it.
@@ -148,13 +148,18 @@ public class FPSInputController : MonoBehaviour
 
 	public void LockKeys() {
 		keysLocked = true;
+		this.gameObject.GetComponent<CharacterMotor>().enabled = false;
+		this.enabled = false;
 		this.gameObject.GetComponent<MouseLook> ().enabled = false;
 		mainCamera.gameObject.GetComponent<MouseLook> ().enabled = false;
 		GameObject.Find ("GameController").GetComponent<HUDController> ().LockKeys (true);
 	}
 
 	public void UnlockKeys() {
+		Debug.Log ("Unlocking keys.");
 		keysLocked = false;
+		this.enabled = true;
+		this.gameObject.GetComponent<CharacterMotor>().enabled = true;
 		this.gameObject.GetComponent<MouseLook> ().enabled = true;
 		mainCamera.gameObject.GetComponent<MouseLook> ().enabled = true;
 		GameObject.Find ("GameController").GetComponent<HUDController> ().LockKeys (false);

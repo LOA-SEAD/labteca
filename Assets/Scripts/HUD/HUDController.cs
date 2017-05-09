@@ -156,8 +156,8 @@ public class HUDController : MonoBehaviour {
 	/// <summary>
 	/// Alternates the state of the player.
 	/// </summary>
-	/// <param name="asd"> teste </para>
 	public void changePlayerState(){
+		Debug.Log ("Mudando estado no HUDController.");
 		if (player.activeSelf) {
 			GameObject.Find("GameController").GetComponent<AudioController>().crossFade();
 			GameObject.Find("Elaine 1").GetComponent<Animator>().enabled = !GameObject.Find("Elaine 1").GetComponent<Animator>().enabled;

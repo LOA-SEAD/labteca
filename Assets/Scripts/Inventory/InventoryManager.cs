@@ -303,7 +303,8 @@ public class InventoryManager : MonoBehaviour {
 							labelRect.rotation = Quaternion.Euler (0f, 0f, 0f);
 							labelRect.GetComponentInChildren<Text> ().rectTransform.localRotation = Quaternion.Euler (0f, 0f, 0f);
 							labelRect.GetComponentInChildren<Text> ().text = limbo.FindChild (item.index).GetComponent<Glassware> ().label;
-							labelRect.transform.position = tempItem.GetComponent<ItemInventoryBase> ().posTab.position;
+							labelRect.transform.position = new Vector2(tempItem.GetComponent<ItemInventoryBase> ().posTab.position.x,
+							                                           tempItem.GetComponent<ItemInventoryBase> ().posTab.position.y - 50.0f);
 						}
 					}
 					/*refreshLabel (item,true); 

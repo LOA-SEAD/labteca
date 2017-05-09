@@ -235,7 +235,7 @@ public class LIAState : GameStateBase {
 		if (complete == true) {
 			progressController.CompleteStep();
 		} else {
-			//progressController.WrongAnswer();
+			progressController.WrongAnswer();
 		}
 	}
 

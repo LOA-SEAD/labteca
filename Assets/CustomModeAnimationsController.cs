@@ -53,7 +53,7 @@ public class CustomModeAnimationsController : MonoBehaviour {
 	/// <returns>The wrong answer scene.</returns>
 	public void PlayWrongAnswerScene() {
 		OnStartAnimation ();
-		//wrongAnswer.Play ();
+		wrongAnswer.Play ();
 	}
 
 

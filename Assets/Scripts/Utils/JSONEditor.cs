@@ -114,4 +114,8 @@ public class JSONEditor {
 	public string GetMainValue(string data) {
 		return json [data].Value;
 	}
+
+	public int GetMainInt(string data) {
+		return json[data].AsInt;
+	}
 }

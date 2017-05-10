@@ -30,7 +30,7 @@ public class JournalController : TabletState {
 		contentRect = UIScrollList.content;
 	}
 	public void changeExperiment(int expo){
-		experimentText.text = "Desafio " +(expo+1); //TODO: FOR THE TIME BEING, AS THERE'S ONLY ONE PHASE, WE CAN USE IT AS 3 PARTS
+		experimentText.text = JournalSaver.GetExperimentName (expo);//"Desafio " +(expo+1);
 		LoadExperiment (expo);
 		SaveExperiment (experimentNumber);
 		if (experimentNumber != expo) {

@@ -32,7 +32,9 @@ public class ProgressController : MonoBehaviour {
 	// The dictionary for phases uses the index as a key to access the step dictionary, which has all values for the current step.
 	// The values of the steps are all in string, the conversion has to be done when comparing the values
 	private Dictionary<int, Dictionary<string, string>> currentPhase; // < index of step, Dictionary< name of variable, variable's value as a string > >
-	private Dictionary<string, string> currentStep;
+	private int actualPhase;
+	public int ActualPhase { get { return actualPhase; } }
+	//private Dictionary<string, string> currentStep;
 	private int numberOfSteps;
 	private int actualStep;
 	public int ActualStep { get { return actualStep; } }
@@ -44,6 +46,7 @@ public class ProgressController : MonoBehaviour {
 
 	void Awake() {
 		stepType = TypeOfStep.none;
+		actualPhase = 0;
 		//For testing
 		if(Application.loadedLevelName == "DemoLabDev"){
 			StartCustomMode();
@@ -113,7 +116,7 @@ public class ProgressController : MonoBehaviour {
 
 		//Add steps to Experiment Menu on Tablet
 		GameObject.Find ("Tablet").GetComponentInChildren<NotesState> ().LoadNotes ();
-		GameObject.Find ("Experiments Menu").GetComponent<ExperimentMenu> ().RefreshScroll (numberOfSteps);
+		GameObject.Find ("Experiments Menu").GetComponent<ExperimentMenu> ().RefreshScroll (1); //TODO: RETHINK ABOUT ALL THIS STEP-PHASE CONSISTENCY ON JOURNAL
 		NewStep();
 	}
 
@@ -124,7 +127,8 @@ public class ProgressController : MonoBehaviour {
 		stepType = (TypeOfStep) int.Parse(currentPhase[actualStep]["typeOfStep"]);
 		ResultVerifier.GetInstance().SetVerificationStep(StepType, currentPhase[actualStep]);
 
-		GameObject.Find ("Experiments Menu").GetComponent<ExperimentMenu> ().ActivateStepTab (actualStep);
+		//GameObject.Find ("Experiments Menu").GetComponent<ExperimentMenu> ().ActivatePhaseTab (actualPhase);
+		//GameObject.Find ("Journal State").GetComponent<JournalController> ().ActivateStepTab (actualPhase, actualStep);
 
 		if (StepType == TypeOfStep.CompoundClass) {
 			Debug.Log ("1 = CompoundClass");
@@ -154,12 +158,12 @@ public class ProgressController : MonoBehaviour {
 			//Debug.Log("PhaseTransition will be called");
 			//this.PhaseTransition ();
 		} else {
+			GameObject.Find("JournalUIItem"+actualStep).GetComponent<JournalUIItem>().checkItem();
 			actualStep++;
 		   /*
 		 	* Play ending dialogue accoding to step, if needed;
 		 	*/
 			this.NewStep ();
-
 		}
 	}
 

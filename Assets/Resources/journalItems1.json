@@ -1,9 +1,0 @@
-{
-	"name" : "2. Descobrir o composto",
-	"objects": [{
-		"index": "0",
-		"name": "Com o auxílio dos equipamentos, descobra qual é o composto presente na solução.",
-		"isDone": "False",
-		"numberOfPrerequisites0": "0"
-	}]
-}

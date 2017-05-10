@@ -30,7 +30,7 @@ public class JournalController : TabletState {
 		contentRect = UIScrollList.content;
 	}
 	public void changeExperiment(int expo){
-		experimentText.text = "Etapa " +(expo+1); //TODO: FOR THE TIME BEING, AS THERE'S ONLY ONE PHASE, WE CAN USE IT AS 3 PARTS
+		experimentText.text = "Desafio " +(expo+1); //TODO: FOR THE TIME BEING, AS THERE'S ONLY ONE PHASE, WE CAN USE IT AS 3 PARTS
 		LoadExperiment (expo);
 		SaveExperiment (experimentNumber);
 		if (experimentNumber != expo) {
@@ -143,7 +143,20 @@ public class JournalController : TabletState {
 			
 			// set new item parent to scroll rect content
 			tempItem.transform.SetParent (contentRect.transform, false);
+
+			/*if(k > GameObject.Find ("ProgressController").GetComponent<ProgressController> ().ActualStep) {
+				tempItem.SetActive(false);
+			}*/
 		}
+	}
+
+	/// <summary>
+	/// Activates the step item.
+	/// </summary>
+	/// <param name="numberOfStep">Number of actual step.</param>
+	public void ActivateStepTab(int numberOfPhase, int numberOfStep){
+		//Debug.Log (stepTabs.
+		//experimentDictionary[numberOfPhase][numberOfStep].gameObject.SetActive (true);
 	}
 	
 }

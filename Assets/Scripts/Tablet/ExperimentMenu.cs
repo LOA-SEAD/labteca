@@ -42,13 +42,14 @@ public class ExperimentMenu : TabletState
 			} else {
 				tempItem.GetComponentInChildren<Text> ().text = tempItem.GetComponentInChildren<Text> ().text + (i+1); //The name is based on the prefab's text
 			}*/
-			name = JournalSaver.GetExperimentName(i);
+			//name = JournalSaver.GetExperimentName(i);
+			name = "Desafio";
 			tempItem.GetComponentInChildren<Text> ().text = name;
 			tempItem.gameObject.GetComponent<Button> ().onClick.AddListener (() => GoToExperiment(int.Parse(tempItem.name.Substring(10))));
 			tempItem.transform.SetParent (content.transform, false);
 
 			stepTabs[i] = tempItem;
-			tempItem.SetActive(false);
+			//tempItem.SetActive(false);
 			}
 	}
 	/// <summary>
@@ -61,10 +62,10 @@ public class ExperimentMenu : TabletState
 	}
 
 	/// <summary>
-	/// Activates the step tab.
+	/// Activates the phase tab.
 	/// </summary>
 	/// <param name="numberOfStep">Number of actual step.</param>
-	public void ActivateStepTab(int numberOfStep){
+	public void ActivatePhaseTab(int numberOfStep){
 		//Debug.Log (stepTabs.
 		stepTabs[numberOfStep].SetActive (true);
 	}

@@ -18,7 +18,6 @@ public class JournalUIItem : MonoBehaviour {
 	}
 
 	public void checkItem(){
-
 		if (!isDone && prerequisitesDone){
 			isDone=true;
 			GameObject[] journalItems = GameObject.FindGameObjectsWithTag("JournalUIItem");
@@ -39,6 +38,7 @@ public class JournalUIItem : MonoBehaviour {
 	}
 
 	public void checkPrerequisites(){
+		Debug.Log ("Checking prerequirements");
 		if (prerequisites [0] == null)
 			prerequisites.RemoveAt (0);
 		bool allDone=true;
@@ -46,9 +46,17 @@ public class JournalUIItem : MonoBehaviour {
 			allDone = GameObject.Find("JournalUIItem"+prerequisites[i]).GetComponent<JournalUIItem>().isDone;
 		}
 
+		Debug.Log ("Gonna check if allDone");
 		if (allDone) { 
+			Debug.Log ("It's all done");
 			prerequisitesDone = true;
-			checkmarkPlace.color = new Color(255,255,255,255);
+			checkmarkPlace.color = new Color (255, 255, 255, 255);
+			journalText.enabled = true;
+			checkmarkPlace.enabled = true;
+		} else {
+			Debug.Log ("It's not all done ):");
+			journalText.enabled = false;
+			checkmarkPlace.enabled = false;
 		}
 
 	}

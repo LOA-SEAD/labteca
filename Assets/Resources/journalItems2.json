@@ -1,9 +1,0 @@
-{
-	"name" : "3. Molaridade da solução",
-	"objects": [{
-		"index": "0",
-		"name": "Valendo-se dos equipamentos e de seus conhecimentos de análise química, descubra a molaridade da solução",
-		"isDone": "False",
-		"numberOfPrerequisites0": "0"
-	}]
-}

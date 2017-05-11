@@ -158,5 +158,4 @@ public class JournalController : TabletState {
 		//Debug.Log (stepTabs.
 		//experimentDictionary[numberOfPhase][numberOfStep].gameObject.SetActive (true);
 	}
-	
 }

@@ -52,6 +52,7 @@ public class ProgressController : MonoBehaviour {
 			StartCustomMode();
 			cutsceneController = GameObject.Find ("CustomModeAnimations").GetComponent<CustomModeAnimationsController> ();
 			GameObject.Find ("Handbook Menu").GetComponent<HandbookMenu> ().RefreshScroll ();
+			GameObject.Find ("Journal State").GetComponent<JournalController>().rewriteContent();
 		}
 	}
 
@@ -158,7 +159,8 @@ public class ProgressController : MonoBehaviour {
 			//Debug.Log("PhaseTransition will be called");
 			//this.PhaseTransition ();
 		} else {
-			GameObject.Find("JournalUIItem"+actualStep).GetComponent<JournalUIItem>().checkItem();
+			Debug.Log("Step number " + "JournalUIItem"+actualStep.ToString());
+			GameObject.Find("JournalUIItem"+actualStep.ToString()).GetComponent<JournalUIItem>().checkItem();
 			actualStep++;
 		   /*
 		 	* Play ending dialogue accoding to step, if needed;

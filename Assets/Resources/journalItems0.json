@@ -1,9 +1,9 @@
 {
-	"name" : "Análise de Solução",
+	"name" : "Análise da Solução Fornecida",
 	"objects": [
 	{
 		"index" : "0",
-		"name" : "Em seu inventário, na aba \"Produtos\", há um béquer com 100ml de uma solução 1 molar de um composto presente neste laboratório. Utilize os equipamentos do laboratório e seus conhecimentos de química analítica para descobrir a classe do composto presente na solução.",
+		"name" : "Utilize os equipamentos e seus conhecimentos de química analítica para descobrir a classe do composto presente na solução.",
 		"isDone" : "False",
 		"numberOfPrerequisites" : "0"
 	},
@@ -16,7 +16,7 @@
 	},
 	{
 		"index" : "2",
-		"name" : "Altere o volume da solução para 50.0ml e a molaridade para 1.0 mol/L.",
+		"name" : "Altere o volume da solução para 10.0ml e a molaridade para 20.0 mol/L.",
 		"isDone" : "False",
 		"numberOfPrerequisites" : "1",
 		"indexPrerequisiteOf" : ["1"]

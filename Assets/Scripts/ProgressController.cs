@@ -52,7 +52,7 @@ public class ProgressController : MonoBehaviour {
 			StartCustomMode();
 			cutsceneController = GameObject.Find ("CustomModeAnimations").GetComponent<CustomModeAnimationsController> ();
 			GameObject.Find ("Handbook Menu").GetComponent<HandbookMenu> ().RefreshScroll ();
-			GameObject.Find ("Journal State").GetComponent<JournalController>().rewriteContent();
+			GameObject.Find ("Journal State").GetComponent<JournalController>().changeExperiment(0);
 		}
 	}
 

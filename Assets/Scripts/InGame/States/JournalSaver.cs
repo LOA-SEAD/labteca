@@ -64,7 +64,6 @@ public class JournalSaver : MonoBehaviour {
 				journalItem.prerequisites.Clear();
 				for(int n = 0;n < json.GetInt(i, "numberOfPrerequisites"); n++){
 					int indexOfPre = int.Parse(json.GetSubValue(i, "indexPrerequisiteOf", n));
-					Debug.Log ("Index do prerequisito " + indexOfPre);
 					journalItem.prerequisites.Add(indexOfPre);
 				}
 				journalItem.prerequisitesDone=false;

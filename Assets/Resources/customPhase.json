@@ -1,33 +1,33 @@
 {
 	"glasswareStart" : "true",
-	"compoundFormula" : "HCl",
-	"volume" : "100",
+	"compoundFormula" : "NaCl",
+	"volume" : "200.0",
 	"molarity" : "1.0",
-	"objects" : [ 
+	"objects" : [
 	{
 		"typeOfStep" : "1",
-		"option1" : "Opcao 1",
-		"option2" : "Opcao 2",
-		"option3" : "Opcao 3",
-		"option4" : "Opcao 4",
-		"option5" : "Opcao 5",
-		"correctAnswer" : "3"
+		"option1" : "Sal",
+		"option2" : "Base",
+		"option3" : "Ácido",
+		"option4" : "Orgânico",
+		"option5" : "Etc",
+		"correctAnswer" : "1"
 	},
 	{
 		"typeOfStep" : "2",
-		"correctAnswer": "HCl",
+		"compoundFormula" : "NaCl"
 	},
 	{
 		"typeOfStep" : "3",
-		"compoundFormula": "HCl",
-		"correctAnswer" : "1.0",
+		"compoundFormula" : "NaCl",
+		"molarity" : "1.0",
 		"maxError" : "0.2"
 	},
 	{
 		"typeOfStep" : "4",
-		"compoundFormula": "HCl",
-		"molarity": "1.0",
-		"minVolume": "25",
-		"maxError": "0.2"
+		"compoundFormula" : "NaCl",
+		"molarity" : "1.0",
+		"minVolume" : "10.0",
+		"maxError" : "0.2"
 	}]
 }

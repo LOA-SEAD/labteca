@@ -148,14 +148,14 @@ public class ResultVerifier {
 		bool answer;
 
 		if (currentType == TypeOfStep.WhatCompound) {
-			if (textAnswer == step ["correctAnswer"]) {
+			if (textAnswer == step ["compoundFormula"]) {
 				answer = true;
 			} else {
 				answer = false;
 			}
 		} else { //MolarityCheck
-			if ( (float.Parse(textAnswer) <= (float.Parse(step["correctAnswer"]) + float.Parse(step["maxError"])))
-			  || (float.Parse(textAnswer) >= (float.Parse(step["correctAnswer"]) - float.Parse(step["maxError"]))) ) {
+			if ( (float.Parse(textAnswer) <= (float.Parse(step["molarity"]) + float.Parse(step["maxError"])))
+			  || (float.Parse(textAnswer) >= (float.Parse(step["molarity"]) - float.Parse(step["maxError"]))) ) {
 				answer = true;
 			}
 			else

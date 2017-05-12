@@ -47,7 +47,16 @@ public class JSONEditor {
 	//! Reads the file
 	//  If the file doesn't exists, creates the file
 	private JSONNode Read(string file) {
-		string directory = "Assets/Resources/" + file + ".json";
+
+		string directory;
+
+		if (Application.platform == RuntimePlatform.WindowsEditor)
+			directory = "Assets\\Resources\\" + file + ".json";
+		else 
+			directory = "Assets/Resources/" + file + ".json";
+
+		//Debug.Log (directory);
+
 		if(!System.IO.File.Exists(directory)) {
 			System.IO.File.Create(directory);
 			return Read(file);

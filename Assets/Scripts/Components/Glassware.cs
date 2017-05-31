@@ -176,7 +176,7 @@ public class Glassware : ItemToInventory
 				}
 			}
 
-			if(gameController.GetCurrentState () == gameController.gameStates[7]) {
+			if(gameController.GetCurrentState () == gameController.gameStates[6]) {
 				(gameController.GetCurrentState().GetEquipmentController() as TurbidimeterController).bucketCanvas.SetActive(false);
 			}
 		}

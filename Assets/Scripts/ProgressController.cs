@@ -48,7 +48,7 @@ public class ProgressController : MonoBehaviour {
 		stepType = TypeOfStep.none;
 		actualPhase = 0;
 		//For testing
-		if(Application.loadedLevelName == "DemoLabDev"){
+		if(Application.loadedLevelName == "CustomMode"){
 			StartCustomMode();
 			cutsceneController = GameObject.Find ("CustomModeAnimations").GetComponent<CustomModeAnimationsController> ();
 			GameObject.Find ("Handbook Menu").GetComponent<HandbookMenu> ().RefreshScroll ();
@@ -96,7 +96,7 @@ public class ProgressController : MonoBehaviour {
 		//Check how to start the phase
 		actualStep = 0;
 		if (glasswareStart) {
-			GameObject bequer = Instantiate ((GameObject.Find ("GameController").GetComponent<GameController> ().gameStates [3] as GetGlasswareState).glasswareList [0].gameObject) as GameObject;
+			GameObject bequer = Instantiate ((GameObject.Find ("GameController").GetComponent<GameController> ().gameStates [2] as GetGlasswareState).glasswareList [0].gameObject) as GameObject;
 			if((GameObject.Find ("GameController").GetComponent<GameController> ().gameStates [1] as WorkBench).TryPutIntoPosition(bequer)) {
 				Compound compound = new Compound ();
 				compound = CompoundFactory.GetInstance ().GetCompound (phaseDefinitions ["compoundFormula"]);

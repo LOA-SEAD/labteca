@@ -82,6 +82,7 @@ public class SceneManager : MonoBehaviour {
 	}
 
 	public void Transition() {
-		Application.LoadLevel ("DemoLabDev");
+		int i = Application.loadedLevel;
+		Application.LoadLevel(i + 1);
 	}
 }

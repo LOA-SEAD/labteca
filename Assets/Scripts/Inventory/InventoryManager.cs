@@ -53,7 +53,7 @@ public class InventoryManager : MonoBehaviour {
 		refreshTab (null,false);
 		itemType [0] = ItemType.Liquids;
 		itemType [1] = ItemType.Solids;
-		listIndex = 1;
+		listIndex = 0;
 		changeList(listIndex);
 		selectedIcon = backgroundIcons [1];
 		refreshGrid ();

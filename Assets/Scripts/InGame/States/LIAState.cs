@@ -105,7 +105,7 @@ public class LIAState : GameStateBase {
 		}
 
 		//Pressing Esc will exit the state
-		if(Input.GetKeyDown(KeyCode.E)){
+		if(Input.GetKeyDown(KeyCode.Escape)){
 			ExitState();
 		}
 	}

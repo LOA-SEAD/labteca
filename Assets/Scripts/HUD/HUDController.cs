@@ -31,8 +31,9 @@ public class HUDController : MonoBehaviour {
 	}
 
 	void Update(){
-		if (Input.GetKeyDown (KeyCode.Escape))
+		if (Input.GetKeyDown (KeyCode.P)) {
 			menu.Pause ();
+		}
 
 		if(Input.GetKeyDown(journalKey)&&!lockKey){
 			CallTabletTrigger();

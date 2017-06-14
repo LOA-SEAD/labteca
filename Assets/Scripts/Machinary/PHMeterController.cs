@@ -26,8 +26,8 @@ public class PHMeterController : EquipmentControllerBase {
 	public WorkBench workbench;			// BalanceState component.
 	
 	void Start () {
-		equipmentOn = true;
-		measure = true;
+		equipmentOn = false;
+		measure = false;
 		timeElapsed = 0;
 	}
 

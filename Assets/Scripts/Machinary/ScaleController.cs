@@ -3,123 +3,164 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-//! Scale Controller
-//  This is the controller for the Scale, it has all the methods that allows the Scale to work with 
-//  the Glassware, calculating its mass - together with its content - and displaying the value.
-
-public class ScaleController : EquipmentControllerBase 
-{
-    public float valueToShow;  		// Mass to be shown on scale. 
-	private float taredValue;		// Tared value
-
-	public float previousMass;		// Value to control the flicking effect
-	private bool changed;			// Used to control the flicking effect on display.
-
-	public TextMesh scaleText;    // Text display of Scale.
-
-	public float timeConstant;		// Maximum time of flicking effect
+//! Phmeter Controller
+/*! This is the controller for the Scale, it has all the methods that allows the equipment to work with 
+ * the Glassware and Reagents, calculating their mass and displaying it.
+ */
+public class ScaleController : EquipmentControllerBase {
+	
+	public float valueToShow;			// Value to be shown on scale. 	
+	public float tareValue;				// Value to be subtracted from the measured value.
+	
+	public float previousValue;			// Value to control the flicking effect
+	bool changed;						// Used to control the flicking effect on display.
+	bool equipmentOn;
+	bool measure;
+	
+	public TextMesh visorText;		// Text display of Scale.
+	
+	public float timeConstant;			// Maximum time of flicking effect
 	private float timeElapsed;
-
-	public GameObject activeMass;   // List of GameObjects that composes the mass.
-
-    public WorkBench workbench;		// BalanceState component.
-
-    // Awake happens before all Start()
-	void Awake()
-	{
-	}
-
+	
+	public GameObject activeGlassware;	// List of GameObjects that composes the mass.
+	
+	public WorkBench workbench;			// BalanceState component.
+	
 	void Start () {
-		taredValue = 0.00f;
-		previousMass = 0;
+		equipmentOn = false;
+		measure = false;
+		tareValue = 0.0f;
 		timeElapsed = 0;
 	}
-
+	
 	void Update () {
-		RefreshEquipment ();
-
+		RefreshEquipament ();
+		
 		if (changed) {
-			scaleText.text = EquipmentValueToString(UnityEngine.Random.Range(-1f+timeElapsed/timeConstant,1f-timeElapsed/timeConstant) + valueToShow);
+			visorText.text = EquipmentTextToString(UnityEngine.Random.Range(-1f+timeElapsed/timeConstant,1f-timeElapsed/timeConstant) + valueToShow);
 			timeElapsed += Time.fixedDeltaTime;
 			if(timeConstant<timeElapsed){
 				timeElapsed = 0;
 				changed = false;
-				scaleText.text = EquipmentValueToString(valueToShow);
+				visorText.text = EquipmentTextToString(valueToShow);
 			}
-		} 
+		}
 	}
-
+	
 	/// <summary>
 	/// Converts the float value to formated text for the equipment.
 	/// </summary>
 	/// <returns>Formated string.</returns>
 	/// <param name="value">Float value to be converted.</param>
-	private string EquipmentValueToString(float value){
+	private string EquipmentTextToString(float value){
 		string txt;
 		txt = String.Format("{0:F2}", value);
-
+		
 		return txt;
 	}
-
+	
 	/// <summary>
-	/// Set up the taring value of the scale.
+	/// Resets the equipment.
 	/// </summary>
-	public void SetTaredValue() {
-		if (activeMass != null) {
-			taredValue = activeMass.GetComponent<Glassware> ().GetMass ();
-		} else {
-			taredValue = 0.00f;
-		}
-		workbench.GetComponentInChildren<StateUIManager> ().CloseAll ();
+	public void ResetEquipment() {
+		RefreshEquipament ();
 	}
-
-    /// <summary>
-    /// Resets the scale, setting the tared value to 0.0.
-    /// </summary>
-	public void ResetScale()
-	{
-		taredValue = 0.00f;
-		RefreshEquipment ();
-		workbench.GetComponentInChildren<StateUIManager> ().CloseAll ();
-	}
-
-    //! Get Glassware that is on Scale.
+	
+	
+	/// <summary>
+	/// Gets the glassware currently in the equipment position.
+	/// </summary>
+	/// <returns>The glassware currently in equipment.</returns>
 	public Glassware GetGlassInEquipament(){
 		Glassware glassToReturn = null;
-
-		if(activeMass.GetComponent<Glassware>() != null){
-			glassToReturn = activeMass.GetComponent<Glassware>();
+		
+		if(activeGlassware.GetComponent<Glassware>() != null){
+			glassToReturn = activeGlassware.GetComponent<Glassware>();
 		}
 		return glassToReturn;
 	}
-
-    //! Add a GameObject to be measured on Scale.
+	
+	/// <summary>
+	/// Adds a glassware to be measured by the equipment.
+	/// </summary>
+	/// <param name="objectToAdd">Object to be added.</param>
 	public override void AddObjectInEquipament(GameObject objectToAdd){
-		activeMass = objectToAdd;
-		RefreshEquipment();
+		activeGlassware = objectToAdd;
+		RefreshEquipament();
 	}
-
-    //! Remove a GameObject from being measured on Scale.
+	
+	/// <summary>
+	/// Removes a GameObject from the equipment position.
+	/// </summary>
+	/// <param name="objectToRemove">Object to be removed.</param>
 	public override void RemoveObjectInEquipament(GameObject objectToRemove){
-		activeMass = null;
-		RefreshEquipment();
+		activeGlassware = null;
+		RefreshEquipament();
 	}
-
-    //! Update Real Mass to the mass of all GameObjects on ActiveMass.
-	private void RefreshEquipment(){
-		if (workbench.IsRunning ()) {
-			valueToShow = 0.00f;
-			if (activeMass != null) {
-				valueToShow = activeMass.GetComponent<Glassware> ().GetMass ();		
+	
+	//! Update Real Mass to the mass of all GameObjects on ActiveMass.
+	/// <summary>
+	/// Refreshs the equipament, checking if the flicking effect will be triggered.
+	/// </summary>
+	private void RefreshEquipament(){
+		if (workbench.IsRunning () && equipmentOn && measure) {
+			if (activeGlassware != null) {
+				valueToShow = activeGlassware.GetComponent<Glassware> ().GetMass () - tareValue;
+			}
+			else{
+				valueToShow = 0.0f;
 			}
 			
-			valueToShow -= taredValue;
-
-			if(previousMass!=valueToShow){
-				previousMass = valueToShow;
+			if(previousValue !=  valueToShow){
+				previousValue = valueToShow;
 				changed = true;
 			}
+			//measure=false;
+		}
+	}
+	
+	/// <summary>
+	/// Triggers the events when the power button pressed.
+	/// </summary>
+	public void OnClickPower(){
+		if (!equipmentOn) {
+			visorText.text = "--.--";
+			equipmentOn = true;
+		}
+	}
+	
+	/// <summary>
+	/// Triggers the events when the power button pressed.
+	/// </summary>
+	public void OnClickMeasure(){
+		if (equipmentOn && !measure) {
+			visorText.text = EquipmentTextToString (0.00f);
+			measure = true;
+		} else if (equipmentOn && measure) {
+			OnClickResetTare();
 		}
 	}
 
+	/// <summary>
+	/// Triggers the events to tare the scale.
+	/// </summary>
+	public void OnClickTare() {
+		if (equipmentOn && measure) {
+			if(activeGlassware != null) {
+				tareValue = activeGlassware.GetComponent<Glassware> ().GetMass ();
+			}
+			else {
+				tareValue = 0.0f;
+			}
+			RefreshEquipament();
+		}
+	}
+
+	/// <summary>
+	/// Triggers the events to reset the tare value.
+	/// </summary>
+	public void OnClickResetTare() {
+		tareValue = 0.0f;
+		RefreshEquipament();
+	}
 }

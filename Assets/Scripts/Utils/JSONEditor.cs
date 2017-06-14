@@ -35,7 +35,7 @@ public class JSONEditor {
 		json = ReadFromWeb(file);
 		#endif
 
-		#if UNITY_STANDALONE_WIN
+		#if UNITY_STANDALONE
 		json = Read (file);
 		#endif
 	}
@@ -50,12 +50,15 @@ public class JSONEditor {
 
 		string directory;
 
-		if (Application.platform == RuntimePlatform.WindowsEditor)
+		#if UNITY_STANDALONE_WIN
 			directory = "Assets\\Resources\\" + file + ".json";
-		else 
+		#endif
+		#if UNITY_STANDALONE_LINUX
 			directory = "Assets/Resources/" + file + ".json";
-
-		//Debug.Log (directory);
+		#endif
+		#if UNITY_STANDALONE_OSX
+			directory = "Resources/" + file + ".json";
+		#endif
 
 		if(!System.IO.File.Exists(directory)) {
 			System.IO.File.Create(directory);

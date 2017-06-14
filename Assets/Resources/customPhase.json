@@ -22,12 +22,5 @@
 		"compoundFormula" : "NaCl",
 		"molarity" : "1.0",
 		"maxError" : "0.2"
-	},
-	{
-		"typeOfStep" : "4",
-		"compoundFormula" : "NaCl",
-		"molarity" : "1.0",
-		"minVolume" : "10.0",
-		"maxError" : "0.2"
 	}]
 }

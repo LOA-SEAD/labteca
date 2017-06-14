@@ -57,7 +57,7 @@ public class JSONEditor {
 			directory = "Assets/Resources/" + file + ".json";
 		#endif
 		#if UNITY_STANDALONE_OSX
-			directory = "Resources/" + file + ".json";
+		directory = "LabTecA.app/Contents/Data/Resources/" + file + ".json";
 		#endif
 
 		if(!System.IO.File.Exists(directory)) {

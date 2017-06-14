@@ -219,6 +219,7 @@ public class LIAState : GameStateBase {
 			break;
 		case TypeOfStep.MolarityCheck:
 			string molAnswer = molarityAnswer.text;
+			Debug.Log("Na resposta " + molarityAnswer.text);
 			checkMolarityValueCanvas.SetActive(false);
 			GameObject.Find ("GameController").GetComponent<HUDController> ().LockKeys (false);
 			complete = ResultVerifier.GetInstance().VerifyTextBox(molAnswer);

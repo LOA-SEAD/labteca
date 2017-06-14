@@ -1,22 +1,22 @@
 {
-	"name" : "Análise da Solução Fornecida",
+	"name" : "Análise da Solução",
 	"objects": [
 	{
 		"index" : "0",
-		"name" : "Utilize os equipamentos e seus conhecimentos de química analítica para descobrir a classe do composto presente na solução.",
+		"name" : "Utilize os equipamentos e seus conhecimentos de química analítica para descobrir a classe do composto em solução no Béquer em seu INVENTÁRIO.",
 		"isDone" : "False",
 		"numberOfPrerequisites" : "0"
 	},
 	{
 		"index" : "1",
-		"name" : "Com o auxílio dos equipamentos, descobra qual é o composto presente na solução.",
+		"name" : "Com o auxílio dos equipamentos, descubra qual é o composto presente na solução.",
 		"isDone" : "False",
 		"numberOfPrerequisites" : "1",
 		"indexPrerequisiteOf" : ["0"]
 	},
 	{
 		"index" : "2",
-		"name" : "Altere o volume da solução para 10.0ml e a molaridade para 20.0 mol/L.",
+		"name" : "Calcule a concentração percentual da amostra, em gramas por 100ml.",
 		"isDone" : "False",
 		"numberOfPrerequisites" : "1",
 		"indexPrerequisiteOf" : ["1"]

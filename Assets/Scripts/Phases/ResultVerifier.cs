@@ -154,8 +154,9 @@ public class ResultVerifier {
 				answer = false;
 			}
 		} else { //MolarityCheck
+			Debug.Log ("Do gabarito " + float.Parse(step["molarity"]));
 			if ( (float.Parse(textAnswer) <= (float.Parse(step["molarity"]) + float.Parse(step["maxError"])))
-			  || (float.Parse(textAnswer) >= (float.Parse(step["molarity"]) - float.Parse(step["maxError"]))) ) {
+			  && (float.Parse(textAnswer) >= (float.Parse(step["molarity"]) - float.Parse(step["maxError"]))) ) {
 				answer = true;
 			}
 			else

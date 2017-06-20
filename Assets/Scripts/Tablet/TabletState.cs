@@ -19,5 +19,14 @@ public class TabletState : MonoBehaviour
 	{
 		canvasGroup = this.GetComponent<CanvasGroup> ();
 	}
+
+	/*void OnGUI(){
+		Event e = Event.current;
+		if (this.GetComponent<CanvasGroup> ().alpha == 1f) {
+			if (Input.GetKeyDown (KeyCode.Escape)) {
+				GameObject.Find("GameController").GetComponent<HUDController>().CallTablet(false);
+			}
+		}
+	}*/
 }
 

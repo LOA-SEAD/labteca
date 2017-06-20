@@ -30,6 +30,16 @@ public class JournalController : TabletState {
 		UIScrollList = canvasObject.GetComponentInChildren<ScrollRect> ();
 		contentRect = UIScrollList.content;
 	}
+
+	void OnGUI(){
+		Event e = Event.current;
+		if (this.GetComponent<CanvasGroup> ().alpha == 1f) {
+			if (Input.GetKeyDown (KeyCode.Escape)) {
+				GetComponentInParent<TabletStateMachine>().goToState((int)TabletStates.ExperimentsMenu);
+			}
+		}
+	}
+
 	public void changeExperiment(int expo){
 		experimentText.text = JournalSaver.GetExperimentName (expo);//"Desafio " +(expo+1);
 		LoadExperiment (expo);

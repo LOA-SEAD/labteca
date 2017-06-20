@@ -24,17 +24,9 @@ public class ReagentInfoState: TabletState {
 	void OnGUI(){
 		Event e = Event.current;
 		if (this.GetComponent<CanvasGroup> ().alpha == 1f) {
-			/*if (e.isKey && (int)e.character != 0) {
-				notesText.text += e.character.ToString ();
-				changed = true;
+			if (Input.GetKeyDown (KeyCode.Escape)) {
+				GetComponentInParent<TabletStateMachine>().goToState((int)TabletStates.HandbookMenu);
 			}
-			if (Input.GetKeyDown (KeyCode.Backspace) && notesText.text.Length > 0 && backspace) {
-				notesText.text = notesText.text.Remove (notesText.text.Length - 1);
-				backspace = false;
-			}
-			if (Input.GetKeyUp (KeyCode.Backspace))
-				backspace = true;
-			*/
 		}
 	}
 	

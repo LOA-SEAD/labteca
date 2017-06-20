@@ -24,6 +24,15 @@ public class ExperimentMenu : TabletState
 		RefreshScroll ();
 	}*/
 
+	void OnGUI(){
+		Event e = Event.current;
+		if (this.GetComponent<CanvasGroup> ().alpha == 1f) {
+			if (Input.GetKeyDown (KeyCode.Escape)) {
+				GetComponentInParent<TabletStateMachine>().resetState();
+			}
+		}
+	}
+
 	public void RefreshScroll(int numberOfSteps){
 		//Always clean the previous items
 		int child = content.childCount;

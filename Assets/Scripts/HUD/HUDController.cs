@@ -34,9 +34,11 @@ public class HUDController : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.P)) {
 			if(!menu.IsPaused) {
 				menu.Pause ();
+				LockKeys(true);
 			}
 			else {
 				menu.UnPause ();
+				LockKeys(false);
 			}
 		}
 

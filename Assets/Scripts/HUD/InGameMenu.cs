@@ -4,8 +4,12 @@ using System.Collections;
 public class InGameMenu : MonoBehaviour {
 	public CanvasGroup pause, options;
 	private bool cursor;
+	private bool isPaused = false;
+	public bool IsPaused { get { return isPaused; } }
 
 	public void Pause(){
+		isPaused = true;
+
 		cursor = Screen.showCursor;
 
 		Screen.showCursor = true;
@@ -26,6 +30,8 @@ public class InGameMenu : MonoBehaviour {
 	}
 
 	public void UnPause(){
+		isPaused = false;
+
 		Screen.showCursor = cursor;
 		Screen.lockCursor = !cursor;
 

@@ -32,7 +32,12 @@ public class HUDController : MonoBehaviour {
 
 	void Update(){
 		if (Input.GetKeyDown (KeyCode.P)) {
-			menu.Pause ();
+			if(!menu.IsPaused) {
+				menu.Pause ();
+			}
+			else {
+				menu.UnPause ();
+			}
 		}
 
 		if(Input.GetKeyDown(journalKey)&&!lockKey){

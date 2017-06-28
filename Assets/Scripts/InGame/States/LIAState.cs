@@ -118,8 +118,8 @@ public class LIAState : GameStateBase {
 		GameObject.Find ("InventoryManager").GetComponent<InventoryManager> ().changeList (0);
 		cameraState.gameObject.SetActive(true);
 		cameraState.depth = 2;
-		//interactiveCanvas.SetActive (true); //TODO: Tirar isso qq
 
+		//Set active the interaction canvas accordingly to the type of step
 		switch (progressController.StepType) {
 		case TypeOfStep.CompoundClass:
 			checkCompoundClassCanvas.SetActive (true);
@@ -219,7 +219,6 @@ public class LIAState : GameStateBase {
 			break;
 		case TypeOfStep.MolarityCheck:
 			string molAnswer = molarityAnswer.text;
-			Debug.Log("Na resposta " + molarityAnswer.text);
 			checkMolarityValueCanvas.SetActive(false);
 			GameObject.Find ("GameController").GetComponent<HUDController> ().LockKeys (false);
 			complete = ResultVerifier.GetInstance().VerifyTextBox(molAnswer);

@@ -48,7 +48,7 @@ public class JSONEditor {
 	//  If the file doesn't exists, creates the file
 	private JSONNode Read(string file) {
 
-		string directory;
+		string directory = "";
 
 		#if UNITY_STANDALONE_WIN
 			directory = "Assets\\Resources\\" + file + ".json";

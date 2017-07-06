@@ -12,10 +12,11 @@ public class JournalController : TabletState {
 	public Text experimentText;
 	public Dictionary<int,Dictionary<int, JournalUIItem>> experimentDictionary = new Dictionary<int, Dictionary<int, JournalUIItem>>();
 	
-	private ScrollRect UIScrollList;
+	public ScrollRect UIScrollList;
 	private Vector3 currentPosition;
 	private int lastItemPos = 0;
-	private RectTransform contentRect, prefabRect;
+	public RectTransform contentRect;
+	private RectTransform prefabRect;
 	private List<int> listOfJournalIndexes;
 
 	public override TabletStates StateType {
@@ -29,8 +30,18 @@ public class JournalController : TabletState {
 		UIScrollList = canvasObject.GetComponentInChildren<ScrollRect> ();
 		contentRect = UIScrollList.content;
 	}
+
+	void OnGUI(){
+		Event e = Event.current;
+		if (this.GetComponent<CanvasGroup> ().alpha == 1f) {
+			if (Input.GetKeyDown (KeyCode.Escape)) {
+				GetComponentInParent<TabletStateMachine>().goToState((int)TabletStates.ExperimentsMenu);
+			}
+		}
+	}
+
 	public void changeExperiment(int expo){
-		experimentText.text = "Etapa " +(expo+1); //TODO: FOR THE TIME BEING, AS THERE'S ONLY ONE PHASE, WE CAN USE IT AS 3 PARTS
+		experimentText.text = JournalSaver.GetExperimentName (expo);//"Desafio " +(expo+1);
 		LoadExperiment (expo);
 		SaveExperiment (experimentNumber);
 		if (experimentNumber != expo) {
@@ -127,23 +138,36 @@ public class JournalController : TabletState {
 		// Store keys in a List
 		listOfJournalIndexes = new List<int> (journalUIItem.Keys);
 		// Loop through list
-		foreach (int k in listOfJournalIndexes) {
-			journalUIItem.TryGetValue (k, out currentJournalUI);
+			foreach (int k in listOfJournalIndexes) {
+				journalUIItem.TryGetValue (k, out currentJournalUI);
 
-			GameObject tempItem = Instantiate (prefabRect.gameObject) as GameObject;
-			tempItem.name = "JournalUIItem" + currentJournalUI.index.ToString ();
+				GameObject tempItem = Instantiate (prefabRect.gameObject) as GameObject;
+				tempItem.name = "JournalUIItem" + currentJournalUI.index.ToString ();
 
-			tempItem.GetComponent<JournalUIItem> ().setText(currentJournalUI.name);
-			tempItem.GetComponent<JournalUIItem> ().index = currentJournalUI.index;
-			tempItem.GetComponent<JournalUIItem> ().isDone = currentJournalUI.isDone;
-			for (int n = 0; n < currentJournalUI.prerequisites.Count; n++) {
-				tempItem.GetComponent<JournalUIItem>().SetPrerequisites(currentJournalUI.prerequisites [n]);
+				tempItem.GetComponent<JournalUIItem> ().setText (currentJournalUI.name);
+				tempItem.GetComponent<JournalUIItem> ().index = currentJournalUI.index;
+				tempItem.GetComponent<JournalUIItem> ().isDone = currentJournalUI.isDone;
+				for (int n = 0; n < currentJournalUI.prerequisites.Count; n++) {
+					tempItem.GetComponent<JournalUIItem> ().SetPrerequisites (currentJournalUI.prerequisites [n]);
+				}
+				tempItem.GetComponent<JournalUIItem> ().checkPrerequisites ();
+
+				// set new item parent to scroll rect content
+				tempItem.transform.SetParent (contentRect.transform, false);
+
+				/*if(k > GameObject.Find ("ProgressController").GetComponent<ProgressController> ().ActualStep) {
+				tempItem.SetActive(false);
+			}*/
 			}
-			tempItem.GetComponent<JournalUIItem> ().checkPrerequisites ();
-			
-			// set new item parent to scroll rect content
-			tempItem.transform.SetParent (contentRect.transform, false);
-		}
+
 	}
-	
+
+	/// <summary>
+	/// Activates the step item.
+	/// </summary>
+	/// <param name="numberOfStep">Number of actual step.</param>
+	public void ActivateStepTab(int numberOfPhase, int numberOfStep){
+		//Debug.Log (stepTabs.
+		//experimentDictionary[numberOfPhase][numberOfStep].gameObject.SetActive (true);
+	}
 }

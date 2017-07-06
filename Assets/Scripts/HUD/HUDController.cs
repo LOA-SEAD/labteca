@@ -31,8 +31,16 @@ public class HUDController : MonoBehaviour {
 	}
 
 	void Update(){
-		if (Input.GetKeyDown (KeyCode.Escape))
-			menu.Pause ();
+		if (Input.GetKeyDown (KeyCode.P)) {
+			if(!menu.IsPaused) {
+				menu.Pause ();
+				LockKeys(true);
+			}
+			else {
+				menu.UnPause ();
+				LockKeys(false);
+			}
+		}
 
 		if(Input.GetKeyDown(journalKey)&&!lockKey){
 			CallTabletTrigger();
@@ -157,7 +165,6 @@ public class HUDController : MonoBehaviour {
 	/// Alternates the state of the player.
 	/// </summary>
 	public void changePlayerState(){
-		Debug.Log ("Mudando estado no HUDController.");
 		if (player.activeSelf) {
 			GameObject.Find("GameController").GetComponent<AudioController>().crossFade();
 			GameObject.Find("Elaine 1").GetComponent<Animator>().enabled = !GameObject.Find("Elaine 1").GetComponent<Animator>().enabled;

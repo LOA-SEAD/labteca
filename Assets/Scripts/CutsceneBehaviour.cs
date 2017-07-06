@@ -12,7 +12,7 @@ public class CutsceneBehaviour : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		hudController.LockKeys (true);
-		if (this.gameObject.GetComponent<Animator> ().GetCurrentAnimatorStateInfo (0).IsName ("Transition")) {
+		if (this.gameObject.GetComponent<Animator> ().GetCurrentAnimatorStateInfo (0).IsName ("Transition") || Input.GetKeyDown(KeyCode.Escape)) {
 			OnEndCutscene();
 		}
 	}

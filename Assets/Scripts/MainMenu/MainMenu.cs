@@ -58,7 +58,8 @@ public class MainMenu : MonoBehaviour {
 
 	//Called when the Play Button is pressed
 	public void ButtonPlay() {
-		Application.LoadLevel ("Cena1");
+		int i = Application.loadedLevel;
+		Application.LoadLevel(i + 1);
 	}
 
 	//Called when the Load button is pressed

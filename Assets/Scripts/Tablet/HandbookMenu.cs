@@ -16,6 +16,15 @@ public class HandbookMenu : TabletState {
 		}
 	}
 
+	void OnGUI(){
+		Event e = Event.current;
+		if (this.GetComponent<CanvasGroup> ().alpha == 1f) {
+			if (Input.GetKeyDown (KeyCode.Escape)) {
+				GetComponentInParent<TabletStateMachine>().resetState();
+			}
+		}
+	}
+
 	/// <summary>
 	/// Refreshes the content canvas.
 	/// </summary>

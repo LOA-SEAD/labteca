@@ -35,7 +35,7 @@ public class JSONEditor {
 		json = ReadFromWeb(file);
 		#endif
 
-		#if UNITY_STANDALONE_WIN
+		#if UNITY_STANDALONE
 		json = Read (file);
 		#endif
 	}
@@ -47,7 +47,19 @@ public class JSONEditor {
 	//! Reads the file
 	//  If the file doesn't exists, creates the file
 	private JSONNode Read(string file) {
-		string directory = "Assets/Resources/" + file + ".json";
+
+		string directory = "";
+
+		#if UNITY_STANDALONE_WIN
+			directory = "Assets\\Resources\\" + file + ".json";
+		#endif
+		#if UNITY_STANDALONE_LINUX
+			directory = "Assets/Resources/" + file + ".json";
+		#endif
+		#if UNITY_STANDALONE_OSX
+		directory = "LabTecA.app/Contents/Data/Resources/" + file + ".json";
+		#endif
+
 		if(!System.IO.File.Exists(directory)) {
 			System.IO.File.Create(directory);
 			return Read(file);
@@ -113,5 +125,9 @@ public class JSONEditor {
 	}
 	public string GetMainValue(string data) {
 		return json [data].Value;
+	}
+
+	public int GetMainInt(string data) {
+		return json[data].AsInt;
 	}
 }

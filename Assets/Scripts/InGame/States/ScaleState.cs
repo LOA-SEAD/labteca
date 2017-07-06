@@ -29,7 +29,7 @@ public  class ScaleState : GameStateBase {
 			return;
 
 		//Pressing Esc will exit the state
-		if(Input.GetKeyDown(KeyCode.E)){
+		if(Input.GetKeyDown(KeyCode.Escape)){
 			ExitState();
 		}
 	}

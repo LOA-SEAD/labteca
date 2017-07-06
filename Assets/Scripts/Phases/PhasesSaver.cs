@@ -66,11 +66,12 @@ public class PhasesSaver : MonoBehaviour {
 			step.Add("correctAnswer", jsonEditor.GetString(i, "correctAnswer"));
 			break;
 		case "2":
-			step.Add("correctAnswer", jsonEditor.GetString(i, "correctAnswer")); //Compound Formula
+			step.Add("compoundFormula", jsonEditor.GetString(i, "compoundFormula")); //Compound Formula
+			Debug.Log("Carregou resposta: " + step["compoundFormula"]);
 			break;
 		case "3":
 			step.Add("compoundFormula", jsonEditor.GetString(i, "compoundFormula"));
-			step.Add("correctAnswer", jsonEditor.GetString(i, "correctAnswer")); //Molarity
+			step.Add("molarity", jsonEditor.GetString(i, "molarity")); //Molarity
 			step.Add("maxError", jsonEditor.GetString(i, "maxError"));
 			break;
 		case "4":

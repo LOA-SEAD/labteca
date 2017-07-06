@@ -31,8 +31,12 @@ public class NotesState : TabletState {
 				notesText.text = notesText.text.Remove (notesText.text.Length - 1);
 				backspace = false;
 			}
-			if (Input.GetKeyUp (KeyCode.Backspace))
+			if (Input.GetKeyUp (KeyCode.Backspace)) {
 				backspace = true;
+			}
+			if (Input.GetKeyDown (KeyCode.Escape)) {
+				GetComponentInParent<TabletStateMachine>().resetState();
+			}
 		}
 	}
 

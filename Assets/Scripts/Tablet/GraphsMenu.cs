@@ -12,6 +12,15 @@ public class GraphsMenu : TabletState {
 		}
 	}
 
+	void OnGUI(){
+		Event e = Event.current;
+		if (this.GetComponent<CanvasGroup> ().alpha == 1f) {
+			if (Input.GetKeyDown (KeyCode.Escape)) {
+				GetComponentInParent<TabletStateMachine>().resetState();
+			}
+		}
+	}
+
 	public void AddButton(string txt, Sprite image){
 		GameObject tempItem = Instantiate (prefab.gameObject) as GameObject;
 		tempItem.name = "Graph Button";

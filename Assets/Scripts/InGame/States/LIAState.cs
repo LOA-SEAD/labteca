@@ -105,7 +105,7 @@ public class LIAState : GameStateBase {
 		}
 
 		//Pressing Esc will exit the state
-		if(Input.GetKeyDown(KeyCode.E)){
+		if(Input.GetKeyDown(KeyCode.Escape)){
 			ExitState();
 		}
 	}
@@ -118,8 +118,8 @@ public class LIAState : GameStateBase {
 		GameObject.Find ("InventoryManager").GetComponent<InventoryManager> ().changeList (0);
 		cameraState.gameObject.SetActive(true);
 		cameraState.depth = 2;
-		//interactiveCanvas.SetActive (true); //TODO: Tirar isso qq
 
+		//Set active the interaction canvas accordingly to the type of step
 		switch (progressController.StepType) {
 		case TypeOfStep.CompoundClass:
 			checkCompoundClassCanvas.SetActive (true);

@@ -145,21 +145,28 @@ public class ResultVerifier {
 		return answer;
 	}
 	public bool VerifyTextBox(string textAnswer){
-		bool answer;
+		bool answer = false;
 
 		if (currentType == TypeOfStep.WhatCompound) {
-			if (textAnswer == step ["correctAnswer"]) {
+			if (textAnswer == step ["compoundFormula"]) {
 				answer = true;
 			} else {
 				answer = false;
 			}
-		} else { //MolarityCheck
-			if ( (float.Parse(textAnswer) <= (float.Parse(step["correctAnswer"]) + float.Parse(step["maxError"])))
-			  || (float.Parse(textAnswer) >= (float.Parse(step["correctAnswer"]) - float.Parse(step["maxError"]))) ) {
-				answer = true;
+		} else if (currentType == TypeOfStep.MolarityCheck) {
+			float value;
+			if(float.TryParse(textAnswer, out value)) {
+				if ( (value <= (float.Parse(step["molarity"]) + float.Parse(step["maxError"])))
+				  && (value >= (float.Parse(step["molarity"]) - float.Parse(step["maxError"]))) ) {
+					answer = true;
+				}
+				else {
+					answer = false;
+				}
 			}
-			else
+			else {
 				answer = false;
+			}
 		}
 		return answer;
 	}

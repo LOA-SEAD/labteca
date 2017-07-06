@@ -18,7 +18,6 @@ public class JournalUIItem : MonoBehaviour {
 	}
 
 	public void checkItem(){
-
 		if (!isDone && prerequisitesDone){
 			isDone=true;
 			GameObject[] journalItems = GameObject.FindGameObjectsWithTag("JournalUIItem");
@@ -45,10 +44,15 @@ public class JournalUIItem : MonoBehaviour {
 		for (int i=0; i < prerequisites.Count&&allDone; i++) {
 			allDone = GameObject.Find("JournalUIItem"+prerequisites[i]).GetComponent<JournalUIItem>().isDone;
 		}
-
+		
 		if (allDone) { 
 			prerequisitesDone = true;
-			checkmarkPlace.color = new Color(255,255,255,255);
+			checkmarkPlace.color = new Color (255, 255, 255, 255);
+			journalText.enabled = true;
+			checkmarkPlace.enabled = true;
+		} else {
+			journalText.enabled = false;
+			checkmarkPlace.enabled = false;
 		}
 
 	}

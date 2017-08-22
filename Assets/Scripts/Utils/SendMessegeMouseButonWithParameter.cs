@@ -36,7 +36,7 @@ public class SendMessageMouseButtonWithParameter : MonoBehaviour
 			for (int i = 0; i < cameras.Length; i++) 
 			{
 				ray = cameras[i].ScreenPointToRay(Input.mousePosition);
-				if(collider.Raycast(ray, out hit, 10000f))
+				if(GetComponent<Collider>().Raycast(ray, out hit, 10000f))
 				{
 					target.SendMessage(message,parameter,SendMessageOptions.DontRequireReceiver);
 				}

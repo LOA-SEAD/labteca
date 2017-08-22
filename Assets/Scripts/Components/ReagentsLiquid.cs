@@ -58,12 +58,12 @@ public class ReagentsLiquid : MonoBehaviour
 	/*! Returns the first instantiated Material assigned to the renderer and creat a new object with certain color. */
 	public void Enable()
 	{
-		this.collider.enabled = true;
+		this.GetComponent<Collider>().enabled = true;
 		foreach (Transform child in this.transform) 
 		{
-			if(child.renderer != null)
+			if(child.GetComponent<Renderer>() != null)
 			{
-				child.renderer.material.color = new Color(child.renderer.material.color.r, child.renderer.material.color.g, child.renderer.material.color.b, 1f);
+				child.GetComponent<Renderer>().material.color = new Color(child.GetComponent<Renderer>().material.color.r, child.GetComponent<Renderer>().material.color.g, child.GetComponent<Renderer>().material.color.b, 1f);
 			}
 		}
 	}
@@ -72,12 +72,12 @@ public class ReagentsLiquid : MonoBehaviour
 	/*! Returns the first instantiated Material assigned to the renderer and creat a new object with certain color. */
 	public void Disable()
 	{
-		this.collider.enabled = false;
+		this.GetComponent<Collider>().enabled = false;
 		foreach (Transform child in this.transform) 
 		{
-			if(child.renderer != null)
+			if(child.GetComponent<Renderer>() != null)
 			{
-				child.renderer.material.color = new Color(child.renderer.material.color.r, child.renderer.material.color.g, child.renderer.material.color.b, alphaValueWhenDisable);
+				child.GetComponent<Renderer>().material.color = new Color(child.GetComponent<Renderer>().material.color.r, child.GetComponent<Renderer>().material.color.g, child.GetComponent<Renderer>().material.color.b, alphaValueWhenDisable);
 			}
 		}
 	}

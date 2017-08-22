@@ -51,7 +51,7 @@ public class ItemUse : MonoBehaviour
 
         // TODO: verificar se isso realmente eh necessario, me parece redundante -> hardcode
 		originalScale = this.transform.localScale;
-		BoxCollider col = this.collider as BoxCollider;
+		BoxCollider col = this.GetComponent<Collider>() as BoxCollider;
 		originalColliderPosition = col.center;
 		originalColliderSize = col.size;
 	}
@@ -82,8 +82,8 @@ public class ItemUse : MonoBehaviour
 
 				this.transform.localScale = inventoryScale;
 
-				this.collider.isTrigger = false;
-				BoxCollider col = this.collider as BoxCollider;
+				this.GetComponent<Collider>().isTrigger = false;
+				BoxCollider col = this.GetComponent<Collider>() as BoxCollider;
 				col.size = inventoryColliderSize;
 				col.center = inventoryColliderPosition;
 

@@ -21,7 +21,7 @@ public class ReagentPot : ItemToInventory {
 		tabValues[3].text = CompoundFactory.GetInstance().GetCupboardCompound(reagent.Name).Purity*100+ "%";
 		tabValues[4].text = reagent.Solubility+ " g/1g";
 
-		defaultColour = potMesh.renderer.material.color;
+		defaultColour = potMesh.GetComponent<Renderer>().material.color;
 	}
 	
 	// Update is called once per frame
@@ -113,24 +113,24 @@ public class ReagentPot : ItemToInventory {
 				case MouseState.ms_pipette: 		//Pipette -> Pot
 					if (!isSolid) {
 						//glow
-						potMesh.renderer.material.color = Color.white;
+						potMesh.GetComponent<Renderer>().material.color = Color.white;
 					}
 					break;
 				case MouseState.ms_filledPipette: 	// Filled Pipette -> Pot.
 					if (!isSolid && (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).pipette.reagentInPipette.Formula == this.reagent.Formula) {
 						//glow
-						potMesh.renderer.material.color = Color.white;
+						potMesh.GetComponent<Renderer>().material.color = Color.white;
 					}
 					break;
 				case MouseState.ms_spatula: 		// Spatula -> Pot.
 					if (isSolid) {
-						potMesh.renderer.material.color = Color.white;
+						potMesh.GetComponent<Renderer>().material.color = Color.white;
 					}
 					break;
 				case MouseState.ms_filledSpatula: 	// Filled Spatula -> Pot.
 					if (isSolid && (GameObject.Find ("GameController").GetComponent<GameController> ().GetCurrentState () as WorkBench).spatula.reagentInSpatula.Formula == this.reagent.Formula) {
 						//glow
-						potMesh.renderer.material.color = Color.white;
+						potMesh.GetComponent<Renderer>().material.color = Color.white;
 					}
 					break;
 				default:
@@ -145,7 +145,7 @@ public class ReagentPot : ItemToInventory {
 			GameObject.Find ("GameController").GetComponent<GameController> ().gameStates [0]) {
 			infoCanvas.gameObject.SetActive (false);
 
-			potMesh.renderer.material.color = defaultColour;
+			potMesh.GetComponent<Renderer>().material.color = defaultColour;
 		}
 	}
 }

@@ -42,7 +42,7 @@ public class SendMessageMouseButtonChangeCursor : MonoBehaviour
 			for (int i = 0; i < cameras.Length; i++) 
 			{
 				ray = cameras[i].ScreenPointToRay(Input.mousePosition);
-				if(collider.Raycast(ray, out hit, 10000f))
+				if(GetComponent<Collider>().Raycast(ray, out hit, 10000f))
 				{
 					target.SendMessage(message,SendMessageOptions.DontRequireReceiver);
 				}
@@ -55,7 +55,7 @@ public class SendMessageMouseButtonChangeCursor : MonoBehaviour
 		for (int i = 0; i < cameras.Length; i++) 
 		{
 			ray = cameras[i].ScreenPointToRay(Input.mousePosition);
-			if(collider.Raycast(ray, out hit, 10000f))
+			if(GetComponent<Collider>().Raycast(ray, out hit, 10000f))
 			{
 				Cursor.SetCursor(cursor,Vector2.zero,cursorMode);
 

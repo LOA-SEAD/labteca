@@ -25,7 +25,7 @@ public class HUDController : MonoBehaviour {
 	void Start(){
 		map.SetActive (false);
 		lockKey = false;
-		Screen.showCursor = false;
+		Cursor.visible = false;
 		Screen.lockCursor = true;
 		RefreshKeys ();
 	}
@@ -91,10 +91,10 @@ public class HUDController : MonoBehaviour {
 			map.SetActive (false);
 
 		if (tabletUp) {
-			Screen.showCursor = true;
+			Cursor.visible = true;
 			Screen.lockCursor = false;
 		}else if (!inventoryUp && !map.activeSelf) {
-			Screen.showCursor = false;
+			Cursor.visible = false;
 			Screen.lockCursor = true;
 		}
 	}
@@ -121,10 +121,10 @@ public class HUDController : MonoBehaviour {
 			map.SetActive (false);
 
 		if (inventoryUp) {
-			Screen.showCursor = true;
+			Cursor.visible = true;
 			Screen.lockCursor = false;
 		} else if (!tabletUp && !map.activeSelf) {
-			Screen.showCursor = false;
+			Cursor.visible = false;
 			Screen.lockCursor = true;
 		}
 	}
@@ -148,10 +148,10 @@ public class HUDController : MonoBehaviour {
 				changePlayerState ();
 		}
 		if (map.activeSelf) {
-			Screen.showCursor = true;
+			Cursor.visible = true;
 			Screen.lockCursor = false;
 		}else if (!tabletUp && !inventoryUp) {
-			Screen.showCursor = false;
+			Cursor.visible = false;
 			Screen.lockCursor = true;
 		}
 	}

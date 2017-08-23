@@ -297,12 +297,12 @@ public class InventoryManager : MonoBehaviour {
 				enter.eventID = EventTriggerType.PointerEnter;
 				//trigger for entering
 				enter.callback.AddListener ((eventData) => {
-					if (limbo.FindChild(item.index).GetComponent<Glassware>() != null) {
-						if (limbo.FindChild (item.index).GetComponent<Glassware> ().label.Length != 0) {
+					if (limbo.Find(item.index).GetComponent<Glassware>() != null) {
+						if (limbo.Find (item.index).GetComponent<Glassware> ().label.Length != 0) {
 							labelRect.gameObject.SetActive (true);
 							labelRect.rotation = Quaternion.Euler (0f, 0f, 0f);
 							labelRect.GetComponentInChildren<Text> ().rectTransform.localRotation = Quaternion.Euler (0f, 0f, 0f);
-							labelRect.GetComponentInChildren<Text> ().text = limbo.FindChild (item.index).GetComponent<Glassware> ().label;
+							labelRect.GetComponentInChildren<Text> ().text = limbo.Find (item.index).GetComponent<Glassware> ().label;
 							labelRect.transform.position = new Vector2(tempItem.GetComponent<ItemInventoryBase> ().posTab.position.x,
 							                                           tempItem.GetComponent<ItemInventoryBase> ().posTab.position.y - 50.0f);
 						}
@@ -310,7 +310,7 @@ public class InventoryManager : MonoBehaviour {
 					/*refreshLabel (item,true); 
 					glasswareLabel.transform.position = tempItem.GetComponent<ItemInventoryBase> ().posTab.position;*/
 				});
-				trigger.delegates.Add (enter);
+				trigger.triggers.Add (enter);
 				//trigger for leaving
 				EventTrigger.Entry exit = new EventTrigger.Entry ();
 				exit.eventID = EventTriggerType.PointerExit;
@@ -318,7 +318,7 @@ public class InventoryManager : MonoBehaviour {
 					//refreshLabel (null,false);
 					labelRect.gameObject.SetActive (false);
 				});
-				trigger.delegates.Add (exit);
+				trigger.triggers.Add (exit);
 			}
 			else{
 				//if reagent, adds triggers for info tab
@@ -330,14 +330,14 @@ public class InventoryManager : MonoBehaviour {
 					refreshTab (item,true); 
 					actionTab.transform.position = tempItem.GetComponent<ItemInventoryBase> ().posTab.position;
 				});
-				trigger.delegates.Add (enter);
+				trigger.triggers.Add (enter);
 				//trigger for leaving
 				EventTrigger.Entry exit = new EventTrigger.Entry ();
 				exit.eventID = EventTriggerType.PointerExit;
 				exit.callback.AddListener ((eventData) => { 
 					refreshTab (null,false); 
 				});
-				trigger.delegates.Add (exit);
+				trigger.triggers.Add (exit);
 			}
 		}
 		//returns the instantiated object

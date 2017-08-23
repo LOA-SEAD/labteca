@@ -115,10 +115,12 @@ public class LIAState : GameStateBase {
     // close all dialogs that might be enabled.
 	public override void OnStartRun ()
 	{
+		//Opens inventory TODO: is it still going to be always open?
 		GameObject.Find ("InventoryManager").GetComponent<InventoryManager> ().changeList (0);
 		cameraState.gameObject.SetActive(true);
 		cameraState.depth = 2;
 
+		Debug.Log ("Starting LIA state");
 		//Set active the interaction canvas accordingly to the type of step
 		switch (progressController.StepType) {
 		case TypeOfStep.CompoundClass:

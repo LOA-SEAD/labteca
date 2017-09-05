@@ -19,10 +19,10 @@ public class InputObserver : MonoBehaviour {
 	#region Unity magic methods
 	protected void Awake() {
 		foreach (string input in PermanentInputList) {
-			GameInputManager.ObserveKeyCode (input);
+			//GameInputManager.ObserveKeyCode (input);
 		}
 
-		GameInputManager.Register(this.GetComponent<IInputHandler>().HandlePermanentInput);
+//		GameInputManager.Register(this.GetComponent<IInputHandler>().HandlePermanentInput);
 	}
 
 	protected void OnEnable() {
@@ -31,11 +31,11 @@ public class InputObserver : MonoBehaviour {
 		GameInputManager.ObserveAxis("Horizontal");*/
 
 		//GameInputManager.Register(OnInputEvent);
-		GameInputManager.Register(this.GetComponent<IInputHandler>().HandleEnabledInput);
+//		GameInputManager.Register(this.GetComponent<IInputHandler>().HandleEnabledInput);
 	}
 
 	protected void OnDisable() {
-		GameInputManager.Unregister(this.GetComponent<IInputHandler>().HandleEnabledInput);
+//		GameInputManager.Unregister(this.GetComponent<IInputHandler>().HandleEnabledInput);
 	}
 	#endregion
 

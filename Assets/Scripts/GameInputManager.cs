@@ -28,6 +28,8 @@ public class GameInputManager : MonoBehaviour {
 		public EventData(KeyCode keyCode) { this.keyCode = keyCode; }
 		public EventData(string axis, float value) { this.axis = axis; this.value = value; }
 		public EventData(string button) { this.button = button; }*/
+
+		public System.Action<float> axis = null;
 		public string inputName = null;
 		public bool used = false;
 
@@ -35,11 +37,29 @@ public class GameInputManager : MonoBehaviour {
 	}
 	#endregion
 
+	#region Subject Defintion
+	public class InputNotifier {
+//		public HashSet<System.Action<>> handlerCollection = new HashSet<System.Action<>>();
+
+//		public void registerHandler(System.Action<> inputHandler) {
+			
+//		}
+
+//		public void unregisterHandler(System.Action<> inputHandler) {
+		
+//		}
+
+		public void notifyHandlers() {
+			
+		}
+	}
+	#endregion
+
 	public const int MAX_PRIORITY = 10000;
 
 	#region Public static methods (API)
 	/// <summary>Register an axis as one of interest.</summary>
-	public static void ObserveAxis(string axis) {
+	/*public static void ObserveAxis(string axis) {
 		if (!string.IsNullOrEmpty(axis) && Singleton) Singleton.observedAxes.Add(axis);
 	}
 
@@ -50,25 +70,25 @@ public class GameInputManager : MonoBehaviour {
 
 	/// <summary>Register a keycode as one of interest.</summary>
 	public static void ObserveKeyCode(KeyCode keyCode) {
-		if (keyCode!=KeyCode.None && Singleton) Singleton.observedKeycodes.Add(keyCode);
-	}
+		//if (keyCode!=KeyCode.None && Singleton) Singleton.observedKeycodes.Add(keyCode);
+	}*/
 
 	/// <summary>Register a handler method for hotkey event with one above currently highest priority.</summary>
 	/// <param name="Action">Handler method that is called when hotkey event triggers. That method has one EventData parameter.</param>
 	public static void Register(System.Action<EventData> Action) {
-		if (Action!=null && Singleton!=null) Singleton.GetBlock(Singleton.highestPriority + 1).Event += Action;
+		//if (Action!=null && Singleton!=null) Singleton.GetBlock(Singleton.highestPriority + 1).Event += Action;
 	}
 
 	/// <summary>Register a handler method for hotkey event with the specified priority.</summary>
 	/// <param name="Action">Handler method that is called when hotkey event triggers. That method has one EventData parameter.</param>
 	/// <param name="priority">Callbacks are made in order of priority (from the highest to the lowest).</param>
 	public static void Register(System.Action<EventData> Action, int priority) {
-		if (Action!=null && Singleton!=null) Singleton.GetBlock(priority).Event += Action;
+		//if (Action!=null && Singleton!=null) Singleton.GetBlock(priority).Event += Action;
 	}
 
 	/// <summary>Unregister a callback method from all Input events.</summary>
 	public static void Unregister(System.Action<EventData> Action) {
-		if (Action!=null && Singleton!=null) foreach (EventBlock b in Singleton.eventBlocks) b.Event -= Action;
+		//if (Action!=null && Singleton!=null) foreach (EventBlock b in Singleton.eventBlocks) b.Event -= Action;
 	}
 	#endregion
 
@@ -80,20 +100,20 @@ public class GameInputManager : MonoBehaviour {
 	}
 
 	protected void Update() {
-		foreach (string a in observedAxes) {
-			SendEvent(new EventData(a, Input.GetAxis(a)));
+		foreach (System.Action<float> a in observedAxes) {
+			//SendEvent(new EventData(a, Input.GetAxis(a)));
 		}
-		foreach (string b in observedButtons) {
-			if (Input.GetButtonDown(b)) SendEvent(new EventData(b));
+		foreach (System.Action<bool> b in observedButtons) {
+			//if (Input.GetButtonDown(b)) SendEvent(new EventData(b));
 		}
-		foreach (KeyCode k in observedKeycodes) {
+		/*foreach (KeyCode k in observedKeycodes) {
 			if (Input.GetKeyDown(k)) SendEvent(new EventData(k));
-		}
+		}*/
 	}
 	#endregion
 
 	#region Internals (under the hood)
-	protected class EventBlock : System.IComparable<EventBlock> {
+	/*protected class EventBlock : System.IComparable<EventBlock> {
 
 		public int priority;
 		public event System.Action<EventData> Event;
@@ -109,12 +129,18 @@ public class GameInputManager : MonoBehaviour {
 
 		public bool IsEmpty { get { return Event==null; } }
 	}
+	*/
 
-	protected List<EventBlock> eventBlocks = new List<EventBlock>();
-	protected HashSet<string> observedAxes = new HashSet<string>();
-	protected HashSet<string> observedButtons = new HashSet<string>();
-	protected HashSet<KeyCode> observedKeycodes = new HashSet<KeyCode>();
+	//protected List<EventBlock> eventBlocks = new List<EventBlock>();
+	//protected HashSet<string> observedAxes = new HashSet<string>();
+	//protected HashSet<string> observedButtons = new HashSet<string>();
+	//protected HashSet<KeyCode> observedKeycodes = new HashSet<KeyCode>();
+	[SerializeField]
+	protected HashSet<System.Action<float>> observedAxes = new HashSet<System.Action<float>>();
+	[SerializeField]
+	protected HashSet<System.Action<bool>> observedButtons = new HashSet<System.Action<bool>>();
 
+	/*
 	protected EventBlock GetBlock(int priority) {
 		foreach (EventBlock b in eventBlocks) if (b.priority==priority) return b;
 		EventBlock newBlock = new EventBlock(priority);
@@ -122,18 +148,19 @@ public class GameInputManager : MonoBehaviour {
 		eventBlocks.Sort();
 		return newBlock;
 	}
+	*/
 
-	protected int highestPriority { 
+	/*protected int highestPriority { 
 		get {
 			// eventBlocks is always sorted in reversed priority order (i.e., highest to lowest), so first non-empty block is the correct result
 			foreach (EventBlock b in eventBlocks) if (b.priority<MAX_PRIORITY && !b.IsEmpty) return b.priority;
 			return 0;
 		}
-	}
+	}*/
 
 	protected void SendEvent(EventData data) {
 		System.Action<EventData> callStack = null;
-		foreach (EventBlock block in eventBlocks) block.AppendTo(ref callStack);
+		//foreach (EventBlock block in eventBlocks) block.AppendTo(ref callStack);
 		if (callStack!=null) callStack(data);
 	}
 	#endregion

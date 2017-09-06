@@ -14,11 +14,15 @@ public static class InputController {
 	}
 
 	public static bool MapInput() {
-		return Input.GetButton ("Map_Button");
+		if (Input.GetButtonDown ("Map_Button") || Input.GetKeyDown (KeyCode.Z)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public static bool InteractInput() {
-		if (Input.GetButton ("Button_A") || Input.GetButton ("Key_E")) {
+		if (Input.GetButtonDown ("Button_A") || Input.GetButtonDown("Key_E")) {
 			return true;
 		} else {
 			return false;

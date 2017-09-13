@@ -33,9 +33,7 @@ public class JSONEditor {
 		
 		#if UNITY_WEBPLAYER
 		json = ReadFromWeb(file);
-		#endif
-
-		#if UNITY_STANDALONE
+		#else
 		json = Read (file);
 		#endif
 	}
@@ -57,7 +55,11 @@ public class JSONEditor {
 			directory = "Assets/Resources/" + file + ".json";
 		#endif
 		#if UNITY_STANDALONE_OSX
-		directory = "LabTecA.app/Contents/Data/Resources/" + file + ".json";
+			directory = "LabTecA.app/Contents/Data/Resources/" + file + ".json";
+		#endif
+		#if UNITY_ANDROID
+			char sep = Path.DirectorySeparatorChar;
+			directory = "Assets" +sep+ "Resources" +sep+ file + ".json";
 		#endif
 
 		if(!System.IO.File.Exists(directory)) {

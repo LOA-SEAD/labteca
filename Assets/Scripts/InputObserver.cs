@@ -5,63 +5,59 @@ using UnityEngine;
 /// <summary>
 /// Handles the inputs observed by the InputObserver.
 /// </summary>
-interface IInputHandler {
+public interface IInputHandler {
 	void HandleAxes(string input, float value);
 	void HandleButtons(string input, bool value);
 }
 
-
-[RequireComponent(typeof(IInputHandler))]
 /// <summary>
 /// Observer for the GameInputManager that handles the events created by any inputs.
 /// </summary>
-/// The componenet uses a list of inputs that will be watched, that should be edited via the Unity Inspector for each object with this component.
-/// 
+/// The componenet uses a list of inputs to register and unregister accordingly.
+/// This list should be edited via the Unity Inspector for each object.
 public class InputObserver : MonoBehaviour {
-	#region Unity magic methods
-	void Awake() {
-		GameInputManager.Singleton.Register ("MapInput", this.GetComponent<IInputHandler> ().HandleButtons);
-		GameInputManager.Singleton.Register ("Horizontal", this.GetComponent<IInputHandler> ().HandleAxes);
-	}
-
+	#region Unity methods
 	void OnEnable() {
-		GameInputManager.Singleton.Register ("MapInput", this.GetComponent<IInputHandler> ().HandleButtons);
-		GameInputManager.Singleton.Register ("Horizontal", this.GetComponent<IInputHandler> ().HandleAxes);
-		GameInputManager.Singleton.Register ("InteractInput", this.GetComponent<IInputHandler> ().HandleButtons);
+		EnableAxes ();
+		EnableButtons ();
 	}
 
 	void OnDisable() {
-		GameInputManager.Singleton.Unregister ("MapInput", this.GetComponent<IInputHandler> ().HandleButtons);
-		GameInputManager.Singleton.Unregister ("Horizontal", this.GetComponent<IInputHandler> ().HandleAxes);
+		DisableAxes ();
+		DisableButtons ();
 	}
 	#endregion
 
-	#region Internals (under the hood)
-	public List<string> ButtonsList = new List<string>();
-	public List<string> AxesList = new List<string>();
-	/*public void HandleButtons(string input, bool value) {
-		switch (input) {
-		case "MapInput":
-			if (value) {
-				Debug.Log ("Map Button pressed.");
-			}
-			break;
-		case "InteractInput":
-			if (value) {
-				Debug.Log ("Interact pressed.");
-			}
-			break;
+	#region Register control
+	protected void EnableAxes () {
+		foreach (string axis in AxesToRegister) {
+			GameInputManager.Singleton.Register (axis, this.GetComponent<IInputHandler> ().HandleAxes);
+		}
+	}
+	protected void EnableButtons () {
+		foreach (string button in ButtonsToRegister) {
+			GameInputManager.Singleton.Register (button, this.GetComponent<IInputHandler> ().HandleButtons);	
 		}
 	}
 
-	public void HandleAxes(string input, float value) {
-		switch (input) {
-		case "Horizontal":
-			if (value != 0.0f) {
-				Debug.Log ("Horizontal = " +value);
-			}
-			break;
+	protected void DisableAxes () {
+		foreach (string button in AxesToUnregisterOnDisable) {
+			GameInputManager.Singleton.Unregister (button, this.GetComponent<IInputHandler> ().HandleAxes);	
 		}
-	}*/
+	}
+	protected void DisableButtons () {
+		foreach (string button in ButtonsToUnregisterOnDisable) {
+			GameInputManager.Singleton.Unregister (button, this.GetComponent<IInputHandler> ().HandleButtons);	
+		}
+	}
+	#endregion
+
+
+	#region Internals
+	public List<string> ButtonsToRegister = new List<string>();
+	public List<string> ButtonsToUnregisterOnDisable = new List<string>();
+
+	public List<string> AxesToRegister = new List<string>();
+	public List<string> AxesToUnregisterOnDisable = new List<string>();
 	#endregion
 }

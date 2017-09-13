@@ -22,7 +22,7 @@ public static class InputController {
 	}
 
 	public static bool InteractInput() {
-		if (Input.GetButtonDown ("Button_A") || Input.GetButtonDown("Key_E")) {
+		if (Input.GetButtonDown ("Joystick_Interact") || Input.GetButtonDown("Keyboard_Interact")) {
 			return true;
 		} else {
 			return false;

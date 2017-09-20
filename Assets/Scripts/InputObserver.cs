@@ -41,8 +41,8 @@ public class InputObserver : MonoBehaviour {
 	}
 
 	protected void DisableAxes () {
-		foreach (string button in AxesToUnregisterOnDisable) {
-			GameInputManager.Singleton.Unregister (button, this.GetComponent<IInputHandler> ().HandleAxes);	
+		foreach (string axis in AxesToUnregisterOnDisable) {
+			GameInputManager.Singleton.Unregister (axis, this.GetComponent<IInputHandler> ().HandleAxes);	
 		}
 	}
 	protected void DisableButtons () {

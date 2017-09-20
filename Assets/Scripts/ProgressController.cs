@@ -104,6 +104,9 @@ public class ProgressController : MonoBehaviour {
 				/*
 				 * Changes on properties according to float.Parse(phaseDefinitions["molarity"])
 				 */
+				compound.PH = 7.0f;
+				compound.Molarity = 1.0f;
+
 				bequer.GetComponent<Glassware> ().IncomingReagent (compound.Clone (float.Parse(phaseDefinitions ["volume"])) as Compound, float.Parse(phaseDefinitions ["volume"]));
 				GameObject.Find("InventoryManager").GetComponent<InventoryManager>().AddProductToInventory(bequer.gameObject);
 			}

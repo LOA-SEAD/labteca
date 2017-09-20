@@ -108,13 +108,13 @@ public class FlameSpectrophotometer : EquipmentControllerBase {
 			if (activeGlassware != null) {
 				switch (waveMode) { //TODO: Change for correct values
 				case WaveLengthTypes.Na:
-					valueToShow = activeGlassware.GetComponent<Glassware> ().GetMass();
+					valueToShow = activeGlassware.GetComponent<Glassware> ().GetMolarity();
 					break;
 				case WaveLengthTypes.K:
-					valueToShow = activeGlassware.GetComponent<Glassware> ().GetPH();
+					valueToShow = 0.0f;
 					break;
 				case WaveLengthTypes.Li:
-					valueToShow = activeGlassware.GetComponent<Glassware> ().GetConductivity();
+					valueToShow = 0.0f;
 					break;
 				}
 			}

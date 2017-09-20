@@ -54,7 +54,7 @@ public class GameInputManager : MonoBehaviour {
 	/// <param name="input">Input.</param>
 	/// <param name="handler">Handler.</param>
 	public void Unregister(string input, System.Action<string, float> handler) {
-		if(singleton.observedButtons.ContainsKey(input)) {
+		if(singleton.observedAxes.ContainsKey(input)) {
 			(singleton.inputTable [input] as InputNotifier<string, float>).unregisterHandler (handler);
 		}	
 	}

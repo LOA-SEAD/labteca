@@ -361,12 +361,40 @@ public class Glassware : ItemToInventory
 	public float GetPH() {
 		float actualPH = 7.0f;
 
+		if (content != null) {
+			if(content is Mixture) {
+				actualPH = (content as Mixture).PH;
+			}
+			else {
+				actualPH = (content as Compound).PH;
+			}
+		}
+	
 		return actualPH;
+	}
+
+	public float GetMolarity() {
+		float actualMolarity = 0.0f;
+
+		if (content != null) {
+			actualMolarity = (content as Compound).Molarity;
+		}
+
+		return actualMolarity;
 	}
 
 
 	public float GetConductivity() {
-		float actualConductivity = 0.5f;
+		float actualConductivity = 0.0f;
+
+		if (content != null) {
+			if(content is Mixture) {
+				actualConductivity = (content as Mixture).Conductibility;
+			}
+			else {
+				actualConductivity = (content as Compound).Conductibility;
+			}
+		}
 
 		return actualConductivity;
 	}
@@ -374,12 +402,30 @@ public class Glassware : ItemToInventory
 	public float GetPolarity() {
 		float actualPolarity = 1.0f;
 
+		if (content != null) {
+			if(content is Mixture) {
+				actualPolarity = (content as Mixture).Polarizability;
+			}
+			else {
+				actualPolarity = (content as Compound).Polarizability;
+			}
+		}
+
 		return actualPolarity;
 	}
 
 	public float GetTurbidity() {
-		float actualTurbidity = 8.0f;
-		
+		float actualTurbidity = 0.0f;
+
+		if (content != null) {
+			if(content is Mixture) {
+				actualTurbidity = (content as Mixture).Turbidity;
+			}
+			else {
+				actualTurbidity = (content as Compound).Turbidity;
+			}
+		}
+
 		return actualTurbidity;
 	}
 	

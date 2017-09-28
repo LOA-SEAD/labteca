@@ -1,0 +1,26 @@
+[
+	{
+		"name" : "Classe de composto",
+		"steps" : [{
+			"text" : "Utilize os equipamentos e seus conhecimentos de química analítica para descobrir a classe do composto em solução no Béquer em seu INVENTÁRIO.",
+			"isDone" : "false",
+		}
+		]
+	},
+	{
+		"name" : "Nome do composto",
+		"steps" : [{
+			"text" : "Com o auxílio dos equipamentos, descubra qual é o composto presente na solução.",
+			"isDone" : "false",
+			}
+			]
+	},
+	{
+		"name" : "Concentração de massa",
+		"steps" : [{
+			"text" : "Calcule a concentração percentual da amostra, em gramas por 100ml.",
+			"isDone" : "false"
+			}
+			]
+	}
+]

@@ -79,10 +79,6 @@ public class ProgressController : MonoBehaviour {
 		currentPhase = PhasesSaver.LoadPhases (customPhaseDirectory);
 		phaseDefinitions = PhasesSaver.GetPhaseLibrary (customPhaseDirectory);
 
-		for(int i = 0; i < currentPhase.Count; i++) {
-			Debug.Log ("PC.CurrentPhase " + i + " = " + currentPhase[i]["typeOfStep"]);
-		}
-
 		numberOfSteps = currentPhase.Count;
 
 		this.NewPhase (bool.Parse (phaseDefinitions ["glasswareStart"]));

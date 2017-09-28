@@ -38,10 +38,8 @@ public class PhasesSaver : MonoBehaviour {
 		
 		Dictionary<int, Dictionary<string, string>> phase = new Dictionary<int, Dictionary<string, string>> ();
 
-		Debug.Log ("Number of steps = " + jsonEditor.NumberOfObjects ());
 		for (int i = 0; i < jsonEditor.NumberOfObjects(); i++) {
 			phase.Add (i, PhasesSaver.LoadStep(jsonEditor, i));
-			Debug.Log("Adicionando step = " + phase[i]["typeOfStep"]);
 		}
 		return phase;
 	}
@@ -67,7 +65,6 @@ public class PhasesSaver : MonoBehaviour {
 			break;
 		case "2":
 			step.Add("compoundFormula", jsonEditor.GetString(i, "compoundFormula")); //Compound Formula
-			Debug.Log("Carregou resposta: " + step["compoundFormula"]);
 			break;
 		case "3":
 			step.Add("compoundFormula", jsonEditor.GetString(i, "compoundFormula"));

@@ -137,7 +137,6 @@ public class ComponentsSaver : MonoBehaviour  {
 			}
 				
 			productAcc.Molarity = ((productAcc.Purity * productAcc.Density) / productAcc.MolarMass); // number of mols / volume
-			Debug.Log (productAcc.Formula + ".Molarity = " + productAcc.Molarity);
 			products.Add(productAcc.Formula, productAcc);
 		}
 

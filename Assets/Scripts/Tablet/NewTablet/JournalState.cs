@@ -32,10 +32,6 @@ public class JournalState : MonoBehaviour {
 				stepItem.transform.SetParent (content.transform, false);
 
 				stepItem.GetComponentInChildren<Text> ().text = stage.steps [i].text;
-				/*stepItem.SetActive (false);
-				if (i == 0) {
-					stepItem.SetActive (true);
-				}*/
 			}
 			journals.Add (stage, journal);
 		} else {
@@ -44,9 +40,9 @@ public class JournalState : MonoBehaviour {
 		title.text = stage.name;
 	}
 		
-	/*void OnDisable() {
+	void OnDisable() {
 		foreach (GameObject gObject in journals.Values) {
 			gObject.SetActive (false);
 		}
-	}*/
+	}
 }

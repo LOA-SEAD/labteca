@@ -64,7 +64,7 @@ public abstract class GameStateBase : MonoBehaviour {
 		gameController.GetComponent<HUDController> ().inventoryLocked = false;
 		gameController.GetComponent<HUDController> ().mapLocked = false;
 		gameController.GetComponent<HUDController> ().lockKey = false;
-		GameObject.Find ("Tablet").GetComponent<TabletStateMachine> ().resetState ();
+		//GameObject.Find ("Tablet").GetComponent<TabletStateMachine> ().resetState ();
 		canRun = false;
 		OnStopRun();
 	}

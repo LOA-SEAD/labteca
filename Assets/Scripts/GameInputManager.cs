@@ -95,7 +95,7 @@ public class GameInputManager : MonoBehaviour {
 		/// <param name="input">Input.</param>
 		/// <param name="value">Value.</param>
 		public void notifyHandlers(S input, T value) {
-			foreach (System.Action<S ,T> handler in handlerCollection) {
+			foreach (System.Action<S ,T> handler in handlerCollection.ToArray()) {
 				handler.Invoke (input, value);
 			}
 		}
@@ -108,9 +108,13 @@ public class GameInputManager : MonoBehaviour {
 
 		//---------//
 		// Associating each button string with respective InputController event.
-		singleton.observedButtons.Add("MapInput", InputController.MapInput);
+		singleton.observedButtons.Add("MapInput", 	   InputController.MapInput);
 		singleton.observedButtons.Add("InteractInput", InputController.InteractInput);
-		singleton.observedAxes.Add("Horizontal", InputController.Horizontal);
+		singleton.observedButtons.Add("TabletInput",   InputController.TabletInput);
+		singleton.observedButtons.Add("ReturnInput",   InputController.ReturnInput);
+		singleton.observedButtons.Add("PauseInput",	   InputController.PauseInput);
+
+		singleton.observedAxes.Add("Horizontal", 	   InputController.Horizontal);
 		//---------//
 
 		// Associating each button and axis to a new Notifier instance

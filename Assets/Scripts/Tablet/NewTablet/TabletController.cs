@@ -18,7 +18,7 @@ public enum TabletSubstate {
 /// <summary>
 /// Controls the tablet state machine.
 /// </summary>
-public class TabletController : MonoBehaviour {
+public class TabletController : MonoBehaviour, IInputHandler {
 	
 	public GameObject Tablet;
 	public GameObject HomeState;
@@ -28,6 +28,10 @@ public class TabletController : MonoBehaviour {
 	public GameObject HandbookState;
 	public GameObject ReagentInfoState;
 	public GameObject GraphicsState;
+
+	#region Unity Methods
+
+	#endregion
 
 	#region Basic Tablet Operations
 	public void ChangeTabletState(int state) {
@@ -88,7 +92,8 @@ public class TabletController : MonoBehaviour {
 	/// </summary>
 	protected void OpenTablet() {
 		if(Tablet != null) {
-			Tablet.SetActive(true);	
+			Tablet.SetActive(true);
+			this.GetComponent<InputObserver> ().enabled = true;
 		}
 		
 	}
@@ -97,7 +102,8 @@ public class TabletController : MonoBehaviour {
 	/// </summary>
 	protected void CloseTablet() {
 		if(Tablet != null) {
-			Tablet.SetActive(false);	
+			Tablet.SetActive(false);
+			this.GetComponent<InputObserver> ().enabled = false;
 		}
 	}
 		
@@ -124,5 +130,37 @@ public class TabletController : MonoBehaviour {
 			GraphicsState.SetActive (false);
 		}
 	}
+	#endregion
+
+	#region Input Handler Methods
+	public void HandleButtons(string input, bool value) {
+		switch (input) {
+		case "ReturnInput":
+			if (value) {
+				if (HomeState.activeSelf) {
+					CloseTablet ();	
+				} else if (ExperimentState.activeSelf || NotesState.activeSelf || HandbookState.activeSelf || GraphicsState.activeSelf) {
+					ChangeTabletState ((int)TabletSubstate.HomeState);
+				} else if (JournalState.activeSelf) {
+					ChangeTabletState ((int)TabletSubstate.ExperimentState);
+				} else if (ReagentInfoState.activeSelf) {
+					ChangeTabletState ((int)TabletSubstate.HandbookState);
+				}
+			}
+			break;
+
+		case "TabletInput":
+			if (value) {
+				if (Tablet.activeSelf) {
+					CloseTablet ();
+				} else {
+					OpenTablet ();
+				}
+			}
+			break;
+		}
+	}
+
+	public void HandleAxes(string input, float value) {}
 	#endregion
 }

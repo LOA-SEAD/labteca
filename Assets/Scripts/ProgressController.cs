@@ -51,8 +51,8 @@ public class ProgressController : MonoBehaviour {
 		if(Application.loadedLevelName == "CustomMode"){
 			StartCustomMode();
 			cutsceneController = GameObject.Find ("CustomModeAnimations").GetComponent<CustomModeAnimationsController> ();
-			GameObject.Find ("Handbook Menu").GetComponent<HandbookMenu> ().RefreshScroll ();
-			GameObject.Find ("Journal State").GetComponent<JournalController>().changeExperiment(0);
+			//GameObject.Find ("Handbook Menu").GetComponent<HandbookMenu> ().RefreshScroll ();
+			//GameObject.Find ("Journal State").GetComponent<JournalController>().changeExperiment(0);
 		}
 	}
 
@@ -115,8 +115,8 @@ public class ProgressController : MonoBehaviour {
 		}
 
 		//Add steps to Experiment Menu on Tablet
-		GameObject.Find ("Tablet").GetComponentInChildren<NotesState> ().LoadNotes ();
-		GameObject.Find ("Experiments Menu").GetComponent<ExperimentMenu> ().RefreshScroll (1); //TODO: RETHINK ABOUT ALL THIS STEP-PHASE CONSISTENCY ON JOURNAL
+		/*GameObject.Find ("Tablet").GetComponentInChildren<NotesState> ().LoadNotes ();
+		GameObject.Find ("Experiments Menu").GetComponent<ExperimentMenu> ().RefreshScroll (1); //TODO: RETHINK ABOUT ALL THIS STEP-PHASE CONSISTENCY ON JOURNAL*/
 		NewStep();
 	}
 

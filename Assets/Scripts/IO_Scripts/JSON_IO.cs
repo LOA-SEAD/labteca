@@ -13,22 +13,11 @@ public static class JSON_IO {
 	public static JSONNode ReadJSON(string file) {
 		#if UNITY_WEBPLAYER
 		json = ReadFromWeb(file);
-		#else
-		string directory = "";
+		#endif
 
-		#if UNITY_STANDALONE_WIN
-		directory = "Assets\\Resources\\" + file + ".json";
-		#endif
-		#if UNITY_STANDALONE_LINUX
-		directory = "Assets/Resources/" + file + ".json";
-		#endif
-		#if UNITY_STANDALONE_OSX
-		directory = "LabTecA.app/Contents/Data/Resources/" + file + ".json";
-		#endif
-		#if UNITY_ANDROID
+		string directory = "";
 		char sep = Path.DirectorySeparatorChar;
 		directory = "Assets" +sep+ "Resources" +sep+ file + ".json";
-		#endif
 
 		if(!System.IO.File.Exists(directory)) {
 			System.IO.File.Create(directory);
@@ -41,8 +30,6 @@ public static class JSON_IO {
 
 			return JSON.Parse (content);
 		}
-		#endif
-	
 	}
 
 	/// <summary>

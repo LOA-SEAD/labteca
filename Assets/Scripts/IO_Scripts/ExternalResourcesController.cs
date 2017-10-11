@@ -40,8 +40,7 @@ public class ExternalResourcesController : MonoBehaviour {
 	/// Initializes the journal dictionary.
 	/// </summary>
 	private void InitializeJournalDictionary () {
-		JSONNode json = JSON_IO.ReadJSON ("glu");
-		Debug.Log (json);
+		JSONNode json = JSON_IO.ReadJSON ("journalItems");
 		journalTable = new Hashtable ();
 		for (int i = 0; i < json.Count; i++) { //Iteract through phases in the .json
 			ExperimentsState.Stage[] setOfStages = new ExperimentsState.Stage[json[i].Count];
@@ -52,11 +51,14 @@ public class ExternalResourcesController : MonoBehaviour {
 				for (int k = 0; k < json [i][j] ["steps"].Count; k++) { //Iteract through the steps of stage j
 					setOfStages [j].steps [k] = new ExperimentsState.JournalStep ();
 					setOfStages [j].steps [k].text   = json [i][j] ["steps"][k]["text"].Value;
-					setOfStages [j].steps [k].isDone = json [i][j] ["steps"][k]["isDone"].AsBool;
+					if (json [i] [j] ["steps"] [k] ["isDone"].AsBool != null) {
+						setOfStages [j].steps [k].isDone = json [i] [j] ["steps"] [k] ["isDone"].AsBool;
+					}
 				}
 			}
 			journalTable [i] = setOfStages;
 		}
 	}
 	#endregion
+
 }

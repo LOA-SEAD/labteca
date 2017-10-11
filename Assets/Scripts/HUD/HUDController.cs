@@ -31,7 +31,7 @@ public class HUDController : MonoBehaviour {
 	}
 
 	void Update(){
-		if (Input.GetKeyDown (KeyCode.P)) {
+		if (InputController.PauseInput()) {
 			if(!menu.IsPaused) {
 				menu.Pause ();
 				LockKeys(true);
@@ -45,10 +45,10 @@ public class HUDController : MonoBehaviour {
 		if(Input.GetKeyDown(journalKey)&&!lockKey){
 			CallTabletTrigger();
 		}
-		if ((Input.GetKeyDown (inventoryKey))&&!lockKey) {
+		if ((InputController.InventoryInput())&&!lockKey) {
 			CallInventoryTrigger();
 		}
-		if((Input.GetKeyDown(mapKey))&&!lockKey){
+		if((InputController.MapInput())&&!lockKey){
 			CallMapTrigger();
 		}
 	}

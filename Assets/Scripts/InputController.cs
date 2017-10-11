@@ -10,8 +10,26 @@ public static class InputController {
 	public static float Horizontal() {
 		float r = 0.0f;
 		r += Input.GetAxis ("Horizontal");
-		//
-		return Mathf.Clamp(r, -1.0f, 1.0f);
+		r += Input.GetAxis ("Joystick_Horizontal");
+		return Mathf.Clamp(r, -10.0f, 10.0f);
+	}
+	public static float Vertical() {
+		float r = 0.0f;
+		r += Input.GetAxis ("Vertical");
+		r += Input.GetAxis ("Joystick_Vertical");
+		return Mathf.Clamp(r, -10.0f, 10.0f);
+	}
+	public static float CameraHorizontal() {
+		float r = 0.0f;
+		r += Input.GetAxis ("Mouse X");
+		r += Input.GetAxis ("Joystick_CameraX");
+		return Mathf.Clamp(r, -3.0f, 3.0f);
+	}
+	public static float CameraVertical() {
+		float r = 0.0f;
+		r += Input.GetAxis ("Mouse Y");
+		r += Input.GetAxis ("Joystick_CameraY");
+		return Mathf.Clamp(r, -3.0f, 3.0f);
 	}
 	#endregion
 
@@ -50,6 +68,14 @@ public static class InputController {
 
 	public static bool PauseInput() {
 		if (Input.GetButtonDown ("Keyboard_Pause") || Input.GetButtonDown ("Joystick_Pause")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public static bool InventoryInput() {
+		if (Input.GetButtonDown ("Keyboard_Inventory") || Input.GetButtonDown ("Joystick_Inventory")) {
 			return true;
 		} else {
 			return false;

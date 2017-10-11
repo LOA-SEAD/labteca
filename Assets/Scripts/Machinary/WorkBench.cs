@@ -45,7 +45,7 @@ public class WorkBench : GameStateBase{
 			return;
 		
 		//Pressing Esc will exit the state
-		if(Input.GetKeyDown(KeyCode.Escape)){
+		if(InputController.ReturnInput()){
 			if(!writingLabel) {
 				if(cannotEndState)
 					gameController.sendAlert("Não é possível sair com reagente na mão\nColoque de volta no seu pote");

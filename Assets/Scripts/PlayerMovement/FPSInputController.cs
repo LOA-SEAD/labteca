@@ -57,11 +57,6 @@ public class FPSInputController : MonoBehaviour, IInputHandler
 			return;
 		}
 
-        // Get the input vector from kayboard or analog stick
-		//Vector3 directionVector = new Vector3(InputController.Horizontal(), 0, InputController.Vertical());
-		//Vector3 directionVector = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-		//Vector3 directionVector = new Vector3(Mathf.Clamp(Input.GetAxis("Horizontal")+Input.GetAxis ("Joystick_Horizontal"), -1, 1), 0, Mathf.Clamp(Input.GetAxis("Vertical")+Input.GetAxis ("Joystick_Vertical"), -1, 1));	
-
         if (directionVector != Vector3.zero)
         {
             // Get the length of the directon vector and then normalize it
@@ -126,27 +121,7 @@ public class FPSInputController : MonoBehaviour, IInputHandler
 
 			lastHit=hitInfo;
 		}
-
-
-		//State Machine for the different uses of input
-		//HUD components:
-		/*if (Input.GetKeyDown (KeyCode.Escape)) {
-			hudController.menu.Pause ();
-		}
-		if(Input.GetKeyDown(hudController.journalKey)&&!hudController.lockKey){
-			hudController.CallTabletTrigger();
-		}
-		if ((Input.GetKeyDown (hudController.inventoryKey))&&!hudController.lockKey) {
-			hudController.CallInventoryTrigger();
-		}
-		if((Input.GetKeyDown(hudController.mapKey))&&!hudController.lockKey){
-			hudController.CallMapTrigger();
-		}
-
-		//End of states
-		if (gameController.GetCurrentState () == gameController.gameStates [0]) {
-		
-		}*/
+			
     }
 
 	public void LockKeys() {
@@ -181,7 +156,6 @@ public class FPSInputController : MonoBehaviour, IInputHandler
 			this.GetComponent<MouseLook> ().RotX = value;
 		break;
 		case "CameraVertical":
-			//this.GetComponent<MouseLook> ().RotY = value;
 			this.mainCamera.GetComponent<MouseLook> ().RotY = value;
 		break;
 		}

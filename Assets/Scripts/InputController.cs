@@ -11,7 +11,7 @@ public static class InputController {
 		float r = 0.0f;
 		r += Input.GetAxis ("Horizontal");
 		r += Input.GetAxis ("Joystick_Horizontal");
-		return Mathf.Clamp(r, -1.0f, -1.0f);
+		return Mathf.Clamp(r, -1.0f, 1.0f);
 	}
 	public static float Vertical() {
 		float r = 0.0f;
@@ -24,12 +24,14 @@ public static class InputController {
 		r += Input.GetAxis ("Mouse X");
 		r += Input.GetAxis ("Joystick_CameraX");
 		return Mathf.Clamp(r, -3.0f, 3.0f);
+		//return r;
 	}
 	public static float CameraVertical() {
 		float r = 0.0f;
 		r += Input.GetAxis ("Mouse Y");
 		r += Input.GetAxis ("Joystick_CameraY");
 		return Mathf.Clamp(r, -3.0f, 3.0f);
+		//return r;
 	}
 	#endregion
 

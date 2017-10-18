@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 //! First Person Input controller by the Player.
 /*! How the Player interact with the environment. */
-public class FPSInputController : MonoBehaviour
+public class FPSInputController : MonoBehaviour, IInputHandler
 {
     private CharacterMotor motor;
 	public string interactText;			/*!< String value that shows in the screen when an interactable object is near. */
@@ -19,6 +19,7 @@ public class FPSInputController : MonoBehaviour
 	private bool inInteraction;
 	private Vector3 lastPosition;
 	private RaycastHit lastHit;
+	private Vector3 directionVector;
 
 	private GameController gameController;
 	private HUDController hudController;
@@ -58,7 +59,8 @@ public class FPSInputController : MonoBehaviour
 
         // Get the input vector from kayboard or analog stick
 		//Vector3 directionVector = new Vector3(InputController.Horizontal(), 0, InputController.Vertical());
-		Vector3 directionVector = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+		//Vector3 directionVector = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+		//Vector3 directionVector = new Vector3(Mathf.Clamp(Input.GetAxis("Horizontal")+Input.GetAxis ("Joystick_Horizontal"), -1, 1), 0, Mathf.Clamp(Input.GetAxis("Vertical")+Input.GetAxis ("Joystick_Vertical"), -1, 1));	
 
         if (directionVector != Vector3.zero)
         {
@@ -165,4 +167,26 @@ public class FPSInputController : MonoBehaviour
 		mainCamera.gameObject.GetComponent<MouseLook> ().enabled = true;
 		GameObject.Find ("GameController").GetComponent<HUDController> ().LockKeys (false);
 	}
+
+	#region Input Handler Methods
+	public void HandleAxes(string input, float value) {
+		switch (input) {
+		case "Horizontal":
+			directionVector = new Vector3 (value, directionVector.y, directionVector.z);
+			break;
+		case "Vertical":
+			directionVector = new Vector3 (directionVector.x, directionVector.y, value);
+			break;
+		case "CameraHorizontal":
+			this.GetComponent<MouseLook> ().RotX = value;
+		break;
+		case "CameraVertical":
+			//this.GetComponent<MouseLook> ().RotY = value;
+			this.mainCamera.GetComponent<MouseLook> ().RotY = value;
+		break;
+		}
+	}
+
+	public void HandleButtons(string input, bool value) {}
+	#endregion
 }

@@ -114,7 +114,10 @@ public class GameInputManager : MonoBehaviour {
 		singleton.observedButtons.Add("ReturnInput",   InputController.ReturnInput);
 		singleton.observedButtons.Add("PauseInput",	   InputController.PauseInput);
 
-		//singleton.observedAxes.Add("Horizontal", 	   InputController.Horizontal);
+		singleton.observedAxes.Add("Horizontal", 	   InputController.Horizontal);
+		singleton.observedAxes.Add("Vertical", 		   InputController.Vertical);
+		singleton.observedAxes.Add("CameraHorizontal", InputController.CameraHorizontal);
+		singleton.observedAxes.Add("CameraVertical",   InputController.CameraVertical);
 		//---------//
 
 		// Associating each button and axis to a new Notifier instance

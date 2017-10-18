@@ -14,9 +14,8 @@ using System.Collections;
 /// - Create a camera. Make the camera a child of the capsule. Reset it's transform.
 /// - Add a MouseLook script to the camera.
 ///   -> Set the mouse look to use LookY. (You want the camera to tilt up and down like a head. The character already turns.)
-[AddComponentMenu("Camera-Control/Mouse Look")]
-public class MouseLook : MonoBehaviour {
-
+public class MouseLook : MonoBehaviour
+{
 	public enum RotationAxes { MouseXAndY = 0, MouseX = 1, MouseY = 2 }
 	public RotationAxes axes = RotationAxes.MouseXAndY;
 	public float sensitivityX = 15F;
@@ -24,51 +23,64 @@ public class MouseLook : MonoBehaviour {
 
 	public float minimumX = -360F;
 	public float maximumX = 360F;
-
 	public float minimumY = -60F;
 	public float maximumY = 60F;
-
-	public bool recordRotation = false;
-
+	float rotationX = 0F;
 	float rotationY = 0F;
+	Quaternion originalRotation;
 
-	void FixedUpdate ()
+	public float RotX = 0.0f;
+	public float RotY = 0.0f;
+
+
+	#region Unity Methods
+	void Update ()
 	{
 		if (axes == RotationAxes.MouseXAndY)
 		{
-			float rotationX = transform.localEulerAngles.y + InputController.CameraHorizontal() * sensitivityX;
-			
-			rotationY += InputController.CameraVertical() * sensitivityY;
-			rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
-			
-			transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
+			// Read the mouse input axis
+			/*rotationX += Input.GetAxis("Mouse X") * sensitivityX;
+			rotationY += Input.GetAxis("Mouse Y") * sensitivityY;*/
+			rotationX += RotX * sensitivityX;
+			rotationY += RotY * sensitivityY;
+			rotationX = ClampAngle (rotationX, minimumX, maximumX);
+			rotationY = ClampAngle (rotationY, minimumY, maximumY);
+			Quaternion xQuaternion = Quaternion.AngleAxis (rotationX, Vector3.up);
+			Quaternion yQuaternion = Quaternion.AngleAxis (rotationY, -Vector3.right);
+			transform.localRotation = originalRotation * xQuaternion * yQuaternion;
 		}
 		else if (axes == RotationAxes.MouseX)
 		{
-			transform.Rotate(0, InputController.CameraHorizontal() * sensitivityX, 0);
+			//rotationX += Input.GetAxis("Mouse X") * sensitivityX;
+			rotationX += RotX;
+			rotationX = ClampAngle (rotationX, minimumX, maximumX);
+			Quaternion xQuaternion = Quaternion.AngleAxis (rotationX, Vector3.up);
+			transform.localRotation = originalRotation * xQuaternion;
 		}
 		else
 		{
-			rotationY += InputController.CameraVertical() * sensitivityY;
-			rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
-			
-			transform.localEulerAngles = new Vector3(-rotationY, transform.localEulerAngles.y, 0);
+			//rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
+			rotationY += RotY * sensitivityY;
+			rotationY = ClampAngle (rotationY, minimumY, maximumY);
+			Quaternion yQuaternion = Quaternion.AngleAxis (-rotationY, Vector3.right);
+			transform.localRotation = originalRotation * yQuaternion;
 		}
 	}
-	
 	void Start ()
 	{
-
-		if(recordRotation){
-			Vector3 currentRotation = new Vector3(PlayerPrefs.GetFloat("RotationCameraX"), PlayerPrefs.GetFloat("RotationCameraY"), PlayerPrefs.GetFloat("RotationCameraZ"));
-			
-			transform.localEulerAngles = currentRotation;
-		}
-
 		// Make the rigid body not change rotation
-		if (GetComponent<Rigidbody>())
-			GetComponent<Rigidbody>().freezeRotation = true;
+		/*if (rigidbody)
+			rigidbody.freezeRotation = true;*/
+		originalRotation = transform.localRotation;
+	}
+	#endregion
 
-
+	public static float ClampAngle (float angle, float min, float max)
+	{
+		if (angle < -360F)
+			angle += 360F;
+		if (angle > 360F)
+			angle -= 360F;
+		return Mathf.Clamp (angle, min, max);
 	}
 }

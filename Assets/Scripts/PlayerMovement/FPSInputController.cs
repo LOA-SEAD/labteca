@@ -57,8 +57,8 @@ public class FPSInputController : MonoBehaviour
 		}
 
         // Get the input vector from kayboard or analog stick
-		Vector3 directionVector = new Vector3(InputController.Horizontal(), 0, InputController.Vertical());
-		//Vector3 directionVector = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+		//Vector3 directionVector = new Vector3(InputController.Horizontal(), 0, InputController.Vertical());
+		Vector3 directionVector = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 
         if (directionVector != Vector3.zero)
         {

@@ -114,7 +114,7 @@ public class GameInputManager : MonoBehaviour {
 		singleton.observedButtons.Add("ReturnInput",   InputController.ReturnInput);
 		singleton.observedButtons.Add("PauseInput",	   InputController.PauseInput);
 
-		singleton.observedAxes.Add("Horizontal", 	   InputController.Horizontal);
+		//singleton.observedAxes.Add("Horizontal", 	   InputController.Horizontal);
 		//---------//
 
 		// Associating each button and axis to a new Notifier instance

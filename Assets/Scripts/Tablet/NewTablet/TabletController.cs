@@ -34,6 +34,10 @@ public class TabletController : MonoBehaviour, IInputHandler {
 	#endregion
 
 	#region Basic Tablet Operations
+	/// <summary>
+	/// Changes the state of the tablet.
+	/// </summary>
+	/// <param name="state">State.</param>
 	public void ChangeTabletState(int state) {
 		switch ((TabletSubstate)state) {
 		case TabletSubstate.HomeState:
@@ -106,7 +110,11 @@ public class TabletController : MonoBehaviour, IInputHandler {
 			this.GetComponent<InputObserver> ().enabled = false;
 		}
 	}
-		
+
+	/// <summary>
+	/// Closes all the tablet states.
+	///	To be used internally by the TabletController.
+	/// </summary>
 	private void CloseAllState() {
 		if (HomeState != null) { 
 			HomeState.SetActive (false);

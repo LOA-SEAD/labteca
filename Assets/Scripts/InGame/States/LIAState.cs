@@ -108,6 +108,11 @@ public class LIAState : GameStateBase {
 		if(InputController.ReturnInput()){
 			ExitState();
 		}
+
+		if (checkWhatCompoundCanvas.GetComponentInChildren<InputField> ().isFocused == true ||
+			checkMolarityValueCanvas.GetComponentInChildren<InputField>().isFocused == true) {
+			gameController.GetComponent<HUDController> ().LockKeys (true);
+		}
 	}
 	
 	//! Actions for when the State starts.

@@ -148,38 +148,40 @@ public class TabletController : MonoBehaviour, IInputHandler {
 
 	#region Input Handler Methods
 	public void HandleButtons(string input, bool value) {
-		switch (input) {
-		case "ReturnInput":
-			if (value) {
-				if (HomeState.activeSelf) {
-					CloseTablet ();	
-				} else if (ExperimentState.activeSelf || NotesState.activeSelf || HandbookState.activeSelf || GraphicsState.activeSelf) {
-					ChangeTabletState ((int)TabletSubstate.HomeState);
-				} else if (JournalState.activeSelf) {
-					ChangeTabletState ((int)TabletSubstate.ExperimentState);
-				} else if (ReagentInfoState.activeSelf) {
-					ChangeTabletState ((int)TabletSubstate.HandbookState);
+		if (!hudController.lockKey) {
+			switch (input) {
+			case "ReturnInput":
+				if (value) {
+					if (HomeState.activeSelf) {
+						CloseTablet ();	
+					} else if (ExperimentState.activeSelf || NotesState.activeSelf || HandbookState.activeSelf || GraphicsState.activeSelf) {
+						ChangeTabletState ((int)TabletSubstate.HomeState);
+					} else if (JournalState.activeSelf) {
+						ChangeTabletState ((int)TabletSubstate.ExperimentState);
+					} else if (ReagentInfoState.activeSelf) {
+						ChangeTabletState ((int)TabletSubstate.HandbookState);
+					}
 				}
-			}
-			break;
+				break;
 
-		case "TabletInput":
-			if (value) {
-				if (Tablet.activeSelf) {
-					CloseTablet ();
-				} else {
-					OpenTablet ();
+			case "TabletInput":
+				if (value) {
+					if (Tablet.activeSelf) {
+						CloseTablet ();
+					} else {
+						OpenTablet ();
+					}
 				}
-			}
-			break;
-		case "MapInput":
-		case "InventoryInput":
-			if (value) {
-				if (Tablet.activeSelf) {
-					CloseTablet ();
+				break;
+			case "MapInput":
+			case "InventoryInput":
+				if (value) {
+					if (Tablet.activeSelf) {
+						CloseTablet ();
+					}
 				}
+				break;
 			}
-			break;
 		}
 	}
 

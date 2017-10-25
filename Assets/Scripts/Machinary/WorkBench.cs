@@ -54,6 +54,11 @@ public class WorkBench : GameStateBase{
 					}
 			}
 		}
+		if (stateUIManager.GetComponentInChildren<InputField> () != null) {
+			if (stateUIManager.GetComponentInChildren<InputField> ().isFocused == true) {
+				gameController.GetComponent<HUDController> ().LockKeys (true);
+			}
+		}
 	}
 	
 	public Transform returnPosition(){

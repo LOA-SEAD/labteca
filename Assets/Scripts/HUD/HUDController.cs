@@ -26,7 +26,7 @@ public class HUDController : MonoBehaviour {
 	public RectTransform hover; 
 
 	void Start(){
-		//map.SetActive (false);
+		map.SetActive (false);
 		lockKey = false;
 		Cursor.visible = false;
 		Screen.lockCursor = true;
@@ -37,13 +37,14 @@ public class HUDController : MonoBehaviour {
 
 	void Update(){
 		if (InputController.PauseInput()) {
-			if(!menu.IsPaused) {
-				menu.Pause ();
-				LockKeys(true);
-			}
-			else {
-				menu.UnPause ();
-				LockKeys(false);
+			if (!lockKey) {
+				if (!menu.IsPaused) {
+					menu.Pause ();
+					LockKeys (true);
+				} else {
+					menu.UnPause ();
+					LockKeys (false);
+				}
 			}
 		}
 

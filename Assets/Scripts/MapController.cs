@@ -29,30 +29,32 @@ public class MapController : MonoBehaviour, IInputHandler {
 
 	#region Input Handler Methods
 	public void HandleButtons(string input, bool value) {
-		switch (input) {
-		case "ReturnInput":
-			if (value) {
-				CloseMap();
-			}
-			break;
+		if (!hudController.lockKey) {
+			switch (input) {
+			case "ReturnInput":
+				if (value) {
+					CloseMap ();
+				}
+				break;
 
-		case "MapInput":
-			if (value) {
-				if (gameObject.activeSelf) {
-					CloseMap ();
-				} else {
-					OpenMap ();
+			case "MapInput":
+				if (value) {
+					if (gameObject.activeSelf) {
+						CloseMap ();
+					} else {
+						OpenMap ();
+					}
 				}
-			}
-			break;
-		case "TabletInput":
-		case "InventoryInput":
-			if (value) {
-				if (gameObject.activeSelf) {
-					CloseMap ();
+				break;
+			case "TabletInput":
+			case "InventoryInput":
+				if (value) {
+					if (gameObject.activeSelf) {
+						CloseMap ();
+					}
 				}
+				break;
 			}
-			break;
 		}
 	}
 

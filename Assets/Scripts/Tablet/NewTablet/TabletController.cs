@@ -29,6 +29,8 @@ public class TabletController : MonoBehaviour, IInputHandler {
 	public GameObject ReagentInfoState;
 	public GameObject GraphicsState;
 
+	public HUDController hudController;
+
 	#region Unity Methods
 
 	#endregion
@@ -98,6 +100,7 @@ public class TabletController : MonoBehaviour, IInputHandler {
 		if(Tablet != null) {
 			Tablet.SetActive(true);
 			this.GetComponent<InputObserver> ().enabled = true;
+			hudController.changePlayerState (false);
 		}
 		
 	}
@@ -108,6 +111,7 @@ public class TabletController : MonoBehaviour, IInputHandler {
 		if(Tablet != null) {
 			Tablet.SetActive(false);
 			this.GetComponent<InputObserver> ().enabled = false;
+			hudController.changePlayerState (true);
 		}
 	}
 
@@ -163,6 +167,14 @@ public class TabletController : MonoBehaviour, IInputHandler {
 					CloseTablet ();
 				} else {
 					OpenTablet ();
+				}
+			}
+			break;
+		case "MapInput":
+		case "InventoryInput":
+			if (value) {
+				if (Tablet.activeSelf) {
+					CloseTablet ();
 				}
 			}
 			break;

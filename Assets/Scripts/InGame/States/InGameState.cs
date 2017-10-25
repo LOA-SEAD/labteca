@@ -25,9 +25,6 @@ public class InGameState : GameStateBase {
 		HUD.enabled = true;
 		player.SetActive(true);
 
-		if (HUDControl.tabletUp)
-			HUDControl.CallTablet (false);
-
 		if (HUDControl.inventoryUp) {
 			HUDControl.inventoryLocked=false;
 			HUDControl.CallInventory (false);
@@ -38,8 +35,6 @@ public class InGameState : GameStateBase {
     /*! When it stops, the Player is setActive false. */
 	public override void OnStopRun ()
 	{
-		if (HUDControl.tabletUp)
-			HUDControl.CallTablet (false);
 
 		if (!HUDControl.inventoryUp) {
 			HUDControl.CallInventory (false);

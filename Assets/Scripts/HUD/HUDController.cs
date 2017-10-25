@@ -42,14 +42,18 @@ public class HUDController : MonoBehaviour {
 			}
 		}
 
-		if(Input.GetKeyDown(journalKey)&&!lockKey){
-			CallTabletTrigger();
+		if (Input.GetKeyDown (journalKey)) {
+			//CallTabletTrigger ();
+			if(map.activeSelf == true) {
+				//changePlayerState ();
+				CallMap (false);
+			}
 		}
 		if ((InputController.InventoryInput())&&!lockKey) {
 			CallInventoryTrigger();
 		}
 		if((InputController.MapInput())&&!lockKey){
-			CallMapTrigger();
+			//CallMapTrigger();
 		}
 	}
 
@@ -112,9 +116,9 @@ public class HUDController : MonoBehaviour {
 			inventoryUp = b;
 			invControl.setInventoryState (b);
 			if (player.GetComponent<MouseLook> ().enabled && inventoryUp)
-				changePlayerState ();
+				changePlayerState (b);
 			if (!player.GetComponent<MouseLook> ().enabled && !inventoryUp && !inventoryLocked && !tabletUp)
-				changePlayerState ();
+				changePlayerState (b);
 		}
 
 		if (map.activeSelf)
@@ -140,12 +144,10 @@ public class HUDController : MonoBehaviour {
 		if (!mapLocked) {
 			if (inventoryUp)
 				CallInventory (false);
-			if (tabletUp)
-				CallTablet (false);
 			map.SetActive (b);
 
 			if (player.GetComponent<MouseLook> ().enabled == map.activeSelf)
-				changePlayerState ();
+				changePlayerState (b);
 		}
 		if (map.activeSelf) {
 			Cursor.visible = true;
@@ -173,6 +175,18 @@ public class HUDController : MonoBehaviour {
 			player.GetComponent<CharacterMotor> ().enabled = !player.GetComponent<CharacterMotor> ().enabled;
 			player.GetComponent<FPSInputController> ().enabled = !player.GetComponent<FPSInputController> ().enabled;
 			GameObject.Find ("Main Camera").GetComponent<MouseLook> ().enabled = !GameObject.Find ("Main Camera").GetComponent<MouseLook> ().enabled;
+		}
+	}
+
+	public void changePlayerState(bool value){
+		if (player.activeSelf) {
+			GameObject.Find("GameController").GetComponent<AudioController>().crossFade();
+			GameObject.Find("Elaine 1").GetComponent<Animator>().enabled = value;
+			GameObject.Find("Main Camera").GetComponent<Animator> ().enabled = value;
+			player.GetComponent<MouseLook> ().enabled = value;
+			player.GetComponent<CharacterMotor> ().enabled = value;
+			player.GetComponent<FPSInputController> ().enabled = value;
+			GameObject.Find ("Main Camera").GetComponent<MouseLook> ().enabled = value;
 		}
 	}
 }

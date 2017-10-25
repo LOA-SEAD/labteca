@@ -20,14 +20,19 @@ public class HUDController : MonoBehaviour {
 	public bool inventoryLocked=false,mapLocked = false,lockKey;
 	public List<Text> keysText;
 
+	public bool tabletOn, mapOn, inventoryOn;
+	public bool playerOn;
+
 	public RectTransform hover; 
 
 	void Start(){
-		map.SetActive (false);
+		//map.SetActive (false);
 		lockKey = false;
 		Cursor.visible = false;
 		Screen.lockCursor = true;
 		RefreshKeys ();
+
+		playerOn = true;
 	}
 
 	void Update(){
@@ -46,7 +51,7 @@ public class HUDController : MonoBehaviour {
 			//CallTabletTrigger ();
 			if(map.activeSelf == true) {
 				//changePlayerState ();
-				CallMap (false);
+				//CallMap (false);
 			}
 		}
 		if ((InputController.InventoryInput())&&!lockKey) {
@@ -54,6 +59,9 @@ public class HUDController : MonoBehaviour {
 		}
 		if((InputController.MapInput())&&!lockKey){
 			//CallMapTrigger();
+			if(inventoryUp) {
+				CallInventoryTrigger ();
+			}
 		}
 	}
 
@@ -115,14 +123,16 @@ public class HUDController : MonoBehaviour {
 		if (!inventoryLocked) {
 			inventoryUp = b;
 			invControl.setInventoryState (b);
+			inventoryOn = b;
 			if (player.GetComponent<MouseLook> ().enabled && inventoryUp)
 				changePlayerState (b);
 			if (!player.GetComponent<MouseLook> ().enabled && !inventoryUp && !inventoryLocked && !tabletUp)
 				changePlayerState (b);
 		}
 
-		if (map.activeSelf)
-			map.SetActive (false);
+		if (map.activeSelf && inventoryUp) {
+			map.GetComponent<MapController> ().CloseMap ();
+		}
 
 		if (inventoryUp) {
 			Cursor.visible = true;
@@ -180,13 +190,29 @@ public class HUDController : MonoBehaviour {
 
 	public void changePlayerState(bool value){
 		if (player.activeSelf) {
-			GameObject.Find("GameController").GetComponent<AudioController>().crossFade();
-			GameObject.Find("Elaine 1").GetComponent<Animator>().enabled = value;
-			GameObject.Find("Main Camera").GetComponent<Animator> ().enabled = value;
-			player.GetComponent<MouseLook> ().enabled = value;
-			player.GetComponent<CharacterMotor> ().enabled = value;
-			player.GetComponent<FPSInputController> ().enabled = value;
-			GameObject.Find ("Main Camera").GetComponent<MouseLook> ().enabled = value;
+			if (tabletOn == true || mapOn == true || inventoryOn == true) {
+				GameObject.Find ("Elaine 1").GetComponent<Animator> ().enabled = false;
+				GameObject.Find ("Main Camera").GetComponent<Animator> ().enabled = false;
+				player.GetComponent<MouseLook> ().enabled = false;
+				player.GetComponent<CharacterMotor> ().enabled = false;
+				player.GetComponent<FPSInputController> ().enabled = false;
+				GameObject.Find ("Main Camera").GetComponent<MouseLook> ().enabled = false;
+				if (playerOn == true) {
+					GameObject.Find ("GameController").GetComponent<AudioController> ().crossFade ();
+				}
+				playerOn = false;
+			} else {
+				GameObject.Find ("Elaine 1").GetComponent<Animator> ().enabled = true;
+				GameObject.Find ("Main Camera").GetComponent<Animator> ().enabled = true;
+				player.GetComponent<MouseLook> ().enabled = true;
+				player.GetComponent<CharacterMotor> ().enabled = true;
+				player.GetComponent<FPSInputController> ().enabled = true;
+				GameObject.Find ("Main Camera").GetComponent<MouseLook> ().enabled = true;
+				if (playerOn == false) {
+					GameObject.Find ("GameController").GetComponent<AudioController> ().crossFade ();
+				}
+				playerOn = true;
+			}
 		}
 	}
 }

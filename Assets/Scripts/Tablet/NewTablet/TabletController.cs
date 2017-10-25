@@ -100,6 +100,7 @@ public class TabletController : MonoBehaviour, IInputHandler {
 		if(Tablet != null) {
 			Tablet.SetActive(true);
 			this.GetComponent<InputObserver> ().enabled = true;
+			hudController.tabletOn = true;
 			hudController.changePlayerState (false);
 		}
 		
@@ -111,7 +112,8 @@ public class TabletController : MonoBehaviour, IInputHandler {
 		if(Tablet != null) {
 			Tablet.SetActive(false);
 			this.GetComponent<InputObserver> ().enabled = false;
-			hudController.changePlayerState (true);
+			hudController.tabletOn = false;
+			hudController.changePlayerState (false);
 		}
 	}
 

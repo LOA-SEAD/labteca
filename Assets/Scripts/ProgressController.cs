@@ -159,7 +159,7 @@ public class ProgressController : MonoBehaviour {
 			//this.PhaseTransition ();
 		} else {
 			Debug.Log("Step number " + "JournalUIItem"+actualStep.ToString());
-			GameObject.Find("JournalUIItem"+actualStep.ToString()).GetComponent<JournalUIItem>().checkItem();
+			//GameObject.Find("JournalUIItem"+actualStep.ToString()).GetComponent<JournalUIItem>().checkItem();
 			actualStep++;
 		   /*
 		 	* Play ending dialogue accoding to step, if needed;

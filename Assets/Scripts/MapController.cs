@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MapController : MonoBehaviour, IInputHandler {
 
-	HUDController hudController;
+	public HUDController hudController;
 
 	#region Basic Map Methods
 	/// <summary>
@@ -13,15 +13,17 @@ public class MapController : MonoBehaviour, IInputHandler {
 	protected void OpenMap() {
 		gameObject.SetActive(true);
 		this.GetComponent<InputObserver> ().enabled = true;
-		//hudController.changePlayerState (false);
+		hudController.mapOn = true;
+		hudController.changePlayerState (false);
 	}
 	/// <summary>
 	/// Closes the map.
 	/// </summary>
-	protected void CloseMap() {
+	public void CloseMap() {
 		gameObject.SetActive(false);
 		this.GetComponent<InputObserver> ().enabled = false;
-		//hudController.changePlayerState (true);
+		hudController.mapOn = false;
+		hudController.changePlayerState (false);
 	}
 	#endregion
 

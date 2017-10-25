@@ -56,4 +56,8 @@ public class JournalUIItem : MonoBehaviour {
 		}
 
 	}
+
+	public void MarkAsDone() {
+		checkmark.SetActive (true);
+	}
 }

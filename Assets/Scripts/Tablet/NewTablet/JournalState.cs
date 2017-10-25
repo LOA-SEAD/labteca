@@ -12,21 +12,24 @@ public class JournalState : MonoBehaviour {
 	public GameObject journalContentPrefab;
 	public Text title;
 
+	/// <summary>
+	/// Hashtable for the journals
+	/// </summary>
+	/// Hash: instance of Stage -> instance of Journal Content
 	private Hashtable journals = new Hashtable();
 
 	// Use this for initialization
 	void Start () {
 		
 	}
-
-	void OnDisable() {
-		foreach (GameObject gObject in journals.Values) {
-			gObject.SetActive (false);
-		}
-	}
-
+		
+	/// <summary>
+	/// Sets the values.
+	/// </summary>
+	/// <param name="stage">Stage.</param>
 	public void SetValues(ExperimentsState.Stage stage) {
 		if (!journals.Contains (stage)) {
+			CloseAll ();
 			GameObject journal = Instantiate (journalContentPrefab.gameObject) as GameObject;
 			journal.name = stage.name;
 
@@ -41,9 +44,28 @@ public class JournalState : MonoBehaviour {
 			}
 			journals.Add (stage, journal);
 		} else {
+			CloseAll ();
 			(journals [stage] as GameObject).SetActive (true);
 		}
 		title.text = stage.name;
 	}
-		
+
+	/// <summary>
+	/// Closes all journalItems.
+	/// </summary>
+	private void CloseAll() {
+		foreach (GameObject gObject in journals.Values) {
+			gObject.SetActive (false);
+		}
+	}
+
+	/// <summary>
+	/// Marks the step as done.
+	/// </summary>
+	/// <param name="stage">Stage.</param>
+	public void MarkAsDone(ExperimentsState.Stage stage) {
+		if (journals.Contains (stage)) {
+			(journals [stage] as GameObject).GetComponentInChildren<JournalUIItem> ().MarkAsDone ();
+		}
+	}
 }

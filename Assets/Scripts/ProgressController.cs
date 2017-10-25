@@ -159,8 +159,11 @@ public class ProgressController : MonoBehaviour {
 			//this.PhaseTransition ();
 		} else {
 			Debug.Log("Step number " + "JournalUIItem"+actualStep.ToString());
+			GameObject.Find ("HUDController").GetComponentInChildren<TabletController> ().JournalState.GetComponent<JournalState> ();
 			//GameObject.Find("JournalUIItem"+actualStep.ToString()).GetComponent<JournalUIItem>().checkItem();
+
 			actualStep++;
+			GameObject.Find ("HUDController").GetComponentInChildren<TabletController> ().ExperimentState.GetComponent<ExperimentsState>().EnableTab(actualStep);
 		   /*
 		 	* Play ending dialogue accoding to step, if needed;
 		 	*/

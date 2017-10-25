@@ -202,6 +202,8 @@ public class HUDController : MonoBehaviour {
 					GameObject.Find ("GameController").GetComponent<AudioController> ().crossFade ();
 				}
 				playerOn = false;
+				Cursor.visible = true;
+				Screen.lockCursor = false;
 			} else {
 				GameObject.Find ("Elaine 1").GetComponent<Animator> ().enabled = true;
 				GameObject.Find ("Main Camera").GetComponent<Animator> ().enabled = true;
@@ -213,6 +215,8 @@ public class HUDController : MonoBehaviour {
 					GameObject.Find ("GameController").GetComponent<AudioController> ().crossFade ();
 				}
 				playerOn = true;
+				Cursor.visible = false;
+				Screen.lockCursor = true;
 			}
 		}
 	}

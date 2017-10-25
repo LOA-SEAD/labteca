@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Substates of the tablet
@@ -32,7 +33,11 @@ public class TabletController : MonoBehaviour, IInputHandler {
 	public HUDController hudController;
 
 	#region Unity Methods
-
+	void Update() {
+		if (NotesState.GetComponentInChildren<InputField> ().isFocused) {
+			hudController.LockKeys (true);
+		}
+	}
 	#endregion
 
 	#region Basic Tablet Operations

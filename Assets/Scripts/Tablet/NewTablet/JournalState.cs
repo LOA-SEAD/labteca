@@ -19,6 +19,12 @@ public class JournalState : MonoBehaviour {
 		
 	}
 
+	void OnDisable() {
+		foreach (GameObject gObject in journals.Values) {
+			gObject.SetActive (false);
+		}
+	}
+
 	public void SetValues(ExperimentsState.Stage stage) {
 		if (!journals.Contains (stage)) {
 			GameObject journal = Instantiate (journalContentPrefab.gameObject) as GameObject;
@@ -40,9 +46,4 @@ public class JournalState : MonoBehaviour {
 		title.text = stage.name;
 	}
 		
-	void OnDisable() {
-		foreach (GameObject gObject in journals.Values) {
-			gObject.SetActive (false);
-		}
-	}
 }

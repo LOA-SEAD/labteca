@@ -125,7 +125,6 @@ public class LIAState : GameStateBase {
 		cameraState.gameObject.SetActive(true);
 		cameraState.depth = 2;
 
-		Debug.Log ("Starting LIA state");
 		//Set active the interaction canvas accordingly to the type of step
 		switch (progressController.StepType) {
 		case TypeOfStep.CompoundClass:

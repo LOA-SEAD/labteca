@@ -134,7 +134,6 @@ public class FPSInputController : MonoBehaviour, IInputHandler
 	}
 
 	public void UnlockKeys() {
-		Debug.Log ("Unlocking keys.");
 		keysLocked = false;
 		this.enabled = true;
 		this.gameObject.GetComponent<CharacterMotor>().enabled = true;

@@ -27,6 +27,8 @@ public class InGameMenu : MonoBehaviour {
 		foreach (GameObject audio in audios) {
 			audio.GetComponent<AudioSource>().pitch = 0.7f;
 		}
+		GameObject.Find ("GameController").GetComponent<HUDController> ().LockKeys (true);
+		GameObject.Find ("GameController").GetComponent<HUDController> ().LockMovement();
 	}
 
 	public void UnPause(){
@@ -44,6 +46,8 @@ public class InGameMenu : MonoBehaviour {
 		foreach (GameObject audio in audios) {
 			audio.GetComponent<AudioSource>().pitch = 1f;
 		}
+		GameObject.Find("GameController").GetComponent<HUDController>().LockKeys (false);
+		GameObject.Find ("GameController").GetComponent<HUDController> ().UnlockMovement ();
 	}
 
 	public void GoToOptions(){

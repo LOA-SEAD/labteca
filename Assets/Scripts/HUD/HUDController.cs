@@ -50,10 +50,10 @@ public class HUDController : MonoBehaviour {
 
 		if (Input.GetKeyDown (journalKey)) {
 			//CallTabletTrigger ();
-			if(map.activeSelf == true) {
+			/*if(map.activeSelf == true) {
 				//changePlayerState ();
 				//CallMap (false);
-			}
+			}*/
 		}
 		if ((InputController.InventoryInput())&&!lockKey) {
 			CallInventoryTrigger();
@@ -192,32 +192,38 @@ public class HUDController : MonoBehaviour {
 	public void changePlayerState(bool value){
 		if (player.activeSelf) {
 			if (tabletOn == true || mapOn == true || inventoryOn == true) {
-				GameObject.Find ("Elaine 1").GetComponent<Animator> ().enabled = false;
-				GameObject.Find ("Main Camera").GetComponent<Animator> ().enabled = false;
-				player.GetComponent<MouseLook> ().enabled = false;
-				player.GetComponent<CharacterMotor> ().enabled = false;
-				player.GetComponent<FPSInputController> ().enabled = false;
-				GameObject.Find ("Main Camera").GetComponent<MouseLook> ().enabled = false;
 				if (playerOn == true) {
 					GameObject.Find ("GameController").GetComponent<AudioController> ().crossFade ();
 				}
+				LockMovement ();
 				playerOn = false;
 				Cursor.visible = true;
 				Screen.lockCursor = false;
 			} else {
-				GameObject.Find ("Elaine 1").GetComponent<Animator> ().enabled = true;
-				GameObject.Find ("Main Camera").GetComponent<Animator> ().enabled = true;
-				player.GetComponent<MouseLook> ().enabled = true;
-				player.GetComponent<CharacterMotor> ().enabled = true;
-				player.GetComponent<FPSInputController> ().enabled = true;
-				GameObject.Find ("Main Camera").GetComponent<MouseLook> ().enabled = true;
 				if (playerOn == false) {
 					GameObject.Find ("GameController").GetComponent<AudioController> ().crossFade ();
 				}
+				UnlockMovement ();
 				playerOn = true;
 				Cursor.visible = false;
 				Screen.lockCursor = true;
 			}
 		}
+	}
+	public void LockMovement() {
+		GameObject.Find ("Elaine 1").GetComponent<Animator> ().enabled = false;
+		GameObject.Find ("Main Camera").GetComponent<Animator> ().enabled = false;
+		player.GetComponent<MouseLook> ().enabled = false;
+		player.GetComponent<CharacterMotor> ().enabled = false;
+		player.GetComponent<FPSInputController> ().enabled = false;
+		GameObject.Find ("Main Camera").GetComponent<MouseLook> ().enabled = false;
+	}
+	public void UnlockMovement() {
+		GameObject.Find ("Elaine 1").GetComponent<Animator> ().enabled = true;
+		GameObject.Find ("Main Camera").GetComponent<Animator> ().enabled = true;
+		player.GetComponent<MouseLook> ().enabled = true;
+		player.GetComponent<CharacterMotor> ().enabled = true;
+		player.GetComponent<FPSInputController> ().enabled = true;
+		GameObject.Find ("Main Camera").GetComponent<MouseLook> ().enabled = true;
 	}
 }

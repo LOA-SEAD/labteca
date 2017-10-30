@@ -10,9 +10,9 @@ public class InGameMenu : MonoBehaviour {
 	public void Pause(){
 		isPaused = true;
 
-		cursor = Screen.showCursor;
+		cursor = Cursor.visible;
 
-		Screen.showCursor = true;
+		Cursor.visible = true;
 		Screen.lockCursor = false;
 
 		Time.timeScale = 0;
@@ -27,12 +27,14 @@ public class InGameMenu : MonoBehaviour {
 		foreach (GameObject audio in audios) {
 			audio.GetComponent<AudioSource>().pitch = 0.7f;
 		}
+		GameObject.Find ("GameController").GetComponent<HUDController> ().LockKeys (true);
+		GameObject.Find ("GameController").GetComponent<HUDController> ().LockMovement();
 	}
 
 	public void UnPause(){
 		isPaused = false;
 
-		Screen.showCursor = cursor;
+		Cursor.visible = cursor;
 		Screen.lockCursor = !cursor;
 
 		GameObject.Find("GameController").GetComponent<GameController>().GetCurrentState().CanRun = true;
@@ -44,6 +46,8 @@ public class InGameMenu : MonoBehaviour {
 		foreach (GameObject audio in audios) {
 			audio.GetComponent<AudioSource>().pitch = 1f;
 		}
+		GameObject.Find("GameController").GetComponent<HUDController>().LockKeys (false);
+		GameObject.Find ("GameController").GetComponent<HUDController> ().UnlockMovement ();
 	}
 
 	public void GoToOptions(){

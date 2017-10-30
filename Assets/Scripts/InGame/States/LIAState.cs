@@ -105,8 +105,13 @@ public class LIAState : GameStateBase {
 		}
 
 		//Pressing Esc will exit the state
-		if(Input.GetKeyDown(KeyCode.Escape)){
+		if(InputController.ReturnInput()){
 			ExitState();
+		}
+
+		if (checkWhatCompoundCanvas.GetComponentInChildren<InputField> ().isFocused == true ||
+			checkMolarityValueCanvas.GetComponentInChildren<InputField>().isFocused == true) {
+			gameController.GetComponent<HUDController> ().LockKeys (true);
 		}
 	}
 	
@@ -115,6 +120,7 @@ public class LIAState : GameStateBase {
     // close all dialogs that might be enabled.
 	public override void OnStartRun ()
 	{
+		//Opens inventory TODO: is it still going to be always open?
 		GameObject.Find ("InventoryManager").GetComponent<InventoryManager> ().changeList (0);
 		cameraState.gameObject.SetActive(true);
 		cameraState.depth = 2;

@@ -10,6 +10,9 @@
 		"irSpecter": "",
 		"conductibility": "274.6",
 		"solubility": "1",
-		"fumeHoodOnly": "false"
+		"fumeHoodOnly": "false",
+		"compoundColorR": "255",
+		"compoundColorG": "255",
+		"compoundColorB": "255"
 	}]
 }

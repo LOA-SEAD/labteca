@@ -20,36 +20,49 @@ public class HUDController : MonoBehaviour {
 	public bool inventoryLocked=false,mapLocked = false,lockKey;
 	public List<Text> keysText;
 
+	public bool tabletOn, mapOn, inventoryOn;
+	public bool playerOn;
+
 	public RectTransform hover; 
 
 	void Start(){
 		map.SetActive (false);
 		lockKey = false;
-		Screen.showCursor = false;
+		Cursor.visible = false;
 		Screen.lockCursor = true;
 		RefreshKeys ();
+
+		playerOn = true;
 	}
 
 	void Update(){
-		if (Input.GetKeyDown (KeyCode.P)) {
-			if(!menu.IsPaused) {
-				menu.Pause ();
-				LockKeys(true);
-			}
-			else {
-				menu.UnPause ();
-				LockKeys(false);
+		if (InputController.PauseInput()) {
+			if (!lockKey) {
+				if (!menu.IsPaused) {
+					menu.Pause ();
+					LockKeys (true);
+				} else {
+					menu.UnPause ();
+					LockKeys (false);
+				}
 			}
 		}
 
-		if(Input.GetKeyDown(journalKey)&&!lockKey){
-			CallTabletTrigger();
+		if (Input.GetKeyDown (journalKey)) {
+			//CallTabletTrigger ();
+			/*if(map.activeSelf == true) {
+				//changePlayerState ();
+				//CallMap (false);
+			}*/
 		}
-		if ((Input.GetKeyDown (inventoryKey))&&!lockKey) {
+		if ((InputController.InventoryInput())&&!lockKey) {
 			CallInventoryTrigger();
 		}
-		if((Input.GetKeyDown(mapKey))&&!lockKey){
-			CallMapTrigger();
+		if((InputController.MapInput())&&!lockKey){
+			//CallMapTrigger();
+			if(inventoryUp) {
+				CallInventoryTrigger ();
+			}
 		}
 	}
 
@@ -91,10 +104,10 @@ public class HUDController : MonoBehaviour {
 			map.SetActive (false);
 
 		if (tabletUp) {
-			Screen.showCursor = true;
+			Cursor.visible = true;
 			Screen.lockCursor = false;
 		}else if (!inventoryUp && !map.activeSelf) {
-			Screen.showCursor = false;
+			Cursor.visible = false;
 			Screen.lockCursor = true;
 		}
 	}
@@ -111,20 +124,22 @@ public class HUDController : MonoBehaviour {
 		if (!inventoryLocked) {
 			inventoryUp = b;
 			invControl.setInventoryState (b);
+			inventoryOn = b;
 			if (player.GetComponent<MouseLook> ().enabled && inventoryUp)
-				changePlayerState ();
+				changePlayerState (b);
 			if (!player.GetComponent<MouseLook> ().enabled && !inventoryUp && !inventoryLocked && !tabletUp)
-				changePlayerState ();
+				changePlayerState (b);
 		}
 
-		if (map.activeSelf)
-			map.SetActive (false);
+		if (map.activeSelf && inventoryUp) {
+			map.GetComponent<MapController> ().CloseMap ();
+		}
 
 		if (inventoryUp) {
-			Screen.showCursor = true;
+			Cursor.visible = true;
 			Screen.lockCursor = false;
 		} else if (!tabletUp && !map.activeSelf) {
-			Screen.showCursor = false;
+			Cursor.visible = false;
 			Screen.lockCursor = true;
 		}
 	}
@@ -140,18 +155,16 @@ public class HUDController : MonoBehaviour {
 		if (!mapLocked) {
 			if (inventoryUp)
 				CallInventory (false);
-			if (tabletUp)
-				CallTablet (false);
 			map.SetActive (b);
 
 			if (player.GetComponent<MouseLook> ().enabled == map.activeSelf)
-				changePlayerState ();
+				changePlayerState (b);
 		}
 		if (map.activeSelf) {
-			Screen.showCursor = true;
+			Cursor.visible = true;
 			Screen.lockCursor = false;
 		}else if (!tabletUp && !inventoryUp) {
-			Screen.showCursor = false;
+			Cursor.visible = false;
 			Screen.lockCursor = true;
 		}
 	}
@@ -174,5 +187,43 @@ public class HUDController : MonoBehaviour {
 			player.GetComponent<FPSInputController> ().enabled = !player.GetComponent<FPSInputController> ().enabled;
 			GameObject.Find ("Main Camera").GetComponent<MouseLook> ().enabled = !GameObject.Find ("Main Camera").GetComponent<MouseLook> ().enabled;
 		}
+	}
+
+	public void changePlayerState(bool value){
+		if (player.activeSelf) {
+			if (tabletOn == true || mapOn == true || inventoryOn == true) {
+				if (playerOn == true) {
+					GameObject.Find ("GameController").GetComponent<AudioController> ().crossFade ();
+				}
+				LockMovement ();
+				playerOn = false;
+				Cursor.visible = true;
+				Screen.lockCursor = false;
+			} else {
+				if (playerOn == false) {
+					GameObject.Find ("GameController").GetComponent<AudioController> ().crossFade ();
+				}
+				UnlockMovement ();
+				playerOn = true;
+				Cursor.visible = false;
+				Screen.lockCursor = true;
+			}
+		}
+	}
+	public void LockMovement() {
+		GameObject.Find ("Elaine 1").GetComponent<Animator> ().enabled = false;
+		GameObject.Find ("Main Camera").GetComponent<Animator> ().enabled = false;
+		player.GetComponent<MouseLook> ().enabled = false;
+		player.GetComponent<CharacterMotor> ().enabled = false;
+		player.GetComponent<FPSInputController> ().enabled = false;
+		GameObject.Find ("Main Camera").GetComponent<MouseLook> ().enabled = false;
+	}
+	public void UnlockMovement() {
+		GameObject.Find ("Elaine 1").GetComponent<Animator> ().enabled = true;
+		GameObject.Find ("Main Camera").GetComponent<Animator> ().enabled = true;
+		player.GetComponent<MouseLook> ().enabled = true;
+		player.GetComponent<CharacterMotor> ().enabled = true;
+		player.GetComponent<FPSInputController> ().enabled = true;
+		GameObject.Find ("Main Camera").GetComponent<MouseLook> ().enabled = true;
 	}
 }

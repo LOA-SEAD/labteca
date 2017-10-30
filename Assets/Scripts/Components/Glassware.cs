@@ -58,7 +58,7 @@ public class Glassware : ItemToInventory
 	//!  Is called when the script instance is being loaded.
 	void Awake()
 	{
-		this.rigidbody.mass = mass;
+		this.GetComponent<Rigidbody>().mass = mass;
 		totalMass = mass;
 		currentVolume = 0.0f;
 		onScale = false;
@@ -90,7 +90,7 @@ public class Glassware : ItemToInventory
 			liquid.SetActive(false);
 
 		//defaultColour = glasswareMesh.GetComponent<MeshRenderer>().materials[0].color;
-		defaultColour = glasswareMesh.renderer.material.color;
+		defaultColour = glasswareMesh.GetComponent<Renderer>().material.color;
 
 
 		gameController = GameObject.Find ("GameController").GetComponent<GameController> ();
@@ -215,30 +215,30 @@ public class Glassware : ItemToInventory
 				case MouseState.ms_pipette: 		//Pipette -> Glassware
 					if (hasLiquid) {
 						//glow
-						glasswareMesh.renderer.material.color = Color.white;
+						glasswareMesh.GetComponent<Renderer>().material.color = Color.white;
 					}
 					break;
 				case MouseState.ms_filledPipette: 	// Filled Pipette -> Glassware.
 					if (this.GetLiquidVolume() < maxVolume) {
 						//glow
-						glasswareMesh.renderer.material.color = Color.white;
+						glasswareMesh.GetComponent<Renderer>().material.color = Color.white;
 					}
 					break;
 				case MouseState.ms_spatula: 		// Spatula -> Glassware.
 					if (hasSolid) {
-						glasswareMesh.renderer.material.color = Color.white;
+						glasswareMesh.GetComponent<Renderer>().material.color = Color.white;
 					}
 					break;
 				case MouseState.ms_filledSpatula: 	// Filled Spatula -> Glassware.
 					if (currentVolume < maxVolume) {
 						//glow
-						glasswareMesh.renderer.material.color = Color.white;
+						glasswareMesh.GetComponent<Renderer>().material.color = Color.white;
 					}
 					break;
 				case MouseState.ms_washBottle: 		// Washe Bottle -> Glassware.
 					if (this.GetLiquidVolume() < maxVolume) {
 						//glow
-						glasswareMesh.renderer.material.color = Color.white;
+						glasswareMesh.GetComponent<Renderer>().material.color = Color.white;
 					}
 					break;
 				default:
@@ -255,7 +255,7 @@ public class Glassware : ItemToInventory
 				infoCanvas.GetComponent<RectTransform> ().localPosition = Vector3.zero;
 			}
 
-			glasswareMesh.renderer.material.color = defaultColour;
+			glasswareMesh.GetComponent<Renderer>().material.color = defaultColour;
 		}
 	}
 
@@ -361,12 +361,40 @@ public class Glassware : ItemToInventory
 	public float GetPH() {
 		float actualPH = 7.0f;
 
+		if (content != null) {
+			if(content is Mixture) {
+				actualPH = (content as Mixture).PH;
+			}
+			else {
+				actualPH = (content as Compound).PH;
+			}
+		}
+	
 		return actualPH;
+	}
+
+	public float GetMolarity() {
+		float actualMolarity = 0.0f;
+
+		if (content != null) {
+			actualMolarity = (content as Compound).Molarity;
+		}
+
+		return actualMolarity;
 	}
 
 
 	public float GetConductivity() {
-		float actualConductivity = 0.5f;
+		float actualConductivity = 0.0f;
+
+		if (content != null) {
+			if(content is Mixture) {
+				actualConductivity = (content as Mixture).Conductibility;
+			}
+			else {
+				actualConductivity = (content as Compound).Conductibility;
+			}
+		}
 
 		return actualConductivity;
 	}
@@ -374,12 +402,30 @@ public class Glassware : ItemToInventory
 	public float GetPolarity() {
 		float actualPolarity = 1.0f;
 
+		if (content != null) {
+			if(content is Mixture) {
+				actualPolarity = (content as Mixture).Polarizability;
+			}
+			else {
+				actualPolarity = (content as Compound).Polarizability;
+			}
+		}
+
 		return actualPolarity;
 	}
 
 	public float GetTurbidity() {
-		float actualTurbidity = 8.0f;
-		
+		float actualTurbidity = 0.0f;
+
+		if (content != null) {
+			if(content is Mixture) {
+				actualTurbidity = (content as Mixture).Turbidity;
+			}
+			else {
+				actualTurbidity = (content as Compound).Turbidity;
+			}
+		}
+
 		return actualTurbidity;
 	}
 	

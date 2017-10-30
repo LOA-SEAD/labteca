@@ -13,7 +13,7 @@ public class SceneManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Screen.lockCursor = true;
-		Screen.showCursor = false;
+		Cursor.visible = false;
 
 		#if UNITY_STANDALONE
 		transitionEnabled = true;
@@ -31,7 +31,7 @@ public class SceneManager : MonoBehaviour {
 	void Update () {
 		if (transitionEnabled) {
 			//If ESC is pressed, goes to next scene
-			if (Input.GetKeyDown (KeyCode.Escape))
+			if (InputController.ReturnInput())
 				Transition();
 			else if (Input.anyKeyDown && currentTime >= 5f) {
 				currentTime = 0f;

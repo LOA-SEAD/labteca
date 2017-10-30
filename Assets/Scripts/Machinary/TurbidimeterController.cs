@@ -110,6 +110,7 @@ public class TurbidimeterController : EquipmentControllerBase {
 	public override void AddObjectInEquipament(GameObject objectToAdd){
 		activeGlassware = objectToAdd;
 		destinationText.text = equipmentButton;
+		changed = true;
 		RefreshEquipament();
 	}
 
@@ -120,6 +121,7 @@ public class TurbidimeterController : EquipmentControllerBase {
 	public override void RemoveObjectInEquipament(GameObject objectToRemove){
 		activeGlassware = null;
 		destinationText.text = workbenchButton;
+		changed = true;
 		RefreshEquipament();
 	}
 	

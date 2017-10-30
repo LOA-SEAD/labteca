@@ -51,8 +51,8 @@ public class ProgressController : MonoBehaviour {
 		if(Application.loadedLevelName == "CustomMode"){
 			StartCustomMode();
 			cutsceneController = GameObject.Find ("CustomModeAnimations").GetComponent<CustomModeAnimationsController> ();
-			GameObject.Find ("Handbook Menu").GetComponent<HandbookMenu> ().RefreshScroll ();
-			GameObject.Find ("Journal State").GetComponent<JournalController>().changeExperiment(0);
+			//GameObject.Find ("Handbook Menu").GetComponent<HandbookMenu> ().RefreshScroll ();
+			//GameObject.Find ("Journal State").GetComponent<JournalController>().changeExperiment(0);
 		}
 	}
 
@@ -79,10 +79,6 @@ public class ProgressController : MonoBehaviour {
 		currentPhase = PhasesSaver.LoadPhases (customPhaseDirectory);
 		phaseDefinitions = PhasesSaver.GetPhaseLibrary (customPhaseDirectory);
 
-		for(int i = 0; i < currentPhase.Count; i++) {
-			Debug.Log ("PC.CurrentPhase " + i + " = " + currentPhase[i]["typeOfStep"]);
-		}
-
 		numberOfSteps = currentPhase.Count;
 
 		this.NewPhase (bool.Parse (phaseDefinitions ["glasswareStart"]));
@@ -104,6 +100,9 @@ public class ProgressController : MonoBehaviour {
 				/*
 				 * Changes on properties according to float.Parse(phaseDefinitions["molarity"])
 				 */
+				compound.PH = 7.0f;
+				compound.Molarity = 1.0f;
+
 				bequer.GetComponent<Glassware> ().IncomingReagent (compound.Clone (float.Parse(phaseDefinitions ["volume"])) as Compound, float.Parse(phaseDefinitions ["volume"]));
 				GameObject.Find("InventoryManager").GetComponent<InventoryManager>().AddProductToInventory(bequer.gameObject);
 			}
@@ -116,8 +115,8 @@ public class ProgressController : MonoBehaviour {
 		}
 
 		//Add steps to Experiment Menu on Tablet
-		GameObject.Find ("Tablet").GetComponentInChildren<NotesState> ().LoadNotes ();
-		GameObject.Find ("Experiments Menu").GetComponent<ExperimentMenu> ().RefreshScroll (1); //TODO: RETHINK ABOUT ALL THIS STEP-PHASE CONSISTENCY ON JOURNAL
+		/*GameObject.Find ("Tablet").GetComponentInChildren<NotesState> ().LoadNotes ();
+		GameObject.Find ("Experiments Menu").GetComponent<ExperimentMenu> ().RefreshScroll (1); //TODO: RETHINK ABOUT ALL THIS STEP-PHASE CONSISTENCY ON JOURNAL*/
 		NewStep();
 	}
 
@@ -159,9 +158,10 @@ public class ProgressController : MonoBehaviour {
 			//Debug.Log("PhaseTransition will be called");
 			//this.PhaseTransition ();
 		} else {
-			Debug.Log("Step number " + "JournalUIItem"+actualStep.ToString());
-			GameObject.Find("JournalUIItem"+actualStep.ToString()).GetComponent<JournalUIItem>().checkItem();
+			GameObject.Find ("HUDController").GetComponentInChildren<TabletController> ().ExperimentState.GetComponent<ExperimentsState> ().CompleteStage (actualStep);
+
 			actualStep++;
+			GameObject.Find ("HUDController").GetComponentInChildren<TabletController> ().ExperimentState.GetComponent<ExperimentsState>().EnableTab(actualStep);
 		   /*
 		 	* Play ending dialogue accoding to step, if needed;
 		 	*/

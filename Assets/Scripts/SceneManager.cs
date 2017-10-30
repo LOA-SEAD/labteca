@@ -31,7 +31,7 @@ public class SceneManager : MonoBehaviour {
 	void Update () {
 		if (transitionEnabled) {
 			//If ESC is pressed, goes to next scene
-			if (Input.GetKeyDown (KeyCode.Escape))
+			if (InputController.ReturnInput())
 				Transition();
 			else if (Input.anyKeyDown && currentTime >= 5f) {
 				currentTime = 0f;

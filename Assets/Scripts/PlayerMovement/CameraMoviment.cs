@@ -27,8 +27,8 @@ public class CameraMoviment : MonoBehaviour
 	
 	void  FixedUpdate ()
 	{	
-		x += movimentSensibility * Input.GetAxis("Mouse X");
-		y += movimentSensibility * Input.GetAxis("Mouse Y");
+		x += movimentSensibility * InputController.CameraHorizontal();
+		y += movimentSensibility * InputController.CameraVertical();
 		if(y > yMax){
 			y = yMax;
 		}else if(y < yMin){

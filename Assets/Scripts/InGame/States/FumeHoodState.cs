@@ -26,7 +26,7 @@ public  class FumeHoodState : GameStateBase {
 			return;
 
 		//Pressing Esc will exit the state
-		if(Input.GetKeyDown(KeyCode.Escape)){
+		if(InputController.ReturnInput()){
 			if(GetComponent<WorkBench>().cannotEndState) {
 				//Show message that can't quit.
 			}

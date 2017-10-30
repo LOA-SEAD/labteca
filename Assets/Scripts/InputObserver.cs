@@ -17,6 +17,11 @@ public interface IInputHandler {
 /// This list should be edited via the Unity Inspector for each object.
 public class InputObserver : MonoBehaviour {
 	#region Unity methods
+	void Start() {
+		EnableAxes ();
+		EnableButtons ();
+	}
+
 	void OnEnable() {
 		EnableAxes ();
 		EnableButtons ();

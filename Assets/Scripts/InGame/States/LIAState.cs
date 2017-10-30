@@ -105,8 +105,13 @@ public class LIAState : GameStateBase {
 		}
 
 		//Pressing Esc will exit the state
-		if(Input.GetKeyDown(KeyCode.Escape)){
+		if(InputController.ReturnInput()){
 			ExitState();
+		}
+
+		if (checkWhatCompoundCanvas.GetComponentInChildren<InputField> ().isFocused == true ||
+			checkMolarityValueCanvas.GetComponentInChildren<InputField>().isFocused == true) {
+			gameController.GetComponent<HUDController> ().LockKeys (true);
 		}
 	}
 	
@@ -120,7 +125,6 @@ public class LIAState : GameStateBase {
 		cameraState.gameObject.SetActive(true);
 		cameraState.depth = 2;
 
-		Debug.Log ("Starting LIA state");
 		//Set active the interaction canvas accordingly to the type of step
 		switch (progressController.StepType) {
 		case TypeOfStep.CompoundClass:

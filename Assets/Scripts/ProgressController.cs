@@ -51,8 +51,8 @@ public class ProgressController : MonoBehaviour {
 		if(Application.loadedLevelName == "CustomMode"){
 			StartCustomMode();
 			cutsceneController = GameObject.Find ("CustomModeAnimations").GetComponent<CustomModeAnimationsController> ();
-			GameObject.Find ("Handbook Menu").GetComponent<HandbookMenu> ().RefreshScroll ();
-			GameObject.Find ("Journal State").GetComponent<JournalController>().changeExperiment(0);
+			//GameObject.Find ("Handbook Menu").GetComponent<HandbookMenu> ().RefreshScroll ();
+			//GameObject.Find ("Journal State").GetComponent<JournalController>().changeExperiment(0);
 		}
 	}
 
@@ -78,10 +78,6 @@ public class ProgressController : MonoBehaviour {
 		customMode = true;
 		currentPhase = PhasesSaver.LoadPhases (customPhaseDirectory);
 		phaseDefinitions = PhasesSaver.GetPhaseLibrary (customPhaseDirectory);
-
-		for(int i = 0; i < currentPhase.Count; i++) {
-			Debug.Log ("PC.CurrentPhase " + i + " = " + currentPhase[i]["typeOfStep"]);
-		}
 
 		numberOfSteps = currentPhase.Count;
 
@@ -119,8 +115,8 @@ public class ProgressController : MonoBehaviour {
 		}
 
 		//Add steps to Experiment Menu on Tablet
-		GameObject.Find ("Tablet").GetComponentInChildren<NotesState> ().LoadNotes ();
-		GameObject.Find ("Experiments Menu").GetComponent<ExperimentMenu> ().RefreshScroll (1); //TODO: RETHINK ABOUT ALL THIS STEP-PHASE CONSISTENCY ON JOURNAL
+		/*GameObject.Find ("Tablet").GetComponentInChildren<NotesState> ().LoadNotes ();
+		GameObject.Find ("Experiments Menu").GetComponent<ExperimentMenu> ().RefreshScroll (1); //TODO: RETHINK ABOUT ALL THIS STEP-PHASE CONSISTENCY ON JOURNAL*/
 		NewStep();
 	}
 
@@ -162,9 +158,10 @@ public class ProgressController : MonoBehaviour {
 			//Debug.Log("PhaseTransition will be called");
 			//this.PhaseTransition ();
 		} else {
-			Debug.Log("Step number " + "JournalUIItem"+actualStep.ToString());
-			GameObject.Find("JournalUIItem"+actualStep.ToString()).GetComponent<JournalUIItem>().checkItem();
+			GameObject.Find ("HUDController").GetComponentInChildren<TabletController> ().ExperimentState.GetComponent<ExperimentsState> ().CompleteStage (actualStep);
+
 			actualStep++;
+			GameObject.Find ("HUDController").GetComponentInChildren<TabletController> ().ExperimentState.GetComponent<ExperimentsState>().EnableTab(actualStep);
 		   /*
 		 	* Play ending dialogue accoding to step, if needed;
 		 	*/

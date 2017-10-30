@@ -24,7 +24,7 @@ public class PlayerAnimation : MonoBehaviour {
 			inWalkAnim = false;
 
 		playerAnimator.SetBool("walk", inWalkAnim);
-		cameraAnimator.SetBool("walk", inWalkAnim);	
+		//cameraAnimator.SetBool("walk", inWalkAnim);	
 	}
 
     //! When Player interacts with something, the Hand animation is played.

@@ -54,11 +54,18 @@ public class CardboardReticle : MonoBehaviour, ICardboardPointer {
   private float reticleInnerDiameter = 0.0f;
   private float reticleOuterDiameter = 0.0f;
 
-  void Start () {
+    //Layon: Change for GazeInput
+    private float gazeStartTime;
+    private GameObject gazedAt;
+
+    void Start () {
     CreateReticleVertices();
 
     materialComp = gameObject.GetComponent<Renderer>().material;
-  }
+
+        gazeStartTime = -1f;
+        gazedAt = null;
+    }
 
   void OnEnable() {
     GazeInputModule.cardboardPointer = this;
@@ -92,7 +99,9 @@ public class CardboardReticle : MonoBehaviour, ICardboardPointer {
   /// point of the ray sent from the camera on the object.
   public void OnGazeStart(Camera camera, GameObject targetObject, Vector3 intersectionPosition) {
     SetGazeTarget(intersectionPosition);
-  }
+        gazedAt = targetObject;
+        gazeStartTime = Time.time;
+    }
 
   /// Called every frame the user is still looking at a valid GameObject. This
   /// can be a 3D or UI element.
@@ -102,7 +111,13 @@ public class CardboardReticle : MonoBehaviour, ICardboardPointer {
   /// ray sent from the camera on the object.
   public void OnGazeStay(Camera camera, GameObject targetObject, Vector3 intersectionPosition) {
     SetGazeTarget(intersectionPosition);
-  }
+        if (gazedAt != null && gazeStartTime > 0f)
+            if (Time.time - gazeStartTime > 3.0f && ExecuteEvents.CanHandleEvent<TimedInputHandler>(gazedAt))
+            {
+                gazeStartTime = -1f;
+                ExecuteEvents.Execute(gazedAt, null, (TimedInputHandler handler, BaseEventData data) => handler.HandleTimedInput());
+            }
+    }
 
   /// Called when the user's look no longer intersects an object previously
   /// intersected with a ray projected from the camera.

@@ -19,7 +19,7 @@ public class GlasswareUiItemBehaviour : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		inventoryManager = GameObject.Find ("InventoryManager").GetComponent<InventoryManager> ();
+		// layon inventoryManager = GameObject.Find ("InventoryManager").GetComponent<InventoryManager> ();
 	}
 	
 	// Update is called once per frame

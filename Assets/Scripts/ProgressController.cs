@@ -105,7 +105,7 @@ public class ProgressController : MonoBehaviour {
 				 * Changes on properties according to float.Parse(phaseDefinitions["molarity"])
 				 */
 				bequer.GetComponent<Glassware> ().IncomingReagent (compound.Clone (float.Parse(phaseDefinitions ["volume"])) as Compound, float.Parse(phaseDefinitions ["volume"]));
-				GameObject.Find("InventoryManager").GetComponent<InventoryManager>().AddProductToInventory(bequer.gameObject);
+				//layon GameObject.Find("InventoryManager").GetComponent<InventoryManager>().AddProductToInventory(bequer.gameObject);
 			}
 		} else {
 			// Cupboard test
@@ -116,7 +116,7 @@ public class ProgressController : MonoBehaviour {
 		}
 
 		//Add steps to Experiment Menu on Tablet
-		GameObject.Find ("Tablet").GetComponentInChildren<NotesState> ().LoadNotes ();
+		//layon GameObject.Find ("Tablet").GetComponentInChildren<NotesState> ().LoadNotes ();
 		GameObject.Find ("Experiments Menu").GetComponent<ExperimentMenu> ().RefreshScroll (1); //TODO: RETHINK ABOUT ALL THIS STEP-PHASE CONSISTENCY ON JOURNAL
 		NewStep();
 	}

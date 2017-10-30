@@ -33,7 +33,7 @@ public class LIAState : GameStateBase {
 	public void Start () {
 		cameraState.gameObject.SetActive(false);
 		interactiveCanvas.SetActive (false);
-		inventory = GameObject.Find ("InventoryManager").GetComponent<InventoryManager> ();
+		//layon inventory = GameObject.Find ("InventoryManager").GetComponent<InventoryManager> ();
 		originalSprite = glassware.sprite;
 
 		correctAnswer.SetActive (false);

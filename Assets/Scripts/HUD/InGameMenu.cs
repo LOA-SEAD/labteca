@@ -10,9 +10,9 @@ public class InGameMenu : MonoBehaviour {
 	public void Pause(){
 		isPaused = true;
 
-		cursor = Screen.showCursor;
+		cursor = Cursor.visible;
 
-		Screen.showCursor = true;
+		Cursor.visible = true;
 		Screen.lockCursor = false;
 
 		Time.timeScale = 0;
@@ -32,7 +32,7 @@ public class InGameMenu : MonoBehaviour {
 	public void UnPause(){
 		isPaused = false;
 
-		Screen.showCursor = cursor;
+		Cursor.visible = cursor;
 		Screen.lockCursor = !cursor;
 
 		GameObject.Find("GameController").GetComponent<GameController>().GetCurrentState().CanRun = true;

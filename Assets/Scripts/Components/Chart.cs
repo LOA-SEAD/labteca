@@ -69,25 +69,25 @@ public class Chart : MonoBehaviour
 	/*! */
 	public void SetChart(Texture2D chart)
 	{
-		infoChart.renderer.material.mainTexture = chart;
+		infoChart.GetComponent<Renderer>().material.mainTexture = chart;
 	}
 
 	//! Enable infoChart 
 	/*! Changes the color */
 	public void Enable()
 	{
-		this.collider.enabled = true;
-		this.renderer.material.color = new Color(this.renderer.material.color.r, this.renderer.material.color.g, this.renderer.material.color.b, 1f);
-		infoChart.renderer.material.color = this.renderer.material.color;
+		this.GetComponent<Collider>().enabled = true;
+		this.GetComponent<Renderer>().material.color = new Color(this.GetComponent<Renderer>().material.color.r, this.GetComponent<Renderer>().material.color.g, this.GetComponent<Renderer>().material.color.b, 1f);
+		infoChart.GetComponent<Renderer>().material.color = this.GetComponent<Renderer>().material.color;
 	}
 
 	//! Disable infoChart 
 	/*! Changes the color */
 	public void Disable()
 	{
-		this.collider.enabled = false;
-		this.renderer.material.color = new Color(this.renderer.material.color.r, this.renderer.material.color.g, this.renderer.material.color.b, alphaValueWhenDisable);
-		infoChart.renderer.material.color = this.renderer.material.color;
+		this.GetComponent<Collider>().enabled = false;
+		this.GetComponent<Renderer>().material.color = new Color(this.GetComponent<Renderer>().material.color.r, this.GetComponent<Renderer>().material.color.g, this.GetComponent<Renderer>().material.color.b, alphaValueWhenDisable);
+		infoChart.GetComponent<Renderer>().material.color = this.GetComponent<Renderer>().material.color;
 	}
 
 	//! Sets the variables when is showing/not showing the chart.

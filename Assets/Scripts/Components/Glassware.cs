@@ -58,7 +58,7 @@ public class Glassware : ItemToInventory
 	//!  Is called when the script instance is being loaded.
 	void Awake()
 	{
-		this.rigidbody.mass = mass;
+		this.GetComponent<Rigidbody>().mass = mass;
 		totalMass = mass;
 		currentVolume = 0.0f;
 		onScale = false;
@@ -90,7 +90,7 @@ public class Glassware : ItemToInventory
 			liquid.SetActive(false);
 
 		//defaultColour = glasswareMesh.GetComponent<MeshRenderer>().materials[0].color;
-		defaultColour = glasswareMesh.renderer.material.color;
+		defaultColour = glasswareMesh.GetComponent<Renderer>().material.color;
 
 
 		gameController = GameObject.Find ("GameController").GetComponent<GameController> ();
@@ -215,30 +215,30 @@ public class Glassware : ItemToInventory
 				case MouseState.ms_pipette: 		//Pipette -> Glassware
 					if (hasLiquid) {
 						//glow
-						glasswareMesh.renderer.material.color = Color.white;
+						glasswareMesh.GetComponent<Renderer>().material.color = Color.white;
 					}
 					break;
 				case MouseState.ms_filledPipette: 	// Filled Pipette -> Glassware.
 					if (this.GetLiquidVolume() < maxVolume) {
 						//glow
-						glasswareMesh.renderer.material.color = Color.white;
+						glasswareMesh.GetComponent<Renderer>().material.color = Color.white;
 					}
 					break;
 				case MouseState.ms_spatula: 		// Spatula -> Glassware.
 					if (hasSolid) {
-						glasswareMesh.renderer.material.color = Color.white;
+						glasswareMesh.GetComponent<Renderer>().material.color = Color.white;
 					}
 					break;
 				case MouseState.ms_filledSpatula: 	// Filled Spatula -> Glassware.
 					if (currentVolume < maxVolume) {
 						//glow
-						glasswareMesh.renderer.material.color = Color.white;
+						glasswareMesh.GetComponent<Renderer>().material.color = Color.white;
 					}
 					break;
 				case MouseState.ms_washBottle: 		// Washe Bottle -> Glassware.
 					if (this.GetLiquidVolume() < maxVolume) {
 						//glow
-						glasswareMesh.renderer.material.color = Color.white;
+						glasswareMesh.GetComponent<Renderer>().material.color = Color.white;
 					}
 					break;
 				default:
@@ -255,7 +255,7 @@ public class Glassware : ItemToInventory
 				infoCanvas.GetComponent<RectTransform> ().localPosition = Vector3.zero;
 			}
 
-			glasswareMesh.renderer.material.color = defaultColour;
+			glasswareMesh.GetComponent<Renderer>().material.color = defaultColour;
 		}
 	}
 

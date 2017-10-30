@@ -169,11 +169,11 @@ public  class GetReagentState : GameStateBase, GetInterface {
 		reagents.TryGetValue (reagentName, out instantiatingReagent);
 
 		if(instantiatingReagent.IsSolid == true) {
-			AnyObjectInstantiation solidReagent = Instantiate(solidPrefab) as AnyObjectInstantiation;
+			AnyObjectInstantiation solidReagent = Instantiate(solidPrefab).GetComponent<AnyObjectInstantiation>();
 			solidReagent.name = reagentName;
 			return solidReagent;
 		} else {
-			AnyObjectInstantiation liquidReagent = Instantiate (liquidPrefab) as AnyObjectInstantiation;
+			AnyObjectInstantiation liquidReagent = Instantiate(liquidPrefab).GetComponent<AnyObjectInstantiation>();
 			liquidReagent.name = reagentName;
 			return liquidReagent;
 		}

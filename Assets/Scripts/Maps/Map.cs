@@ -64,7 +64,7 @@ public class Map : MonoBehaviour {
 					marker.GetComponentInChildren<Text>().enabled=true;
 					marker.transform.SetAsLastSibling();
 				});
-				trigger.delegates.Add (enter);
+				trigger.triggers.Add (enter);
 				
 				EventTrigger.Entry exit = new EventTrigger.Entry ();
 				exit.eventID = EventTriggerType.PointerExit;
@@ -72,7 +72,7 @@ public class Map : MonoBehaviour {
 					marker.GetComponentsInChildren<Image>()[1].enabled=false;
 					marker.GetComponentInChildren<Text>().enabled=false;
 				});
-				trigger.delegates.Add (exit);
+				trigger.triggers.Add (exit);
 
 				marker.GetComponentsInChildren<Image>()[1].enabled=false;
 				marker.GetComponentInChildren<Text>().enabled=false;

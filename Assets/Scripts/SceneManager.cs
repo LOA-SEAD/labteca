@@ -13,7 +13,7 @@ public class SceneManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Screen.lockCursor = true;
-		Screen.showCursor = false;
+		Cursor.visible = false;
 
 		#if UNITY_STANDALONE
 		transitionEnabled = true;

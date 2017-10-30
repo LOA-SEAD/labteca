@@ -145,7 +145,7 @@ public class ProgressController : MonoBehaviour {
 		}
 
 		//Play starting dialogue according to type of quest, if needed
-		cutsceneController.PlayTransitionCutscene ();
+		//cutsceneController.PlayTransitionCutscene ();
 	}
 	
 	/// <summary>

@@ -1,6 +1,6 @@
 {
 	"objects": [{
-		"name": "Cloreto de Sódio",
+		"name": "Sodium Chloride",
 		"formula": "NaCl",
 		"isSolid": "True",
 		"molarMass": "58.5",

@@ -27,7 +27,7 @@ public class WashBottle : WorkbenchInteractive {
 
 	// Use this for initialization
 	void Start () {
-		hoverName = "Pisseta";
+		hoverName = "Wash bottle";
 		interactionBoxWashBottle.SetActive (false);
 
 		Water.MolarMass = Compound.waterMolarMass;

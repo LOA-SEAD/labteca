@@ -101,7 +101,7 @@ public class TabletController : MonoBehaviour, IInputHandler {
 	/// <summary>
 	/// Opens the tablet.
 	/// </summary>
-	protected void OpenTablet() {
+	public void OpenTablet() {
 		if(Tablet != null) {
 			Tablet.SetActive(true);
 			this.GetComponent<InputObserver> ().enabled = true;
@@ -113,7 +113,7 @@ public class TabletController : MonoBehaviour, IInputHandler {
 	/// <summary>
 	/// Closes the tablet.
 	/// </summary>
-	protected void CloseTablet() {
+	public void CloseTablet() {
 		if(Tablet != null) {
 			Tablet.SetActive(false);
 			this.GetComponent<InputObserver> ().enabled = false;

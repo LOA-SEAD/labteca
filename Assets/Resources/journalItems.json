@@ -1,28 +1,28 @@
 [  
    [  
       {  
-         "name":"Classe de composto",
+         "name":"Compound's class",
          "steps":[  
             {  
-               "text":"Utilize os equipamentos e seus conhecimentos de química analítica para descobrir a classe do composto em solução no Béquer em seu INVENTÁRIO.",
+               "text":"Use the laboratory's equipments and your knowledge on Analytical Chemistry to find out the compound class of the Unknown Solution in your INVENTORY.",
                "isDone":"false"
             }
          ]
       },
       {  
-         "name":"Nome do composto",
+         "name":"Compound's name",
          "steps":[  
             {  
-               "text":"Com o auxílio dos equipamentos, descubra qual é o composto presente na solução.",
+               "text":"With the equipments, verify what is the compound in the Unknown Solution.",
                "isDone":"false"
             }
          ]
       },
       {  
-         "name":"Concentração de massa",
+         "name":"Mass concentration",
          "steps":[  
             {  
-               "text":"Calcule a concentração percentual da amostra, em gramas por 100ml.",
+               "text":"Calculate the percentage concentration of the sample, in grams per 100ml.",
                "isDone":"false"
             }
          ]

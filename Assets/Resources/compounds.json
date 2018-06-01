@@ -1,6 +1,6 @@
 {
 	"objects": [{
-		"name": "Ácido Clorídrico",
+		"name": "Hydrochloridric Acid",
 		"formula": "HCl",
 		"isSolid": "False",
 		"molarMass": "36.5",
@@ -11,17 +11,17 @@
 		"compoundColorG": "255",
 		"compoundColorB": "255",
 		"irSpecter": "",
-		"conductibility": "1",
+		"conductibility": "30",
 		"solubility": "1",
-		"fumeHoodOnly": "True",
-		"pH": "0",
+		"fumeHoodOnly": "False",
+		"pH": "3",
 		"turbidity": "0.5",
 		"refratometer": "2",
 		"flameSpecter": "0.5",
 		"uvSpecter": "",
 		"hplc": ""
 	}, {
-		"name": "Hidróxido de Sódio",
+		"name": "Sodium Hydroxide",
 		"formula": "NaOH",
 		"isSolid": "True",
 		"molarMass": "40",
@@ -36,7 +36,7 @@
 		"solubility": "1",
 		"fumeHoodOnly": "False"
 	}, {
-		"name": "Ácido Sulfúrico",
+		"name": "Sulfuric Acid",
 		"formula": "H2SO4",
 		"isSolid": "False",
 		"molarMass": "98",
@@ -47,11 +47,11 @@
 		"compoundColorG": "200",
 		"compoundColorB": "90",
 		"irSpecter": "",
-		"conductibility": "2",
+		"conductibility": "132,4",
 		"solubility": "1",
 		"fumeHoodOnly": "False",
-		"pH": "0",
-		"turbidity": "2",
+		"pH": "4",
+		"turbidity": "0",
 		"refratometer": "2",
 		"flameSpecter": "0.5",
 		"uvSpecter": "",

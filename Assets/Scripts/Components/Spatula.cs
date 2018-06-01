@@ -51,7 +51,7 @@ public class Spatula : WorkbenchInteractive {
 	// Use this for initialization
 	void Start () {
 		//boxToFillSpatula.SetActive (false);
-		hoverName = "Espátula";
+		hoverName = "Spatula";
 		toggle = boxToChooseSpatula.GetComponent<ToggleGroup>();
 		CloseInteractionBox ();
 		interactingGlassware = null;

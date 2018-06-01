@@ -106,10 +106,13 @@ public class HUDController : MonoBehaviour {
 		if (tabletUp) {
 			Cursor.visible = true;
 			Screen.lockCursor = false;
-		}else if (!inventoryUp && !map.activeSelf) {
+            FindObjectOfType<TabletController>().OpenTablet();
+        }
+        else if (!inventoryUp && !map.activeSelf) {
 			Cursor.visible = false;
 			Screen.lockCursor = true;
-		}
+            FindObjectOfType<TabletController>().CloseTablet();
+        }
 	}
 
 	public void CallInventoryTrigger(){
@@ -139,7 +142,7 @@ public class HUDController : MonoBehaviour {
 			Cursor.visible = true;
 			Screen.lockCursor = false;
 		} else if (!tabletUp && !map.activeSelf) {
-			Cursor.visible = false;
+            Cursor.visible = false;
 			Screen.lockCursor = true;
 		}
 	}
@@ -163,10 +166,13 @@ public class HUDController : MonoBehaviour {
 		if (map.activeSelf) {
 			Cursor.visible = true;
 			Screen.lockCursor = false;
-		}else if (!tabletUp && !inventoryUp) {
+            map.GetComponent<MapController>().OpenMap();
+        }
+        else if (!tabletUp && !inventoryUp) {
 			Cursor.visible = false;
 			Screen.lockCursor = true;
-		}
+            map.GetComponent<MapController>().CloseMap();
+        }
 	}
 
 	public void RefreshKeys(){

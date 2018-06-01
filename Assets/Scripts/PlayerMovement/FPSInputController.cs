@@ -30,7 +30,7 @@ public class FPSInputController : MonoBehaviour, IInputHandler
 	void Start(){
 		//if interactText is null, sets the text to a default one
 		if (interactText == "")
-			interactText = "Pressione \"E\" Para Interagir";
+			interactText = "Press \"E\" to interact";
 
 		Ray cameraRay = Camera.main.ScreenPointToRay(new Vector3(Screen.width/2, Screen.height/2,  200));
 		Physics.Raycast (cameraRay, out lastHit, Mathf.Infinity);

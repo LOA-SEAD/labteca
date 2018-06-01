@@ -10,7 +10,7 @@ public class MapController : MonoBehaviour, IInputHandler {
 	/// <summary>
 	/// Opens the map.
 	/// </summary>
-	protected void OpenMap() {
+	public void OpenMap() {
 		gameObject.SetActive(true);
 		this.GetComponent<InputObserver> ().enabled = true;
 		hudController.mapOn = true;

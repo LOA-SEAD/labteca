@@ -48,7 +48,7 @@ public class WorkBench : GameStateBase{
 		if(InputController.ReturnInput()){
 			if(!writingLabel) {
 				if(cannotEndState)
-					gameController.sendAlert("Não é possível sair com reagente na mão\nColoque de volta no seu pote");
+					gameController.sendAlert("It's not possible to leave with the reagent in hand\nPut it back into the pot");
 				else{
 					ExitState();
 					}
@@ -75,12 +75,12 @@ public class WorkBench : GameStateBase{
 	/*! Verifiy if glassware can be put on the equipment. */
 	public bool PutGlassInEquip(GameObject lastItemSelected){
 		if(positionGlassEquipament.childCount > 0){
-			gameController.sendAlert("O equipamento já tem um recipiente!");
+			gameController.sendAlert("The equipment already has a glassware!");
 			return false;
 		}
 
 		if(lastItemSelected.transform.parent == positionGlassEquipament){
-			gameController.sendAlert("O equipamento já está na bancada");
+			gameController.sendAlert("The glassware is already on the equipment!");
 			return false;
 		}
 
@@ -128,7 +128,7 @@ public class WorkBench : GameStateBase{
 			soundBeaker.Play ();
 			return true;
 		} else {
-			gameController.sendAlert ("A Bancada está cheia!");
+			gameController.sendAlert ("The workbench is full!");
 			return false;
 		}
 	}
@@ -138,7 +138,7 @@ public class WorkBench : GameStateBase{
 			equipmentController.RemoveObjectInEquipament(tempItem);
 			return true;
 		}
-		gameController.sendAlert("A Bancada está cheia!");
+		gameController.sendAlert("The workbench is full!");
 		return false;
 	}
 
@@ -203,7 +203,8 @@ public class WorkBench : GameStateBase{
 		GetComponentInParent<WorkBench>().OnStopRun();
 		interactBox.GetComponent<BoxCollider>().enabled = true;
 		gameController.ChangeState(0);
-	}
+        gameController.GetComponent<HUDController>().UnlockMovement();
+    }
 
 	public override EquipmentControllerBase GetEquipmentController () {
 		return equipmentController;

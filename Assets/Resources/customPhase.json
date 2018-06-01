@@ -20,7 +20,7 @@
 	{
 		"typeOfStep" : "3",
 		"compoundFormula" : "NaCl",
-		"molarity" : "1.0",
+		"molarity" : "5.85",
 		"maxError" : "0.2"
 	}]
 }

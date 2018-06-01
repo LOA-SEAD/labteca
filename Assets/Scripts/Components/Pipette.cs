@@ -50,7 +50,7 @@ public class Pipette : WorkbenchInteractive {
 
 	//! Use this for initialization
 	void Start () {
-		hoverName = "Pipeta";
+		hoverName = "Pipette";
 		boxGraduatedFilling.SetActive (false);
 		toggle = boxToChoosePipette.GetComponent<ToggleGroup> ();
 	}

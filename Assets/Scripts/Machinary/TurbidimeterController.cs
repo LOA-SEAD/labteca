@@ -29,8 +29,8 @@ public class TurbidimeterController : EquipmentControllerBase {
 	public GameObject bucketCanvas;
 	public Button bucketButton;			// Button to remove solution from bucket
 	public Text destinationText;
-	private string equipmentButton = "Colocar na bancada";
-	private string workbenchButton = "Colocar no equipamento";
+	private string equipmentButton = "Place on workbench";
+	private string workbenchButton = "Place on equipment";
 	public Button glasswareButton;		// Button to prepare the bucket
 
 	public WorkBench workbench;			// BalanceState component.

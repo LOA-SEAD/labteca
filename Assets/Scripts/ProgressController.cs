@@ -102,10 +102,12 @@ public class ProgressController : MonoBehaviour {
 				 */
 				compound.PH = 7.0f;
 				compound.Molarity = 1.0f;
+                compound.Polarizability = 23.0f;
 
 				bequer.GetComponent<Glassware> ().IncomingReagent (compound.Clone (float.Parse(phaseDefinitions ["volume"])) as Compound, float.Parse(phaseDefinitions ["volume"]));
 				GameObject.Find("InventoryManager").GetComponent<InventoryManager>().AddProductToInventory(bequer.gameObject);
-			}
+                bequer.GetComponent<Glassware>().label = "Unknown Solution";
+            }
 		} else {
 			// Cupboard test
 			/*
@@ -130,7 +132,7 @@ public class ProgressController : MonoBehaviour {
 		//GameObject.Find ("Experiments Menu").GetComponent<ExperimentMenu> ().ActivatePhaseTab (actualPhase);
 		//GameObject.Find ("Journal State").GetComponent<JournalController> ().ActivateStepTab (actualPhase, actualStep);
 
-		if (StepType == TypeOfStep.CompoundClass) {
+		/*if (StepType == TypeOfStep.CompoundClass) {
 			Debug.Log ("1 = CompoundClass");
 		}
 		if (StepType == TypeOfStep.WhatCompound) {
@@ -141,7 +143,7 @@ public class ProgressController : MonoBehaviour {
 		}
 		if (StepType == TypeOfStep.GlasswareCheck) {
 			Debug.Log ("4 = GlasswareCheck");
-		}
+		}*/
 
 		//Play starting dialogue according to type of quest, if needed
 		cutsceneController.PlayTransitionCutscene ();

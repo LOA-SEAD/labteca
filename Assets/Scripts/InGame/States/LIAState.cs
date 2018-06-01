@@ -182,7 +182,7 @@ public class LIAState : GameStateBase {
 	// Calls upon the ResultVerifier class to compare the content of the Glassware with the
 	// expected result for the actual phase
 	public void VerifyPhase() {
-		Debug.Log ("Pressing button");
+		//Debug.Log ("Pressing button");
 		if (currentIndex.Length > 0) { //Case there is a Glassware being verified
 			if ((GameObject.Find (currentIndex).GetComponent<Glassware> ()).content != null) { //Case there is a content
 				//TODO: The parameter is always 0 as it's checking only the first phase. It needs to change for the correct value when phases are changing correctly
